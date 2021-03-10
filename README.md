@@ -1,4 +1,4 @@
 # APP-MENTAL
 
 
-APP TESTE PARA A CRIAÇÃO DE UM PROJETO CHAMADO "APP MENTAL" QUE TEM O INTUITO DE AUXILIAR PROFISSIONAIS DE SAÚDE EM ÉPOCA DE PANDEMIA
+APP teste para a criação de um projeto chamado "APP MENTAL" que tem o intuito de auxiliar profissionais de saúde em época de pandemia
