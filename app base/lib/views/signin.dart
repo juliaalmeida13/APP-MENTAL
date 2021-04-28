@@ -61,128 +61,6 @@ class _SignInState extends State<SignIn> {
     }
   }
 
-  /*@override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: SingleChildScrollView(
-        child: Container(
-          height: MediaQuery.of(context).size.height - 50,
-          alignment: Alignment.bottomCenter,
-          child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 24),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Container(
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage('assets/images/app_logo_mental.png'),
-                    ),
-                  ),
-                ),
-                Form(
-                  key: formKey,
-                  child: Column(children: [
-                    TextFormField(
-                      validator: (val) {
-                        return RegExp(
-                                    r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                                .hasMatch(val)
-                            ? null
-                            : "Please provide a valid emailid";
-                      },
-                      controller: emailTextEdittingController,
-                      style: simpleTextStyle(),
-                      decoration: textFieldInputDecoration("email"),
-                    ),
-                    TextFormField(
-                      obscureText: true,
-                      validator: (val) {
-                        return val.length > 6
-                            ? null
-                            : "Please provide password 6+ character";
-                      },
-                      controller: passwordTextEdittingController,
-                      style: simpleTextStyle(),
-                      decoration: textFieldInputDecoration("password"),
-                    )
-                  ]),
-                ),
-                SizedBox(
-                  height: 8,
-                ),
-                Container(
-                  alignment: Alignment.centerRight,
-                  child: Container(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 8,
-                    ),
-                    child: Text(
-                      "Forgot Password?",
-                      style: simpleTextStyle(),
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: 8,
-                ),
-                GestureDetector(
-                  onTap: () {
-                    signIn();
-                  },
-                  child: Container(
-                    alignment: Alignment.center,
-                    width: MediaQuery.of(context).size.width,
-                    padding: EdgeInsets.symmetric(vertical: 20),
-                    decoration: BoxDecoration(
-                      color: Colors.yellow,
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                    child: Text(
-                      "Entrar",
-                      style: mediumTextStyle(),
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: 16,
-                ),
-                SizedBox(
-                  height: 16,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text("Don't have account? ", style: mediumTextStyle()),
-                    GestureDetector(
-                      onTap: () {
-                        widget.toggle();
-                      },
-                      child: Container(
-                        padding: EdgeInsets.symmetric(vertical: 8),
-                        child: Text(
-                          "Register now",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 17,
-                            decoration: TextDecoration.underline,
-                          ),
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-                SizedBox(
-                  height: 50,
-                )
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }*/
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -199,34 +77,6 @@ class _SignInState extends State<SignIn> {
                     fit: BoxFit.fill
                   )
                 ),
-                child: Stack(
-                  children: <Widget>[
-                     Positioned(
-                      width: 400,
-                      height: 400,
-                      top: -45,
-                      child: FadeAnimation(1.5,Container(
-                        decoration: BoxDecoration(
-                            image: DecorationImage(
-                              image: AssetImage('assets/images/app_mental_logo.png'),
-                            )
-                        ),
-                      )),
-                    ),
-                    Positioned(
-                      width: 400,
-                      height: 400,
-                      top: 130,
-                      child: FadeAnimation(1.5,Container(
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: AssetImage('assets/images/app_mental_logo_text.png'),
-                          )
-                        ),
-                      )),
-                    ),
-                  ],
-                ),
               ),
               Padding(
                 padding: EdgeInsets.all(30.0),
@@ -239,7 +89,7 @@ class _SignInState extends State<SignIn> {
                         borderRadius: BorderRadius.circular(10),
                         boxShadow: [
                           BoxShadow(
-                            color: Color.fromRGBO(255, 225, 80, .2),
+                            color: Color.fromRGBO(104, 202, 138, .2),
                             blurRadius: 20.0,
                             offset: Offset(0,10)
                           )
@@ -262,7 +112,7 @@ class _SignInState extends State<SignIn> {
                                 decoration: InputDecoration(
                                     border: InputBorder.none,
                                     hintText: "Email",
-                                    hintStyle: TextStyle(color: Colors.grey[400])
+                                    hintStyle: TextStyle(color: Colors.grey)
                                 ),
                                 validator: (val) {
                                   return RegExp(
@@ -281,7 +131,7 @@ class _SignInState extends State<SignIn> {
                                   decoration: InputDecoration(
                                       border: InputBorder.none,
                                       hintText: "Senha",
-                                      hintStyle: TextStyle(color: Colors.grey[400])
+                                      hintStyle: TextStyle(color: Colors.grey)
                                   ),
                                   obscureText: true,
                                   validator: (val) {
@@ -323,15 +173,12 @@ class _SignInState extends State<SignIn> {
                     FadeAnimation(1.9,Text(
                       "Esqueceu a Senha?",
                       style: TextStyle(
-                      color: Color.fromRGBO(255, 225, 80, 1),
+                      color: Color.fromRGBO(104, 202, 138, 1),
                         fontWeight: FontWeight.bold,
                     ),
                     ),
                     ),
                     SizedBox(height: 10,),
-                        Text("Você não tem conta? ", style: TextStyle(
-                          color: Colors.yellow,
-                        ),),
                         GestureDetector(
                           onTap: () {
                             widget.toggle();
@@ -339,9 +186,9 @@ class _SignInState extends State<SignIn> {
                           child: Container(
                             //padding: EdgeInsets.symmetric(vertical: 8),
                             child: Text(
-                              "Registrar Agora",
+                              "Criar conta",
                               style: TextStyle(
-                                color: Colors.yellow,
+                                color: Colors.green,
                                 fontSize: 17,
                                 decoration: TextDecoration.underline,
                               ),
