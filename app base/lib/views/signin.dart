@@ -300,8 +300,8 @@ class _SignInState extends State<SignIn> {
                         borderRadius: BorderRadius.circular(10),
                         gradient: LinearGradient(
                           colors: [
-                            Color.fromRGBO(255, 225, 80, 1),
-                            Color.fromRGBO(255, 225, 80, .6),
+                            Color.fromRGBO(104, 202, 138, 1),
+                            Color.fromRGBO(104, 202, 138, .6),
                           ]
                         )
                       ),
