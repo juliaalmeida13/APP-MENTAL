@@ -87,7 +87,7 @@ class _SignUpState extends State<SignUp> {
                               },
                               controller: userNameTextEdittingController,
                               style: simpleTextStyle(),
-                              decoration: textFieldInputDecoration("username"),
+                              decoration: textFieldInputDecoration("Usuário"),
                             ),
                             TextFormField(
                               validator: (val) {
@@ -99,7 +99,7 @@ class _SignUpState extends State<SignUp> {
                               },
                               controller: emailTextEdittingController,
                               style: simpleTextStyle(),
-                              decoration: textFieldInputDecoration("email"),
+                              decoration: textFieldInputDecoration("Email"),
                             ),
                             TextFormField(
                               obscureText: true,
@@ -110,7 +110,7 @@ class _SignUpState extends State<SignUp> {
                               },
                               controller: passwordTextEdittingController,
                               style: simpleTextStyle(),
-                              decoration: textFieldInputDecoration("password"),
+                              decoration: textFieldInputDecoration("Senha"),
                             ),
                           ],
                         ),
@@ -126,7 +126,7 @@ class _SignUpState extends State<SignUp> {
                             vertical: 8,
                           ),
                           child: Text(
-                            "Forgot Password?",
+                            "Esqueceu a Senha?",
                             style: simpleTextStyle(),
                           ),
                         ),
@@ -144,14 +144,17 @@ class _SignUpState extends State<SignUp> {
                           padding: EdgeInsets.symmetric(vertical: 20),
                           decoration: BoxDecoration(
                             gradient: LinearGradient(colors: [
-                              const Color(0xff007EF4),
-                              const Color(0xff2A75BC),
+                              const Color(0xFF007EA7),
+                              const Color(0xFF007EA7),
                             ]),
                             borderRadius: BorderRadius.circular(30),
                           ),
                           child: Text(
-                            "Sign Up",
-                            style: mediumTextStyle(),
+                            "Criar",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 17,
+                              ),
                           ),
                         ),
                       ),
@@ -167,9 +170,9 @@ class _SignUpState extends State<SignUp> {
                           borderRadius: BorderRadius.circular(30),
                         ),
                         child: Text(
-                          "Sign Up with Google",
+                          "Entrar com o Google",
                           style: TextStyle(
-                            color: Colors.black87,
+                            color: Colors.yellow,
                             fontSize: 17,
                           ),
                         ),
@@ -180,7 +183,7 @@ class _SignUpState extends State<SignUp> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text("Already have account? ",
+                          Text("Já possui uma conta? ",
                               style: mediumTextStyle()),
                           GestureDetector(
                             onTap: () {
@@ -189,9 +192,9 @@ class _SignUpState extends State<SignUp> {
                             child: Container(
                               padding: EdgeInsets.symmetric(vertical: 8),
                               child: Text(
-                                "SignIn now",
+                                "Entrar Agora",
                                 style: TextStyle(
-                                  color: Colors.white,
+                                  color: Colors.yellow,
                                   fontSize: 17,
                                   decoration: TextDecoration.underline,
                                 ),

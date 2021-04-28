@@ -1,9 +1,10 @@
+import 'package:chat_app_tutorial/animation/FadeAnimation.dart';
 import 'package:chat_app_tutorial/helper/helperfuncions.dart';
 import 'package:chat_app_tutorial/services/auth.dart';
 import 'package:chat_app_tutorial/services/database.dart';
 import 'package:chat_app_tutorial/views/chatRoomsScreen.dart';
-import 'package:chat_app_tutorial/widgets/widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class SignIn extends StatefulWidget {
@@ -60,10 +61,9 @@ class _SignInState extends State<SignIn> {
     }
   }
 
-  @override
+  /*@override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarMain(context),
       body: SingleChildScrollView(
         child: Container(
           height: MediaQuery.of(context).size.height - 50,
@@ -73,6 +73,13 @@ class _SignInState extends State<SignIn> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
+                Container(
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage('assets/images/app_logo_mental.png'),
+                    ),
+                  ),
+                ),
                 Form(
                   key: formKey,
                   child: Column(children: [
@@ -129,36 +136,17 @@ class _SignInState extends State<SignIn> {
                     width: MediaQuery.of(context).size.width,
                     padding: EdgeInsets.symmetric(vertical: 20),
                     decoration: BoxDecoration(
-                      gradient: LinearGradient(colors: [
-                        const Color(0xff007EF4),
-                        const Color(0xff2A75BC),
-                      ]),
+                      color: Colors.yellow,
                       borderRadius: BorderRadius.circular(30),
                     ),
                     child: Text(
-                      "Sign In",
+                      "Entrar",
                       style: mediumTextStyle(),
                     ),
                   ),
                 ),
                 SizedBox(
                   height: 16,
-                ),
-                Container(
-                  alignment: Alignment.center,
-                  width: MediaQuery.of(context).size.width,
-                  padding: EdgeInsets.symmetric(vertical: 20),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                  child: Text(
-                    "Sign In with Google",
-                    style: TextStyle(
-                      color: Colors.black87,
-                      fontSize: 17,
-                    ),
-                  ),
                 ),
                 SizedBox(
                   height: 16,
@@ -194,5 +182,181 @@ class _SignInState extends State<SignIn> {
         ),
       ),
     );
+  }*/
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: SingleChildScrollView(
+        child: Container(
+          child: Column(
+            children: <Widget>[
+              Container(
+                height: 400,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage('assets/images/background.png'),
+                    fit: BoxFit.fill
+                  )
+                ),
+                child: Stack(
+                  children: <Widget>[
+                     Positioned(
+                      width: 400,
+                      height: 400,
+                      top: -45,
+                      child: FadeAnimation(1.5,Container(
+                        decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: AssetImage('assets/images/app_mental_logo.png'),
+                            )
+                        ),
+                      )),
+                    ),
+                    Positioned(
+                      width: 400,
+                      height: 400,
+                      top: 130,
+                      child: FadeAnimation(1.5,Container(
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage('assets/images/app_mental_logo_text.png'),
+                          )
+                        ),
+                      )),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.all(30.0),
+                child: Column(
+                  children: <Widget>[
+                    FadeAnimation(1.7,Container(
+                      padding: EdgeInsets.all(5),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Color.fromRGBO(255, 225, 80, .2),
+                            blurRadius: 20.0,
+                            offset: Offset(0,10)
+                          )
+                        ]
+                      ),
+                      child:
+                      Form(
+                        key: formKey,
+                        child: Column(
+                          children: [
+                            FadeAnimation(1.7,
+                            Container(
+                              padding: EdgeInsets.all(8.0),
+                              decoration: BoxDecoration(
+                                  border: Border(bottom: BorderSide(
+                                      color: Colors.grey[100]
+                                  ))
+                              ),
+                              child: TextFormField(
+                                decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                    hintText: "Email",
+                                    hintStyle: TextStyle(color: Colors.grey[400])
+                                ),
+                                validator: (val) {
+                                  return RegExp(
+                                      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                      .hasMatch(val)
+                                      ? null
+                                      : "Por favor verifique seu email";
+                                },
+                                controller: emailTextEdittingController,
+                              ),
+                            )),
+                          FadeAnimation(1.8,
+                              Container(
+                                padding: EdgeInsets.all(8.0),
+                                child: TextFormField(
+                                  decoration: InputDecoration(
+                                      border: InputBorder.none,
+                                      hintText: "Senha",
+                                      hintStyle: TextStyle(color: Colors.grey[400])
+                                  ),
+                                  obscureText: true,
+                                  validator: (val) {
+                                    return val.length > 6
+                                        ? null
+                                        : "Por favor verifique sua senha";
+                                  },
+                                  controller: passwordTextEdittingController,
+                                ),
+                              ))],),)
+                    )),
+                    SizedBox(height: 30,),
+                    FadeAnimation(1.8,Container(
+                      height: 50,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        gradient: LinearGradient(
+                          colors: [
+                            Color.fromRGBO(255, 225, 80, 1),
+                            Color.fromRGBO(255, 225, 80, .6),
+                          ]
+                        )
+                      ),
+                      child: GestureDetector(
+                        onTap: () {
+                          signIn();
+                        },
+                        child: Center(
+                          child: Text(
+                              "Entrar",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              )),
+                        ),
+                      ),
+                    )),
+                    SizedBox(height: 40,),
+                    FadeAnimation(1.9,Text(
+                      "Esqueceu a Senha?",
+                      style: TextStyle(
+                      color: Color.fromRGBO(255, 225, 80, 1),
+                        fontWeight: FontWeight.bold,
+                    ),
+                    ),
+                    ),
+                    SizedBox(height: 10,),
+                        Text("Você não tem conta? ", style: TextStyle(
+                          color: Colors.yellow,
+                        ),),
+                        GestureDetector(
+                          onTap: () {
+                            widget.toggle();
+                          },
+                          child: Container(
+                            //padding: EdgeInsets.symmetric(vertical: 8),
+                            child: Text(
+                              "Registrar Agora",
+                              style: TextStyle(
+                                color: Colors.yellow,
+                                fontSize: 17,
+                                decoration: TextDecoration.underline,
+                              ),
+                            ),
+                          ),
+                        )
+                  ],
+                ),
+
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
+
 }

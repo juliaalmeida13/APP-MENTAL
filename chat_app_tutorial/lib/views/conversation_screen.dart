@@ -1,6 +1,5 @@
 import 'package:chat_app_tutorial/helper/constants.dart';
 import 'package:chat_app_tutorial/services/database.dart';
-import 'package:chat_app_tutorial/widgets/widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -61,7 +60,10 @@ class _ConversarionScreenState extends State<ConversarionScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarMain(context),
+      appBar: AppBar(
+        title: Text("Chat com o pesquisador"),
+        automaticallyImplyLeading: false,
+      ),
       body: Container(
         child: Stack(
           children: [
@@ -69,18 +71,19 @@ class _ConversarionScreenState extends State<ConversarionScreen> {
             Container(
               alignment: Alignment.bottomCenter,
               child: Container(
-                color: Color(0x54FFFFFF),
+                color: Colors.white,
                 padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
                 child: Row(
                   children: [
                     Expanded(
                       child: TextField(
                         controller: messageController,
-                        style: TextStyle(color: Colors.white),
+                        style: TextStyle(color: Colors.black),
                         decoration: InputDecoration(
-                          hintText: "Message...",
-                          hintStyle: TextStyle(color: Colors.white54),
+                          hintText: "Digite uma mensagem...",
+                          hintStyle: TextStyle(color: Colors.black),
                           border: InputBorder.none,
+
                         ),
                       ),
                     ),
@@ -93,8 +96,8 @@ class _ConversarionScreenState extends State<ConversarionScreen> {
                           width: 40,
                           decoration: BoxDecoration(
                               gradient: LinearGradient(colors: [
-                                const Color(0x36FFFFFF),
-                                const Color(0x0FFFFFFF)
+                                const Color(0xFF007EA7),
+                                const Color(0xFF007EA7)
                               ]),
                               borderRadius: BorderRadius.circular(40)),
                           padding: EdgeInsets.all(12),
@@ -120,37 +123,44 @@ class MessageTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.only(
-          left: isSendByMe ? 0 : 24, right: isSendByMe ? 24 : 0),
-      margin: EdgeInsets.symmetric(vertical: 8),
-      width: MediaQuery.of(context).size.width,
+          top: 8,
+          bottom: 8,
+          left: isSendByMe ? 0 : 24,
+          right: isSendByMe ? 24 : 0),
       alignment: isSendByMe ? Alignment.centerRight : Alignment.centerLeft,
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+        margin:  isSendByMe
+          ? EdgeInsets.only(left: 30)
+          : EdgeInsets.only(right: 30),
+        padding: EdgeInsets.only(top: 17, bottom: 17, left: 20, right: 20),
         decoration: BoxDecoration(
             gradient: LinearGradient(
                 colors: isSendByMe
                     ? [
-                        const Color(0xff007EF4),
-                        const Color(0xff2A75BC),
+                        const Color(0xFF68CA8A),
+                        const Color(0xFF68CA8A),
                       ]
                     : [
-                        const Color(0x1AFFFFFF),
-                        const Color(0x1AFFFFFF),
+                        const Color(0xFF00AFB9),
+                        const Color(0xFF00AFB9),
                       ]),
             borderRadius: isSendByMe
                 ? BorderRadius.only(
                     topLeft: Radius.circular(23),
-                    topRight: Radius.circular(23),
+                    topRight: Radius.circular(30),
                     bottomLeft: Radius.circular(23))
                 : BorderRadius.only(
-                    topLeft: Radius.circular(23),
+                    topLeft: Radius.circular(30),
                     topRight: Radius.circular(23),
                     bottomRight: Radius.circular(23))),
         child: Text(
           message,
+          textAlign: TextAlign.start,
           style: TextStyle(
             color: Colors.white,
-            fontSize: 17,
+            fontSize: 16,
+            fontFamily: 'OverpassRegular',
+            fontWeight: FontWeight.w300
           ),
         ),
       ),

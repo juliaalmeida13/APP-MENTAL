@@ -5,7 +5,7 @@ import 'package:chat_app_tutorial/services/auth.dart';
 import 'package:chat_app_tutorial/services/database.dart';
 import 'package:chat_app_tutorial/views/conversation_screen.dart';
 import 'package:chat_app_tutorial/views/search.dart';
-import 'package:chat_app_tutorial/views/signin.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:chat_app_tutorial/widgets/widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -42,6 +42,8 @@ class _ChatRoomState extends State<ChatRoom> {
     );
   }
 
+
+
   @override
   void initState() {
     getUserInfo();
@@ -55,6 +57,7 @@ class _ChatRoomState extends State<ChatRoom> {
         chatRoomsStream = val;
       });
     });
+
     setState(() {});
   }
 
@@ -62,10 +65,7 @@ class _ChatRoomState extends State<ChatRoom> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Image.asset(
-          "assets/images/logo.png",
-          height: 50,
-        ),
+
         actions: [
           GestureDetector(
             onTap: () {

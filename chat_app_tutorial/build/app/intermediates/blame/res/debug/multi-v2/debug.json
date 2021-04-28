@@ -3732,6 +3732,30 @@
             ]
         },
         {
+            "outputFile": "C:\\Users\\bruno\\OneDrive\\Desktop\\chat_app_tutorial\\build\\app\\intermediates\\res\\merged\\debug\\values-night-v8_values-night-v8.arsc.flat",
+            "map": [
+                {
+                    "source": "C:\\Users\\bruno\\OneDrive\\Desktop\\chat_app_tutorial\\android\\app\\src\\main\\res\\values-night\\styles.xml",
+                    "from": {
+                        "startLines": "3,14",
+                        "startColumns": "4,4",
+                        "startOffsets": "175,829",
+                        "endLines": "7,16",
+                        "endColumns": "12,12",
+                        "endOffsets": "471,995"
+                    },
+                    "to": {
+                        "startLines": "2,7",
+                        "startColumns": "4,4",
+                        "startOffsets": "55,352",
+                        "endLines": "6,9",
+                        "endColumns": "12,12",
+                        "endOffsets": "347,516"
+                    }
+                }
+            ]
+        },
+        {
             "outputFile": "C:\\Users\\bruno\\OneDrive\\Desktop\\chat_app_tutorial\\build\\app\\intermediates\\res\\merged\\debug\\values-pt_values-pt.arsc.flat",
             "map": [
                 {

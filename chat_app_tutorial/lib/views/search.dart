@@ -93,7 +93,7 @@ class _SearchScreenState extends State<SearchScreen> {
             },
             child: Container(
               decoration: BoxDecoration(
-                color: Colors.blue,
+                color: Colors.yellow,
                 borderRadius: BorderRadius.circular(30),
               ),
               padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
@@ -135,10 +135,10 @@ class _SearchScreenState extends State<SearchScreen> {
                   Expanded(
                     child: TextField(
                       controller: searchTextEditingController,
-                      style: TextStyle(color: Colors.white),
+                      style: TextStyle(color: Colors.black),
                       decoration: InputDecoration(
                         hintText: "search username...",
-                        hintStyle: TextStyle(color: Colors.white54),
+                        hintStyle: TextStyle(color: Colors.black),
                         border: InputBorder.none,
                       ),
                     ),
@@ -152,8 +152,8 @@ class _SearchScreenState extends State<SearchScreen> {
                         width: 40,
                         decoration: BoxDecoration(
                             gradient: LinearGradient(colors: [
-                              const Color(0x36FFFFFF),
-                              const Color(0x0FFFFFFF)
+                              const Color(0xFF007EA7),
+                              const Color(0xFF007EA7)
                             ]),
                             borderRadius: BorderRadius.circular(40)),
                         padding: EdgeInsets.all(12),

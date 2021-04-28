@@ -188,10 +188,6 @@
         "source": "C:\\Users\\bruno\\.gradle\\caches\\transforms-3\\ab78a01e05c4ea9fdd3b7bd63f7afc27\\transformed\\core-1.1.0\\res\\drawable\\notification_bg.xml"
     },
     {
-        "merged": "C:\\Users\\bruno\\OneDrive\\Desktop\\chat_app_tutorial\\build\\app\\intermediates\\res\\merged\\debug\\drawable_launch_background.xml.flat",
-        "source": "C:\\Users\\bruno\\OneDrive\\Desktop\\chat_app_tutorial\\android\\app\\src\\main\\res\\drawable\\launch_background.xml"
-    },
-    {
         "merged": "C:\\Users\\bruno\\OneDrive\\Desktop\\chat_app_tutorial\\build\\app\\intermediates\\res\\merged\\debug\\drawable-mdpi-v4_notify_panel_notification_icon_bg.png.flat",
         "source": "C:\\Users\\bruno\\.gradle\\caches\\transforms-3\\ab78a01e05c4ea9fdd3b7bd63f7afc27\\transformed\\core-1.1.0\\res\\drawable-mdpi-v4\\notify_panel_notification_icon_bg.png"
     },
@@ -250,6 +246,10 @@
     {
         "merged": "C:\\Users\\bruno\\OneDrive\\Desktop\\chat_app_tutorial\\build\\app\\intermediates\\res\\merged\\debug\\mipmap-hdpi_ic_launcher.png.flat",
         "source": "C:\\Users\\bruno\\OneDrive\\Desktop\\chat_app_tutorial\\android\\app\\src\\main\\res\\mipmap-hdpi\\ic_launcher.png"
+    },
+    {
+        "merged": "C:\\Users\\bruno\\OneDrive\\Desktop\\chat_app_tutorial\\build\\app\\intermediates\\res\\merged\\debug\\drawable-v21_launch_background.xml.flat",
+        "source": "C:\\Users\\bruno\\OneDrive\\Desktop\\chat_app_tutorial\\android\\app\\src\\main\\res\\drawable-v21\\launch_background.xml"
     },
     {
         "merged": "C:\\Users\\bruno\\OneDrive\\Desktop\\chat_app_tutorial\\build\\app\\intermediates\\res\\merged\\debug\\drawable-mdpi-v4_googleg_disabled_color_18.png.flat",

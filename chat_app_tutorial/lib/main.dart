@@ -1,15 +1,16 @@
 import 'package:chat_app_tutorial/helper/authenticate.dart';
 import 'package:chat_app_tutorial/helper/helperfuncions.dart';
 import 'package:chat_app_tutorial/views/chatRoomsScreen.dart';
-import 'package:chat_app_tutorial/views/signin.dart';
-import 'package:chat_app_tutorial/views/signup.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 void main() {
   runApp(MyApp());
 }
+
+
 
 class MyApp extends StatefulWidget {
   // This widget is the root of your application.
@@ -28,7 +29,7 @@ class _MyAppState extends State<MyApp> {
   getLoggedInState() async {
     await HelperFunctions.getUserLoggedInSharedPreference().then((value) {
       setState(() {
-        //userIsLoggedIn = value;
+        userIsLoggedIn = value;
       });
     });
   }
@@ -39,8 +40,8 @@ class _MyAppState extends State<MyApp> {
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primaryColor: Color(0xff145C9E),
-        scaffoldBackgroundColor: Color(0xff1F1F1F),
+        primaryColor: Color(0xFFFFFFFF),
+        scaffoldBackgroundColor: Colors.white,
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
@@ -51,6 +52,7 @@ class _MyAppState extends State<MyApp> {
 
 class LandingPage extends StatelessWidget {
   final Future<FirebaseApp> _initialization = Firebase.initializeApp();
+
 
   @override
   Widget build(BuildContext context) {
@@ -80,8 +82,13 @@ class LandingPage extends StatelessWidget {
               }
 
               return Scaffold(
-                body: Center(
-                  child: Text("Connecting to the app..."),
+                backgroundColor: Color.fromRGBO(255, 225, 80, 1),
+                body: Container(
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage('assets/images/app_mental_logo.png'),
+                )
+                  ),
                 ),
               );
             },
@@ -89,11 +96,18 @@ class LandingPage extends StatelessWidget {
         }
 
         return Scaffold(
-          body: Center(
-            child: Text("Connecting to the app..."),
+          backgroundColor: Color.fromRGBO(255, 225, 80, 1),
+          body: Container(
+            decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage('assets/images/app_mental_logo.png'),
+                )
+            ),
           ),
         );
       },
     );
   }
 }
+
+
