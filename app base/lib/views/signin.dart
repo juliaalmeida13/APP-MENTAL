@@ -179,6 +179,7 @@ class _SignInState extends State<SignIn> {
                     ),
                     ),
                     SizedBox(height: 10,),
+                FadeAnimation(2,
                         GestureDetector(
                           onTap: () {
                             widget.toggle();
@@ -194,7 +195,7 @@ class _SignInState extends State<SignIn> {
                               ),
                             ),
                           ),
-                        )
+                        ),)
                   ],
                 ),
 
