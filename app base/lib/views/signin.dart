@@ -1,4 +1,6 @@
 import 'package:chat_app_tutorial/animation/FadeAnimation.dart';
+import 'package:chat_app_tutorial/colors/colors.dart';
+import 'package:chat_app_tutorial/colors/images.dart';
 import 'package:chat_app_tutorial/helper/helperfuncions.dart';
 import 'package:chat_app_tutorial/services/auth.dart';
 import 'package:chat_app_tutorial/services/database.dart';
@@ -73,7 +75,7 @@ class _SignInState extends State<SignIn> {
                 height: 400,
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: AssetImage('assets/images/background.png'),
+                    image: AssetImage(AppImages.background),
                     fit: BoxFit.fill
                   )
                 ),
@@ -150,8 +152,8 @@ class _SignInState extends State<SignIn> {
                         borderRadius: BorderRadius.circular(10),
                         gradient: LinearGradient(
                           colors: [
-                            Color.fromRGBO(104, 202, 138, 1),
-                            Color.fromRGBO(104, 202, 138, .6),
+                            AppColors.green,
+                            AppColors.green06,
                           ]
                         )
                       ),
@@ -189,7 +191,7 @@ class _SignInState extends State<SignIn> {
                             child: Text(
                               "Criar conta",
                               style: TextStyle(
-                                color: Colors.green,
+                                color: AppColors.green,
                                 fontSize: 17,
                                 decoration: TextDecoration.underline,
                               ),

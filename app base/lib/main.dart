@@ -1,3 +1,5 @@
+import 'package:chat_app_tutorial/colors/colors.dart';
+import 'package:chat_app_tutorial/colors/images.dart';
 import 'package:chat_app_tutorial/helper/authenticate.dart';
 import 'package:chat_app_tutorial/helper/helperfuncions.dart';
 import 'package:chat_app_tutorial/views/chatRoomsScreen.dart';
@@ -42,7 +44,7 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(
         primaryColor: Color(0xFFFFFFFF),
         scaffoldBackgroundColor: Colors.white,
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.green,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: userIsLoggedIn != null ? userIsLoggedIn? ChatRoom() : LandingPage()
@@ -87,11 +89,11 @@ class LandingPage extends StatelessWidget {
               }
 
               return Scaffold(
-                backgroundColor: Color.fromRGBO(255, 225, 80, 1),
+                backgroundColor: AppColors.green,
                 body: Container(
                   decoration: BoxDecoration(
                     image: DecorationImage(
-                      image: AssetImage('assets/images/app_mental_logo.png'),
+                      image: AssetImage(AppImages.appMentalLogo),
                 )
                   ),
                 ),
@@ -101,11 +103,11 @@ class LandingPage extends StatelessWidget {
         }
 
         return Scaffold(
-          backgroundColor: Color.fromRGBO(255, 225, 80, 1),
+          backgroundColor: AppColors.green,
           body: Container(
             decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage('assets/images/app_mental_logo.png'),
+                  image: AssetImage(AppImages.appMentalLogo),
                 )
             ),
           ),
