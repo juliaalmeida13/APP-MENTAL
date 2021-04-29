@@ -19,7 +19,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  bool userIsLoggedIn = false;
+  bool userIsLoggedIn;
   @override
   void initState() {
     getLoggedInState();
@@ -29,7 +29,7 @@ class _MyAppState extends State<MyApp> {
   getLoggedInState() async {
     await HelperFunctions.getUserLoggedInSharedPreference().then((value) {
       setState(() {
-        //userIsLoggedIn = value;
+        userIsLoggedIn = value;
       });
     });
   }
@@ -45,7 +45,12 @@ class _MyAppState extends State<MyApp> {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: userIsLoggedIn ? ChatRoom() : LandingPage(),
+      home: userIsLoggedIn != null ? userIsLoggedIn? ChatRoom() : LandingPage()
+          : Container(
+        child: Center(
+          child: LandingPage(),
+        ),
+      )
     );
   }
 }

@@ -61,7 +61,6 @@ class _SignUpState extends State<SignUp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarMain(context),
       body: isLoading
           ? Container(
               child: Center(child: CircularProgressIndicator()),
@@ -95,7 +94,7 @@ class _SignUpState extends State<SignUp> {
                                             r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
                                         .hasMatch(val)
                                     ? null
-                                    : "Please provide a valid emailid";
+                                    : "Please provide a valid email";
                               },
                               controller: emailTextEdittingController,
                               style: simpleTextStyle(),
@@ -172,7 +171,7 @@ class _SignUpState extends State<SignUp> {
                         child: Text(
                           "Entrar com o Google",
                           style: TextStyle(
-                            color: Colors.yellow,
+                            color: Colors.green,
                             fontSize: 17,
                           ),
                         ),
@@ -194,7 +193,7 @@ class _SignUpState extends State<SignUp> {
                               child: Text(
                                 "Entrar Agora",
                                 style: TextStyle(
-                                  color: Colors.yellow,
+                                  color: Colors.green,
                                   fontSize: 17,
                                   decoration: TextDecoration.underline,
                                 ),
