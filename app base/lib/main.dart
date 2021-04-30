@@ -3,6 +3,7 @@ import 'package:chat_app_tutorial/colors/images.dart';
 import 'package:chat_app_tutorial/helper/authenticate.dart';
 import 'package:chat_app_tutorial/helper/helperfuncions.dart';
 import 'package:chat_app_tutorial/views/chatRoomsScreen.dart';
+import 'package:chat_app_tutorial/views/home_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
@@ -11,8 +12,6 @@ import 'package:flutter/material.dart';
 void main() {
   runApp(MyApp());
 }
-
-
 
 class MyApp extends StatefulWidget {
   // This widget is the root of your application.
@@ -39,27 +38,26 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primaryColor: Color(0xFFFFFFFF),
-        scaffoldBackgroundColor: Colors.white,
-        primarySwatch: Colors.green,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: userIsLoggedIn != null ? userIsLoggedIn? ChatRoom() : LandingPage()
-          : Container(
-        child: Center(
-          child: LandingPage(),
+        title: 'Flutter Demo',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+          visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
-      )
-    );
+        home: userIsLoggedIn != null
+            ? userIsLoggedIn
+                ? HomePage()
+                : LandingPage()
+            : Container(
+                child: Center(
+                  child: LandingPage(),
+                ),
+              ));
   }
 }
 
 class LandingPage extends StatelessWidget {
   final Future<FirebaseApp> _initialization = Firebase.initializeApp();
-
 
   @override
   Widget build(BuildContext context) {
@@ -92,10 +90,9 @@ class LandingPage extends StatelessWidget {
                 backgroundColor: AppColors.green,
                 body: Container(
                   decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage(AppImages.appMentalLogo),
-                )
-                  ),
+                      image: DecorationImage(
+                    image: AssetImage(AppImages.appMentalLogo),
+                  )),
                 ),
               );
             },
@@ -107,14 +104,11 @@ class LandingPage extends StatelessWidget {
           body: Container(
             decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage(AppImages.appMentalLogo),
-                )
-            ),
+              image: AssetImage(AppImages.appMentalLogo),
+            )),
           ),
         );
       },
     );
   }
 }
-
-

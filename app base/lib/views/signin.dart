@@ -171,7 +171,7 @@ class _SignInState extends State<SignIn> {
                         ),
                       ),
                     )),
-                    SizedBox(height: 40,),
+                    /*SizedBox(height: 40,),
                     FadeAnimation(1.9,Text(
                       "Esqueceu a Senha?",
                       style: TextStyle(
@@ -179,7 +179,7 @@ class _SignInState extends State<SignIn> {
                         fontWeight: FontWeight.bold,
                     ),
                     ),
-                    ),
+                    ),*/
                     SizedBox(height: 10,),
                 FadeAnimation(2,
                         GestureDetector(
@@ -197,10 +197,10 @@ class _SignInState extends State<SignIn> {
                               ),
                             ),
                           ),
-                        ),)
+                        ),
+                    )
                   ],
                 ),
-
               ),
             ],
           ),
@@ -208,5 +208,4 @@ class _SignInState extends State<SignIn> {
       ),
     );
   }
-
 }
