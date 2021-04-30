@@ -2,7 +2,6 @@ import 'package:chat_app_tutorial/colors/colors.dart';
 import 'package:chat_app_tutorial/colors/images.dart';
 import 'package:chat_app_tutorial/helper/authenticate.dart';
 import 'package:chat_app_tutorial/helper/helperfuncions.dart';
-import 'package:chat_app_tutorial/views/chatRoomsScreen.dart';
 import 'package:chat_app_tutorial/views/home_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
