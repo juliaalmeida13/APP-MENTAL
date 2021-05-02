@@ -6,93 +6,351 @@ class SleepPage extends StatefulWidget {
 }
 
 class _SleepPageState extends State<SleepPage> {
-  String _name;
-  String _email;
-  String _password;
-  String _url;
-  String _phoneNumber;
-  String _calories;
+  String _resQuest1 = '00:00';
+  String _resQuest2 = '00:00';
+  String _resQuest3 = '00:00';
+  String _resQuest4 = '00:00';
+  String _resQuest5 = '00:00';
+  String _resQuest6 = '00:00';
+  String _resQuest7 = '00:00';
+  String _resQuest8 = '00:00';
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  Widget _buildName() {
-    return TextFormField(
-      decoration: InputDecoration(
-        labelText: 'What time did you get into bed?',
+
+  Widget _buildQuest1() {
+    return Container(
+      height: 50,
+      margin: EdgeInsets.symmetric(vertical: 10.0),
+      child: ListView(
+        scrollDirection: Axis.horizontal,
+        children: [
+          Container(
+            alignment: Alignment.center,
+            width: 200,
+            child: Text("Que horas você foi para a cama?", style: TextStyle(
+              fontSize: 16
+            ),),
+          ),
+          Container(
+              width: 100,
+              child: TextFormField(
+                onTap: () async{
+                  _resQuest1 = await _selectTime(context);
+                  setState(() {
+                    _resQuest1 = _resQuest1;
+                  });
+                },
+                showCursor: false,
+                textAlign: TextAlign.center,
+                decoration: InputDecoration(
+                  hintText: _resQuest1,
+                  hintStyle: TextStyle(
+                    fontSize: 18,
+                  ),
+                ),
+              ),
+            ),
+          Container(
+              width: 50,
+              child: Icon(Icons.alarm),
+            ),
+        ],
       ),
-      validator: (String value) {
-        if (value.isEmpty) {
-          return 'Name is Required';
-        }
-      },
-      onSaved: (String value) {
-        _name = value;
-      },
     );
   }
 
-  Widget _buildEmail() {
-    return TextFormField(
-      decoration:
-          InputDecoration(labelText: 'What time did you try to go to sleep?'),
-      validator: (String value) {},
-      onSaved: (String value) {},
+  Widget _buildQuest2() {
+    return Container(
+      height: 50,
+      margin: EdgeInsets.symmetric(vertical: 10.0),
+      child: ListView(
+        scrollDirection: Axis.horizontal,
+        children: [
+          Container(
+            alignment: Alignment.center,
+            width: 200,
+            child: Text("A que horas você tentou dormir?", style: TextStyle(
+                fontSize: 16
+            ),),
+          ),
+          Container(
+            width: 100,
+            child: TextFormField(
+              onTap: () async{
+                _resQuest2 = await _selectTime(context);
+                setState(() {
+                  _resQuest2 = _resQuest2;
+                });
+              },
+              showCursor: false,
+              textAlign: TextAlign.center,
+              decoration: InputDecoration(
+                hintText: _resQuest2,
+                hintStyle: TextStyle(
+                  fontSize: 18,
+                ),
+              ),
+            ),
+          ),
+          Container(
+            width: 50,
+            child: Icon(Icons.alarm),
+          )
+        ],
+      ),
     );
   }
 
-  Widget _buildPassword() {
-    return TextFormField(
-      decoration: InputDecoration(
-          labelText: 'How long did it take you to fall a sleep?'),
-      validator: (String value) {},
-      onSaved: (String value) {},
+  Widget _buildQuest3() {
+    return Container(
+      height: 50,
+      margin: EdgeInsets.symmetric(vertical: 10.0),
+      child: ListView(
+        scrollDirection: Axis.horizontal,
+        children: [
+          Container(
+            alignment: Alignment.center,
+            width: 200,
+            child: Text("Quanto tempo você demorou para adormecer?", style: TextStyle(
+                fontSize: 16
+            ),),
+          ),
+          Container(
+            width: 100,
+            child: TextFormField(
+              onTap: () async{
+                _resQuest3 = await _selectTime(context);
+                setState(() {
+                  _resQuest3 = _resQuest3;
+                });
+              },
+              showCursor: false,
+              textAlign: TextAlign.center,
+              decoration: InputDecoration(
+                hintText: _resQuest3,
+                hintStyle: TextStyle(
+                  fontSize: 18,
+                ),
+              ),
+            ),
+          ),
+          Container(
+            width: 50,
+            child: Icon(Icons.alarm),
+          )
+        ],
+      ),
     );
   }
 
-  Widget _buildUrl() {
-    return TextFormField(
-      decoration: InputDecoration(
-          labelText:
-              'How many times did you wake up, not counting your final awakening?'),
-      validator: (String value) {},
-      onSaved: (String value) {},
+  Widget _buildQuest4() {
+    return Container(
+      height: 75,
+      margin: EdgeInsets.symmetric(vertical: 10.0),
+      child: ListView(
+        scrollDirection: Axis.horizontal,
+        children: [
+          Container(
+            alignment: Alignment.center,
+            width: 200,
+            child: Text("Quantas vezes você acordou, sem contar o seu despertar final?", style: TextStyle(
+                fontSize: 16
+            ),),
+          ),
+          Container(
+            width: 100,
+            child: TextFormField(
+              onTap: () async{
+                _resQuest4 = await _selectTime(context);
+                setState(() {
+                  _resQuest4 = _resQuest4;
+                });
+              },
+              showCursor: false,
+              textAlign: TextAlign.center,
+              decoration: InputDecoration(
+                hintText: _resQuest4,
+                hintStyle: TextStyle(
+                  fontSize: 18,
+                ),
+              ),
+            ),
+          ),
+          Container(
+            width: 50,
+            child: Icon(Icons.alarm),
+          )
+        ],
+      ),
     );
   }
 
-  Widget _buildPhonenumber() {
-    return TextFormField(
-      decoration: InputDecoration(
-          labelText: 'In total, how long did these awakening last?'),
-      validator: (String value) {},
-      onSaved: (String value) {},
+  Widget _buildQuest5() {
+    return Container(
+      height: 50,
+      margin: EdgeInsets.symmetric(vertical: 10.0),
+      child: ListView(
+        scrollDirection: Axis.horizontal,
+        children: [
+          Container(
+            alignment: Alignment.center,
+            width: 200,
+            child: Text("No total, quanto tempo durou esse despertar?", style: TextStyle(
+                fontSize: 16
+            ),),
+          ),
+          Container(
+            width: 100,
+            child: TextFormField(
+              onTap: () async{
+                _resQuest5 = await _selectTime(context);
+                setState(() {
+                  _resQuest5 = _resQuest5;
+                });
+              },
+              showCursor: false,
+              textAlign: TextAlign.center,
+              decoration: InputDecoration(
+                hintText: _resQuest5,
+                hintStyle: TextStyle(
+                  fontSize: 18,
+                ),
+              ),
+            ),
+          ),
+          Container(
+            width: 50,
+            child: Icon(Icons.alarm),
+          )
+        ],
+      ),
     );
   }
 
-  Widget _buildCalories() {
-    return TextFormField(
-      decoration:
-          InputDecoration(labelText: 'what time was your final awakening?'),
-      validator: (String value) {},
-      onSaved: (String value) {},
+  Widget _buildQuest6() {
+    return Container(
+      height: 50,
+      margin: EdgeInsets.symmetric(vertical: 10.0),
+      child: ListView(
+        scrollDirection: Axis.horizontal,
+        children: [
+          Container(
+            alignment: Alignment.center,
+            width: 200,
+            child: Text("A que horas foi seu despertar final?", style: TextStyle(
+                fontSize: 16
+            ),),
+          ),
+          Container(
+            width: 100,
+            child: TextFormField(
+              onTap: () async{
+                _resQuest6 = await _selectTime(context);
+                setState(() {
+                  _resQuest6 = _resQuest6;
+                });
+              },
+              showCursor: false,
+              textAlign: TextAlign.center,
+              decoration: InputDecoration(
+                hintText: _resQuest6,
+                hintStyle: TextStyle(
+                  fontSize: 18,
+                ),
+              ),
+            ),
+          ),
+          Container(
+            width: 50,
+            child: Icon(Icons.alarm),
+          )
+        ],
+      ),
     );
   }
 
-  Widget _buildSpendInBed() {
-    return TextFormField(
-      decoration: InputDecoration(
-          labelText:
-              'After your final awakening, how long did you spend in bed?'),
-      validator: (String value) {},
-      onSaved: (String value) {},
+  Widget _buildQuest7() {
+    return Container(
+      height: 60,
+      margin: EdgeInsets.symmetric(vertical: 10.0),
+      child: ListView(
+        scrollDirection: Axis.horizontal,
+        children: [
+          Container(
+            alignment: Alignment.center,
+            width: 200,
+            child: Text("Após seu despertar final, quanto tempo você passou na cama?", style: TextStyle(
+                fontSize: 16
+            ),),
+          ),
+          Container(
+            width: 100,
+            child: TextFormField(
+              onTap: () async{
+                _resQuest7 = await _selectTime(context);
+                setState(() {
+                  _resQuest7 = _resQuest7;
+                });
+              },
+              showCursor: false,
+              textAlign: TextAlign.center,
+              decoration: InputDecoration(
+                hintText: _resQuest7,
+                hintStyle: TextStyle(
+                  fontSize: 18,
+                ),
+              ),
+            ),
+          ),
+          Container(
+            width: 50,
+            child: Icon(Icons.alarm),
+          )
+        ],
+      ),
     );
   }
 
-  Widget _buildSleepDuringTime() {
-    return TextFormField(
-      decoration:
-          InputDecoration(labelText: 'How much did you sleep during daytime?'),
-      validator: (String value) {},
-      onSaved: (String value) {},
+  Widget _buildQuest8() {
+    return Container(
+      height: 50,
+      margin: EdgeInsets.symmetric(vertical: 10.0),
+      child: ListView(
+        scrollDirection: Axis.horizontal,
+        children: [
+          Container(
+            alignment: Alignment.center,
+            width: 200,
+            child: Text("Quanto você dormiu durante o dia?", style: TextStyle(
+                fontSize: 16
+            ),),
+          ),
+          Container(
+            width: 100,
+            child: TextFormField(
+              onTap: () async{
+                _resQuest8 = await _selectTime(context);
+                setState(() {
+                  _resQuest8 = _resQuest8;
+                });
+              },
+              showCursor: false,
+              textAlign: TextAlign.center,
+              decoration: InputDecoration(
+                hintText: _resQuest8,
+                hintStyle: TextStyle(
+                  fontSize: 18,
+                ),
+              ),
+            ),
+          ),
+          Container(
+            width: 50,
+            child: Icon(Icons.alarm),
+          )
+        ],
+      ),
     );
   }
 
@@ -107,18 +365,18 @@ class _SleepPageState extends State<SleepPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                _buildName(),
-                _buildEmail(),
-                _buildPassword(),
-                _buildUrl(),
-                _buildPhonenumber(),
-                _buildCalories(),
-                _buildSpendInBed(),
-                _buildSleepDuringTime(),
-                SizedBox(height: 100),
+                _buildQuest1(),
+                _buildQuest2(),
+                _buildQuest3(),
+                _buildQuest4(),
+                _buildQuest5(),
+                _buildQuest6(),
+                _buildQuest7(),
+                _buildQuest8(),
+                SizedBox(height: 20),
                 ElevatedButton(
                   child: Text(
-                    'Submit',
+                    'Enviar',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 16,
@@ -137,5 +395,23 @@ class _SleepPageState extends State<SleepPage> {
         ),
       ),
     );
+  }
+
+  Future<String> _selectTime( BuildContext context) async{
+    final TimeOfDay result = await showTimePicker(
+        context: context,
+        initialTime: TimeOfDay.now(),
+        builder: (context, child) {
+          return MediaQuery(data: MediaQuery.of(context).copyWith(
+            alwaysUse24HourFormat: true,
+          ), child: child);
+        },
+    );
+
+    if(result !=null){
+        return result.format(context);
+    }else{
+      return null;
+    }
   }
 }

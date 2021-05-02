@@ -5,19 +5,19 @@ import 'package:flutter/material.dart';
 
 //Tela de perfil
 
-class HomePage extends StatefulWidget {
+class ProfilePage extends StatefulWidget {
   //HomePage({Key? key}) : super(key: key);
 
   @override
-  _HomePageState createState() => _HomePageState();
+  _ProfilePageState createState() => _ProfilePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBarWidget(),
         body: Info(),
-        bottomNavigationBar: NavegPerfil());
+        );
   }
 }

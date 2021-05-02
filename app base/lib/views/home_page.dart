@@ -1,3 +1,4 @@
+import 'package:chat_app_tutorial/Perfil/perfil.dart';
 import 'package:chat_app_tutorial/views/chatRoomsScreen.dart';
 import 'package:chat_app_tutorial/views/sleep_diary.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +10,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   PageController _pageController = PageController();
-  List<Widget> _screens = [ChatRoom(), SleepPage()];
+  List<Widget> _screens = [ChatRoom(), SleepPage(), ProfilePage()];
 
   int _selectedIndex = 0;
 
