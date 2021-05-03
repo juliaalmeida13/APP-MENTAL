@@ -3,6 +3,7 @@ import 'package:chat_app_tutorial/views/chatRoomsScreen.dart';
 import 'package:chat_app_tutorial/views/sleep_diary.dart';
 import 'package:flutter/material.dart';
 import '../views/contacts_screen.dart';
+import '../views/quests_screen.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -15,7 +16,8 @@ class _HomePageState extends State<HomePage> {
     ChatRoom(),
     SleepPage(),
     ProfilePage(),
-    ContactsScreen()
+    ContactsScreen(),
+    QuestsScreen(),
   ];
 
   int _selectedIndex = 0;
@@ -47,6 +49,7 @@ class _HomePageState extends State<HomePage> {
               Icons.airline_seat_individual_suite_sharp, 1),
           buildBottomNavigationBarItem(Icons.account_circle_rounded, 2),
           buildBottomNavigationBarItem(Icons.quick_contacts_mail_rounded, 3),
+          buildBottomNavigationBarItem(Icons.dynamic_form_outlined, 4)
         ],
       ),
     );
