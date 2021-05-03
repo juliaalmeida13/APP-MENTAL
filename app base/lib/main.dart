@@ -8,6 +8,11 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import './escalas/promisn1/promisn1_screen.dart';
+//import './promisn2_screen.dart';
+import './views/quests_screen.dart';
+import './views/contacts_screen.dart';
+
 void main() {
   runApp(MyApp());
 }
@@ -43,6 +48,14 @@ class _MyAppState extends State<MyApp> {
           primarySwatch: Colors.blue,
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
+        initialRoute: '/',
+        //home: CategoriesScreen(),
+        routes: {
+          Promisn1Screen.routeName: (ctx) => Promisn1Screen(),
+          //Promisn2Screen.routeName: (ctx) => Promisn2Screen(),
+          QuestsScreen.routeName: (ctx) => QuestsScreen(),
+          ContactsScreen.routeName: (ctx) => ContactsScreen(),
+        },
         home: userIsLoggedIn != null
             ? userIsLoggedIn
                 ? HomePage()
