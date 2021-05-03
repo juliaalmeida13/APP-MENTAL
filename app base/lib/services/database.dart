@@ -40,6 +40,17 @@ class DatabaseMethods {
     });
   }
 
+  addRespostaQuestionarioSono(String emailId, respostasMap) {
+    FirebaseFirestore.instance
+        .collection("questionarioSono")
+        .doc(emailId)
+        .collection("respostas")
+        .add(respostasMap)
+        .catchError((e) {
+      print(e.toString());
+    });
+  }
+
   getConversationMessages(String chatRoomId) async {
     return FirebaseFirestore.instance
         .collection("ChatRoom")

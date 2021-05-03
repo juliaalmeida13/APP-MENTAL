@@ -1,3 +1,5 @@
+import 'package:chat_app_tutorial/helper/helperfuncions.dart';
+import 'package:chat_app_tutorial/services/database.dart';
 import 'package:flutter/material.dart';
 
 class SleepPage extends StatefulWidget {
@@ -6,6 +8,9 @@ class SleepPage extends StatefulWidget {
 }
 
 class _SleepPageState extends State<SleepPage> {
+
+  DatabaseMethods databaseMethods = new DatabaseMethods();
+
   String _resQuest1 = '00:00';
   String _resQuest2 = '00:00';
   String _resQuest3 = '00:00';
@@ -14,9 +19,33 @@ class _SleepPageState extends State<SleepPage> {
   String _resQuest6 = '00:00';
   String _resQuest7 = '00:00';
   String _resQuest8 = '00:00';
+  String userEmail;
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
+  enviarRespostas() {
+      Map<String, dynamic> messageMap = {
+        "resp1": _resQuest1,
+        "resp2": _resQuest2,
+        "resp3": _resQuest3,
+        "resp4": _resQuest4,
+        "resp5": _resQuest5,
+        "resp6": _resQuest6,
+        "resp7": _resQuest7,
+        "resp8": _resQuest8,
+      };
+      databaseMethods.addRespostaQuestionarioSono( userEmail, messageMap);
+  }
+
+  @override
+  void initState() {
+    getUserInfo();
+    super.initState();
+  }
+
+  getUserInfo() async {
+    userEmail = await HelperFunctions.getUserEmailInSharedPreference();
+  }
 
   Widget _buildQuest1() {
     return Container(
@@ -383,10 +412,8 @@ class _SleepPageState extends State<SleepPage> {
                     ),
                   ),
                   onPressed: () => {
-                    if (!_formKey.currentState.validate())
-                      {}
-                    else
-                      {_formKey.currentState.save()}
+                    print(userEmail),
+                    enviarRespostas()
                   },
                 )
               ],
