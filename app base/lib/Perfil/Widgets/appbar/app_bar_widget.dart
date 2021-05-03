@@ -50,7 +50,7 @@ class AppBarWidget extends PreferredSize {
                                   ])),
                             ]),
                       ),
-                      Align(alignment: Alignment(0.0, 3.0), child: FotoPerfil())
+                      Align(alignment: Alignment(0.0, 2.0), child: FotoPerfil())
                     ],
                   ),
                 )));
