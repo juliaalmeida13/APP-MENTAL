@@ -20,7 +20,7 @@ class FotoPerfil extends StatelessWidget {
             width: 4,
           ),
           image: DecorationImage(
-              image: AssetImage('assets/images/Ellipse6.png'),
+              image: AssetImage('assets/images/woman.png'),
               fit: BoxFit.fitWidth),
           borderRadius: BorderRadius.all(Radius.elliptical(158, 158)),
         ));
