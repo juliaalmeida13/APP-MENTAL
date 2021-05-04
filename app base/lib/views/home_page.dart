@@ -44,7 +44,10 @@ class _HomePageState extends State<HomePage> {
       bottomNavigationBar: BottomNavigationBar(
         onTap: _onItemTapped,
         items: [
-          buildBottomNavigationBarItem(Icons.home, 0),
+          buildBottomNavigationBarItem(
+            Icons.home,
+            0,
+          ),
           buildBottomNavigationBarItem(
               Icons.airline_seat_individual_suite_sharp, 1),
           buildBottomNavigationBarItem(Icons.account_circle_rounded, 2),

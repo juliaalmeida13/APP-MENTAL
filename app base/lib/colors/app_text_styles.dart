@@ -5,6 +5,19 @@ import 'colors.dart';
 //Estilos de texto utilizando a fonte INTER
 
 class AppTextStyles {
+  static final TextStyle contatos = TextStyle(
+      fontFamily: "Inter",
+      color: AppColors.black,
+      fontSize: 35,
+      fontWeight: FontWeight.w600,
+      height: 3);
+
+  static final TextStyle contatosbody = TextStyle(
+      fontFamily: "Inter",
+      color: Color.fromRGBO(92, 86, 86, 1),
+      fontSize: 16,
+      fontWeight: FontWeight.w600);
+
   static final TextStyle title = TextStyle(
     fontFamily: "Inter",
     color: AppColors.white,
