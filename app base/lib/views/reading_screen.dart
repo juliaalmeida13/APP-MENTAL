@@ -46,10 +46,10 @@ class _Reading extends State<ReadingScreen> {
             ),
             Expanded(
               child: Container(
-                padding: EdgeInsets.only(top:120, right: 30, bottom: 30, left:30),
+                padding: EdgeInsets.only(top:80, right: 30, bottom: 30, left:30),
                 decoration: BoxDecoration(
                     shape: BoxShape.rectangle,
-                    borderRadius: BorderRadius.circular(15),
+                    borderRadius: BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(15)),
                     color: Color.fromRGBO(255,230,111,1)
                 ),
                   child: Text('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis scelerisque eleifend quam. Suspendisse nisi risus, congue in '
@@ -68,8 +68,8 @@ class _Reading extends State<ReadingScreen> {
         Positioned(
           top: 90.0, // (background container size) - (circle height / 2)
           child: Container(
-            height: 300.0,
-            width: 300.0,
+            height: 250.0,
+            width: 250.0,
             decoration: BoxDecoration(
                 shape: BoxShape.rectangle,
                 borderRadius: BorderRadius.circular(15),
