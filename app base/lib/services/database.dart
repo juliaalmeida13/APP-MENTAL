@@ -51,6 +51,17 @@ class DatabaseMethods {
     });
   }
 
+  addRespostaPromisn1(String emailId, dominioMap) {
+    FirebaseFirestore.instance
+        .collection("promisn1")
+        .doc(emailId)
+        .collection("dominios")
+        .add(dominioMap)
+        .catchError((e) {
+      print(e.toString());
+    });
+  }
+
   getConversationMessages(String chatRoomId) async {
     return FirebaseFirestore.instance
         .collection("ChatRoom")
@@ -58,6 +69,14 @@ class DatabaseMethods {
         .collection("chats")
         .orderBy("time", descending: false)
         .snapshots();
+  }
+
+  getValueDom1(String userEmail) async {
+    return FirebaseFirestore.instance
+        .collection("promisn1")
+        .doc(userEmail)
+        .collection("dominios")
+        .get();
   }
 
   getChatRooms(String userName) async {

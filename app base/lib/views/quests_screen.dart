@@ -1,14 +1,42 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-//import 'package:cloud_firestore/cloud_firestore.dart';
-
+import '../services/database.dart';
 import '../escalas/promisn1/promisn1_screen.dart';
+import '../helper/helperfuncions.dart';
 //import './promisn2_screen.dart';
 
-class QuestsScreen extends StatelessWidget {
+class QuestsScreen extends StatefulWidget {
   static const routeName = '/quests-screen';
 
   @override
+  _QuestsScreenState createState() => _QuestsScreenState();
+}
+
+class _QuestsScreenState extends State<QuestsScreen> {
+  QuerySnapshot dominios;
+
+  var dom1;
+
+  String userEmail;
+
+  DatabaseMethods databaseMethods = new DatabaseMethods();
+
+  @override
+  void initState() {
+    getEmail();
+    print(userEmail);
+
+    super.initState();
+  }
+
+  getEmail() async {
+    userEmail = await HelperFunctions.getUserEmailInSharedPreference();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    print(dominios.docs[0].get("dom4"));
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Questionários'),
@@ -25,6 +53,11 @@ class QuestsScreen extends StatelessWidget {
                 },
               ),
               Divider(thickness: 2.0),
+              /*if (dom1 > 4)
+                ListTile(
+                  title: Text('Promis Nível 2'),
+                  onTap: () {},
+                ),*/
               /*ListTile(
                 title: Text('PROMIS Nível 2'),
                 onTap: () {
@@ -32,6 +65,7 @@ class QuestsScreen extends StatelessWidget {
                       arguments: {'title': 'PROMIS Nível 2'});
                 },
               ),*/
+
               Divider(thickness: 2.0),
             ],
           )),
