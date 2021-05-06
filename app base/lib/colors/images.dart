@@ -7,4 +7,5 @@ class AppImages {
   static String get background => "assets/images/background.png";
   static String get searchWhite => "assets/images/background.png";
   static String get send => "assets/images/send.png";
+  static String get promis1 => "assets/images/arquivo-medico.png";
 }

@@ -12,6 +12,18 @@ class AppTextStyles {
       fontWeight: FontWeight.w600,
       height: 3);
 
+  static final TextStyle tituloatividades = TextStyle(
+      fontFamily: "Inter",
+      color: AppColors.black,
+      fontSize: 20,
+      fontWeight: FontWeight.w600);
+
+  static final TextStyle descratividades = TextStyle(
+      fontFamily: "Inter",
+      color: AppColors.black,
+      fontSize: 14,
+      fontWeight: FontWeight.w400);
+
   static final TextStyle contatosbody = TextStyle(
       fontFamily: "Inter",
       color: Color.fromRGBO(92, 86, 86, 1),
@@ -39,10 +51,17 @@ class AppTextStyles {
       fontWeight: FontWeight.w600,
       height: 1);
 
+  static final TextStyle atividade = TextStyle(
+    fontFamily: "Inter",
+    color: AppColors.black,
+    fontSize: 20,
+    fontWeight: FontWeight.w400,
+  );
+
   static final TextStyle heading = TextStyle(
     fontFamily: "Inter",
     color: AppColors.black,
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: FontWeight.w600,
   );
 
@@ -101,15 +120,22 @@ class AppTextStyles {
     fontWeight: FontWeight.normal,
   );
 
-  static final TextStyle bodyWhite20 = TextStyle(
+  static final TextStyle bodyWhite14 = TextStyle(
     fontFamily: "Inter",
     color: AppColors.white,
-    fontSize: 20,
+    fontSize: 14,
+    fontWeight: FontWeight.normal,
+  );
+
+  static final TextStyle bodyWhite16 = TextStyle(
+    fontFamily: "Inter",
+    color: AppColors.white,
+    fontSize: 16,
     fontWeight: FontWeight.normal,
   );
   static final TextStyle body11 = TextStyle(
     fontFamily: "Inter",
-    color: AppColors.cinzamedio,
+    color: Colors.black45,
     fontSize: 11,
     fontWeight: FontWeight.normal,
   );

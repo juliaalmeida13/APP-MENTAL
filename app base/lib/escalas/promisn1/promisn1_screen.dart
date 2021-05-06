@@ -1,3 +1,4 @@
+import 'package:chat_app_tutorial/colors/colors.dart';
 import 'package:flutter/material.dart';
 //import 'fancy_button.dart'
 import './promisn1.dart';
@@ -120,7 +121,7 @@ class _Promisn1ScreenState extends State<Promisn1Screen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(titleAA),
-        backgroundColor: Colors.lightGreenAccent,
+        backgroundColor: AppColors.verdementa,
       ),
       body: Padding(
         padding: const EdgeInsets.all(30.0),

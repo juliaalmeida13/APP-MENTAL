@@ -1,3 +1,4 @@
+import 'package:chat_app_tutorial/ChatRoomsScreen/Widgets/AppBart/app_bar_widget.dart';
 import 'package:chat_app_tutorial/helper/constants.dart';
 import 'package:chat_app_tutorial/services/database.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -60,10 +61,13 @@ class _ConversarionScreenState extends State<ConversarionScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      appBar: AppBarWidget()
+
+      /*AppBar(
         title: Text("Chat com o pesquisador"),
         automaticallyImplyLeading: false,
-      ),
+      )*/
+      ,
       body: Container(
         child: Stack(
           children: [
@@ -83,7 +87,6 @@ class _ConversarionScreenState extends State<ConversarionScreen> {
                           hintText: "Digite uma mensagem...",
                           hintStyle: TextStyle(color: Colors.black),
                           border: InputBorder.none,
-
                         ),
                       ),
                     ),
@@ -129,9 +132,8 @@ class MessageTile extends StatelessWidget {
           right: isSendByMe ? 24 : 0),
       alignment: isSendByMe ? Alignment.centerRight : Alignment.centerLeft,
       child: Container(
-        margin:  isSendByMe
-          ? EdgeInsets.only(left: 30)
-          : EdgeInsets.only(right: 30),
+        margin:
+            isSendByMe ? EdgeInsets.only(left: 30) : EdgeInsets.only(right: 30),
         padding: EdgeInsets.only(top: 17, bottom: 17, left: 20, right: 20),
         decoration: BoxDecoration(
             gradient: LinearGradient(
@@ -157,11 +159,10 @@ class MessageTile extends StatelessWidget {
           message,
           textAlign: TextAlign.start,
           style: TextStyle(
-            color: Colors.white,
-            fontSize: 16,
-            fontFamily: 'OverpassRegular',
-            fontWeight: FontWeight.w300
-          ),
+              color: Colors.white,
+              fontSize: 16,
+              fontFamily: 'OverpassRegular',
+              fontWeight: FontWeight.w300),
         ),
       ),
     );

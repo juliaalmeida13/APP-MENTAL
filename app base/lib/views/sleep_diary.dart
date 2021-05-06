@@ -1,3 +1,4 @@
+import 'package:chat_app_tutorial/colors/colors.dart';
 import 'package:flutter/material.dart';
 
 class SleepPage extends StatefulWidget {
@@ -17,7 +18,6 @@ class _SleepPageState extends State<SleepPage> {
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-
   Widget _buildQuest1() {
     return Container(
       height: 50,
@@ -28,33 +28,34 @@ class _SleepPageState extends State<SleepPage> {
           Container(
             alignment: Alignment.center,
             width: 200,
-            child: Text("Que horas você foi para a cama?", style: TextStyle(
-              fontSize: 16
-            ),),
+            child: Text(
+              "Que horas você foi para a cama?",
+              style: TextStyle(fontSize: 16),
+            ),
           ),
           Container(
-              width: 100,
-              child: TextFormField(
-                onTap: () async{
-                  _resQuest1 = await _selectTime(context);
-                  setState(() {
-                    _resQuest1 = _resQuest1;
-                  });
-                },
-                showCursor: false,
-                textAlign: TextAlign.center,
-                decoration: InputDecoration(
-                  hintText: _resQuest1,
-                  hintStyle: TextStyle(
-                    fontSize: 18,
-                  ),
+            width: 100,
+            child: TextFormField(
+              onTap: () async {
+                _resQuest1 = await _selectTime(context);
+                setState(() {
+                  _resQuest1 = _resQuest1;
+                });
+              },
+              showCursor: false,
+              textAlign: TextAlign.center,
+              decoration: InputDecoration(
+                hintText: _resQuest1,
+                hintStyle: TextStyle(
+                  fontSize: 18,
                 ),
               ),
             ),
+          ),
           Container(
-              width: 50,
-              child: Icon(Icons.alarm),
-            ),
+            width: 50,
+            child: Icon(Icons.alarm),
+          ),
         ],
       ),
     );
@@ -70,14 +71,15 @@ class _SleepPageState extends State<SleepPage> {
           Container(
             alignment: Alignment.center,
             width: 200,
-            child: Text("A que horas você tentou dormir?", style: TextStyle(
-                fontSize: 16
-            ),),
+            child: Text(
+              "A que horas você tentou dormir?",
+              style: TextStyle(fontSize: 16),
+            ),
           ),
           Container(
             width: 100,
             child: TextFormField(
-              onTap: () async{
+              onTap: () async {
                 _resQuest2 = await _selectTime(context);
                 setState(() {
                   _resQuest2 = _resQuest2;
@@ -112,14 +114,15 @@ class _SleepPageState extends State<SleepPage> {
           Container(
             alignment: Alignment.center,
             width: 200,
-            child: Text("Quanto tempo você demorou para adormecer?", style: TextStyle(
-                fontSize: 16
-            ),),
+            child: Text(
+              "Quanto tempo você demorou para adormecer?",
+              style: TextStyle(fontSize: 16),
+            ),
           ),
           Container(
             width: 100,
             child: TextFormField(
-              onTap: () async{
+              onTap: () async {
                 _resQuest3 = await _selectTime(context);
                 setState(() {
                   _resQuest3 = _resQuest3;
@@ -154,14 +157,15 @@ class _SleepPageState extends State<SleepPage> {
           Container(
             alignment: Alignment.center,
             width: 200,
-            child: Text("Quantas vezes você acordou, sem contar o seu despertar final?", style: TextStyle(
-                fontSize: 16
-            ),),
+            child: Text(
+              "Quantas vezes você acordou, sem contar o seu despertar final?",
+              style: TextStyle(fontSize: 16),
+            ),
           ),
           Container(
             width: 100,
             child: TextFormField(
-              onTap: () async{
+              onTap: () async {
                 _resQuest4 = await _selectTime(context);
                 setState(() {
                   _resQuest4 = _resQuest4;
@@ -196,14 +200,15 @@ class _SleepPageState extends State<SleepPage> {
           Container(
             alignment: Alignment.center,
             width: 200,
-            child: Text("No total, quanto tempo durou esse despertar?", style: TextStyle(
-                fontSize: 16
-            ),),
+            child: Text(
+              "No total, quanto tempo durou esse despertar?",
+              style: TextStyle(fontSize: 16),
+            ),
           ),
           Container(
             width: 100,
             child: TextFormField(
-              onTap: () async{
+              onTap: () async {
                 _resQuest5 = await _selectTime(context);
                 setState(() {
                   _resQuest5 = _resQuest5;
@@ -238,14 +243,15 @@ class _SleepPageState extends State<SleepPage> {
           Container(
             alignment: Alignment.center,
             width: 200,
-            child: Text("A que horas foi seu despertar final?", style: TextStyle(
-                fontSize: 16
-            ),),
+            child: Text(
+              "A que horas foi seu despertar final?",
+              style: TextStyle(fontSize: 16),
+            ),
           ),
           Container(
             width: 100,
             child: TextFormField(
-              onTap: () async{
+              onTap: () async {
                 _resQuest6 = await _selectTime(context);
                 setState(() {
                   _resQuest6 = _resQuest6;
@@ -280,14 +286,15 @@ class _SleepPageState extends State<SleepPage> {
           Container(
             alignment: Alignment.center,
             width: 200,
-            child: Text("Após seu despertar final, quanto tempo você passou na cama?", style: TextStyle(
-                fontSize: 16
-            ),),
+            child: Text(
+              "Após seu despertar final, quanto tempo você passou na cama?",
+              style: TextStyle(fontSize: 16),
+            ),
           ),
           Container(
             width: 100,
             child: TextFormField(
-              onTap: () async{
+              onTap: () async {
                 _resQuest7 = await _selectTime(context);
                 setState(() {
                   _resQuest7 = _resQuest7;
@@ -322,14 +329,15 @@ class _SleepPageState extends State<SleepPage> {
           Container(
             alignment: Alignment.center,
             width: 200,
-            child: Text("Quanto você dormiu durante o dia?", style: TextStyle(
-                fontSize: 16
-            ),),
+            child: Text(
+              "Quanto você dormiu durante o dia?",
+              style: TextStyle(fontSize: 16),
+            ),
           ),
           Container(
             width: 100,
             child: TextFormField(
-              onTap: () async{
+              onTap: () async {
                 _resQuest8 = await _selectTime(context);
                 setState(() {
                   _resQuest8 = _resQuest8;
@@ -375,20 +383,22 @@ class _SleepPageState extends State<SleepPage> {
                 _buildQuest8(),
                 SizedBox(height: 20),
                 ElevatedButton(
-                  child: Text(
-                    'Enviar',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
+                    child: Text(
+                      'Enviar',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                      ),
                     ),
-                  ),
-                  onPressed: () => {
-                    if (!_formKey.currentState.validate())
-                      {}
-                    else
-                      {_formKey.currentState.save()}
-                  },
-                )
+                    onPressed: () => {
+                          if (!_formKey.currentState.validate())
+                            {}
+                          else
+                            {_formKey.currentState.save()}
+                        },
+                    style: ElevatedButton.styleFrom(
+                      primary: AppColors.verdementa,
+                    ))
               ],
             ),
           ),
@@ -397,20 +407,22 @@ class _SleepPageState extends State<SleepPage> {
     );
   }
 
-  Future<String> _selectTime( BuildContext context) async{
+  Future<String> _selectTime(BuildContext context) async {
     final TimeOfDay result = await showTimePicker(
-        context: context,
-        initialTime: TimeOfDay.now(),
-        builder: (context, child) {
-          return MediaQuery(data: MediaQuery.of(context).copyWith(
-            alwaysUse24HourFormat: true,
-          ), child: child);
-        },
+      context: context,
+      initialTime: TimeOfDay.now(),
+      builder: (context, child) {
+        return MediaQuery(
+            data: MediaQuery.of(context).copyWith(
+              alwaysUse24HourFormat: true,
+            ),
+            child: child);
+      },
     );
 
-    if(result !=null){
-        return result.format(context);
-    }else{
+    if (result != null) {
+      return result.format(context);
+    } else {
       return null;
     }
   }

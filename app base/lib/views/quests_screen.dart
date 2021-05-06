@@ -1,3 +1,5 @@
+import 'package:chat_app_tutorial/QuestScreen/widgets/AppBar/app_bar_widget.dart';
+import 'package:chat_app_tutorial/QuestScreen/widgets/Body/app_body_widget.dart';
 import 'package:flutter/material.dart';
 //import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -10,10 +12,26 @@ class QuestsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Questionários'),
-      ),
-      body: Container(
+        appBar: AppBarWidget(),
+        body: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Expanded(
+              child: GridView.count(
+                crossAxisSpacing: 16,
+                mainAxisSpacing: 16,
+                crossAxisCount: 2,
+                children: [
+                  QuizCard(),
+                  QuizCard(),
+                  QuizCard(),
+                  QuizCard(),
+                  QuizCard(),
+                  QuizCard(),
+                ],
+              ),
+            ))
+
+        /*Container(
           width: double.infinity,
           child: Column(
             children: [
@@ -34,7 +52,7 @@ class QuestsScreen extends StatelessWidget {
               ),*/
               Divider(thickness: 2.0),
             ],
-          )),
-    );
+          )),*/
+        );
   }
 }
