@@ -1,4 +1,5 @@
 import 'package:chat_app_tutorial/ChatRoomsScreen/Widgets/AppBart/app_bar_widget.dart';
+import 'package:chat_app_tutorial/colors/colors.dart';
 import 'package:chat_app_tutorial/helper/constants.dart';
 import 'package:chat_app_tutorial/services/database.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -23,6 +24,7 @@ class _ConversarionScreenState extends State<ConversarionScreen> {
         return snapshot.hasData
             ? ListView.builder(
                 itemCount: snapshot.data.docs.length,
+                shrinkWrap: true,
                 itemBuilder: (context, index) {
                   return MessageTile(
                     snapshot.data.docs[index].get("message"),
@@ -68,50 +70,64 @@ class _ConversarionScreenState extends State<ConversarionScreen> {
         automaticallyImplyLeading: false,
       )*/
       ,
-      body: Container(
-        child: Stack(
-          children: [
-            chatMessageList(),
-            Container(
-              alignment: Alignment.bottomCenter,
-              child: Container(
-                color: Colors.white,
-                padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: TextField(
-                        controller: messageController,
-                        style: TextStyle(color: Colors.black),
-                        decoration: InputDecoration(
-                          hintText: "Digite uma mensagem...",
-                          hintStyle: TextStyle(color: Colors.black),
-                          border: InputBorder.none,
-                        ),
+      body: Stack(
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              decoration: BoxDecoration(
+                  color: AppColors.cinzamedio,
+                  borderRadius: BorderRadius.circular(10)),
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 80),
+                child: chatMessageList(),
+              ),
+            ),
+          ),
+          //chatMessageList(),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Container(
+              color: Colors.white,
+              padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+              child: Row(
+                children: <Widget>[
+                  Expanded(
+                    child: TextField(
+                      controller: messageController,
+                      style: TextStyle(color: Colors.black),
+                      decoration: InputDecoration(
+                        hintText: "Digite uma mensagem...",
+                        hintStyle: TextStyle(color: Colors.black),
+                        border: InputBorder.none,
                       ),
                     ),
-                    GestureDetector(
-                      onTap: () {
-                        sendMessage();
-                      },
-                      child: Container(
-                          height: 40,
-                          width: 40,
-                          decoration: BoxDecoration(
-                              gradient: LinearGradient(colors: [
-                                const Color(0xFF007EA7),
-                                const Color(0xFF007EA7)
-                              ]),
-                              borderRadius: BorderRadius.circular(40)),
-                          padding: EdgeInsets.all(12),
-                          child: Image.asset("assets/images/send.png")),
-                    )
-                  ],
-                ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      sendMessage();
+                    },
+                    child: Container(
+                        height: 40,
+                        width: 40,
+                        decoration: BoxDecoration(
+                            gradient: LinearGradient(colors: [
+                              const Color(0xFF007EA7),
+                              const Color(0xFF007EA7)
+                            ]),
+                            borderRadius: BorderRadius.circular(40)),
+                        child: Center(
+                            child: Icon(
+                          Icons.send,
+                          color: Colors.white,
+                          size: 18,
+                        ))),
+                  )
+                ],
               ),
-            )
-          ],
-        ),
+            ),
+          )
+        ],
       ),
     );
   }

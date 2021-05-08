@@ -12,26 +12,21 @@ class QuestsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBarWidget(),
-        body: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Expanded(
-              child: GridView.count(
-                crossAxisSpacing: 16,
-                mainAxisSpacing: 16,
-                crossAxisCount: 2,
-                children: [
-                  QuizCard(),
-                  QuizCard(),
-                  QuizCard(),
-                  QuizCard(),
-                  QuizCard(),
-                  QuizCard(),
-                ],
-              ),
-            ))
+      appBar: AppBarWidget(),
+      body: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: Expanded(
+            child: GridView.count(
+              crossAxisSpacing: 16,
+              mainAxisSpacing: 16,
+              crossAxisCount: 2,
+              children: [
+                QuizCard(),
+              ],
+            ),
+          )),
 
-        /*Container(
+      /*Container(
           width: double.infinity,
           child: Column(
             children: [
@@ -53,6 +48,6 @@ class QuestsScreen extends StatelessWidget {
               Divider(thickness: 2.0),
             ],
           )),*/
-        );
+    );
   }
 }
