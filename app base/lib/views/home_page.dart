@@ -59,6 +59,7 @@ class _HomePageState extends State<HomePage> {
         ],
       )*/
           CurvedNavigationBar(
+        height: 50,
         onTap: _onItemTapped,
         color: AppColors.verdementa,
         backgroundColor: AppColors.white,

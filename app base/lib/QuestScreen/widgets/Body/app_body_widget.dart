@@ -43,7 +43,7 @@ class QuizCard extends StatelessWidget {
               ),
               Text("PROMIS Nível 1", style: AppTextStyles.heading15),
               SizedBox(
-                height: 40,
+                height: 20,
               ),
               Row(
                 children: [
@@ -51,7 +51,7 @@ class QuizCard extends StatelessWidget {
                       flex: 1,
                       child: Text("3 de 5", style: AppTextStyles.body11)),
                   Expanded(
-                    flex: 3,
+                    flex: 2,
                     child: LinearProgressIndicator(
                         value: 0.75,
                         backgroundColor: AppColors.verdeclaro,
