@@ -19,8 +19,6 @@ class Info extends StatelessWidget {
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(5),
                     topRight: Radius.circular(5),
-                    bottomLeft: Radius.circular(0),
-                    bottomRight: Radius.circular(0),
                   ),
                   boxShadow: [
                     BoxShadow(
@@ -50,12 +48,7 @@ class Info extends StatelessWidget {
               width: 335,
               height: 38,
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(8),
-                    topRight: Radius.circular(8),
-                    bottomLeft: Radius.circular(8),
-                    bottomRight: Radius.circular(8),
-                  ),
+                  borderRadius: BorderRadius.circular(8),
                   color: AppColors.cinza),
             ),
           ),
@@ -74,12 +67,7 @@ class Info extends StatelessWidget {
               width: 150,
               height: 38,
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(8),
-                    topRight: Radius.circular(8),
-                    bottomLeft: Radius.circular(8),
-                    bottomRight: Radius.circular(8),
-                  ),
+                  borderRadius: BorderRadius.circular(8),
                   color: AppColors.cinza),
             ),
           ),
@@ -98,12 +86,7 @@ class Info extends StatelessWidget {
               width: 335,
               height: 38,
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(8),
-                    topRight: Radius.circular(8),
-                    bottomLeft: Radius.circular(8),
-                    bottomRight: Radius.circular(8),
-                  ),
+                  borderRadius: BorderRadius.circular(8),
                   color: AppColors.cinza),
             ),
           ),
