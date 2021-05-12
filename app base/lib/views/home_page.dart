@@ -7,9 +7,8 @@ import '../views/quests_screen.dart';
 
 class HomePage extends StatefulWidget {
   @override
-  _HomePageState createState() => _HomePageState();}
-
-
+  _HomePageState createState() => _HomePageState();
+}
 
 class _HomePageState extends State<HomePage> {
   PageController _pageController = PageController();
@@ -18,7 +17,7 @@ class _HomePageState extends State<HomePage> {
     SleepPage(),
     ProfilePage(),
     ContactsScreen(),
-    QuestsScreen(),
+    QuestsRoom(),
   ];
 
   int _selectedIndex = 0;

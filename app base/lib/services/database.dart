@@ -98,4 +98,11 @@ class DatabaseMethods {
         .where("users", arrayContains: userName)
         .snapshots();
   }
+
+  getQuestsRooms(String userEmail) async {
+    return FirebaseFirestore.instance
+        .collection('Escala')
+        .where("userEmail", arrayContains: userEmail)
+        .snapshots();
+  }
 }
