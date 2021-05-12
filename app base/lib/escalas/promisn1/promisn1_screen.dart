@@ -99,7 +99,6 @@ class _Promisn1ScreenState extends State<Promisn1Screen> {
       _questionIndex = 0;
       _totalScore = 0;
     }); */
-  }
 */
   void _answerQuestion(int score, int domin) {
     _totalScoreList[domin] += score;
@@ -130,7 +129,7 @@ class _Promisn1ScreenState extends State<Promisn1Screen> {
                 questionIndex: _questionIndex,
                 questions: _questions,
               ) //Quiz
-            : Result(resultScoreList: _totalScoreList),
+            : Promisn1Result(resultScoreList: _totalScoreList),
       ), //Padding
     ); //Scaffold
     // debugShowCheckedModeBanner: false,;
