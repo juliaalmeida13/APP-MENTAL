@@ -1,14 +1,11 @@
-import 'package:chat_app_tutorial/helper/authenticate.dart';
 import 'package:chat_app_tutorial/helper/constants.dart';
 import 'package:chat_app_tutorial/helper/helperfuncions.dart';
 import 'package:chat_app_tutorial/services/auth.dart';
 import 'package:chat_app_tutorial/services/database.dart';
-import 'package:chat_app_tutorial/views/conversation_screen.dart';
-import 'package:chat_app_tutorial/views/search.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:chat_app_tutorial/widgets/widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import '../escalas/promisn1/promisn1_screen.dart';
 
 class QuestsRoom extends StatefulWidget {
   @override
@@ -31,6 +28,7 @@ class _QuestsRoomState extends State<QuestsRoom> {
                 itemBuilder: (context, index) {
                   return QuestsRoomTile(
                     snapshot.data.docs[index].get("questName"),
+                    snapshot.data.docs[index].get("questId"),
                   );
                 },
               )
@@ -73,8 +71,14 @@ class _QuestsRoomState extends State<QuestsRoom> {
 
 class QuestsRoomTile extends StatelessWidget {
   final String questName;
+  final String questId;
+  final Map<String, dynamic> routes = {
+    "pn1": Promisn1Screen.routeName,
+    "pn2": Promisn1Screen.routeName,
+  };
   QuestsRoomTile(
     this.questName,
+    this.questId,
   );
 
   @override
@@ -86,8 +90,8 @@ class QuestsRoomTile extends StatelessWidget {
             ListTile(
                 title: Text(questName),
                 onTap: () {
-                  /*Navigator.of(context).pushNamed(Promisn1Screen.routeName,
-                    arguments: {'title': 'PROMIS Nível 1'});*/
+                  Navigator.of(context).pushNamed(routes[questId],
+                      arguments: {'title': questName});
                 }),
             Divider(thickness: 2.0),
           ],
