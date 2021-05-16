@@ -12,15 +12,15 @@ class _SleepPageState extends State<SleepPage> {
   DateTime pickedDate;
   DatabaseMethods databaseMethods = new DatabaseMethods();
 
-  String _resQuest1;
-  String _resQuest2;
-  String _resQuest3;
+  String _resQuest1 = "00:00";
+  String _resQuest2 = "00:00";
+  String _resQuest3 = "00:00";
   int qtd = 0;
-  String _resQuest5;
-  String _resQuest6;
-  String _resQuest7;
-  String _resQuest8;
-  String userEmail;
+  String _resQuest5 = "00:00";
+  String _resQuest6 = "00:00";
+  String _resQuest7 = "00:00";
+  String _resQuest8 = "00:00";
+  String userEmail = "00:00";
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -452,7 +452,48 @@ class _SleepPageState extends State<SleepPage> {
                       fontSize: 16,
                     ),
                   ),
-                  onPressed: () => {print(userEmail), enviarRespostas()},
+                  onPressed: () async {
+                    print(userEmail);
+                    // enviarRespostas(),
+                    var format = DateFormat("HH:mm");
+                    var quest1 =
+                        format.parse(_resQuest1).subtract(Duration(hours: 12));
+                    var quest2 =
+                        format.parse(_resQuest2).subtract(Duration(hours: 12));
+                    var quest3 = format.parse(_resQuest3);
+                    var quest5 = format.parse(_resQuest5);
+                    var quest6 =
+                        format.parse(_resQuest6).add(Duration(hours: 12));
+                    var quest7 = format.parse(_resQuest7);
+
+                    var intervaloTentouDormirEAcordou =
+                        format.parse(quest6.difference(quest2).toString());
+
+                    var intervaloFoiParaCamaEAcordou =
+                        format.parse(quest6.difference(quest1).toString());
+
+                    var demorouDomirMaisTotalDespertar = quest3.add(
+                        Duration(hours: quest5.hour, minutes: quest5.minute));
+                    var tempoTotalDeSono =
+                        intervaloTentouDormirEAcordou.subtract(Duration(
+                      hours: demorouDomirMaisTotalDespertar.hour,
+                      minutes: demorouDomirMaisTotalDespertar.minute,
+                    ));
+
+                    var tempoTotalNaCama =
+                        intervaloFoiParaCamaEAcordou.add(Duration(
+                      hours: quest7.hour,
+                      minutes: quest7.minute,
+                    ));
+
+                    String res2 = DateFormat("HH:mm").format(tempoTotalNaCama);
+
+                    await showInformationDialog(context, res2);
+                  },
+                ),
+                ListTile(
+                  title: Text(
+                      "${pickedDate.day}/${pickedDate.month}/${pickedDate.year}"),
                 ),
               ],
             ),
@@ -483,4 +524,45 @@ class _SleepPageState extends State<SleepPage> {
       return null;
     }
   }
+}
+
+Future<void> showInformationDialog(BuildContext context, String text) async {
+  return await showDialog(
+    context: context,
+    builder: (context) {
+      return AlertDialog(
+        content: Text(text),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: Text('okay'),
+          )
+        ],
+      );
+    },
+  );
+}
+
+calculoEficienciaSono(
+    String _resQuest1,
+    String _resQuest2,
+    String _resQuest3,
+    int qtd,
+    String _resQuest5,
+    String _resQuest6,
+    String _resQuest7,
+    String _resQuest8) {
+  //<<<<<<<<<< pega quanto tempo a pessoa dormiu >>>>>>>>>>
+  var format = DateFormat("HH:mm");
+  var quest2 = format.parse(_resQuest2).subtract(Duration(hours: 12));
+  var quest6 = format.parse(_resQuest6).add(Duration(hours: 12));
+  var res1 = format.parse(quest2.difference(quest6).toString());
+
+  var quest3 = format.parse(_resQuest3);
+  var res2 =
+      res1.subtract(Duration(hours: quest3.hour, minutes: quest3.minute));
+
+  //String res2 = DateFormat("HH:mm").format(res1);
 }
