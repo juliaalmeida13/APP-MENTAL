@@ -15,11 +15,19 @@ class Promisn1Result extends StatelessWidget {
   enviarDominios() {
     instantTime = DateTime.now();
     Map<String, dynamic> dominioMap = {
-      "dom1": resultScoreList[0],
-      "dom2": resultScoreList[1],
-      "dom3": resultScoreList[2],
-      "dom4": resultScoreList[3],
-      "dom5": resultScoreList[4],
+      "dom1": resultScoreList[1],
+      "dom2": resultScoreList[2],
+      "dom3": resultScoreList[3],
+      "dom4": resultScoreList[4],
+      "dom5": resultScoreList[5],
+      "dom6": resultScoreList[6],
+      "dom7": resultScoreList[7],
+      "dom8": resultScoreList[8],
+      "dom9": resultScoreList[9],
+      "dom10": resultScoreList[10],
+      "dom11": resultScoreList[11],
+      "dom12": resultScoreList[12],
+      "dom13": resultScoreList[13],
       "createdAt": instantTime,
       "questName": "promisn1",
     };
@@ -40,7 +48,7 @@ class Promisn1Result extends StatelessWidget {
   }*/
 
   final String resultPhrase =
-      'Questionário concluído! \n\nLogo informaremos as próximas atividades.';
+      'Questionário concluído! \n\nFique atento as próximas atividades.';
 
   @override
   Widget build(BuildContext context) {
