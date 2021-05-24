@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import '../escalas/promisn1/promisn1_screen.dart';
+import '../escalas/promisn2/promisn2_screen.dart';
 
 class QuestsRoom extends StatefulWidget {
   @override
@@ -74,7 +75,7 @@ class QuestsRoomTile extends StatelessWidget {
   final String questId;
   final Map<String, dynamic> routes = {
     "pn1": Promisn1Screen.routeName,
-    "pn2": Promisn1Screen.routeName,
+    "pn2": Promisn2Screen.routeName,
   };
   QuestsRoomTile(
     this.questName,
