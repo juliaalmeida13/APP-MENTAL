@@ -18,7 +18,7 @@ class _Promisn1ScreenState extends State<Promisn1Screen> {
       'questionText':
           'As questões a seguir perguntam sobre coisas que podem tê-lo pertubado. Para cada pergunta, escolha o número que melhor descreve o quanto (ou com que frequência) você foi perturbado pelos problemas descritos a seguir.',
       'answers': [
-        {'text': 'Entendi e quero prosseguir', 'score': 0, 'dom': 1},
+        {'text': 'Entendi e quero prosseguir', 'score': 0, 'dom': 0},
       ],
     },
     {
