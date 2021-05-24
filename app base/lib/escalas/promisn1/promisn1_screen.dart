@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 //import 'fancy_button.dart'
 import './promisn1.dart';
-import '../result.dart';
+import 'promisn1_result.dart';
 
 class Promisn1Screen extends StatefulWidget {
   static const routeName = '/promisn1-screen';
