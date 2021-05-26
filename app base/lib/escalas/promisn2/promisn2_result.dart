@@ -12,19 +12,18 @@ class Promisn2Result extends StatelessWidget {
 
   final DatabaseMethods databaseMethods = new DatabaseMethods();
 
-  sendProsmisn2Score() {
+  sendProsmisn2Score(String email) {
     instantTime = DateTime.now();
-    Map<String, dynamic> dominioMap = {
+    Map<String, dynamic> answerMap = {
       "score": resultScoreList,
-      "createdAt": instantTime,
-      "questName": "promisn2",
+      "answeredAt": instantTime,
     };
-    databaseMethods.addRespostaPromisn1(userEmail, dominioMap);
+    databaseMethods.addPromisn2Answer(answerMap, email);
   }
 
   void getUserInfo() async {
     userEmail = await HelperFunctions.getUserEmailInSharedPreference();
-    sendProsmisn2Score();
+    sendProsmisn2Score(userEmail);
   }
 
   Promisn2Result({this.resultScoreList, this.resultScore});
