@@ -12,9 +12,9 @@ class Promisn1Result extends StatelessWidget {
 
   final DatabaseMethods databaseMethods = new DatabaseMethods();
 
-  enviarDominios() {
+  enviarDominios(String email) {
     instantTime = DateTime.now();
-    Map<String, dynamic> dominioMap = {
+    Map<String, dynamic> promisn1Map = {
       "dom1": resultScoreList[1],
       "dom2": resultScoreList[2],
       "dom3": resultScoreList[3],
@@ -28,15 +28,25 @@ class Promisn1Result extends StatelessWidget {
       "dom11": resultScoreList[11],
       "dom12": resultScoreList[12],
       "dom13": resultScoreList[13],
-      "createdAt": instantTime,
+      "answeredAt": instantTime,
       "questName": "promisn1",
     };
-    databaseMethods.addRespostaPromisn1(userEmail, dominioMap);
+    databaseMethods.addRespostaPromisn1(userEmail, promisn1Map);
+    if (resultScoreList[4] > 4) {
+      String questName = "promisN2";
+      Map<String, dynamic> questMap = {
+        "isAvailable": true,
+        "questId": "pn2",
+        "questName": "PROMIS Nível 2",
+        "createdAt": instantTime,
+      };
+      DatabaseMethods().createQuest(questName, questMap, email);
+    }
   }
 
   void getUserInfo() async {
     userEmail = await HelperFunctions.getUserEmailInSharedPreference();
-    enviarDominios();
+    enviarDominios(userEmail);
   }
 
   Promisn1Result({this.resultScoreList, this.resultScore});
