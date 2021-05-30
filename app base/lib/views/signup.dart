@@ -17,6 +17,7 @@ class SignUp extends StatefulWidget {
 class _SignUpState extends State<SignUp> {
   bool isLoading = false;
   AuthMethods authMethods = new AuthMethods();
+  DateTime instantTime;
   DatabaseMethods databaseMethods = new DatabaseMethods();
 
   final formKey = GlobalKey<FormState>();
@@ -50,6 +51,15 @@ class _SignUpState extends State<SignUp> {
         //print("${val.hashCode}");
 
         databaseMethods.uploadUserInfo(userInfoMap);
+        String questName = "promisN1";
+        Map<String, dynamic> questMap = {
+          "isAvailable": true,
+          "questId": "pn1",
+          "questName": "PROMIS Nível 1",
+          "createdAt": instantTime,
+        };
+        DatabaseMethods()
+            .createQuest(questName, questMap, emailTextEdittingController.text);
         HelperFunctions.saveUserLoggedInSharedPreference(true);
         Navigator.pushReplacement(
             context,
@@ -229,126 +239,131 @@ class _SignUpState extends State<SignUp> {
                 decoration: BoxDecoration(
                     image: DecorationImage(
                         image: AssetImage('assets/images/background.png'),
-                        fit: BoxFit.fill
-                    )
-                ),
+                        fit: BoxFit.fill)),
               ),
               Padding(
                 padding: EdgeInsets.all(30.0),
                 child: Column(
                   children: <Widget>[
-                    FadeAnimation(1.7,Container(
-                        padding: EdgeInsets.all(5),
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(10),
-                            boxShadow: [
-                              BoxShadow(
-                                  color: Color.fromRGBO(104, 202, 138, .2),
-                                  blurRadius: 20.0,
-                                  offset: Offset(0,10)
-                              )
-                            ]
-                        ),
-                        child:
-                        Form(
-                          key: formKey,
-                          child: Column(
-                            children: [
-                              FadeAnimation(1.7,
-                                  Container(
-                                    padding: EdgeInsets.all(8.0),
-                                    decoration: BoxDecoration(
-                                        border: Border(bottom: BorderSide(
-                                            color: Colors.grey[100]
-                                        ))
-                                    ),
-                                    child: TextFormField(
-                                      decoration: InputDecoration(
-                                          border: InputBorder.none,
-                                          hintText: "Nome de Usuário",
-                                          hintStyle: TextStyle(color: Colors.grey)
-                                      ),
-                                      validator: (val) {
-                                        return val.isEmpty || val.length < 2
-                                            ? "Please Provide a valid UserName"
-                                            : null;
-                                      },
-                                      controller: userNameTextEdittingController,
-                                    ),
-                                  )),
-                              FadeAnimation(1.7,
-                                  Container(
-                                    padding: EdgeInsets.all(8.0),
-                                    decoration: BoxDecoration(
-                                        border: Border(bottom: BorderSide(
-                                            color: Colors.grey[100]
-                                        ))
-                                    ),
-                                    child: TextFormField(
-                                      decoration: InputDecoration(
-                                          border: InputBorder.none,
-                                          hintText: "Email",
-                                          hintStyle: TextStyle(color: Colors.grey)
-                                      ),
-                                      validator: (val) {
-                                        return RegExp(
-                                            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                                            .hasMatch(val)
-                                            ? null
-                                            : "Por favor verifique seu email";
-                                      },
-                                      controller: emailTextEdittingController,
-                                    ),
-                                  )),
-                              FadeAnimation(1.8,
-                                  Container(
-                                    padding: EdgeInsets.all(8.0),
-                                    child: TextFormField(
-                                      decoration: InputDecoration(
-                                          border: InputBorder.none,
-                                          hintText: "Senha",
-                                          hintStyle: TextStyle(color: Colors.grey)
-                                      ),
-                                      obscureText: true,
-                                      validator: (val) {
-                                        return val.length > 6
-                                            ? null
-                                            : "Por favor verifique sua senha";
-                                      },
-                                      controller: passwordTextEdittingController,
-                                    ),
-                                  ))],),
-                        )
-                    )),
-                    SizedBox(height: 30,),
-                    FadeAnimation(1.8,Container(
-                      height: 50,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          gradient: LinearGradient(
-                              colors: [
+                    FadeAnimation(
+                        1.7,
+                        Container(
+                            padding: EdgeInsets.all(5),
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(10),
+                                boxShadow: [
+                                  BoxShadow(
+                                      color: Color.fromRGBO(104, 202, 138, .2),
+                                      blurRadius: 20.0,
+                                      offset: Offset(0, 10))
+                                ]),
+                            child: Form(
+                              key: formKey,
+                              child: Column(
+                                children: [
+                                  FadeAnimation(
+                                      1.7,
+                                      Container(
+                                        padding: EdgeInsets.all(8.0),
+                                        decoration: BoxDecoration(
+                                            border: Border(
+                                                bottom: BorderSide(
+                                                    color: Colors.grey[100]))),
+                                        child: TextFormField(
+                                          decoration: InputDecoration(
+                                              border: InputBorder.none,
+                                              hintText: "Nome de Usuário",
+                                              hintStyle: TextStyle(
+                                                  color: Colors.grey)),
+                                          validator: (val) {
+                                            return val.isEmpty || val.length < 2
+                                                ? "Please Provide a valid UserName"
+                                                : null;
+                                          },
+                                          controller:
+                                              userNameTextEdittingController,
+                                        ),
+                                      )),
+                                  FadeAnimation(
+                                      1.7,
+                                      Container(
+                                        padding: EdgeInsets.all(8.0),
+                                        decoration: BoxDecoration(
+                                            border: Border(
+                                                bottom: BorderSide(
+                                                    color: Colors.grey[100]))),
+                                        child: TextFormField(
+                                          decoration: InputDecoration(
+                                              border: InputBorder.none,
+                                              hintText: "Email",
+                                              hintStyle: TextStyle(
+                                                  color: Colors.grey)),
+                                          validator: (val) {
+                                            return RegExp(
+                                                        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                                    .hasMatch(val)
+                                                ? null
+                                                : "Por favor verifique seu email";
+                                          },
+                                          controller:
+                                              emailTextEdittingController,
+                                        ),
+                                      )),
+                                  FadeAnimation(
+                                      1.8,
+                                      Container(
+                                        padding: EdgeInsets.all(8.0),
+                                        child: TextFormField(
+                                          decoration: InputDecoration(
+                                              border: InputBorder.none,
+                                              hintText: "Senha",
+                                              hintStyle: TextStyle(
+                                                  color: Colors.grey)),
+                                          obscureText: true,
+                                          validator: (val) {
+                                            return val.length > 6
+                                                ? null
+                                                : "Por favor verifique sua senha";
+                                          },
+                                          controller:
+                                              passwordTextEdittingController,
+                                        ),
+                                      ))
+                                ],
+                              ),
+                            ))),
+                    SizedBox(
+                      height: 30,
+                    ),
+                    FadeAnimation(
+                        1.8,
+                        Container(
+                          height: 50,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              gradient: LinearGradient(colors: [
                                 AppColors.green,
                                 AppColors.green06,
-                              ]
-                          )
-                      ),
-                      child: GestureDetector(
-                        onTap: () {
-                          signMeUp();
-                        },
-                        child: Center(
-                          child: Text(
-                              "Criar conta",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                              )),
-                        ),
-                      ),
-                    )),
-                    SizedBox(height: 10,),
-                    FadeAnimation(2,
+                              ])),
+                          child: GestureDetector(
+                            onTap: () {
+                              signMeUp();
+                            },
+                            child: Center(
+                              child: Text("Criar conta",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                  )),
+                            ),
+                          ),
+                        )),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    FadeAnimation(
+                      2,
                       GestureDetector(
                         onTap: () {
                           widget.toggle();
@@ -364,10 +379,10 @@ class _SignUpState extends State<SignUp> {
                             ),
                           ),
                         ),
-                      ),)
+                      ),
+                    )
                   ],
                 ),
-
               ),
             ],
           ),
@@ -375,5 +390,4 @@ class _SignUpState extends State<SignUp> {
       ),
     );
   }
-
 }
