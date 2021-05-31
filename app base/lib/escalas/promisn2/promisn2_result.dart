@@ -18,7 +18,7 @@ class Promisn2Result extends StatelessWidget {
       "score": resultScoreList,
       "answeredAt": instantTime,
     };
-    databaseMethods.addPromisn2Answer(answerMap, email);
+    databaseMethods.addQuestAnswer(answerMap, email, "promisN2");
   }
 
   void getUserInfo() async {

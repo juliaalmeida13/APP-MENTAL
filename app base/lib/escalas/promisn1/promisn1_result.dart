@@ -31,7 +31,7 @@ class Promisn1Result extends StatelessWidget {
       "answeredAt": instantTime,
       "questName": "promisn1",
     };
-    databaseMethods.addRespostaPromisn1(userEmail, promisn1Map);
+    databaseMethods.addQuestAnswer(promisn1Map, userEmail, "promisN1");
     if (resultScoreList[4] > 4) {
       String questName = "promisN2";
       Map<String, dynamic> questMap = {
