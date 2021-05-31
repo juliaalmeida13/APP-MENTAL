@@ -29,31 +29,6 @@ class DatabaseMethods {
     });
   }
 
-  createQuest(String questId, questMap, userEmail) {
-    FirebaseFirestore.instance
-        .collection("Escala")
-        .doc(userEmail)
-        .collection("userEscalas")
-        .doc(questId)
-        .set(questMap)
-        .catchError((e) {
-      print(e.toString());
-    });
-  }
-
-  addPromisn2Answer(answerMap, userEmail) {
-    FirebaseFirestore.instance
-        .collection("Escala")
-        .doc(userEmail)
-        .collection("userEscalas")
-        .doc("promisN2")
-        .collection("answers")
-        .add(answerMap)
-        .catchError((e) {
-      print(e.toString());
-    });
-  }
-
   addConversationMessages(String chatRoomId, messageMap) {
     FirebaseFirestore.instance
         .collection("ChatRoom")
@@ -105,6 +80,25 @@ class DatabaseMethods {
         .collection("chats")
         .orderBy("time", descending: false)
         .snapshots();
+  }
+
+  getValuePromisn1(String userEmail) async {
+    return FirebaseFirestore.instance
+        .collection("Quests")
+        .doc(userEmail)
+        .collection("userQuests")
+        .doc("promisn1")
+        .collection("userPromisn1")
+        .limitToLast(1)
+        .get();
+  }
+
+  getQuests(String userEmail) async {
+    return FirebaseFirestore.instance
+        .collection('Quests')
+        .doc(userEmail)
+        .collection("userQuests")
+        .get();
   }
 
   getChatRooms(String userName) async {

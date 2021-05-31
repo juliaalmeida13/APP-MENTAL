@@ -9,7 +9,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import './escalas/promisn1/promisn1_screen.dart';
-import './escalas/promisn2/promisn2_screen.dart';
 //import './promisn2_screen.dart';
 import './views/quests_screen.dart';
 import './views/contacts_screen.dart';
@@ -56,7 +55,6 @@ class _MyAppState extends State<MyApp> {
           //Promisn2Screen.routeName: (ctx) => Promisn2Screen(),
           //QuestsRoom.routeName: (ctx) => QuestsRoom(),
           ContactsScreen.routeName: (ctx) => ContactsScreen(),
-          Promisn2Screen.routeName: (ctx) => Promisn2Screen(),
         },
         home: userIsLoggedIn != null
             ? userIsLoggedIn

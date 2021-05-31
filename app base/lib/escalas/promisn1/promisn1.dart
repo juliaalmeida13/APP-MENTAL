@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../question.dart';
-import '../promis_answer.dart';
+import './promisn1_answer.dart';
 
 class Promisn1 extends StatelessWidget {
   final List<Map<String, Object>> questions;
@@ -21,7 +21,7 @@ class Promisn1 extends StatelessWidget {
         ),
         ...(questions[questionIndex]['answers'] as List<Map<String, Object>>)
             .map((answer) {
-          return PromisAnswer(
+          return Promisn1Answer(
             () => answerQuestion(answer['score'], answer['dom']),
             answer['text'],
           );
