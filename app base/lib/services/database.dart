@@ -40,12 +40,13 @@ class DatabaseMethods {
     });
   }
 
-  addRespostaQuestionarioSono(String emailId, respostasMap) {
+  addRespostaQuestionarioSono(String emailId, respostasMap, String data) {
     FirebaseFirestore.instance
         .collection("questionarioSono")
         .doc(emailId)
         .collection("respostas")
-        .add(respostasMap)
+        .doc("${data}")
+        .set(respostasMap)
         .catchError((e) {
       print(e.toString());
     });
@@ -62,6 +63,14 @@ class DatabaseMethods {
         .catchError((e) {
       print(e.toString());
     });
+  }
+
+  getDataQuestSono(String email) async {
+    return FirebaseFirestore.instance
+        .collection("questionarioSono")
+        .doc(email)
+        .collection("respostas")
+        .get();
   }
 
   getConversationMessages(String chatRoomId) async {
