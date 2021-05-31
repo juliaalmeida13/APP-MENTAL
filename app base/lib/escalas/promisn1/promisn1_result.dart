@@ -39,6 +39,7 @@ class Promisn1Result extends StatelessWidget {
         "questId": "pn2",
         "questName": "PROMIS Nível 2",
         "createdAt": instantTime,
+        "index": 0,
       };
       DatabaseMethods().createQuest(questName, questMap, email);
     }
