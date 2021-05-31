@@ -12,41 +12,23 @@ class Promisn1Result extends StatelessWidget {
 
   final DatabaseMethods databaseMethods = new DatabaseMethods();
 
-  enviarDominios(String email) {
+  enviarDominios() {
     instantTime = DateTime.now();
-    Map<String, dynamic> promisn1Map = {
-      "dom1": resultScoreList[1],
-      "dom2": resultScoreList[2],
-      "dom3": resultScoreList[3],
-      "dom4": resultScoreList[4],
-      "dom5": resultScoreList[5],
-      "dom6": resultScoreList[6],
-      "dom7": resultScoreList[7],
-      "dom8": resultScoreList[8],
-      "dom9": resultScoreList[9],
-      "dom10": resultScoreList[10],
-      "dom11": resultScoreList[11],
-      "dom12": resultScoreList[12],
-      "dom13": resultScoreList[13],
-      "answeredAt": instantTime,
+    Map<String, dynamic> dominioMap = {
+      "dom1": resultScoreList[0],
+      "dom2": resultScoreList[1],
+      "dom3": resultScoreList[2],
+      "dom4": resultScoreList[3],
+      "dom5": resultScoreList[4],
+      "createdAt": instantTime,
       "questName": "promisn1",
     };
-    databaseMethods.addRespostaPromisn1(userEmail, promisn1Map);
-    if (resultScoreList[4] > 4) {
-      String questName = "promisN2";
-      Map<String, dynamic> questMap = {
-        "isAvailable": true,
-        "questId": "pn2",
-        "questName": "PROMIS Nível 2",
-        "createdAt": instantTime,
-      };
-      DatabaseMethods().createQuest(questName, questMap, email);
-    }
+    databaseMethods.addRespostaPromisn1(userEmail, dominioMap);
   }
 
   void getUserInfo() async {
     userEmail = await HelperFunctions.getUserEmailInSharedPreference();
-    enviarDominios(userEmail);
+    enviarDominios();
   }
 
   Promisn1Result({this.resultScoreList, this.resultScore});
@@ -58,7 +40,7 @@ class Promisn1Result extends StatelessWidget {
   }*/
 
   final String resultPhrase =
-      'Questionário concluído! \n\nFique atento as próximas atividades.';
+      'Questionário concluído! \n\nLogo informaremos as próximas atividades.';
 
   @override
   Widget build(BuildContext context) {
