@@ -1,5 +1,6 @@
 import 'package:chat_app_tutorial/helper/helperfuncions.dart';
 import 'package:chat_app_tutorial/services/database.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -12,6 +13,8 @@ class _SleepPageState extends State<SleepPage> {
   DateTime pickedDate;
   DatabaseMethods databaseMethods = new DatabaseMethods();
 
+  String data;
+  bool dataIgual = true;
   String _resQuest1 = "00:00";
   String _resQuest2 = "00:00";
   String _resQuest3 = "00:00";
@@ -35,7 +38,16 @@ class _SleepPageState extends State<SleepPage> {
       "resp7": _resQuest7,
       "resp8": _resQuest8,
     };
-    databaseMethods.addRespostaQuestionarioSono(userEmail, messageMap);
+
+    if (dataIgual) {
+      print("Descupe, vc já respondeu hoje");
+    } else {
+      print("vc n respondeu hoje");
+      databaseMethods.addRespostaQuestionarioSono(userEmail, messageMap, data);
+      setState(() {
+        dataIgual = true;
+      });
+    }
   }
 
   @override
@@ -43,10 +55,30 @@ class _SleepPageState extends State<SleepPage> {
     getUserInfo();
     super.initState();
     pickedDate = DateTime.now();
+    data = DateFormat("dd-MM-yyyy").format(pickedDate);
+  }
+
+  confirmadoEnvioSono() {
+    setState(() {
+      dataIgual = true;
+    });
   }
 
   getUserInfo() async {
     userEmail = await HelperFunctions.getUserEmailInSharedPreference();
+    databaseMethods.getDataQuestSono(userEmail).then((value) {
+      value.docs.forEach((element) {
+        if (element.id == data) {
+          print("${element.id} é = a ${data}");
+          dataIgual = true;
+        } else {
+          dataIgual = false;
+        }
+        setState(() {
+          dataIgual = dataIgual;
+        });
+      });
+    });
   }
 
   Widget _buildQuest1() {
@@ -425,7 +457,7 @@ class _SleepPageState extends State<SleepPage> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  /* Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
@@ -454,47 +486,87 @@ class _SleepPageState extends State<SleepPage> {
                   ),
                   onPressed: () async {
                     print(userEmail);
-                    // enviarRespostas(),
-                    var format = DateFormat("HH:mm");
-                    var quest1 =
-                        format.parse(_resQuest1).subtract(Duration(hours: 12));
-                    var quest2 =
-                        format.parse(_resQuest2).subtract(Duration(hours: 12));
-                    var quest3 = format.parse(_resQuest3);
-                    var quest5 = format.parse(_resQuest5);
-                    var quest6 =
-                        format.parse(_resQuest6).add(Duration(hours: 12));
-                    var quest7 = format.parse(_resQuest7);
-
-                    var intervaloTentouDormirEAcordou =
-                        format.parse(quest6.difference(quest2).toString());
-
-                    var intervaloFoiParaCamaEAcordou =
-                        format.parse(quest6.difference(quest1).toString());
-
-                    var demorouDomirMaisTotalDespertar = quest3.add(
-                        Duration(hours: quest5.hour, minutes: quest5.minute));
-                    var tempoTotalDeSono =
-                        intervaloTentouDormirEAcordou.subtract(Duration(
-                      hours: demorouDomirMaisTotalDespertar.hour,
-                      minutes: demorouDomirMaisTotalDespertar.minute,
-                    ));
-
-                    var tempoTotalNaCama =
-                        intervaloFoiParaCamaEAcordou.add(Duration(
-                      hours: quest7.hour,
-                      minutes: quest7.minute,
-                    ));
-
-                    String res2 = DateFormat("HH:mm").format(tempoTotalNaCama);
-
-                    await showInformationDialog(context, res2);
+                    enviarRespostas();
+                    await showInformationDialog(
+                        context,
+                        calculoEficienciaSono(
+                            _resQuest1,
+                            _resQuest2,
+                            _resQuest3,
+                            qtd,
+                            _resQuest5,
+                            _resQuest6,
+                            _resQuest7,
+                            _resQuest8),
+                        pickedDate);
                   },
-                ),
-                ListTile(
-                  title: Text(
-                      "${pickedDate.day}/${pickedDate.month}/${pickedDate.year}"),
-                ),
+                )
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }*/
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SingleChildScrollView(
+        child: Container(
+          margin: EdgeInsets.all(24),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                dataIgual
+                    ? Container(
+                        height: MediaQuery.of(context).size.height,
+                        alignment: Alignment.center,
+                        child: Text(
+                            "Você já respondeu o questionário hoje.\n Obrigado :3",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 28,
+                            )),
+                      )
+                    : Column(
+                        children: [
+                          _buildQuest1(),
+                          _buildQuest2(),
+                          _buildQuest3(),
+                          _buildQuest4(),
+                          _buildQuest5(),
+                          _buildQuest6(),
+                          _buildQuest7(),
+                          _buildQuest8(),
+                          SizedBox(height: 20),
+                          ElevatedButton(
+                            child: Text(
+                              'Enviar',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                              ),
+                            ),
+                            onPressed: () async {
+                              print(userEmail);
+                              enviarRespostas();
+                              await showInformationDialog(
+                                  context,
+                                  calculoEficienciaSono(
+                                      _resQuest1,
+                                      _resQuest2,
+                                      _resQuest3,
+                                      qtd,
+                                      _resQuest5,
+                                      _resQuest6,
+                                      _resQuest7,
+                                      _resQuest8),
+                                  pickedDate);
+                            },
+                          )
+                        ],
+                      )
               ],
             ),
           ),
@@ -507,7 +579,7 @@ class _SleepPageState extends State<SleepPage> {
     final TimeOfDay result = await showTimePicker(
       context: context,
       helpText: text,
-      initialTime: TimeOfDay.now(),
+      initialTime: TimeOfDay(hour: 0, minute: 0),
       builder: (context, child) {
         return MediaQuery(
             data: MediaQuery.of(context).copyWith(
@@ -526,18 +598,74 @@ class _SleepPageState extends State<SleepPage> {
   }
 }
 
-Future<void> showInformationDialog(BuildContext context, String text) async {
+Future<void> showInformationDialog(
+    BuildContext context, List<String> text, DateTime pickedDate) async {
   return await showDialog(
     context: context,
     builder: (context) {
       return AlertDialog(
-        content: Text(text),
+        content: Container(
+            width: MediaQuery.of(context).size.width / 1.2,
+            height: MediaQuery.of(context).size.height / 2.3,
+            child: Column(
+              children: [
+                Container(
+                  alignment: Alignment.center,
+                  child: Text(
+                      "${pickedDate.day}/${pickedDate.month}/${pickedDate.year}"),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Container(
+                  width: MediaQuery.of(context).size.width / 2,
+                  height: MediaQuery.of(context).size.height / 13,
+                  alignment: Alignment.center,
+                  child: Text(
+                    "Tempo total de sono \n ${text[0]}",
+                    textAlign: TextAlign.center,
+                  ),
+                  decoration:
+                      BoxDecoration(border: Border.all(color: Colors.green)),
+                ),
+                SizedBox(
+                  height: 30,
+                ),
+                Container(
+                  width: MediaQuery.of(context).size.width / 2,
+                  height: MediaQuery.of(context).size.height / 13,
+                  alignment: Alignment.center,
+                  child: Text(
+                    "Tempo total na cama\n ${text[1]}",
+                    textAlign: TextAlign.center,
+                  ),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.green),
+                    borderRadius: BorderRadius.all(Radius.circular(3)),
+                  ),
+                ),
+                SizedBox(
+                  height: 30,
+                ),
+                Container(
+                  width: MediaQuery.of(context).size.width / 2,
+                  height: MediaQuery.of(context).size.height / 13,
+                  alignment: Alignment.center,
+                  child: Text(
+                    "Eficiência do sono\n ${text[2]}%",
+                    textAlign: TextAlign.center,
+                  ),
+                  decoration:
+                      BoxDecoration(border: Border.all(color: Colors.green)),
+                ),
+              ],
+            )),
         actions: [
           TextButton(
             onPressed: () {
               Navigator.of(context).pop();
             },
-            child: Text('okay'),
+            child: Text('ok'),
           )
         ],
       );
@@ -556,13 +684,46 @@ calculoEficienciaSono(
     String _resQuest8) {
   //<<<<<<<<<< pega quanto tempo a pessoa dormiu >>>>>>>>>>
   var format = DateFormat("HH:mm");
+  var quest1 = format.parse(_resQuest1).subtract(Duration(hours: 12));
   var quest2 = format.parse(_resQuest2).subtract(Duration(hours: 12));
-  var quest6 = format.parse(_resQuest6).add(Duration(hours: 12));
-  var res1 = format.parse(quest2.difference(quest6).toString());
-
   var quest3 = format.parse(_resQuest3);
-  var res2 =
-      res1.subtract(Duration(hours: quest3.hour, minutes: quest3.minute));
+  var quest5 = format.parse(_resQuest5);
+  var quest6 = format.parse(_resQuest6).add(Duration(hours: 12));
+  var quest7 = format.parse(_resQuest7);
 
-  //String res2 = DateFormat("HH:mm").format(res1);
+  var intervaloTentouDormirEAcordou =
+      format.parse(quest6.difference(quest2).toString());
+
+  var intervaloFoiParaCamaEAcordou =
+      format.parse(quest6.difference(quest1).toString());
+
+  var demorouDomirMaisTotalDespertar =
+      quest3.add(Duration(hours: quest5.hour, minutes: quest5.minute));
+  var tempoTotalDeSono = intervaloTentouDormirEAcordou.subtract(Duration(
+    hours: demorouDomirMaisTotalDespertar.hour,
+    minutes: demorouDomirMaisTotalDespertar.minute,
+  ));
+
+  var tempoTotalNaCama = intervaloFoiParaCamaEAcordou.add(Duration(
+    hours: quest7.hour,
+    minutes: quest7.minute,
+  ));
+
+  String tts = DateFormat("HH:mm").format(tempoTotalDeSono);
+  String ttc = DateFormat("HH:mm").format(tempoTotalNaCama);
+
+  var ttsString = tts.split(":");
+  var ttcString = ttc.split(":");
+  int ttsInt = int.parse(ttsString[0]) * 60 + int.parse(ttsString[1]);
+  int ttcInt = int.parse(ttcString[0]) * 60 + int.parse(ttcString[1]);
+
+  double res = ((ttsInt / ttcInt) * 100).truncateToDouble();
+
+  List<String> res2 = [
+    tts,
+    ttc,
+    res.toString(),
+  ];
+
+  return res2;
 }
