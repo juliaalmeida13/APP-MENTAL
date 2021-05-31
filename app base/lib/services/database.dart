@@ -52,19 +52,6 @@ class DatabaseMethods {
     });
   }
 
-  addPromisn2Answer(answerMap, userEmail) {
-    FirebaseFirestore.instance
-        .collection("Escala")
-        .doc(userEmail)
-        .collection("userEscalas")
-        .doc("promisN2")
-        .collection("answers")
-        .add(answerMap)
-        .catchError((e) {
-      print(e.toString());
-    });
-  }
-
   addRespostaQuestionarioSono(String emailId, respostasMap, String data) {
     FirebaseFirestore.instance
         .collection("questionarioSono")
@@ -77,14 +64,14 @@ class DatabaseMethods {
     });
   }
 
-  addRespostaPromisn1(String emailId, dominioMap) {
+  addQuestAnswer(answerMap, userEmail, questName) {
     FirebaseFirestore.instance
-        .collection("Quests")
-        .doc(emailId)
-        .collection("userQuests")
-        .doc("promisn1")
-        .collection("userPromisn1")
-        .add(dominioMap)
+        .collection("Escala")
+        .doc(userEmail)
+        .collection("userEscalas")
+        .doc(questName)
+        .collection("answers")
+        .add(answerMap)
         .catchError((e) {
       print(e.toString());
     });
