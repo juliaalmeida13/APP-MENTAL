@@ -3,8 +3,8 @@ import 'package:chat_app_tutorial/helper/helperfuncions.dart';
 import 'package:chat_app_tutorial/services/database.dart';
 // import './categories_screen.dart';
 
-class Promisn1Result extends StatelessWidget {
-  final List<int> resultScoreList;
+class Promisn2Result extends StatelessWidget {
+  final int resultScoreList;
   final int resultScore;
   String userEmail;
   DateTime instantTime;
@@ -12,26 +12,21 @@ class Promisn1Result extends StatelessWidget {
 
   final DatabaseMethods databaseMethods = new DatabaseMethods();
 
-  enviarDominios() {
+  sendProsmisn2Score(String email) {
     instantTime = DateTime.now();
-    Map<String, dynamic> dominioMap = {
-      "dom1": resultScoreList[0],
-      "dom2": resultScoreList[1],
-      "dom3": resultScoreList[2],
-      "dom4": resultScoreList[3],
-      "dom5": resultScoreList[4],
-      "createdAt": instantTime,
-      "questName": "promisn1",
+    Map<String, dynamic> answerMap = {
+      "score": resultScoreList,
+      "answeredAt": instantTime,
     };
-    databaseMethods.addRespostaPromisn1(userEmail, dominioMap);
+    databaseMethods.addPromisn2Answer(answerMap, email);
   }
 
   void getUserInfo() async {
     userEmail = await HelperFunctions.getUserEmailInSharedPreference();
-    enviarDominios();
+    sendProsmisn2Score(userEmail);
   }
 
-  Promisn1Result({this.resultScoreList, this.resultScore});
+  Promisn2Result({this.resultScoreList, this.resultScore});
 
   /* void _returnMenu(BuildContext ctx) {
     Navigator.of(ctx).pushNamed(
@@ -40,7 +35,7 @@ class Promisn1Result extends StatelessWidget {
   }*/
 
   final String resultPhrase =
-      'Questionário concluído! \n\nLogo informaremos as próximas atividades.';
+      'Questionário concluído! \n\nFique atento as próximas atividades.';
 
   @override
   Widget build(BuildContext context) {
