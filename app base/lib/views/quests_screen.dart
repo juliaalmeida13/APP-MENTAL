@@ -27,10 +27,14 @@ class _QuestsRoomState extends State<QuestsRoom> {
             ? ListView.builder(
                 itemCount: snapshot.data.docs.length,
                 itemBuilder: (context, index) {
-                  return QuestsRoomTile(
-                    snapshot.data.docs[index].get("questName"),
-                    snapshot.data.docs[index].get("questId"),
-                  );
+                  return snapshot.data.docs[index].get("isAvailable")
+                      ? QuestRoomTile(
+                          snapshot.data.docs[index].get("questName"),
+                          snapshot.data.docs[index].get("questId"),
+                        )
+                      : UnavailableQuestRoomTile(
+                          snapshot.data.docs[index].get("questName"));
+                  //questRoomTileUnavailable
                 },
               )
             : Container();
@@ -48,7 +52,7 @@ class _QuestsRoomState extends State<QuestsRoom> {
     Constants.myName = await HelperFunctions.getUserNameInSharedPreference();
     Constants.myEmail = await HelperFunctions.getUserEmailInSharedPreference();
     Constants.myEmail = Constants.myEmail.trim();
-    databaseMethods.getAvailableQuests(Constants.myEmail).then((val) {
+    databaseMethods.getCreatedQuests(Constants.myEmail).then((val) {
       setState(() {
         questsRoomsStream = val;
       });
@@ -69,7 +73,7 @@ class _QuestsRoomState extends State<QuestsRoom> {
   }
 }
 
-class QuestsRoomTile extends StatelessWidget {
+class QuestRoomTile extends StatelessWidget {
   final String questName;
   final String questId;
   final Map<String, dynamic> routes = {
@@ -77,7 +81,7 @@ class QuestsRoomTile extends StatelessWidget {
     "pn2": Promisn2Screen.routeName,
   };
 
-  QuestsRoomTile(
+  QuestRoomTile(
     this.questName,
     this.questId,
   );
@@ -94,6 +98,26 @@ class QuestsRoomTile extends StatelessWidget {
                   Navigator.of(context).pushNamed(routes[questId],
                       arguments: {'title': questName});
                 }),
+            Divider(thickness: 2.0),
+          ],
+        ));
+  }
+}
+
+class UnavailableQuestRoomTile extends StatelessWidget {
+  final String questName;
+
+  UnavailableQuestRoomTile(this.questName);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        width: double.infinity,
+        child: Column(
+          children: [
+            ListTile(
+              title: Text("${questName} - Indisponível no momento"),
+            ),
             Divider(thickness: 2.0),
           ],
         ));

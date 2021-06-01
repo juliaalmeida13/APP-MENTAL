@@ -101,7 +101,7 @@ class DatabaseMethods {
         .snapshots();
   }
 
-  getAvailableQuests(String userEmail) async {
+  getCreatedQuests(String userEmail) async {
     return FirebaseFirestore.instance
         .collection("Escala")
         .doc(userEmail)
