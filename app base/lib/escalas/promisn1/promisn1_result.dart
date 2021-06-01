@@ -47,6 +47,7 @@ class Promisn1Result extends StatelessWidget {
 
   void getUserInfo() async {
     userEmail = await HelperFunctions.getUserEmailInSharedPreference();
+    userEmail = userEmail.trim();
     enviarDominios(userEmail);
   }
 

@@ -101,10 +101,11 @@ class DatabaseMethods {
         .snapshots();
   }
 
-  getQuestsRooms(String userEmail) async {
+  getAvailableQuests(String userEmail) async {
     return FirebaseFirestore.instance
-        .collection('Escala')
-        .where("userEmail", arrayContains: userEmail)
+        .collection("Escala")
+        .doc(userEmail)
+        .collection("userEscalas")
         .snapshots();
   }
 }

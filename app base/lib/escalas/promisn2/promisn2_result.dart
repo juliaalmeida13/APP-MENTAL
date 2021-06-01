@@ -23,6 +23,7 @@ class Promisn2Result extends StatelessWidget {
 
   void getUserInfo() async {
     userEmail = await HelperFunctions.getUserEmailInSharedPreference();
+    userEmail = userEmail.trim();
     sendProsmisn2Score(userEmail);
   }
 

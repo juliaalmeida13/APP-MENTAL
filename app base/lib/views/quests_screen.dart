@@ -48,7 +48,7 @@ class _QuestsRoomState extends State<QuestsRoom> {
     Constants.myName = await HelperFunctions.getUserNameInSharedPreference();
     Constants.myEmail = await HelperFunctions.getUserEmailInSharedPreference();
     Constants.myEmail = Constants.myEmail.trim();
-    databaseMethods.getQuestsRooms(Constants.myEmail).then((val) {
+    databaseMethods.getAvailableQuests(Constants.myEmail).then((val) {
       setState(() {
         questsRoomsStream = val;
       });
@@ -59,8 +59,7 @@ class _QuestsRoomState extends State<QuestsRoom> {
 
   @override
   Widget build(BuildContext context) {
-    //print(Constants.myEmail);
-    //print(questsRoomsStream.data.docs[1].get("questName"));
+    print(Constants.myEmail + "a");
     return Scaffold(
       appBar: AppBar(
         title: const Text('Questionários'),
