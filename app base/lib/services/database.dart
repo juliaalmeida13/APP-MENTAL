@@ -41,6 +41,25 @@ class DatabaseMethods {
     });
   }
 
+  disableQuest(String questId, userEmail) {
+    DateTime instantTime;
+    instantTime = DateTime.now();
+    Map<String, dynamic> disableMap = {
+      "isAvailable": false,
+      "disabledAt": instantTime,
+    };
+
+    FirebaseFirestore.instance
+        .collection("Escala")
+        .doc(userEmail)
+        .collection("userEscalas")
+        .doc(questId)
+        .update(disableMap)
+        .catchError((e) {
+      print(e.toString());
+    });
+  }
+
   addConversationMessages(String chatRoomId, messageMap) {
     FirebaseFirestore.instance
         .collection("ChatRoom")
