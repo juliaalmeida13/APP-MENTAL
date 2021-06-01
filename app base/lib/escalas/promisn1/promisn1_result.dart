@@ -33,7 +33,6 @@ class Promisn1Result extends StatelessWidget {
     };
     databaseMethods.addQuestAnswer(promisn1Map, userEmail, "promisN1");
     if (resultScoreList[4] > 4) {
-      String questName = "promisN2";
       Map<String, dynamic> questMap = {
         "isAvailable": true,
         "questId": "pn2",
@@ -41,7 +40,8 @@ class Promisn1Result extends StatelessWidget {
         "createdAt": instantTime,
         "index": 0,
       };
-      DatabaseMethods().createQuest(questName, questMap, email);
+      DatabaseMethods().createQuest("promisN2", questMap, email);
+      DatabaseMethods().disableQuest("promisN1", email);
     }
   }
 
