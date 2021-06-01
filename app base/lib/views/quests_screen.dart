@@ -33,9 +33,7 @@ class _QuestsRoomState extends State<QuestsRoom> {
                   );
                 },
               )
-            : Container(
-                child: Text("oi"),
-              );
+            : Container();
       },
     );
   }
