@@ -1,5 +1,6 @@
 import 'package:chat_app_tutorial/colors/colors.dart';
 import 'package:chat_app_tutorial/colors/images.dart';
+import 'package:chat_app_tutorial/escalas/pset/pset.dart';
 import 'package:chat_app_tutorial/helper/authenticate.dart';
 import 'package:chat_app_tutorial/helper/helperfuncions.dart';
 import 'package:chat_app_tutorial/views/home_page.dart';
@@ -10,9 +11,10 @@ import 'package:flutter/material.dart';
 
 import './escalas/promisn1/promisn1_screen.dart';
 import './escalas/promisn2/promisn2_screen.dart';
+import './escalas/pcl5/pcl5_screen.dart';
+import './escalas/pset/pset_screen.dart';
 //import './views/quests_screen.dart';
 import './views/contacts_screen.dart';
-import 'escalas/pcl5/pcl5_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -58,6 +60,7 @@ class _MyAppState extends State<MyApp> {
           ContactsScreen.routeName: (ctx) => ContactsScreen(),
           Promisn2Screen.routeName: (ctx) => Promisn2Screen(),
           Pcl5Screen.routeName: (ctx) => Pcl5Screen(),
+          PsetScreen.routeName: (ctx) => PsetScreen(),
         },
         home: userIsLoggedIn != null
             ? userIsLoggedIn

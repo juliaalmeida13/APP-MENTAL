@@ -7,6 +7,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import '../escalas/promisn1/promisn1_screen.dart';
 import '../escalas/promisn2/promisn2_screen.dart';
+import '../escalas/pset/pset_screen.dart';
+import '../escalas/pcl5/pcl5_screen.dart';
 
 class QuestsRoom extends StatefulWidget {
   @override
@@ -79,6 +81,8 @@ class QuestRoomTile extends StatelessWidget {
   final Map<String, dynamic> routes = {
     "pn1": Promisn1Screen.routeName,
     "pn2": Promisn2Screen.routeName,
+    "pset": PsetScreen.routeName,
+    "pcl5": Pcl5Screen.routeName,
   };
 
   QuestRoomTile(
