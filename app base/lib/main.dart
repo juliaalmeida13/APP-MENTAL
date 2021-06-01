@@ -12,6 +12,7 @@ import './escalas/promisn1/promisn1_screen.dart';
 import './escalas/promisn2/promisn2_screen.dart';
 //import './views/quests_screen.dart';
 import './views/contacts_screen.dart';
+import 'escalas/pcl5/pcl5_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -56,6 +57,7 @@ class _MyAppState extends State<MyApp> {
           //QuestsRoom.routeName: (ctx) => QuestsRoom(),
           ContactsScreen.routeName: (ctx) => ContactsScreen(),
           Promisn2Screen.routeName: (ctx) => Promisn2Screen(),
+          Pcl5Screen.routeName: (ctx) => Pcl5Screen(),
         },
         home: userIsLoggedIn != null
             ? userIsLoggedIn

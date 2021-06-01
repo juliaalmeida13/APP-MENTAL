@@ -3,7 +3,7 @@ import 'package:chat_app_tutorial/helper/helperfuncions.dart';
 import 'package:chat_app_tutorial/services/database.dart';
 // import './categories_screen.dart';
 
-class Promisn2Result extends StatelessWidget {
+class Pcl5Result extends StatelessWidget {
   final int resultScoreList;
   final int resultScore;
   String userEmail;
@@ -12,22 +12,22 @@ class Promisn2Result extends StatelessWidget {
 
   final DatabaseMethods databaseMethods = new DatabaseMethods();
 
-  sendPromisn2Score(String email) {
+  sendPcl5Score(String email) {
     instantTime = DateTime.now();
     Map<String, dynamic> answerMap = {
       "score": resultScoreList,
       "answeredAt": instantTime,
     };
-    databaseMethods.addQuestAnswer(answerMap, email, "promisN2");
+    databaseMethods.addQuestAnswer(answerMap, email, "pcl5");
   }
 
   void getUserInfo() async {
     userEmail = await HelperFunctions.getUserEmailInSharedPreference();
     userEmail = userEmail.trim();
-    sendPromisn2Score(userEmail);
+    sendPcl5Score(userEmail);
   }
 
-  Promisn2Result({this.resultScoreList, this.resultScore});
+  Pcl5Result({this.resultScoreList, this.resultScore});
 
   /* void _returnMenu(BuildContext ctx) {
     Navigator.of(ctx).pushNamed(
