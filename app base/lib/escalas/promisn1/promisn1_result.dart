@@ -29,15 +29,15 @@ class Promisn1Result extends StatelessWidget {
       "dom12": resultScoreList[12],
       "dom13": resultScoreList[13],
       "answeredAt": instantTime,
-      "questName": "promisn1",
+      "questName": "PROMIS Nível 1",
     };
     databaseMethods.addQuestAnswer(promisn1Map, userEmail, "promisN1");
     if (resultScoreList[1] > 2) {
       Map<String, dynamic> questMap = {
-        "isAvailable": true,
+        "unanswered?": true,
         "questId": "pn2",
         "questName": "PROMIS Nível 2",
-        "createdAt": instantTime,
+        "availableAt": instantTime,
         "index": 0,
       };
       DatabaseMethods().createQuest("promisN2", questMap, email);

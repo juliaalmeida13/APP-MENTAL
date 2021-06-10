@@ -29,14 +29,13 @@ class _QuestsRoomState extends State<QuestsRoom> {
             ? ListView.builder(
                 itemCount: snapshot.data.docs.length,
                 itemBuilder: (context, index) {
-                  return snapshot.data.docs[index].get("isAvailable")
+                  return snapshot.data.docs[index].get("unanswered?")
                       ? QuestRoomTile(
                           snapshot.data.docs[index].get("questName"),
                           snapshot.data.docs[index].get("questId"),
                         )
                       : UnavailableQuestRoomTile(
                           snapshot.data.docs[index].get("questName"));
-                  //questRoomTileUnavailable
                 },
               )
             : Container();

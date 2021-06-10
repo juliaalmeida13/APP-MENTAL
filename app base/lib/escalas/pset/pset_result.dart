@@ -22,10 +22,10 @@ class PsetResult extends StatelessWidget {
     databaseMethods.addQuestAnswer(psetMap, userEmail, "Pset");
     if (resultScoreList[1] == 1) {
       Map<String, dynamic> questMap = {
-        "isAvailable": true,
+        "unanswered?": true,
         "questId": "pcl5",
         "questName": "PCL-5",
-        "createdAt": instantTime,
+        "availableAt": instantTime,
       };
       DatabaseMethods().createQuest("pcl5", questMap, email);
       DatabaseMethods().disableQuest("pset", email);
