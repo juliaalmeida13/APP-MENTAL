@@ -2,6 +2,8 @@
 DateTime getNextSunday(DateTime day) {
   var sunday = 7;
 
+  day = day.add(new Duration(days: 1));
+
   while (day.weekday != sunday) {
     day = day.add(new Duration(days: 1));
   }

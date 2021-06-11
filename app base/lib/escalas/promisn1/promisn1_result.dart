@@ -7,13 +7,12 @@ class Promisn1Result extends StatelessWidget {
   final List<int> resultScoreList;
   final int resultScore;
   String userEmail;
-  DateTime instantTime;
+  DateTime now = DateTime.now();
   //final Function resetHandler;
 
   final DatabaseMethods databaseMethods = new DatabaseMethods();
 
   enviarDominios(String email) {
-    instantTime = DateTime.now();
     Map<String, dynamic> promisn1Map = {
       "dom1": resultScoreList[1],
       "dom2": resultScoreList[2],
@@ -28,7 +27,7 @@ class Promisn1Result extends StatelessWidget {
       "dom11": resultScoreList[11],
       "dom12": resultScoreList[12],
       "dom13": resultScoreList[13],
-      "answeredAt": instantTime,
+      "answeredAt": now,
       "questName": "PROMIS Nível 1",
     };
     databaseMethods.addQuestAnswer(promisn1Map, userEmail, "promisN1");
@@ -37,7 +36,7 @@ class Promisn1Result extends StatelessWidget {
         "unanswered?": true,
         "questId": "pn2",
         "questName": "PROMIS Nível 2",
-        "availableAt": instantTime,
+        "availableAt": now,
         "index": 0,
       };
       DatabaseMethods().createQuest("promisN2", questMap, email);

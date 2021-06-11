@@ -63,7 +63,7 @@ class _SignUpState extends State<SignUp> {
             "unanswered?": true,
             "questId": "pn1",
             "questName": "PROMIS Nível 1 - Semana $i",
-            "availableAt": addWeeks(day: firstDay, n: i - 1),
+            "availableAt": addWeeks(day: firstDay, n: i - 2),
           };
           DatabaseMethods().createQuest(
               questName, questMap, emailTextEdittingController.text);
