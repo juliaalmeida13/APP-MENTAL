@@ -45,8 +45,7 @@ class DatabaseMethods {
     DateTime instantTime;
     instantTime = DateTime.now();
     Map<String, dynamic> disableMap = {
-      "isAvailable": false,
-      "disabledAt": instantTime,
+      "unanswered?": false,
     };
 
     FirebaseFirestore.instance
@@ -87,7 +86,7 @@ class DatabaseMethods {
     FirebaseFirestore.instance
         .collection("Escala")
         .doc(userEmail)
-        .collection("userRespostas")
+        .collection("userAnswers")
         .doc(questName)
         .collection("answers")
         .add(answerMap)
