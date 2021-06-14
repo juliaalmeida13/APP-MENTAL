@@ -1,20 +1,16 @@
-import 'package:chat_app_tutorial/colors/colors.dart';
-import 'package:chat_app_tutorial/colors/images.dart';
-import 'package:chat_app_tutorial/escalas/pset/pset.dart';
+import 'package:chat_app_tutorial/constants.dart';
 import 'package:chat_app_tutorial/helper/authenticate.dart';
 import 'package:chat_app_tutorial/helper/helperfuncions.dart';
-import 'package:chat_app_tutorial/views/home_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-import './escalas/promisn1/promisn1_screen.dart';
-import './escalas/promisn2/promisn2_screen.dart';
-import './escalas/pcl5/pcl5_screen.dart';
-import './escalas/pset/pset_screen.dart';
-//import './views/quests_screen.dart';
-import './views/contacts_screen.dart';
+import 'package:chat_app_tutorial/escalas/promisn1/promisn1_screen.dart';
+import 'package:chat_app_tutorial/escalas/promisn2/promisn2_screen.dart';
+import 'package:chat_app_tutorial/escalas/pcl5/pcl5_screen.dart';
+import 'package:chat_app_tutorial/escalas/pset/pset_screen.dart';
+import 'package:chat_app_tutorial/Screens/Contacts/contacts_screen.dart';
+import 'package:chat_app_tutorial/Screens/HomePage/home_page.dart';
 
 void main() {
   runApp(MyApp());

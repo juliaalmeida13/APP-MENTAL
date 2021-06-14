@@ -1,6 +1,8 @@
-import 'package:flutter/material.dart';
+import 'dart:ui';
+
 import 'package:chat_app_tutorial/helper/helperfuncions.dart';
 import 'package:chat_app_tutorial/services/database.dart';
+import 'package:flutter/material.dart';
 // import './categories_screen.dart';
 
 class Promisn1Result extends StatelessWidget {
@@ -60,24 +62,14 @@ class Promisn1Result extends StatelessWidget {
     );
   }*/
 
-  final String resultPhrase =
-      'Questionário concluído! \n\nFique atento às próximas atividades.';
+  final String resultPhrase = 'Parabéns por responder ao questionário!!';
 
   @override
   Widget build(BuildContext context) {
-    getUserInfo();
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text(
-          resultPhrase,
-          style: TextStyle(
-            fontSize: 26,
-            fontWeight: FontWeight.bold,
-            color: Colors.black87,
-          ),
-          textAlign: TextAlign.center,
-        ),
+    Future.delayed(Duration.zero, () => showAlert(context));
+
+    //getUserInfo();
+    return Container(
         /*FlatButton(
           child: Text('Retornar ao menu'),
           textColor: Colors.blue,
@@ -88,7 +80,41 @@ class Promisn1Result extends StatelessWidget {
             )
           },
         ),*/
-      ],
+        );
+  }
+
+  void showAlert(BuildContext context) {
+    Widget voltarButton = TextButton(
+      child: Text("Voltar",
+          style: TextStyle(color: Color.fromRGBO(0, 175, 185, 1))),
+      onPressed: () {
+        var count = 0;
+        Navigator.popUntil(context, (route) {
+          return count++ == 2;
+        });
+      },
+    );
+    // configura o  Alert
+    Widget alert = BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+        child: AlertDialog(
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(20))),
+          title: Text(
+            "Parabéns por responder ao questionário!!",
+            textAlign: TextAlign.center,
+          ),
+          content: Image(image: AssetImage('assets/images/unicorn.png')),
+          actions: [
+            voltarButton,
+          ],
+        ));
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return alert;
+      },
     );
   }
 }

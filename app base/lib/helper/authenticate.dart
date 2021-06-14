@@ -1,5 +1,5 @@
-import 'package:chat_app_tutorial/views/signin.dart';
-import 'package:chat_app_tutorial/views/signup.dart';
+import 'file:///C:/Users/isabe/Documents/GitHub/APP-MENTAL/app%20base/lib/Screens/SignIn/signin.dart';
+import 'file:///C:/Users/isabe/Documents/GitHub/APP-MENTAL/app%20base/lib/Screens/SignUp/signup.dart';
 import 'package:flutter/material.dart';
 
 class Authenticate extends StatefulWidget {
