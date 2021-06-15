@@ -36,6 +36,7 @@ class _QuestsRoomState extends State<QuestsRoom> {
                           snapshot.data.docs[index].get("questName"),
                           snapshot.data.docs[index].get("questId"),
                           snapshot.data.docs[index].get("availableAt").toDate(),
+                          snapshot.data.docs[index].get("userEscala"),
                         )
                       : UnavailableQuestRoomTile(
                           snapshot.data.docs[index].get("questName"));
@@ -81,6 +82,7 @@ class QuestRoomTile extends StatelessWidget {
   final String questName;
   final String questId;
   final DateTime availableAt;
+  final String userEscala;
   final DateTime now = DateTime.now();
   final Map<String, dynamic> routes = {
     "pn1": Promisn1Screen.routeName,
@@ -93,6 +95,7 @@ class QuestRoomTile extends StatelessWidget {
     this.questName,
     this.questId,
     this.availableAt,
+    this.userEscala,
   );
 
   @override
@@ -110,7 +113,10 @@ class QuestRoomTile extends StatelessWidget {
                   title: Text(questName),
                   onTap: () {
                     Navigator.of(context).pushNamed(routes[questId],
-                        arguments: {'title': questName});
+                        arguments: {
+                          'title': questName,
+                          "userEscala": userEscala
+                        });
                   }),
               Divider(thickness: 2.0),
             ],

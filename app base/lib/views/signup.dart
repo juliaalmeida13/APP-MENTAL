@@ -58,15 +58,16 @@ class _SignUpState extends State<SignUp> {
         var firstDay = getNextSunday(now);
 
         for (var i = 1; i <= 6; i++) {
-          String questName = 'promisN1_week$i';
+          String userEscala = 'promisN1_week$i';
           Map<String, dynamic> questMap = {
             "unanswered?": true,
             "questId": "pn1",
             "questName": "PROMIS Nível 1 - Semana $i",
+            "userEscala": userEscala,
             "availableAt": addWeeks(day: firstDay, n: i - 2),
           };
           DatabaseMethods().createQuest(
-              questName, questMap, emailTextEdittingController.text);
+              userEscala, questMap, emailTextEdittingController.text);
         }
 
         HelperFunctions.saveUserLoggedInSharedPreference(true);

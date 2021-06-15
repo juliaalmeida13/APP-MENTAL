@@ -5,7 +5,8 @@ import 'package:chat_app_tutorial/services/database.dart';
 
 class Promisn1Result extends StatelessWidget {
   final List<int> resultScoreList;
-  final int resultScore;
+  final String questName;
+  final String userEscala;
   String userEmail;
   DateTime now = DateTime.now();
   //final Function resetHandler;
@@ -28,19 +29,20 @@ class Promisn1Result extends StatelessWidget {
       "dom12": resultScoreList[12],
       "dom13": resultScoreList[13],
       "answeredAt": now,
-      "questName": "PROMIS Nível 1",
+      "questName": questName,
     };
-    databaseMethods.addQuestAnswer(promisn1Map, userEmail, "promisN1");
+    databaseMethods.addQuestAnswer(promisn1Map, userEmail, userEscala);
     if (resultScoreList[1] > 2) {
       Map<String, dynamic> questMap = {
         "unanswered?": true,
         "questId": "pn2",
         "questName": "PROMIS Nível 2",
         "availableAt": now,
+        "userEscala": "$userEscala-promisn2",
         "index": 0,
       };
       DatabaseMethods().createQuest("promisN2", questMap, email);
-      DatabaseMethods().disableQuest("promisN1", email);
+      DatabaseMethods().disableQuest(userEscala, email);
     }
   }
 
@@ -50,7 +52,7 @@ class Promisn1Result extends StatelessWidget {
     enviarDominios(userEmail);
   }
 
-  Promisn1Result({this.resultScoreList, this.resultScore});
+  Promisn1Result({this.resultScoreList, this.questName, this.userEscala});
 
   /* void _returnMenu(BuildContext ctx) {
     Navigator.of(ctx).pushNamed(

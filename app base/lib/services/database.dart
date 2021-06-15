@@ -86,7 +86,7 @@ class DatabaseMethods {
     FirebaseFirestore.instance
         .collection("Escala")
         .doc(userEmail)
-        .collection("userAnswers")
+        .collection("userEscalas")
         .doc(questName)
         .collection("answers")
         .add(answerMap)
