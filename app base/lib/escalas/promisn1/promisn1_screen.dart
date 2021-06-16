@@ -392,6 +392,8 @@ class _Promisn1ScreenState extends State<Promisn1Screen> {
     final routeArgs =
         ModalRoute.of(context).settings.arguments as Map<String, String>;
     final titleAA = routeArgs['title'];
+    final _userEscala = routeArgs['userEscala'];
+
     return Scaffold(
       appBar: AppBar(
         title: Text(titleAA),
@@ -405,7 +407,11 @@ class _Promisn1ScreenState extends State<Promisn1Screen> {
                 questionIndex: _questionIndex,
                 questions: _questions,
               ) //Quiz
-            : Promisn1Result(resultScoreList: _totalScoreList),
+            : Promisn1Result(
+                resultScoreList: _totalScoreList,
+                questName: titleAA,
+                userEscala: _userEscala,
+              ),
       ), //Padding
     ); //Scaffold
     // debugShowCheckedModeBanner: false,;

@@ -3,9 +3,11 @@ import 'package:chat_app_tutorial/colors/colors.dart';
 import 'package:chat_app_tutorial/helper/helperfuncions.dart';
 import 'package:chat_app_tutorial/services/auth.dart';
 import 'package:chat_app_tutorial/services/database.dart';
+import 'package:chat_app_tutorial/views/calendar.dart';
 import 'package:chat_app_tutorial/views/chatRoomsScreen.dart';
 import 'package:chat_app_tutorial/widgets/widget.dart';
 import 'package:flutter/material.dart';
+import 'calendar.dart';
 
 class SignUp extends StatefulWidget {
   final Function toggle;
@@ -17,7 +19,7 @@ class SignUp extends StatefulWidget {
 class _SignUpState extends State<SignUp> {
   bool isLoading = false;
   AuthMethods authMethods = new AuthMethods();
-  DateTime instantTime;
+  DateTime now;
   DatabaseMethods databaseMethods = new DatabaseMethods();
 
   final formKey = GlobalKey<FormState>();
@@ -51,15 +53,23 @@ class _SignUpState extends State<SignUp> {
         //print("${val.hashCode}");
 
         databaseMethods.uploadUserInfo(userInfoMap);
-        String questName = "promisN1";
-        Map<String, dynamic> questMap = {
-          "isAvailable": true,
-          "questId": "pn1",
-          "questName": "PROMIS Nível 1",
-          "createdAt": instantTime,
-        };
-        DatabaseMethods()
-            .createQuest(questName, questMap, emailTextEdittingController.text);
+        now = DateTime.now();
+        print('$now aaaaaa');
+        var firstDay = getNextSunday(now);
+
+        for (var i = 1; i <= 6; i++) {
+          String userEscala = 'promisN1_week$i';
+          Map<String, dynamic> questMap = {
+            "unanswered?": true,
+            "questId": "pn1",
+            "questName": "PROMIS Nível 1 - Semana $i",
+            "userEscala": userEscala,
+            "availableAt": addWeeks(day: firstDay, n: i - 2),
+          };
+          DatabaseMethods().createQuest(
+              userEscala, questMap, emailTextEdittingController.text);
+        }
+
         HelperFunctions.saveUserLoggedInSharedPreference(true);
         Navigator.pushReplacement(
             context,

@@ -45,8 +45,7 @@ class DatabaseMethods {
     DateTime instantTime;
     instantTime = DateTime.now();
     Map<String, dynamic> disableMap = {
-      "isAvailable": false,
-      "disabledAt": instantTime,
+      "unanswered?": false,
     };
 
     FirebaseFirestore.instance
