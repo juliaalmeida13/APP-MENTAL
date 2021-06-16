@@ -1,3 +1,4 @@
+import 'package:chat_app_tutorial/Screens/ChatRoom/Widgets/calendar.dart';
 import 'package:chat_app_tutorial/escalas/pcl5/pcl5_screen.dart';
 import 'package:chat_app_tutorial/escalas/promisn1/promisn1_screen.dart';
 import 'package:chat_app_tutorial/escalas/promisn2/promisn2_screen.dart';
@@ -29,14 +30,15 @@ class _QuestsScreenState extends State<QuestsScreen> {
             ? ListView.builder(
           itemCount: snapshot.data.docs.length,
           itemBuilder: (context, index) {
-            return snapshot.data.docs[index].get("isAvailable")
+            return snapshot.data.docs[index].get("unanswered?")
                 ? QuestRoomTile(
               snapshot.data.docs[index].get("questName"),
               snapshot.data.docs[index].get("questId"),
+              snapshot.data.docs[index].get("availableAt").toDate(),
+              snapshot.data.docs[index].get("userEscala"),
             )
                 : UnavailableQuestRoomTile(
                 snapshot.data.docs[index].get("questName"));
-            //questRoomTileUnavailable
           },
         )
             : Container();
@@ -78,6 +80,9 @@ class _QuestsScreenState extends State<QuestsScreen> {
 class QuestRoomTile extends StatelessWidget {
   final String questName;
   final String questId;
+  final DateTime availableAt;
+  final String userEscala;
+  final DateTime now = DateTime.now();
   final Map<String, dynamic> routes = {
     "pn1": Promisn1Screen.routeName,
     "pn2": Promisn2Screen.routeName,
@@ -88,23 +93,36 @@ class QuestRoomTile extends StatelessWidget {
   QuestRoomTile(
       this.questName,
       this.questId,
+      this.availableAt,
+      this.userEscala,
       );
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        width: double.infinity,
-        child: Column(
-          children: [
-            ListTile(
-                title: Text(questName),
-                onTap: () {
-                  Navigator.of(context).pushNamed(routes[questId],
-                      arguments: {'title': questName});
-                }),
-            Divider(thickness: 2.0),
-          ],
-        ));
+    var nextSunday = getNextSunday(availableAt);
+    print('nextSunday: $nextSunday');
+    print('availableAt: $availableAt');
+    print('now: $now');
+    if (now.isAfter(availableAt) && now.isBefore(nextSunday)) {
+      return Container(
+          width: double.infinity,
+          child: Column(
+            children: [
+              ListTile(
+                  title: Text(questName),
+                  onTap: () {
+                    Navigator.of(context).pushNamed(routes[questId],
+                        arguments: {
+                          'title': questName,
+                          "userEscala": userEscala
+                        });
+                  }),
+              Divider(thickness: 2.0),
+            ],
+          ));
+    } else {
+      return Container();
+    }
   }
 }
 
@@ -120,7 +138,7 @@ class UnavailableQuestRoomTile extends StatelessWidget {
         child: Column(
           children: [
             ListTile(
-              title: Text("${questName} - Indisponível no momento"),
+              title: Text("${questName} - Já respondido!"),
             ),
             Divider(thickness: 2.0),
           ],
