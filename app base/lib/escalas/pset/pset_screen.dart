@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+
 //import 'fancy_button.dart'
-import './pset.dart';
-import 'pset_result.dart';
+import 'package:chat_app_tutorial/escalas/pset/pset.dart';
+import 'package:chat_app_tutorial/escalas/pset/pset_result.dart';
 
 class PsetScreen extends StatefulWidget {
   static const routeName = '/pset-screen';
@@ -58,8 +59,8 @@ class _PsetScreenState extends State<PsetScreen> {
         title: Text(titleAA),
         backgroundColor: Colors.lightGreenAccent,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(30.0),
+      body: Container(
+        padding: const EdgeInsets.all(50.0),
         child: _questionIndex < _questions.length
             ? Pset(
                 answerQuestion: _answerQuestion,

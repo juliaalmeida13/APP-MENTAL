@@ -1,5 +1,5 @@
-import 'package:chat_app_tutorial/views/signin.dart';
-import 'package:chat_app_tutorial/views/signup.dart';
+import 'package:chat_app_tutorial/Screens/SignIn/signin.dart';
+import 'package:chat_app_tutorial/Screens/SignUp/signup.dart';
 import 'package:flutter/material.dart';
 
 class Authenticate extends StatefulWidget {
