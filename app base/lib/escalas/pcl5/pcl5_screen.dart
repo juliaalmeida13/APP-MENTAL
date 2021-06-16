@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 //import 'fancy_button.dart'
-import './pcl5.dart';
-import 'pcl5_result.dart';
+import 'package:chat_app_tutorial/escalas/pcl5/pcl5.dart';
+import 'package:chat_app_tutorial/escalas/pcl5/pcl5_result.dart';
 
 class Pcl5Screen extends StatefulWidget {
   static const routeName = '/pcl5-screen';

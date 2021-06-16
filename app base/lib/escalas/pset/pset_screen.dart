@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 //import 'fancy_button.dart'
-import './pset.dart';
-import 'pset_result.dart';
+import 'package:chat_app_tutorial/escalas/pset/pset.dart';
+import 'package:chat_app_tutorial/escalas/pset/pset_result.dart';
 
 class PsetScreen extends StatefulWidget {
   static const routeName = '/pset-screen';

@@ -47,8 +47,6 @@ class _MyAppState extends State<MyApp> {
           primarySwatch: Colors.blue,
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
-        initialRoute: '/',
-        //home: CategoriesScreen(),
         routes: {
           Promisn1Screen.routeName: (ctx) => Promisn1Screen(),
           //Promisn2Screen.routeName: (ctx) => Promisn2Screen(),

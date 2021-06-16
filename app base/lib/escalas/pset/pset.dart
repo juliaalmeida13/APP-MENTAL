@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../promis_answer.dart';
-import '../question.dart';
+import 'package:chat_app_tutorial/escalas/promis_answer.dart';
+import 'package:chat_app_tutorial/escalas/question.dart';
 
 class Pset extends StatelessWidget {
   final List<Map<String, Object>> questions;

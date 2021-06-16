@@ -1,50 +1,129 @@
-import 'package:chat_app_tutorial/Screens/Questionarie/Widgets/app_bar_widget.dart';
-import 'package:chat_app_tutorial/Screens/Questionarie/Widgets/app_body_widget.dart';
+import 'package:chat_app_tutorial/escalas/pcl5/pcl5_screen.dart';
+import 'package:chat_app_tutorial/escalas/promisn1/promisn1_screen.dart';
+import 'package:chat_app_tutorial/escalas/promisn2/promisn2_screen.dart';
+import 'package:chat_app_tutorial/escalas/pset/pset_screen.dart';
+import 'package:chat_app_tutorial/helper/constants.dart';
+import 'package:chat_app_tutorial/helper/helperfuncions.dart';
+import 'package:chat_app_tutorial/services/auth.dart';
+import 'package:chat_app_tutorial/services/database.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-//import './promisn2_screen.dart';
 
-class QuestsScreen extends StatelessWidget {
-  static const routeName = '/quests-screen';
+class QuestsScreen extends StatefulWidget {
+  @override
+  _QuestsScreenState createState() => _QuestsScreenState();
+}
+
+class _QuestsScreenState extends State<QuestsScreen> {
+  AuthMethods authMethods = new AuthMethods();
+  DatabaseMethods databaseMethods = new DatabaseMethods();
+  Stream questsRoomsStream;
+
+  Widget questsRoomList() {
+    print('(((' + Constants.myEmail + ')))');
+    return StreamBuilder<QuerySnapshot>(
+      stream: questsRoomsStream,
+      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        return snapshot.hasData
+            ? ListView.builder(
+          itemCount: snapshot.data.docs.length,
+          itemBuilder: (context, index) {
+            return snapshot.data.docs[index].get("isAvailable")
+                ? QuestRoomTile(
+              snapshot.data.docs[index].get("questName"),
+              snapshot.data.docs[index].get("questId"),
+            )
+                : UnavailableQuestRoomTile(
+                snapshot.data.docs[index].get("questName"));
+            //questRoomTileUnavailable
+          },
+        )
+            : Container();
+      },
+    );
+  }
+
+  @override
+  void initState() {
+    getUserInfo();
+    super.initState();
+  }
+
+  getUserInfo() async {
+    Constants.myName = await HelperFunctions.getUserNameInSharedPreference();
+    Constants.myEmail = await HelperFunctions.getUserEmailInSharedPreference();
+    Constants.myEmail = Constants.myEmail.trim();
+    databaseMethods.getCreatedQuests(Constants.myEmail).then((val) {
+      setState(() {
+        questsRoomsStream = val;
+      });
+    });
+
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
+    print(Constants.myEmail + "a");
     return Scaffold(
-      appBar: AppBarWidget(),
-      body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Expanded(
-            child: GridView.count(
-              crossAxisSpacing: 16,
-              mainAxisSpacing: 16,
-              crossAxisCount: 2,
-              children: [
-                QuizCard(),
-              ],
-            ),
-          )),
-
-      /*Container(
-          width: double.infinity,
-          child: Column(
-            children: [
-              ListTile(
-                title: Text('PROMIS Nível 1'),
-                onTap: () {
-                  Navigator.of(context).pushNamed(Promisn1Screen.routeName,
-                      arguments: {'title': 'PROMIS Nível 1'});
-                },
-              ),
-              Divider(thickness: 2.0),
-              /*ListTile(
-                title: Text('PROMIS Nível 2'),
-                onTap: () {
-                  Navigator.of(context).pushNamed(Promisn2Screen.routeName,
-                      arguments: {'title': 'PROMIS Nível 2'});
-                },
-              ),*/
-              Divider(thickness: 2.0),
-            ],
-          )),*/
+      appBar: AppBar(
+        title: const Text('Questionários'),
+      ),
+      body: questsRoomList(),
     );
+  }
+}
+
+class QuestRoomTile extends StatelessWidget {
+  final String questName;
+  final String questId;
+  final Map<String, dynamic> routes = {
+    "pn1": Promisn1Screen.routeName,
+    "pn2": Promisn2Screen.routeName,
+    "pset": PsetScreen.routeName,
+    "pcl5": Pcl5Screen.routeName,
+  };
+
+  QuestRoomTile(
+      this.questName,
+      this.questId,
+      );
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        width: double.infinity,
+        child: Column(
+          children: [
+            ListTile(
+                title: Text(questName),
+                onTap: () {
+                  Navigator.of(context).pushNamed(routes[questId],
+                      arguments: {'title': questName});
+                }),
+            Divider(thickness: 2.0),
+          ],
+        ));
+  }
+}
+
+class UnavailableQuestRoomTile extends StatelessWidget {
+  final String questName;
+
+  UnavailableQuestRoomTile(this.questName);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        width: double.infinity,
+        child: Column(
+          children: [
+            ListTile(
+              title: Text("${questName} - Indisponível no momento"),
+            ),
+            Divider(thickness: 2.0),
+          ],
+        ));
   }
 }

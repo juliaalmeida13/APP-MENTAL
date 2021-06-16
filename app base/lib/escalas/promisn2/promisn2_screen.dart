@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 //import 'fancy_button.dart'
-import './promisn2.dart';
-import 'promisn2_result.dart';
+import 'package:chat_app_tutorial/escalas/promisn2/promisn2.dart';
+import 'package:chat_app_tutorial/escalas/promisn2/promisn2_result.dart';
 
 class Promisn2Screen extends StatefulWidget {
   static const routeName = '/promisn2-screen';

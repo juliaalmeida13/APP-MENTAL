@@ -1,4 +1,5 @@
 import 'package:chat_app_tutorial/Screens/ChatRoom/chatRoomsScreen.dart';
+import 'package:chat_app_tutorial/Screens/Home/home_screen.dart';
 import 'package:chat_app_tutorial/animation/FadeAnimation.dart';
 import 'package:chat_app_tutorial/constants.dart';
 import 'package:chat_app_tutorial/helper/helperfuncions.dart';
@@ -55,7 +56,7 @@ class _SignInState extends State<SignIn> {
           Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                builder: (context) => ChatRoom(),
+                builder: (context) => HomeScreen(),
               ));
         }
       });
