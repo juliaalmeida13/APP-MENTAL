@@ -73,8 +73,9 @@ class _QuestsScreenState extends State<QuestsScreen> {
   Widget build(BuildContext context) {
     print(Constants.myEmail + "a");
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: DefaultTabController(
-        length: 3,
+        length: 2,
         child: Scaffold(
           appBar: AppBar(
             backgroundColor: Colors.white,
@@ -85,35 +86,25 @@ class _QuestsScreenState extends State<QuestsScreen> {
               ),
             ),
             bottom: TabBar(
-              isScrollable: true,
-              indicatorColor: Colors.white,
+              indicatorColor: AppColors.verdeclaro,
               labelColor: AppColors.verdementa,
               unselectedLabelColor: Colors.black54,
               tabs: <Widget>[
-                Container(
-                    width: (MediaQuery.of(context).size.width) / 5,
-                    child: Text(
-                      "A qualquer momento",
-                      style: AppTextStyles.titulotab,
-                    )),
                 Container(
                     child: Text(
                   "Nessa semana",
                   style: AppTextStyles.titulotab,
                 )),
                 Container(
-                    width: (MediaQuery.of(context).size.width) / 5,
-                    alignment: Alignment.center,
                     child: Text(
-                      "Feitos",
-                      style: AppTextStyles.titulotab,
-                    )),
+                  "Feitos",
+                  style: AppTextStyles.titulotab,
+                )),
               ],
             ),
           ),
           body: TabBarView(
             children: [
-              Icon(Icons.directions_car),
               questsRoomList(),
               /*GridView.count(
                 crossAxisCount: 2,
