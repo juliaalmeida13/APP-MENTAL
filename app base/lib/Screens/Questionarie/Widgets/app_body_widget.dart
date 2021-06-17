@@ -31,10 +31,10 @@ class QuizCard extends StatelessWidget {
                 height: 40,
                 width: 40,
                 decoration: BoxDecoration(
-                  image: DecorationImage(
+                    /*image: DecorationImage(
                       image: AssetImage(AppImages.promis1),
-                      fit: BoxFit.fitWidth),
-                ),
+                      fit: BoxFit.fitWidth),*/
+                    ),
               ),
               SizedBox(
                 height: 24,

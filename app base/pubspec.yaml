@@ -33,6 +33,7 @@ dependencies:
   flutter_markdown: ^0.6.2
   cupertino_icons: ^1.0.0
   survey_kit: ^0.0.10
+  curved_navigation_bar: ^0.3.7
   
 
 dev_dependencies:

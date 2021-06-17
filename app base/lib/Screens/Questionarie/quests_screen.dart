@@ -1,4 +1,6 @@
 import 'package:chat_app_tutorial/Screens/ChatRoom/Widgets/calendar.dart';
+import 'package:chat_app_tutorial/Screens/Questionarie/Widgets/app_bar_widget.dart';
+import 'package:chat_app_tutorial/Screens/Questionarie/Widgets/app_body_widget.dart';
 import 'package:chat_app_tutorial/escalas/pcl5/pcl5_screen.dart';
 import 'package:chat_app_tutorial/escalas/promisn1/promisn1_screen.dart';
 import 'package:chat_app_tutorial/escalas/promisn2/promisn2_screen.dart';
@@ -10,6 +12,8 @@ import 'package:chat_app_tutorial/services/database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+
+import '../../constants.dart';
 
 class QuestsScreen extends StatefulWidget {
   @override
@@ -28,19 +32,19 @@ class _QuestsScreenState extends State<QuestsScreen> {
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         return snapshot.hasData
             ? ListView.builder(
-          itemCount: snapshot.data.docs.length,
-          itemBuilder: (context, index) {
-            return snapshot.data.docs[index].get("unanswered?")
-                ? QuestRoomTile(
-              snapshot.data.docs[index].get("questName"),
-              snapshot.data.docs[index].get("questId"),
-              snapshot.data.docs[index].get("availableAt").toDate(),
-              snapshot.data.docs[index].get("userEscala"),
-            )
-                : UnavailableQuestRoomTile(
-                snapshot.data.docs[index].get("questName"));
-          },
-        )
+                itemCount: snapshot.data.docs.length,
+                itemBuilder: (context, index) {
+                  return snapshot.data.docs[index].get("unanswered?")
+                      ? QuestRoomTile(
+                          snapshot.data.docs[index].get("questName"),
+                          snapshot.data.docs[index].get("questId"),
+                          snapshot.data.docs[index].get("availableAt").toDate(),
+                          snapshot.data.docs[index].get("userEscala"),
+                        )
+                      : UnavailableQuestRoomTile(
+                          snapshot.data.docs[index].get("questName"));
+                },
+              )
             : Container();
       },
     );
@@ -68,11 +72,60 @@ class _QuestsScreenState extends State<QuestsScreen> {
   @override
   Widget build(BuildContext context) {
     print(Constants.myEmail + "a");
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Questionários'),
+    return MaterialApp(
+      home: DefaultTabController(
+        length: 3,
+        child: Scaffold(
+          appBar: AppBar(
+            backgroundColor: Colors.white,
+            title: Center(
+              child: Text(
+                'Suas Atividades',
+                style: AppTextStyles.tituloatividades,
+              ),
+            ),
+            bottom: TabBar(
+              isScrollable: true,
+              indicatorColor: Colors.white,
+              labelColor: AppColors.verdementa,
+              unselectedLabelColor: Colors.black54,
+              tabs: <Widget>[
+                Container(
+                    width: (MediaQuery.of(context).size.width) / 5,
+                    child: Text(
+                      "A qualquer momento",
+                      style: AppTextStyles.titulotab,
+                    )),
+                Container(
+                    child: Text(
+                  "Nessa semana",
+                  style: AppTextStyles.titulotab,
+                )),
+                Container(
+                    width: (MediaQuery.of(context).size.width) / 5,
+                    alignment: Alignment.center,
+                    child: Text(
+                      "Feitos",
+                      style: AppTextStyles.titulotab,
+                    )),
+              ],
+            ),
+          ),
+          body: TabBarView(
+            children: [
+              Icon(Icons.directions_car),
+              questsRoomList(),
+              /*GridView.count(
+                crossAxisCount: 2,
+                children: [
+                  QuizCard(),
+                ],
+              ),*/
+              Icon(Icons.directions_bike),
+            ],
+          ),
+        ),
       ),
-      body: questsRoomList(),
     );
   }
 }
@@ -91,11 +144,11 @@ class QuestRoomTile extends StatelessWidget {
   };
 
   QuestRoomTile(
-      this.questName,
-      this.questId,
-      this.availableAt,
-      this.userEscala,
-      );
+    this.questName,
+    this.questId,
+    this.availableAt,
+    this.userEscala,
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -138,7 +191,7 @@ class UnavailableQuestRoomTile extends StatelessWidget {
         child: Column(
           children: [
             ListTile(
-              title: Text("${questName} - Já respondido!"),
+              title: Text("$questName - Já respondido!"),
             ),
             Divider(thickness: 2.0),
           ],

@@ -12,7 +12,7 @@ class Info extends StatelessWidget {
       child: Stack(
         children: [
           Padding(
-              padding: const EdgeInsets.only(top: 75, left: 25, right: 25),
+              padding: const EdgeInsets.only(top: 50, left: 25, right: 25),
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.only(
@@ -27,13 +27,13 @@ class Info extends StatelessWidget {
                         offset: Offset(0, 4),
                         blurRadius: 4)
                   ],
-                  color: Color.fromRGBO(246, 246, 246, 1),
+                  color: Colors.white,
                 ),
               )),
 
           //parte inicial da tela de perfil, ou seja, 'perfil' e botão para editar as informações do paciente
           Padding(
-            padding: const EdgeInsets.only(top: 85, left: 35, right: 35),
+            padding: const EdgeInsets.only(top: 65, left: 35, right: 35),
             child: Row(
               children: [
                 Text("Perfil: ",
@@ -44,22 +44,17 @@ class Info extends StatelessWidget {
 
           //box do e-mail do paciente
           Padding(
-            padding: const EdgeInsets.only(top: 115, left: 35, right: 35),
+            padding: const EdgeInsets.only(top: 95, left: 35, right: 35),
             child: Container(
               width: 335,
               height: 38,
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(8),
-                    topRight: Radius.circular(8),
-                    bottomLeft: Radius.circular(8),
-                    bottomRight: Radius.circular(8),
-                  ),
+                  borderRadius: BorderRadius.circular(8),
                   color: AppColors.cinza),
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 122, left: 45, right: 35),
+            padding: const EdgeInsets.only(top: 102, left: 45, right: 35),
             child: Text(
               'E-mail: ',
               style: AppTextStyles.perfil,
@@ -68,22 +63,17 @@ class Info extends StatelessWidget {
 
           //box da idade
           Padding(
-            padding: const EdgeInsets.only(top: 170, left: 35, right: 35),
+            padding: const EdgeInsets.only(top: 150, left: 35, right: 35),
             child: Container(
               width: 150,
               height: 38,
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(8),
-                    topRight: Radius.circular(8),
-                    bottomLeft: Radius.circular(8),
-                    bottomRight: Radius.circular(8),
-                  ),
+                  borderRadius: BorderRadius.circular(8),
                   color: AppColors.cinza),
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 177, left: 45, right: 35),
+            padding: const EdgeInsets.only(top: 157, left: 45, right: 35),
             child: Text(
               'Idade: ',
               style: AppTextStyles.perfil,
@@ -92,22 +82,17 @@ class Info extends StatelessWidget {
 
           //box da profissão
           Padding(
-            padding: const EdgeInsets.only(top: 225, left: 35, right: 35),
+            padding: const EdgeInsets.only(top: 205, left: 35, right: 35),
             child: Container(
               width: 335,
               height: 38,
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(8),
-                    topRight: Radius.circular(8),
-                    bottomLeft: Radius.circular(8),
-                    bottomRight: Radius.circular(8),
-                  ),
+                  borderRadius: BorderRadius.circular(8),
                   color: AppColors.cinza),
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 232, left: 45, right: 35),
+            padding: const EdgeInsets.only(top: 212, left: 45, right: 35),
             child: Text(
               'Profissão: ',
               style: AppTextStyles.perfil,
@@ -116,7 +101,7 @@ class Info extends StatelessWidget {
 
           //gênero
           Padding(
-            padding: const EdgeInsets.only(top: 280, left: 43, right: 35),
+            padding: const EdgeInsets.only(top: 255, left: 43, right: 35),
             child: Text(
               'Gênero: ',
               style: AppTextStyles.perfil,
@@ -125,7 +110,7 @@ class Info extends StatelessWidget {
 
           //feminino
           Padding(
-            padding: const EdgeInsets.only(top: 314, left: 43, right: 35),
+            padding: const EdgeInsets.only(top: 289, left: 43, right: 35),
             child: Row(
               children: [
                 Container(
@@ -156,7 +141,7 @@ class Info extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 348, left: 43, right: 35),
+            padding: const EdgeInsets.only(top: 323, left: 43, right: 35),
             child: Row(
               children: [
                 Container(

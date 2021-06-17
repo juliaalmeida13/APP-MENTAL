@@ -11,9 +11,9 @@ const kBackgroundYellow = Color(0XFFFFE66F);
 
 ///Secondary Colors
 const kSecondaryGreen = Color(0XFF68CA8A);
-const kSecondaryBlue  = Color(0XFF00AFB9);
+const kSecondaryBlue = Color(0XFF00AFB9);
 const kSecondaryYellow = Color(0XFFFFE150);
-const kSecondaryRed  = Color(0XFFF6511D);
+const kSecondaryRed = Color(0XFFF6511D);
 const kSecondaryGray = Color(0XFFBFD0E0);
 
 ///Text Colors
@@ -45,6 +45,7 @@ class AppGradients2 {
     1.0
   ], transform: GradientRotation(0.5 * pi));
 }
+
 ///Text Style
 class AppTextStyles {
   static final TextStyle contatos = TextStyle(
@@ -59,6 +60,9 @@ class AppTextStyles {
       color: AppColors.black,
       fontSize: 20,
       fontWeight: FontWeight.w600);
+
+  static final TextStyle titulotab =
+      TextStyle(fontFamily: "Inter", fontSize: 14, fontWeight: FontWeight.w400);
 
   static final TextStyle descratividades = TextStyle(
       fontFamily: "Inter",
@@ -183,7 +187,6 @@ class AppTextStyles {
   );
 }
 
-
 /// app colors
 class AppColors {
   //Greens
@@ -216,6 +219,7 @@ class AppColors {
   static final Color black = Color(0xFF000000);
   static final Color white = Color(0xFFFFFFFF);
 }
+
 ///---IMAGES---
 class AppImages {
   static String get appMentalLogo => "assets/images/app_mental_logo.png";

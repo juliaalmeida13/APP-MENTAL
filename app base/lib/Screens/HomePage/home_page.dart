@@ -3,7 +3,10 @@ import 'package:chat_app_tutorial/Screens/Home/home_screen.dart';
 import 'package:chat_app_tutorial/Screens/Perfil/perfil.dart';
 import 'package:chat_app_tutorial/Screens/Questionarie/quests_screen.dart';
 import 'package:chat_app_tutorial/Screens/SleepDiary/sleep_diary.dart';
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
+
+import '../../constants.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -41,7 +44,8 @@ class _HomePageState extends State<HomePage> {
         onPageChanged: _onPageChanged,
         physics: NeverScrollableScrollPhysics(),
       ),
-      bottomNavigationBar: BottomNavigationBar(
+      bottomNavigationBar:
+          /*BottomNavigationBar(
         onTap: _onItemTapped,
         items: [
           buildBottomNavigationBarItem(Icons.home, 0),
@@ -51,6 +55,24 @@ class _HomePageState extends State<HomePage> {
           buildBottomNavigationBarItem(Icons.quick_contacts_mail_rounded, 3),
           buildBottomNavigationBarItem(Icons.dynamic_form_outlined, 4)
         ],
+      ),*/
+          CurvedNavigationBar(
+        height: 50,
+        onTap: _onItemTapped,
+        color: kTextColorGreen,
+        backgroundColor: AppColors.white,
+        buttonBackgroundColor: AppColors.verdeclaro,
+        items: <Widget>[
+          Icon(Icons.home, size: 20, color: Colors.black87),
+          Icon(Icons.airline_seat_individual_suite_sharp,
+              size: 20, color: Colors.black87),
+          Icon(Icons.account_circle_rounded, size: 20, color: Colors.black87),
+          Icon(Icons.quick_contacts_mail_rounded,
+              size: 20, color: Colors.black87),
+          Icon(Icons.article_outlined, size: 20, color: Colors.black87)
+        ],
+        animationDuration: Duration(milliseconds: 200),
+        animationCurve: Curves.linear,
       ),
     );
   }
