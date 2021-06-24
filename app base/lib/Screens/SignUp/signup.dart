@@ -3,8 +3,8 @@ import 'package:chat_app_tutorial/Screens/ChatRoom/chatRoomsScreen.dart';
 import 'package:chat_app_tutorial/animation/FadeAnimation.dart';
 import 'package:chat_app_tutorial/constants.dart';
 import 'package:chat_app_tutorial/helper/helperfuncions.dart';
-import 'package:chat_app_tutorial/services/auth.dart';
-import 'package:chat_app_tutorial/services/database.dart';
+import 'package:chat_app_tutorial/Services/auth.dart';
+import 'package:chat_app_tutorial/Services/database.dart';
 import 'package:flutter/material.dart';
 
 class SignUp extends StatefulWidget {
@@ -63,6 +63,7 @@ class _SignUpState extends State<SignUp> {
             "questName": "PROMIS Nível 1 - Semana $i",
             "userEscala": userEscala,
             "availableAt": addWeeks(day: firstDay, n: i - 2),
+            "answeredUntil": 0,
           };
           DatabaseMethods().createQuest(
               userEscala, questMap, emailTextEdittingController.text);

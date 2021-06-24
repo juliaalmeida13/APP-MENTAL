@@ -1,4 +1,4 @@
-import 'package:chat_app_tutorial/Screens/reading/reading_screen.dart';
+import 'package:chat_app_tutorial/Screens/Reading/reading_screen.dart';
 import 'package:chat_app_tutorial/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

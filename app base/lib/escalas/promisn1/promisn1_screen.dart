@@ -390,10 +390,17 @@ class _Promisn1ScreenState extends State<Promisn1Screen> {
   @override
   Widget build(BuildContext context) {
     final routeArgs =
-        ModalRoute.of(context).settings.arguments as Map<String, String>;
+        ModalRoute.of(context).settings.arguments as Map<String, Object>;
     final titleAA = routeArgs['title'];
     final _userEscala = routeArgs['userEscala'];
+    final _answeredUntil = routeArgs['answeredUntil'];
+    final _userEmail = routeArgs['email'];
+    var index = _answeredUntil as int;
+    if (_questionIndex < index) {
+      _questionIndex = index;
+    }
 
+    print("aaaa" + _userEmail);
     return Scaffold(
       appBar: AppBar(
         title: Text(titleAA),
@@ -406,6 +413,10 @@ class _Promisn1ScreenState extends State<Promisn1Screen> {
                 answerQuestion: _answerQuestion,
                 questionIndex: _questionIndex,
                 questions: _questions,
+                userEmail: _userEmail,
+                resultScoreList: _totalScoreList,
+                userEscala: _userEscala,
+                questName: titleAA,
               ) //Quiz
             : Promisn1Result(
                 resultScoreList: _totalScoreList,

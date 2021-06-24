@@ -131,7 +131,7 @@ class _Promisn2ScreenState extends State<Promisn2Screen> {
   @override
   Widget build(BuildContext context) {
     final routeArgs =
-        ModalRoute.of(context).settings.arguments as Map<String, String>;
+        ModalRoute.of(context).settings.arguments as Map<String, Object>;
     final titleAA = routeArgs['title'];
     return Scaffold(
       appBar: AppBar(

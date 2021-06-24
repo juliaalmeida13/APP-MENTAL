@@ -42,10 +42,24 @@ class DatabaseMethods {
   }
 
   disableQuest(String questId, userEmail) {
-    DateTime instantTime;
-    instantTime = DateTime.now();
     Map<String, dynamic> disableMap = {
       "unanswered?": false,
+    };
+
+    FirebaseFirestore.instance
+        .collection("Escala")
+        .doc(userEmail)
+        .collection("userEscalas")
+        .doc(questId)
+        .update(disableMap)
+        .catchError((e) {
+      print(e.toString());
+    });
+  }
+
+  updateQuestIndex(String questId, userEmail, index) {
+    Map<String, dynamic> disableMap = {
+      "answeredUntil": index,
     };
 
     FirebaseFirestore.instance
