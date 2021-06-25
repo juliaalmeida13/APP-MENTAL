@@ -1,9 +1,8 @@
+import 'package:chat_app_tutorial/Screens/Reading/Widgets/img_and_text_info.dart';
+import 'package:chat_app_tutorial/Screens/Reading/Widgets/intervention_title.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:chat_app_tutorial/Screens/Reading/Widgets/info_and_text_picture.dart';
-import 'package:chat_app_tutorial/Screens/Reading/Widgets/info_title.dart';
-import 'package:chat_app_tutorial/Screens/Reading/Widgets/title_with_more_bttn.dart';
 
 class Body extends StatelessWidget {
   @override
@@ -11,14 +10,12 @@ class Body extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     return  Column(
       children: [
-          Column(
-            children: <Widget>[
-               TitleWithMoreBttn(title:"Jardinagem", press: (){}),
-              InfoTitle(title: "Jardinagem"),
-              InfoTextAndPicture(image: "assets/images/gardening02.jpg"),
-            ],
+        InterventionTitle(text:'Jardinagem'),
+        SafeArea(
+              child:ImgAndTextInfoCard(size:size,interventionImage: "assets/images/gardening02.jpg", interventionText: "assets/text/test.md"),
           ),
-        ],
+      ],
     );
   }
 }
+
