@@ -41,7 +41,7 @@ class PsetResult extends StatelessWidget {
   PsetResult({this.resultScoreList, this.resultScore});
 
   /* void _returnMenu(BuildContext ctx) {
-    Navigator.of(ctx).pushNamed(
+    Navigator.of(ctx).push(
       CategoriesScreen.routeName,
     );
   }*/
@@ -68,7 +68,7 @@ class PsetResult extends StatelessWidget {
           child: Text('Retornar ao menu'),
           textColor: Colors.blue,
           onPressed: () => {
-            Navigator.of(context).pushNamed(
+            Navigator.of(context).push(
               CategoriesScreen.routeName,
               arguments: {},
             )

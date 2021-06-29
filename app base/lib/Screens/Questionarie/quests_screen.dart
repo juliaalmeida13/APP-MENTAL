@@ -18,6 +18,7 @@ import 'package:flutter/material.dart';
 import '../../constants.dart';
 
 class QuestsScreen extends StatefulWidget {
+  static const routeName = '/quests-screen';
   @override
   _QuestsScreenState createState() => _QuestsScreenState();
 }

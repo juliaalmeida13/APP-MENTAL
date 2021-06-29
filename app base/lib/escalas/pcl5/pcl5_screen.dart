@@ -258,7 +258,7 @@ class _Pcl5ScreenState extends State<Pcl5Screen> {
     });
 
     if (_questionIndex < _questions.length) {
-      print('ahn');
+      print('invalid question index');
     }
   }
 

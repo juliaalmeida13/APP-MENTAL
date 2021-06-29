@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:chat_app_tutorial/Screens/Home/home_screen.dart';
+import 'package:chat_app_tutorial/main.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -38,7 +39,7 @@ class Promisn1 extends StatelessWidget {
       "questName": questName,
       "answeredUntil": questionIndex,
     };
-    print("uia uia");
+    print("EnviarDominios userEmail/userEscala");
     print(userEmail);
     print(userEscala);
     databaseMethods.addQuestAnswer(promisn1Map, userEmail, userEscala);
@@ -71,7 +72,7 @@ class Promisn1 extends StatelessWidget {
         /*Navigator.popUntil(context, (route) {
           return count++ == 2;
         });*/
-        Navigator.popUntil(context, ModalRoute.withName('/home-screen'));
+        Navigator.popUntil(context, ModalRoute.withName('/quests-screen'));
       },
     );
     Widget agendarButton = TextButton(
@@ -100,8 +101,8 @@ class Promisn1 extends StatelessWidget {
           ),
           actions: [
             maisTardeButton,
-            agendarButton,
-            cancelarButton,
+            //agendarButton,
+            //cancelarButton,
           ],
         ));
     return Container(
@@ -130,14 +131,38 @@ class Promisn1 extends StatelessWidget {
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
                   primary: Color.fromRGBO(104, 202, 138, 1)),
-              onPressed: () {
+              /*onPressed: () {
                 showDialog(
                   context: context,
                   builder: (BuildContext context) {
                     return alert;
                   },
                 );
-              },
+                },*/
+              onPressed: () => showDialog<String>(
+                context: context,
+                builder: (BuildContext context) => AlertDialog(
+                  title: const Text('Responder depois'),
+                  content: const Text(
+                      'Deseja salvar suas respostas e terminar de responder mais tarde?'),
+                  actions: <Widget>[
+                    TextButton(
+                      onPressed: () => Navigator.pop(context, 'Cancel'),
+                      child: const Text('Cancelar'),
+                    ),
+                    TextButton(
+                      onPressed: () async {
+                        enviarDominios(userEmail);
+                        Navigator.pop(context, 'Ok');
+                        await Navigator.of(context).push(new MaterialPageRoute(
+                            builder: (context) => MyApp()));
+                        //Navigator.pop(context, 'OK');
+                      },
+                      child: const Text('OK'),
+                    ),
+                  ],
+                ),
+              ),
               child: const Text('Responder depois',
                   style: TextStyle(color: Colors.black)),
             ),
