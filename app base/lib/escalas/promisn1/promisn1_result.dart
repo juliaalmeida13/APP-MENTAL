@@ -57,6 +57,7 @@ class Promisn1Result extends StatelessWidget {
       DatabaseMethods().createQuest("promisN2", questMap, email);
     }
     ;
+    DatabaseMethods().updateQuestIndex(userEscala, email, questionIndex);
     DatabaseMethods().disableQuest(userEscala, email);
   }
 
@@ -91,7 +92,7 @@ class Promisn1Result extends StatelessWidget {
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
               primary: Color.fromRGBO(104, 202, 138, 1)),
-          child: const Text('Sim, enviar minhas respostas',
+          child: const Text('Enviar minhas respostas',
               style: TextStyle(color: Colors.black)),
           onPressed: () {
             showDialog<String>(
@@ -113,7 +114,7 @@ class Promisn1Result extends StatelessWidget {
                           new MaterialPageRoute(builder: (context) => MyApp()));
                       //Navigator.pop(context, 'OK');
                     },
-                    child: const Text('Ok'),
+                    child: const Text('Estou de acordo'),
                   ),
                 ],
               ),
