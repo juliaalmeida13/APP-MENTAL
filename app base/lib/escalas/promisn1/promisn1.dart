@@ -1,6 +1,5 @@
 import 'dart:ui';
 
-import 'package:chat_app_tutorial/Screens/Home/home_screen.dart';
 import 'package:chat_app_tutorial/main.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';

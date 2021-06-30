@@ -1,8 +1,6 @@
 import 'package:chat_app_tutorial/Screens/ChatRoom/Widgets/calendar.dart';
 import 'package:chat_app_tutorial/Screens/Contacts/contacts_screen.dart';
 import 'package:chat_app_tutorial/Screens/Home/home_screen.dart';
-import 'package:chat_app_tutorial/Screens/Questionarie/Widgets/app_bar_widget.dart';
-import 'package:chat_app_tutorial/Screens/Questionarie/Widgets/app_body_widget.dart';
 import 'package:chat_app_tutorial/escalas/pcl5/pcl5_screen.dart';
 import 'package:chat_app_tutorial/escalas/promisn1/promisn1_screen.dart';
 import 'package:chat_app_tutorial/escalas/promisn2/promisn2_screen.dart';

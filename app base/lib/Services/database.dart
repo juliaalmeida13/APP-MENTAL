@@ -140,4 +140,16 @@ class DatabaseMethods {
         .collection("userEscalas")
         .snapshots();
   }
+
+  getDomFromAnswers(String userEmail, String userEscala, String dom) async {
+    return FirebaseFirestore.instance
+        .collection("Escala")
+        .doc(userEmail)
+        .collection("userEscalas")
+        .doc(userEscala)
+        .collection("answers")
+        .orderBy(dom, descending: true)
+        .limit(1)
+        .get();
+  }
 }

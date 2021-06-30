@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:chat_app_tutorial/helper/helperfuncions.dart';
 import 'package:chat_app_tutorial/Services/database.dart';
+import 'package:chat_app_tutorial/main.dart';
 import 'package:flutter/material.dart';
 // import './categories_screen.dart';
 
@@ -9,13 +10,16 @@ class Promisn1Result extends StatelessWidget {
   final List<int> resultScoreList;
   final String questName;
   final String userEscala;
-  String userEmail;
-  DateTime now = DateTime.now();
+  final String userEmail;
+  final int questionIndex;
+  final DateTime now = DateTime.now();
   //final Function resetHandler;
+  final String resultPhrase =
+      'Questionário concluído! \n\nFique atento às próximas atividades.';
 
   final DatabaseMethods databaseMethods = new DatabaseMethods();
 
-  enviarDominios(String email) {
+  enviarDominios(String email) async {
     Map<String, dynamic> promisn1Map = {
       "dom1": resultScoreList[1],
       "dom2": resultScoreList[2],
@@ -32,29 +36,37 @@ class Promisn1Result extends StatelessWidget {
       "dom13": resultScoreList[13],
       "answeredAt": now,
       "questName": questName,
+      "answeredUntil": questionIndex,
     };
-    databaseMethods.addQuestAnswer(promisn1Map, userEmail, userEscala);
-    if (resultScoreList[1] > 2) {
+    print("EnviarDominios userEmail/userEscala PromisResult");
+    print(email);
+    print(userEscala);
+    databaseMethods.addQuestAnswer(promisn1Map, email, userEscala);
+    var query =
+        await databaseMethods.getDomFromAnswers(userEmail, userEscala, "dom1");
+
+    if (query.docs[0].get("dom1") > 2) {
       Map<String, dynamic> questMap = {
         "unanswered?": true,
         "questId": "pn2",
         "questName": "PROMIS Nível 2",
         "availableAt": now,
         "userEscala": "$userEscala-promisn2",
-        "index": 0,
+        "answeredUntil": 0,
       };
       DatabaseMethods().createQuest("promisN2", questMap, email);
-      DatabaseMethods().disableQuest(userEscala, email);
     }
+    ;
+    DatabaseMethods().disableQuest(userEscala, email);
   }
 
-  void getUserInfo() async {
-    userEmail = await HelperFunctions.getUserEmailInSharedPreference();
-    userEmail = userEmail.trim();
-    enviarDominios(userEmail);
-  }
-
-  Promisn1Result({this.resultScoreList, this.questName, this.userEscala});
+  Promisn1Result({
+    this.resultScoreList,
+    this.questName,
+    this.userEscala,
+    this.userEmail,
+    this.questionIndex,
+  });
 
   /* void _returnMenu(BuildContext ctx) {
     Navigator.of(ctx).pushNamed(
@@ -62,14 +74,57 @@ class Promisn1Result extends StatelessWidget {
     );
   }*/
 
-  final String resultPhrase = 'Parabéns por responder ao questionário!!';
-
   @override
   Widget build(BuildContext context) {
-    Future.delayed(Duration.zero, () => showAlert(context));
+    return Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+      Text(
+        resultPhrase,
+        style: TextStyle(
+          fontSize: 26,
+          fontWeight: FontWeight.bold,
+          color: Colors.black87,
+        ),
+        textAlign: TextAlign.center,
+      ),
+      Spacer(),
+      Container(
+        child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+              primary: Color.fromRGBO(104, 202, 138, 1)),
+          child: const Text('Sim, enviar minhas respostas',
+              style: TextStyle(color: Colors.black)),
+          onPressed: () {
+            showDialog<String>(
+              context: context,
+              builder: (BuildContext context) => AlertDialog(
+                title: const Text('Confirmar'),
+                content: const Text(
+                    'Suas respostas serão enviadas, e analisadas anonimamente para a recomendação de novas atividades.\nEstá de acordo?'),
+                actions: <Widget>[
+                  TextButton(
+                    onPressed: () => Navigator.pop(context, 'Cancel'),
+                    child: const Text('Cancelar'),
+                  ),
+                  TextButton(
+                    onPressed: () async {
+                      enviarDominios(userEmail);
+                      Navigator.pop(context, 'Estou de acordo');
+                      await Navigator.of(context).push(
+                          new MaterialPageRoute(builder: (context) => MyApp()));
+                      //Navigator.pop(context, 'OK');
+                    },
+                    child: const Text('Ok'),
+                  ),
+                ],
+              ),
+            );
+          },
+        ),
+      )
+    ]);
+    //Future.delayed(Duration.zero, () => showAlert(context));
 
-    //getUserInfo();
-    return Container(
+    /*return Container(
         /*FlatButton(
           child: Text('Retornar ao menu'),
           textColor: Colors.blue,
@@ -80,18 +135,23 @@ class Promisn1Result extends StatelessWidget {
             )
           },
         ),*/
-        );
+
+        );*/
   }
 
   void showAlert(BuildContext context) {
     Widget voltarButton = TextButton(
       child: Text("Voltar",
           style: TextStyle(color: Color.fromRGBO(0, 175, 185, 1))),
-      onPressed: () {
-        var count = 0;
+      onPressed: () async {
+        /*var count = 0;
         Navigator.popUntil(context, (route) {
           return count++ == 2;
-        });
+        });*/
+        enviarDominios(userEmail);
+        Navigator.pop(context, 'Voltar');
+        await Navigator.of(context)
+            .push(new MaterialPageRoute(builder: (context) => MyApp()));
       },
     );
     // configura o  Alert
@@ -109,7 +169,7 @@ class Promisn1Result extends StatelessWidget {
             voltarButton,
           ],
         ));
-    showDialog(
+    showDialog<String>(
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) {
