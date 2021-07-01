@@ -1,6 +1,4 @@
 import 'dart:ui';
-
-import 'package:chat_app_tutorial/helper/helperfuncions.dart';
 import 'package:chat_app_tutorial/Services/database.dart';
 import 'package:chat_app_tutorial/main.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +13,7 @@ class Promisn1Result extends StatelessWidget {
   final DateTime now = DateTime.now();
   //final Function resetHandler;
   final String resultPhrase =
-      'Questionário concluído! \n\nFique atento às próximas atividades.';
+      'PROMIS Nível 1 concluído! \n\nSuas respostas serão enviadas, e analisadas anonimamente para a recomendação de novas atividades.\n\nEstá de acordo?';
 
   final DatabaseMethods databaseMethods = new DatabaseMethods();
 
@@ -42,23 +40,27 @@ class Promisn1Result extends StatelessWidget {
     print(email);
     print(userEscala);
     databaseMethods.addQuestAnswer(promisn1Map, email, userEscala);
+
     var query =
         await databaseMethods.getDomFromAnswers(userEmail, userEscala, "dom1");
 
     if (query.docs[0].get("dom1") > 2) {
+      String promisn2UserEscala = "$userEscala-promisN2";
+      List<String> week = questName.split("-");
+      String promisn2QuestName = "PROMIS Nível 2" + " -" + week[1];
       Map<String, dynamic> questMap = {
         "unanswered?": true,
         "questId": "pn2",
-        "questName": "PROMIS Nível 2",
+        "questName": promisn2QuestName,
         "availableAt": now,
-        "userEscala": "$userEscala-promisn2",
+        "userEscala": promisn2UserEscala,
         "answeredUntil": 0,
       };
-      DatabaseMethods().createQuest("promisN2", questMap, email);
+      databaseMethods.createQuest(promisn2UserEscala, questMap, email);
     }
     ;
-    DatabaseMethods().updateQuestIndex(userEscala, email, questionIndex);
-    DatabaseMethods().disableQuest(userEscala, email);
+    databaseMethods.updateQuestIndex(userEscala, email, questionIndex);
+    databaseMethods.disableQuest(userEscala, email);
   }
 
   Promisn1Result({
@@ -77,52 +79,52 @@ class Promisn1Result extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-      Text(
-        resultPhrase,
-        style: TextStyle(
-          fontSize: 26,
-          fontWeight: FontWeight.bold,
-          color: Colors.black87,
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(
+          resultPhrase,
+          style: TextStyle(
+            fontSize: 26,
+            fontWeight: FontWeight.bold,
+            color: Colors.black87,
+          ),
+          textAlign: TextAlign.center,
         ),
-        textAlign: TextAlign.center,
-      ),
-      Spacer(),
-      Container(
-        child: ElevatedButton(
-          style: ElevatedButton.styleFrom(
-              primary: Color.fromRGBO(104, 202, 138, 1)),
-          child: const Text('Enviar minhas respostas',
-              style: TextStyle(color: Colors.black)),
-          onPressed: () {
-            showDialog<String>(
-              context: context,
-              builder: (BuildContext context) => AlertDialog(
-                title: const Text('Confirmar'),
-                content: const Text(
-                    'Suas respostas serão enviadas, e analisadas anonimamente para a recomendação de novas atividades.\nEstá de acordo?'),
-                actions: <Widget>[
-                  TextButton(
-                    onPressed: () => Navigator.pop(context, 'Cancel'),
-                    child: const Text('Cancelar'),
-                  ),
-                  TextButton(
-                    onPressed: () async {
-                      enviarDominios(userEmail);
-                      Navigator.pop(context, 'Estou de acordo');
-                      await Navigator.of(context).push(
-                          new MaterialPageRoute(builder: (context) => MyApp()));
-                      //Navigator.pop(context, 'OK');
-                    },
-                    child: const Text('Estou de acordo'),
-                  ),
-                ],
-              ),
-            );
-          },
+        Spacer(),
+        Container(
+          child: ElevatedButton(
+            style: ElevatedButton.styleFrom(
+                primary: Color.fromRGBO(104, 202, 138, 1)),
+            child: const Text('Sim, estou de acordo',
+                style: TextStyle(color: Colors.black)),
+            onPressed: () {
+              enviarDominios(userEmail);
+              showDialog<String>(
+                context: context,
+                builder: (BuildContext context) => AlertDialog(
+                  title: const Text('Êxito!'),
+                  content: const Text(
+                      'Suas respostas foram enviadas!\n Novas atividades serão disponibilizadas em breve.'),
+                  actions: <Widget>[
+                    TextButton(
+                      onPressed: () async {
+                        //enviarDominios(userEmail);
+                        Navigator.pop(context, 'Ok');
+                        await Navigator.of(context).push(new MaterialPageRoute(
+                            builder: (context) => MyApp()));
+                        //Navigator.pop(context, 'OK');
+                      },
+                      child: const Text('Ok'),
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
         ),
-      )
-    ]);
+      ],
+    );
     //Future.delayed(Duration.zero, () => showAlert(context));
 
     /*return Container(

@@ -55,7 +55,7 @@ class _SignUpState extends State<SignUp> {
         print('$now aaaaaa');
         var firstDay = getNextSunday(now);
 
-        for (var i = 1; i <= 6; i++) {
+        for (var i = 1; i <= 11; i += 2) {
           String userEscala = 'promisN1_week$i';
           Map<String, dynamic> questMap = {
             "unanswered?": true,
@@ -63,6 +63,20 @@ class _SignUpState extends State<SignUp> {
             "questName": "PROMIS Nível 1 - Semana $i",
             "userEscala": userEscala,
             "availableAt": addWeeks(day: firstDay, n: i - 2),
+            "answeredUntil": 0,
+          };
+          DatabaseMethods().createQuest(
+              userEscala, questMap, emailTextEdittingController.text);
+        }
+
+        for (var i = 1; i <= 12; i += 2) {
+          String userEscala = 'pset_week$i';
+          Map<String, dynamic> questMap = {
+            "unanswered?": true,
+            "questId": "pset",
+            "questName": "Pergunta Eventos Traumáticos - Semana $i",
+            "userEscala": userEscala,
+            "availableAt": addWeeks(day: firstDay, n: i - 1),
             "answeredUntil": 0,
           };
           DatabaseMethods().createQuest(

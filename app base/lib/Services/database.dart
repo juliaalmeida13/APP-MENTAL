@@ -57,7 +57,7 @@ class DatabaseMethods {
     });
   }
 
-  updateQuestIndex(String questId, userEmail, index) {
+  updateQuestIndex(String questId, String userEmail, index) {
     Map<String, dynamic> disableMap = {
       "answeredUntil": index,
     };

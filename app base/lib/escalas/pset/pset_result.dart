@@ -1,44 +1,49 @@
+import 'package:chat_app_tutorial/main.dart';
 import 'package:flutter/material.dart';
-import 'package:chat_app_tutorial/helper/helperfuncions.dart';
 import 'package:chat_app_tutorial/Services/database.dart';
-// import './categories_screen.dart';
 
 class PsetResult extends StatelessWidget {
-  final List<int> resultScoreList;
   final int resultScore;
-  String userEmail;
-  DateTime instantTime;
-  //final Function resetHandler;
-
+  final String userEmail;
+  final String questName;
+  final String userEscala;
+  final int questionIndex;
+  final DateTime now = DateTime.now();
   final DatabaseMethods databaseMethods = new DatabaseMethods();
 
-  enviarDominios(String email) {
-    instantTime = DateTime.now();
+  sendPsetResult(String email) async {
     Map<String, dynamic> psetMap = {
-      "Experienced?": resultScoreList[1],
-      "answeredAt": instantTime,
-      "questName": "Pergunta sobre evento traumático",
+      "hasBeenThrough": resultScore,
+      "answeredAt": now,
+      "questName": questName,
     };
-    databaseMethods.addQuestAnswer(psetMap, userEmail, "Pset");
-    if (resultScoreList[1] == 1) {
+    databaseMethods.addQuestAnswer(psetMap, userEmail, userEscala);
+
+    if (resultScore == 1) {
+      String pcl5UserEscala = "$userEscala-pcl5";
+      List<String> week = questName.split("-");
+      String pcl5QuestName = "PCL-5" + " -" + week[1];
       Map<String, dynamic> questMap = {
         "unanswered?": true,
         "questId": "pcl5",
-        "questName": "PCL-5",
-        "availableAt": instantTime,
+        "questName": pcl5QuestName,
+        "availableAt": now,
+        "userEscala": pcl5UserEscala,
+        "answeredUntil": 0,
       };
-      DatabaseMethods().createQuest("pcl5", questMap, email);
-      DatabaseMethods().disableQuest("pset", email);
+      DatabaseMethods().createQuest(pcl5UserEscala, questMap, email);
     }
+
+    databaseMethods.disableQuest(userEscala, email);
   }
 
-  void getUserInfo() async {
-    userEmail = await HelperFunctions.getUserEmailInSharedPreference();
-    userEmail = userEmail.trim();
-    enviarDominios(userEmail);
-  }
-
-  PsetResult({this.resultScoreList, this.resultScore});
+  PsetResult({
+    this.resultScore,
+    this.userEmail,
+    this.questName,
+    this.userEscala,
+    this.questionIndex,
+  });
 
   /* void _returnMenu(BuildContext ctx) {
     Navigator.of(ctx).push(
@@ -47,11 +52,10 @@ class PsetResult extends StatelessWidget {
   }*/
 
   final String resultPhrase =
-      'Obrigado por responder! \n\nFique atento às próximas atividades.';
+      'Respondido! \n\nSua resposta será enviada e analisada anonimamente para a recomendação de novas atividades.\n\nEstá de acordo?';
 
   @override
   Widget build(BuildContext context) {
-    getUserInfo();
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -64,16 +68,38 @@ class PsetResult extends StatelessWidget {
           ),
           textAlign: TextAlign.center,
         ),
-        /*FlatButton(
-          child: Text('Retornar ao menu'),
-          textColor: Colors.blue,
-          onPressed: () => {
-            Navigator.of(context).push(
-              CategoriesScreen.routeName,
-              arguments: {},
-            )
-          },
-        ),*/
+        Spacer(),
+        Container(
+          child: ElevatedButton(
+            style: ElevatedButton.styleFrom(
+                primary: Color.fromRGBO(104, 202, 138, 1)),
+            child: const Text('Sim, estou de acordo',
+                style: TextStyle(color: Colors.black)),
+            onPressed: () {
+              sendPsetResult(userEmail);
+              showDialog<String>(
+                context: context,
+                builder: (BuildContext context) => AlertDialog(
+                  title: const Text('Êxito!'),
+                  content: const Text(
+                      'Sua resposta foi enviada!\n Novas atividades serão disponibilizadas em breve.'),
+                  actions: <Widget>[
+                    TextButton(
+                      onPressed: () async {
+                        //enviarDominios(userEmail);
+                        Navigator.pop(context, 'Ok');
+                        await Navigator.of(context).push(new MaterialPageRoute(
+                            builder: (context) => MyApp()));
+                        //Navigator.pop(context, 'OK');
+                      },
+                      child: const Text('Ok'),
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
+        ),
       ],
     );
   }

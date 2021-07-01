@@ -1,3 +1,5 @@
+import 'package:chat_app_tutorial/Services/database.dart';
+import 'package:chat_app_tutorial/main.dart';
 import 'package:flutter/material.dart';
 import 'package:chat_app_tutorial/escalas/question.dart';
 import 'package:chat_app_tutorial/escalas/promis_answer.dart';
@@ -5,16 +7,39 @@ import 'package:chat_app_tutorial/escalas/promis_answer.dart';
 class Promisn2 extends StatelessWidget {
   final List<Map<String, Object>> questions;
   final int questionIndex;
+  final int resultScore;
   final Function answerQuestion;
+  final String userEmail;
+  final String userEscala;
+  final String questName;
+  final DatabaseMethods databaseMethods = new DatabaseMethods();
+  final DateTime now = DateTime.now();
 
-  Promisn2(
-      {this.questions,
-      @required this.answerQuestion,
-      @required this.questionIndex});
+  Promisn2({
+    this.questions,
+    @required this.answerQuestion,
+    @required this.questionIndex,
+    this.resultScore,
+    this.userEmail,
+    this.userEscala,
+    this.questName,
+  });
+
+  sendPromisn2PartialScore(String email) {
+    Map<String, dynamic> answerMap = {
+      "score": resultScore,
+      "answeredAt": now,
+      "questName": questName,
+      "answeredUntil": questionIndex,
+    };
+    databaseMethods.addQuestAnswer(answerMap, userEmail, userEscala);
+    databaseMethods.updateQuestIndex(userEscala, userEmail, questionIndex);
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return
+        /*Column(
       children: [
         Question(
           questions[questionIndex]['questionText'],
@@ -27,6 +52,62 @@ class Promisn2 extends StatelessWidget {
           );
         }).toList()
       ],
+    );*/
+        Container(
+      height: double.infinity,
+      margin: EdgeInsets.only(top: 60, left: 20, right: 20, bottom: 20),
+      padding: EdgeInsets.only(top: 60, left: 20, right: 20, bottom: 20),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20),
+        color: Color.fromRGBO(244, 244, 244, 1),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Question(
+            questions[questionIndex]['questionText'],
+          ),
+          ...(questions[questionIndex]['answers'] as List<Map<String, Object>>)
+              .map((answer) {
+            return PromisAnswer(
+              () => answerQuestion(answer['score']),
+              answer['text'],
+            );
+          }).toList(),
+          Spacer(),
+          Container(
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                  primary: Color.fromRGBO(104, 202, 138, 1)),
+              onPressed: () => showDialog<String>(
+                context: context,
+                builder: (BuildContext context) => AlertDialog(
+                  title: const Text('Responder depois'),
+                  content: const Text(
+                      'Deseja salvar suas respostas e terminar de responder mais tarde?'),
+                  actions: <Widget>[
+                    TextButton(
+                      onPressed: () => Navigator.pop(context, 'Cancel'),
+                      child: const Text('Cancelar'),
+                    ),
+                    TextButton(
+                      onPressed: () async {
+                        sendPromisn2PartialScore(userEmail);
+                        Navigator.pop(context, 'Ok');
+                        await Navigator.of(context).push(new MaterialPageRoute(
+                            builder: (context) => MyApp()));
+                      },
+                      child: const Text('OK'),
+                    ),
+                  ],
+                ),
+              ),
+              child: const Text('Responder depois',
+                  style: TextStyle(color: Colors.black)),
+            ),
+          )
+        ],
+      ),
     );
   }
 }
