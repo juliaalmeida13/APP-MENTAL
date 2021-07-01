@@ -11,9 +11,19 @@ class SleepPage extends StatefulWidget {
 class _SleepPageState extends State<SleepPage> {
   DateTime pickedDate;
   DatabaseMethods databaseMethods = new DatabaseMethods();
+  AnimationController controller;
+  final formKey = GlobalKey<FormState>();
+  TextEditingController resp1 = TextEditingController();
+  TextEditingController resp2 = TextEditingController();
+  TextEditingController resp3 = TextEditingController();
+  TextEditingController resp5 = TextEditingController();
+  TextEditingController resp6 = TextEditingController();
+  TextEditingController resp7 = TextEditingController();
+  TextEditingController resp8 = TextEditingController();
 
   String data;
-  bool dataIgual = true;
+  bool dataIgual = false;
+  bool _loading = true;
   String _resQuest1 = "00:00";
   String _resQuest2 = "00:00";
   String _resQuest3 = "00:00";
@@ -23,8 +33,6 @@ class _SleepPageState extends State<SleepPage> {
   String _resQuest7 = "00:00";
   String _resQuest8 = "00:00";
   String userEmail = "00:00";
-
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   enviarRespostas() {
     Map<String, dynamic> messageMap = {
@@ -57,12 +65,6 @@ class _SleepPageState extends State<SleepPage> {
     data = DateFormat("dd-MM-yyyy").format(pickedDate);
   }
 
-  confirmadoEnvioSono() {
-    setState(() {
-      dataIgual = true;
-    });
-  }
-
   getUserInfo() async {
     userEmail = await HelperFunctions.getUserEmailInSharedPreference();
     databaseMethods.getDataQuestSono(userEmail).then((value) {
@@ -70,12 +72,11 @@ class _SleepPageState extends State<SleepPage> {
         if (element.id == data) {
           print("${element.id} é = a ${data}");
           dataIgual = true;
-        } else {
-          dataIgual = false;
         }
-        setState(() {
-          dataIgual = dataIgual;
-        });
+      });
+      setState(() {
+        dataIgual = dataIgual;
+        _loading = false;
       });
     });
   }
@@ -98,9 +99,17 @@ class _SleepPageState extends State<SleepPage> {
           Container(
             width: 100,
             child: TextFormField(
+              controller: resp1,
+              validator: (value) {
+                if (value.isEmpty) {
+                  return 'vazio';
+                }
+                return null;
+              },
               onTap: () async {
                 _resQuest1 =
                     await _selectTime(context, "Por favor, coloque o horário.");
+                resp1.text = _resQuest1;
                 setState(() {
                   _resQuest1 = _resQuest1;
                 });
@@ -143,9 +152,18 @@ class _SleepPageState extends State<SleepPage> {
           Container(
             width: 100,
             child: TextFormField(
+              controller: resp2,
+              validator: (value) {
+                if (value.isEmpty) {
+                  return 'vazio';
+                } else {
+                  return null;
+                }
+              },
               onTap: () async {
                 _resQuest2 =
                     await _selectTime(context, "Por favor, coloque o horário");
+                resp2.text = _resQuest2;
                 setState(() {
                   _resQuest2 = _resQuest2;
                 });
@@ -188,9 +206,17 @@ class _SleepPageState extends State<SleepPage> {
           Container(
             width: 100,
             child: TextFormField(
+              controller: resp3,
+              validator: (value) {
+                if (value.isEmpty) {
+                  return 'vazio';
+                }
+                return null;
+              },
               onTap: () async {
                 _resQuest3 =
                     await _selectTime(context, "Por favor, coloque o tempo.");
+                resp3.text = _resQuest3;
                 setState(() {
                   _resQuest3 = _resQuest3 == null ? "00:00" : _resQuest3;
                 });
@@ -290,9 +316,17 @@ class _SleepPageState extends State<SleepPage> {
             Container(
               width: 100,
               child: TextFormField(
+                controller: resp5,
+                validator: (value) {
+                  if (value.isEmpty) {
+                    return 'vazio';
+                  }
+                  return null;
+                },
                 onTap: () async {
                   _resQuest5 = await _selectTime(
                       context, "Por favor, coloque o horário.");
+                  resp5.text = _resQuest5;
                   setState(() {
                     _resQuest5 = _resQuest5;
                   });
@@ -338,9 +372,17 @@ class _SleepPageState extends State<SleepPage> {
           Container(
             width: 100,
             child: TextFormField(
+              controller: resp6,
+              validator: (value) {
+                if (value.isEmpty) {
+                  return 'vazio';
+                }
+                return null;
+              },
               onTap: () async {
                 _resQuest6 =
                     await _selectTime(context, "Por favor, coloque o tempo.");
+                resp6.text = _resQuest6;
                 setState(() {
                   _resQuest6 = _resQuest6;
                 });
@@ -383,9 +425,17 @@ class _SleepPageState extends State<SleepPage> {
           Container(
             width: 100,
             child: TextFormField(
+              controller: resp7,
+              validator: (value) {
+                if (value.isEmpty) {
+                  return 'vazio';
+                }
+                return null;
+              },
               onTap: () async {
                 _resQuest7 =
                     await _selectTime(context, "Por favor, coloque o tempo.");
+                resp7.text = _resQuest7;
                 setState(() {
                   _resQuest7 = _resQuest7;
                 });
@@ -428,9 +478,17 @@ class _SleepPageState extends State<SleepPage> {
           Container(
             width: 100,
             child: TextFormField(
+              controller: resp8,
+              validator: (value) {
+                if (value.isEmpty) {
+                  return 'vazio';
+                }
+                return null;
+              },
               onTap: () async {
                 _resQuest8 =
                     await _selectTime(context, "Por favor, coloque o tempo");
+                resp8.text = _resQuest8;
                 setState(() {
                   _resQuest8 = _resQuest8;
                 });
@@ -509,66 +567,74 @@ class _SleepPageState extends State<SleepPage> {
   }*/
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Container(
-          margin: EdgeInsets.all(24),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                dataIgual
-                    ? Container(
-                        height: MediaQuery.of(context).size.height,
-                        alignment: Alignment.center,
-                        child: Text(
-                            "Você já respondeu o questionário hoje.\n Obrigado :3",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 28,
-                            )),
-                      )
-                    : Column(
-                        children: [
-                          _buildQuest1(),
-                          _buildQuest2(),
-                          _buildQuest3(),
-                          _buildQuest4(),
-                          _buildQuest5(),
-                          _buildQuest6(),
-                          _buildQuest7(),
-                          _buildQuest8(),
-                          SizedBox(height: 20),
-                          ElevatedButton(
-                            child: Text(
-                              'Enviar',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16,
-                              ),
-                            ),
-                            onPressed: () async {
-                              print(userEmail);
-                              enviarRespostas();
-                              await showInformationDialog(
-                                  context,
-                                  calculoEficienciaSono(
-                                      _resQuest1,
-                                      _resQuest2,
-                                      _resQuest3,
-                                      qtd,
-                                      _resQuest5,
-                                      _resQuest6,
-                                      _resQuest7,
-                                      _resQuest8),
-                                  pickedDate);
-                            },
-                          )
-                        ],
-                      )
-              ],
-            ),
-          ),
+      body: Center(
+        child: SingleChildScrollView(
+          child: _loading
+              ? Center(
+                  child: CircularProgressIndicator(),
+                )
+              : Container(
+                  margin: EdgeInsets.all(24),
+                  child: Form(
+                    key: formKey,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        dataIgual
+                            ? Container(
+                                height: MediaQuery.of(context).size.height,
+                                alignment: Alignment.center,
+                                child: Text(
+                                    "Você já respondeu o questionário hoje.\n Obrigado :3",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontSize: 28,
+                                    )),
+                              )
+                            : Column(
+                                children: [
+                                  _buildQuest1(),
+                                  _buildQuest2(),
+                                  _buildQuest3(),
+                                  _buildQuest4(),
+                                  _buildQuest5(),
+                                  _buildQuest6(),
+                                  _buildQuest7(),
+                                  _buildQuest8(),
+                                  SizedBox(height: 20),
+                                  ElevatedButton(
+                                    child: Text(
+                                      'Enviar',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                    onPressed: () async {
+                                      print(userEmail);
+                                      if (formKey.currentState.validate()) {
+                                        enviarRespostas();
+                                        await showInformationDialog(
+                                            context,
+                                            calculoEficienciaSono(
+                                                _resQuest1,
+                                                _resQuest2,
+                                                _resQuest3,
+                                                qtd,
+                                                _resQuest5,
+                                                _resQuest6,
+                                                _resQuest7,
+                                                _resQuest8),
+                                            pickedDate);
+                                      }
+                                    },
+                                  )
+                                ],
+                              )
+                      ],
+                    ),
+                  ),
+                ),
         ),
       ),
     );
