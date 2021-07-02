@@ -13,17 +13,19 @@ class Body extends StatelessWidget {
     // It will provide total height and width of our screen
     Size size = MediaQuery.of(context).size;
     //it enables scrolling on small devices
-    return Column(
-      children: <Widget>[
-        HeaderWithSearchBox(size: size),
-        SectionTitle(title: "Calendário"),
-        RowCalendar(),
-        SectionTitle(title: "Leituras Recomendadas"),
-        RecomendsReadings(),
-        //TitleWithMoreBttn(title: "Featured Plants", press: () {}),
-        //FeaturedPlants(),
-        //SizedBox(height: kDefaultPadding),
-      ],
+    return SafeArea(
+      child: Column(
+        children: <Widget>[
+          HeaderWithSearchBox(size: size),
+          SectionTitle(title: "Calendário"),
+          RowCalendar(),
+          SectionTitle(title: "Leituras Recomendadas"),
+          RecomendsReadings(),
+          //TitleWithMoreBttn(title: "Featured Plants", press: () {}),
+          //FeaturedPlants(),
+          //SizedBox(height: kDefaultPadding),
+        ],
+      ),
     );
   }
 }
