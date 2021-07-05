@@ -256,7 +256,7 @@ class _Pcl5ScreenState extends State<Pcl5Screen> {
   @override
   Widget build(BuildContext context) {
     final routeArgs =
-        ModalRoute.of(context).settings.arguments as Map<String, String>;
+        ModalRoute.of(context).settings.arguments as Map<String, Object>;
     final titleAA = routeArgs['title'];
     final _userEscala = routeArgs['userEscala'];
     final _answeredUntil = routeArgs['answeredUntil'];
