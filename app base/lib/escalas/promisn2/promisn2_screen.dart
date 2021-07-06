@@ -106,7 +106,7 @@ class _Promisn2ScreenState extends State<Promisn2Screen> {
 
   //(p. ex. analgésicos, estimulantes, sedativos ou tranquilizantes, ou drogas como maconha, cocaína ou crack, drogas sintéticas, alucinógenos, heroína, inalantes ou solventes ou metanfetamina?
   var _questionIndex = 0;
-  var _totalScore = 0;
+  var _totalScoreList = List<int>.filled(9, 0);
 
   /*void _resetQuiz(BuildContext ctx) {
     _questionIndex = 0;
@@ -118,14 +118,22 @@ class _Promisn2ScreenState extends State<Promisn2Screen> {
     }); */
 */
   void _answerQuestion(int score) {
-    _totalScore += score;
+    _totalScoreList[_questionIndex] = score;
     setState(() {
       _questionIndex = _questionIndex + 1;
     });
 
     if (_questionIndex < _questions.length) {
       print("qIndex : $_questionIndex");
+    } else {
+      print("questionIndex $_questionIndex > _question.length");
     }
+  }
+
+  void _resetQuestion() {
+    setState(() {
+      _questionIndex -= 1;
+    });
   }
 
   @override
@@ -153,15 +161,16 @@ class _Promisn2ScreenState extends State<Promisn2Screen> {
         child: _questionIndex < _questions.length
             ? Promisn2(
                 answerQuestion: _answerQuestion,
+                resetQuestion: _resetQuestion,
                 questionIndex: _questionIndex,
                 questions: _questions,
                 userEmail: _userEmail,
-                resultScore: _totalScore,
+                resultScoreList: _totalScoreList,
                 userEscala: _userEscala,
                 questName: titleAA,
               ) //Quiz
             : Promisn2Result(
-                resultScore: _totalScore,
+                resultScoreList: _totalScoreList,
                 questName: titleAA,
                 userEscala: _userEscala,
                 userEmail: _userEmail,

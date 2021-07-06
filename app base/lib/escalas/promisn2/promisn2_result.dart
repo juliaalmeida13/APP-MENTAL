@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 // import './categories_screen.dart';
 
 class Promisn2Result extends StatelessWidget {
-  final int resultScore;
+  final List<int> resultScoreList;
   final int questionIndex;
   final String userEmail;
   final String questName;
@@ -16,7 +16,14 @@ class Promisn2Result extends StatelessWidget {
 
   sendPromisn2Score(String email) {
     Map<String, dynamic> answerMap = {
-      "score": resultScore,
+      "q1": resultScoreList[1],
+      "q2": resultScoreList[2],
+      "q3": resultScoreList[3],
+      "q4": resultScoreList[4],
+      "q5": resultScoreList[5],
+      "q6": resultScoreList[6],
+      "q7": resultScoreList[7],
+      "q8": resultScoreList[8],
       "answeredAt": instantTime,
       "questName": questName,
       "answeredUntil": questionIndex,
@@ -27,7 +34,7 @@ class Promisn2Result extends StatelessWidget {
   }
 
   Promisn2Result({
-    this.resultScore,
+    this.resultScoreList,
     this.questionIndex,
     this.userEmail,
     this.questName,

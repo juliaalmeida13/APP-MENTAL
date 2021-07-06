@@ -7,8 +7,9 @@ import 'package:chat_app_tutorial/escalas/promis_answer.dart';
 class Promisn2 extends StatelessWidget {
   final List<Map<String, Object>> questions;
   final int questionIndex;
-  final int resultScore;
+  final List<int> resultScoreList;
   final Function answerQuestion;
+  final Function resetQuestion;
   final String userEmail;
   final String userEscala;
   final String questName;
@@ -19,15 +20,23 @@ class Promisn2 extends StatelessWidget {
     this.questions,
     @required this.answerQuestion,
     @required this.questionIndex,
-    this.resultScore,
+    this.resultScoreList,
     this.userEmail,
     this.userEscala,
     this.questName,
+    this.resetQuestion,
   });
 
   sendPromisn2PartialScore(String email) {
     Map<String, dynamic> answerMap = {
-      "score": resultScore,
+      "q1": resultScoreList[1],
+      "q2": resultScoreList[2],
+      "q3": resultScoreList[3],
+      "q4": resultScoreList[4],
+      "q5": resultScoreList[5],
+      "q6": resultScoreList[6],
+      "q7": resultScoreList[7],
+      "q8": resultScoreList[8],
       "answeredAt": now,
       "questName": questName,
       "answeredUntil": questionIndex,
@@ -55,8 +64,8 @@ class Promisn2 extends StatelessWidget {
     );*/
         Container(
       height: double.infinity,
-      margin: EdgeInsets.only(top: 60, left: 20, right: 20, bottom: 20),
-      padding: EdgeInsets.only(top: 60, left: 20, right: 20, bottom: 20),
+      margin: EdgeInsets.only(top: 6, left: 2, right: 2, bottom: 2),
+      padding: EdgeInsets.only(top: 6, left: 2, right: 2, bottom: 2),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         color: Color.fromRGBO(244, 244, 244, 1),
@@ -76,34 +85,47 @@ class Promisn2 extends StatelessWidget {
           }).toList(),
           Spacer(),
           Container(
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                  primary: Color.fromRGBO(104, 202, 138, 1)),
-              onPressed: () => showDialog<String>(
-                context: context,
-                builder: (BuildContext context) => AlertDialog(
-                  title: const Text('Responder depois'),
-                  content: const Text(
-                      'Deseja salvar suas respostas e terminar de responder mais tarde?'),
-                  actions: <Widget>[
-                    TextButton(
-                      onPressed: () => Navigator.pop(context, 'Cancel'),
-                      child: const Text('Cancelar'),
-                    ),
-                    TextButton(
-                      onPressed: () async {
-                        sendPromisn2PartialScore(userEmail);
-                        Navigator.pop(context, 'Ok');
-                        await Navigator.of(context).push(new MaterialPageRoute(
-                            builder: (context) => MyApp()));
-                      },
-                      child: const Text('OK'),
-                    ),
-                  ],
+            child: Column(
+              children: [
+                TextButton(
+                  onPressed: () {
+                    var answer = questions[questionIndex]['answers']
+                        as List<Map<String, Object>>;
+                    resetQuestion();
+                  },
+                  child: const Text("Voltar para a questão anterior"),
                 ),
-              ),
-              child: const Text('Responder depois',
-                  style: TextStyle(color: Colors.black)),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      primary: Color.fromRGBO(104, 202, 138, 1)),
+                  onPressed: () => showDialog<String>(
+                    context: context,
+                    builder: (BuildContext context) => AlertDialog(
+                      title: const Text('Responder depois'),
+                      content: const Text(
+                          'Deseja salvar suas respostas e terminar de responder mais tarde?'),
+                      actions: <Widget>[
+                        TextButton(
+                          onPressed: () => Navigator.pop(context, 'Cancel'),
+                          child: const Text('Cancelar'),
+                        ),
+                        TextButton(
+                          onPressed: () async {
+                            sendPromisn2PartialScore(userEmail);
+                            Navigator.pop(context, 'Ok');
+                            await Navigator.of(context).push(
+                                new MaterialPageRoute(
+                                    builder: (context) => MyApp()));
+                          },
+                          child: const Text('OK'),
+                        ),
+                      ],
+                    ),
+                  ),
+                  child: const Text('Responder depois',
+                      style: TextStyle(color: Colors.black)),
+                ),
+              ],
             ),
           )
         ],

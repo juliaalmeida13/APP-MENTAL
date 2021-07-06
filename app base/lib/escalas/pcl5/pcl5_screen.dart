@@ -243,7 +243,7 @@ class _Pcl5ScreenState extends State<Pcl5Screen> {
   var _totalScoreList = List<int>.filled(20, 0);
 
   void _answerQuestion(int score, int index) {
-    _totalScoreList[index] += score;
+    _totalScoreList[index] = score;
     setState(() {
       _questionIndex = _questionIndex + 1;
     });

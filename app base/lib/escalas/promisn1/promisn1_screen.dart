@@ -387,6 +387,23 @@ class _Promisn1ScreenState extends State<Promisn1Screen> {
     }
   }
 
+  void _resetLastDomain(int dom) {
+    print("dooom:$dom");
+    _totalScoreList[dom] = 0;
+    var _resetQuestionIndex = _questionIndex;
+    int beforeDomain = 0;
+    do {
+      _resetQuestionIndex -= 1;
+      var beforeList = _questions[_resetQuestionIndex - 1]["answers"]
+          as List<Map<String, Object>>;
+      beforeDomain = beforeList[0]["dom"];
+      print("resset $_resetQuestionIndex");
+    } while (dom == beforeDomain);
+    setState(() {
+      _questionIndex = _resetQuestionIndex;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final routeArgs =
@@ -411,6 +428,7 @@ class _Promisn1ScreenState extends State<Promisn1Screen> {
         child: _questionIndex < _questions.length
             ? Promisn1(
                 answerQuestion: _answerQuestion,
+                resetLastDomain: _resetLastDomain,
                 questionIndex: _questionIndex,
                 questions: _questions,
                 userEmail: _userEmail,
