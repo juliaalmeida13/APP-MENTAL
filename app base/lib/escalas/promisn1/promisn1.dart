@@ -106,6 +106,12 @@ class Promisn1 extends StatelessWidget {
             //cancelarButton,
           ],
         ));
+    var currentAnswer =
+        questions[questionIndex]['answers'] as List<Map<String, Object>>;
+    var currentDom = currentAnswer[0]['dom'];
+    var lastAnswer =
+        questions[questions.length - 1]['answers'] as List<Map<String, Object>>;
+    var lastDom = lastAnswer[0]['dom'];
     return Container(
       height: double.infinity,
       margin: EdgeInsets.only(top: 6, left: 2, right: 2, bottom: 2),
@@ -117,6 +123,11 @@ class Promisn1 extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          Text(
+            "Domínio $currentDom de $lastDom",
+            textAlign: TextAlign.center,
+          ),
+          Spacer(),
           Question(
             questions[questionIndex]['questionText'],
           ),
