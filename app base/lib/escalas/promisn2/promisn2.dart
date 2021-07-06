@@ -47,22 +47,8 @@ class Promisn2 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return
-        /*Column(
-      children: [
-        Question(
-          questions[questionIndex]['questionText'],
-        ),
-        ...(questions[questionIndex]['answers'] as List<Map<String, Object>>)
-            .map((answer) {
-          return PromisAnswer(
-            () => answerQuestion(answer['score']),
-            answer['text'],
-          );
-        }).toList()
-      ],
-    );*/
-        Container(
+    var lastIndex = questions.length + 1;
+    return Container(
       height: double.infinity,
       margin: EdgeInsets.only(top: 6, left: 2, right: 2, bottom: 2),
       padding: EdgeInsets.only(top: 6, left: 2, right: 2, bottom: 2),
@@ -73,6 +59,11 @@ class Promisn2 extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          Text(
+            "Questão ${questionIndex + 1} de $lastIndex",
+            textAlign: TextAlign.center,
+          ),
+          Spacer(),
           Question(
             questions[questionIndex]['questionText'],
           ),
