@@ -9,6 +9,7 @@ class Pcl5 extends StatelessWidget {
   final List<Map<String, Object>> questions;
   final int questionIndex;
   final Function answerQuestion;
+  final Function resetQuestion;
   final String userEmail;
   final DatabaseMethods databaseMethods = new DatabaseMethods();
   final List<int> resultScoreList;
@@ -54,6 +55,7 @@ class Pcl5 extends StatelessWidget {
     this.resultScoreList,
     this.userEscala,
     this.questName,
+    this.resetQuestion,
   });
 
   @override
@@ -61,8 +63,8 @@ class Pcl5 extends StatelessWidget {
     var lastIndex = questions.length + 1;
     return Container(
       height: double.infinity,
-      margin: EdgeInsets.only(top: 60, left: 20, right: 20, bottom: 20),
-      padding: EdgeInsets.only(top: 60, left: 20, right: 20, bottom: 20),
+      margin: EdgeInsets.only(top: 6, left: 2, right: 2, bottom: 2),
+      padding: EdgeInsets.only(top: 6, left: 2, right: 2, bottom: 2),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         color: Color.fromRGBO(244, 244, 244, 1),
@@ -87,43 +89,54 @@ class Pcl5 extends StatelessWidget {
           }).toList(),
           Spacer(),
           Container(
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                  primary: Color.fromRGBO(104, 202, 138, 1)),
-              /*onPressed: () {
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return alert;
+            child: Column(
+              children: [
+                TextButton(
+                  onPressed: () {
+                    resetQuestion();
                   },
-                );
-                },*/
-              onPressed: () => showDialog<String>(
-                context: context,
-                builder: (BuildContext context) => AlertDialog(
-                  title: const Text('Responder depois'),
-                  content: const Text(
-                      'Deseja salvar suas respostas e terminar de responder mais tarde?'),
-                  actions: <Widget>[
-                    TextButton(
-                      onPressed: () => Navigator.pop(context, 'Cancel'),
-                      child: const Text('Cancelar'),
-                    ),
-                    TextButton(
-                      onPressed: () async {
-                        sendPcl5PartialResult(userEmail);
-                        Navigator.pop(context, 'Ok');
-                        await Navigator.of(context).push(new MaterialPageRoute(
-                            builder: (context) => MyApp()));
-                        //Navigator.pop(context, 'OK');
-                      },
-                      child: const Text('OK'),
-                    ),
-                  ],
+                  child: const Text("Voltar para a questão anterior"),
                 ),
-              ),
-              child: const Text('Responder depois',
-                  style: TextStyle(color: Colors.black)),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      primary: Color.fromRGBO(104, 202, 138, 1)),
+                  /*onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return alert;
+                      },
+                    );
+                    },*/
+                  onPressed: () => showDialog<String>(
+                    context: context,
+                    builder: (BuildContext context) => AlertDialog(
+                      title: const Text('Responder depois'),
+                      content: const Text(
+                          'Deseja salvar suas respostas e terminar de responder mais tarde?'),
+                      actions: <Widget>[
+                        TextButton(
+                          onPressed: () => Navigator.pop(context, 'Cancel'),
+                          child: const Text('Cancelar'),
+                        ),
+                        TextButton(
+                          onPressed: () async {
+                            sendPcl5PartialResult(userEmail);
+                            Navigator.pop(context, 'Ok');
+                            await Navigator.of(context).push(
+                                new MaterialPageRoute(
+                                    builder: (context) => MyApp()));
+                            //Navigator.pop(context, 'OK');
+                          },
+                          child: const Text('OK'),
+                        ),
+                      ],
+                    ),
+                  ),
+                  child: const Text('Responder depois',
+                      style: TextStyle(color: Colors.black)),
+                ),
+              ],
             ),
           )
         ],

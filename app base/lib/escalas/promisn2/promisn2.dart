@@ -80,8 +80,6 @@ class Promisn2 extends StatelessWidget {
               children: [
                 TextButton(
                   onPressed: () {
-                    var answer = questions[questionIndex]['answers']
-                        as List<Map<String, Object>>;
                     resetQuestion();
                   },
                   child: const Text("Voltar para a questão anterior"),

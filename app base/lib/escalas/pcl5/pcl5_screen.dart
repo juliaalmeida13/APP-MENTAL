@@ -253,6 +253,12 @@ class _Pcl5ScreenState extends State<Pcl5Screen> {
     }
   }
 
+  void _resetQuestion() {
+    setState(() {
+      _questionIndex -= 1;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final routeArgs =
@@ -275,6 +281,7 @@ class _Pcl5ScreenState extends State<Pcl5Screen> {
         child: _questionIndex < _questions.length
             ? Pcl5(
                 answerQuestion: _answerQuestion,
+                resetQuestion: _resetQuestion,
                 questionIndex: _questionIndex,
                 questions: _questions,
                 userEmail: _userEmail,
