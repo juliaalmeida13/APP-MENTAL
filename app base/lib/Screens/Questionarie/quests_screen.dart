@@ -5,6 +5,9 @@ import 'package:chat_app_tutorial/escalas/pcl5/pcl5_screen.dart';
 import 'package:chat_app_tutorial/escalas/promisn1/promisn1_screen.dart';
 import 'package:chat_app_tutorial/escalas/promisn2/promisn2_screen.dart';
 import 'package:chat_app_tutorial/escalas/pset/pset_screen.dart';
+import 'package:chat_app_tutorial/escalas/quesi/quesi_screen.dart';
+import 'package:chat_app_tutorial/escalas/questSD1/questSD1_screen.dart';
+import 'package:chat_app_tutorial/escalas/questSD2/questSD2_screen.dart';
 import 'package:chat_app_tutorial/helper/constants.dart';
 import 'package:chat_app_tutorial/helper/helperfuncions.dart';
 import 'package:chat_app_tutorial/Services/auth.dart';
@@ -85,6 +88,9 @@ class _QuestsScreenState extends State<QuestsScreen> {
         Promisn2Screen.routeName: (ctx) => Promisn2Screen(),
         Pcl5Screen.routeName: (ctx) => Pcl5Screen(),
         PsetScreen.routeName: (ctx) => PsetScreen(),
+        QuesiScreen.routeName: (ctx) => QuesiScreen(),
+        QuestSD1Screen.routeName: (ctx) => QuestSD1Screen(),
+        QuestSD2Screen.routeName: (ctx) => QuestSD2Screen(),
       },
       debugShowCheckedModeBanner: false,
       home: DefaultTabController(
@@ -147,6 +153,9 @@ class QuestRoomTile extends StatelessWidget {
     "pn2": Promisn2Screen.routeName,
     "pset": PsetScreen.routeName,
     "pcl5": Pcl5Screen.routeName,
+    "quesi": QuesiScreen.routeName,
+    "questSD1": QuestSD1Screen.routeName,
+    "questSD2": QuestSD2Screen.routeName,
   };
 
   QuestRoomTile(

@@ -89,6 +89,8 @@ class _QuestSD1ScreenState extends State<QuestSD1Screen> {
         {'text': 'Viúvo(a)', 'score': 'Viúvo(a)'},
       ],
     },
+
+    //Overflow de pixel certo
     {
       'questionText': 'IX. Qual sua profissão?',
       'answers': [
@@ -114,7 +116,7 @@ class _QuestSD1ScreenState extends State<QuestSD1Screen> {
   var _questionIndex = 0;
   var _totalScoreList = List<Object>.filled(24, 0);
 
-  void _answerQuestion(int score) {
+  void _answerQuestion(Object score) {
     _totalScoreList[_questionIndex] = score;
     setState(() {
       _questionIndex = _questionIndex + 1;

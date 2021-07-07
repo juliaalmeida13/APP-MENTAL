@@ -135,7 +135,7 @@ class _QuestSD2ScreenState extends State<QuestSD2Screen> {
   var _questionIndex = 0;
   var _totalScoreList = List<Object>.filled(15, 0);
 
-  void _answerQuestion(int score) {
+  void _answerQuestion(Object score) {
     _totalScoreList[_questionIndex] = score;
     setState(() {
       _questionIndex = _questionIndex + 1;

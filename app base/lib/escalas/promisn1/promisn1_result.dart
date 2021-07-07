@@ -47,7 +47,7 @@ class Promisn1Result extends StatelessWidget {
     if (query.docs[0].get("dom1") > 2) {
       String promisn2UserEscala = "$userEscala-promisN2";
       List<String> week = questName.split("-");
-      String promisn2QuestName = "PROMIS Nível 2" + " -" + week[1];
+      String promisn2QuestName = "Escala PROMIS Nível 2" + " -" + week[1];
       Map<String, dynamic> questMap = {
         "unanswered?": true,
         "questId": "pn2",

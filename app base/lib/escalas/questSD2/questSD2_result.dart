@@ -33,6 +33,7 @@ class QuestSD2Result extends StatelessWidget {
       "questName": questName,
       "answeredUntil": questionIndex,
     };
+    print("que te pasas $userEscala $questName $questionIndex");
     databaseMethods.addQuestAnswer(answerMap, email, userEscala);
     databaseMethods.updateQuestIndex(userEscala, email, questionIndex);
     databaseMethods.disableQuest(userEscala, email);

@@ -244,7 +244,7 @@ class _QuesiScreenState extends State<QuesiScreen> {
   ];
 
   var _questionIndex = 0;
-  var _totalScoreList = List<int>.filled(9, 0);
+  var _totalScoreList = List<int>.filled(22, 0);
 
   void _answerQuestion(int score) {
     _totalScoreList[_questionIndex] = score;
