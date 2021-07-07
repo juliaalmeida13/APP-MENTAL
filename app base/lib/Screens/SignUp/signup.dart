@@ -70,18 +70,46 @@ class _SignUpState extends State<SignUp> {
         }
 
         for (var i = 1; i <= 12; i += 2) {
-          String userEscala = 'pset_week$i';
-          Map<String, dynamic> questMap = {
-            "unanswered?": true,
-            "questId": "pset",
-            "questName": "Pergunta Eventos Traumáticos - Semana $i",
-            "userEscala": userEscala,
-            "availableAt": addWeeks(day: firstDay, n: i - 1),
-            "answeredUntil": 0,
-          };
-          DatabaseMethods().createQuest(
-              userEscala, questMap, emailTextEdittingController.text);
+          if (i != 6 && i != 10) {
+            String userEscala = 'pset_week$i';
+            Map<String, dynamic> questMap = {
+              "unanswered?": true,
+              "questId": "pset",
+              "questName": "Pergunta Eventos Traumáticos - Semana $i",
+              "userEscala": userEscala,
+              "availableAt": addWeeks(day: firstDay, n: i - 1),
+              "answeredUntil": 0,
+            };
+            DatabaseMethods().createQuest(
+                userEscala, questMap, emailTextEdittingController.text);
+          }
         }
+
+        String userEscala = 'quesi_week6';
+        Map<String, dynamic> questMap = {
+          "unanswered?": true,
+          "questId": "quesi",
+          "questName": "Questionário Sobre Traumas na Infância - Semana 6",
+          "userEscala": userEscala,
+          "availableAt": addWeeks(day: firstDay, n: 5),
+          "answeredUntil": 0,
+        };
+        DatabaseMethods().createQuest(
+            userEscala, questMap, emailTextEdittingController.text);
+
+        /*for (var i = 6; i <= 10; i += 2) {
+            String userEscala = 'appAval_week$i';
+            Map<String, dynamic> questMap = {
+              "unanswered?": true,
+              "questId": "aaval",
+              "questName": "Avaliação do aplicativo - Semana $i",
+              "userEscala": userEscala,
+              "availableAt": addWeeks(day: firstDay, n: i - 1),
+              "answeredUntil": 0,
+            };
+            DatabaseMethods().createQuest(
+                userEscala, questMap, emailTextEdittingController.text);
+        }*/
 
         HelperFunctions.saveUserLoggedInSharedPreference(true);
         Navigator.pushReplacement(
