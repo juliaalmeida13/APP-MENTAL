@@ -3,7 +3,7 @@ import 'package:chat_app_tutorial/escalas/quesi/quesi.dart';
 import 'package:chat_app_tutorial/escalas/quesi/quesi_result.dart';
 
 class QuesiScreen extends StatefulWidget {
-  static const routeName = '/promisn2-screen';
+  static const routeName = '/quesi-screen';
 
   @override
   _QuesiScreenState createState() {
