@@ -1,5 +1,6 @@
 import 'package:chat_app_tutorial/Screens/ChatRoom/Widgets/calendar.dart';
 import 'package:chat_app_tutorial/Screens/ChatRoom/chatRoomsScreen.dart';
+import 'package:chat_app_tutorial/Screens/HomePage/home_page.dart';
 import 'package:chat_app_tutorial/Screens/SignIn/signin.dart';
 import 'package:chat_app_tutorial/animation/FadeAnimation.dart';
 import 'package:chat_app_tutorial/constants.dart';
@@ -73,7 +74,7 @@ class _SignUpState extends State<SignUp> {
         Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (context) => ChatRoom(),
+              builder: (context) => HomePage(),
             ));
       });
     }
