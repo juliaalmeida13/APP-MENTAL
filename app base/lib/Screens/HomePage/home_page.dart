@@ -1,3 +1,4 @@
+import 'package:chat_app_tutorial/Screens/ChatRoom/chatRoomsScreen.dart';
 import 'package:chat_app_tutorial/Screens/Contacts/contacts_screen.dart';
 import 'package:chat_app_tutorial/Screens/Home/home_screen.dart';
 import 'package:chat_app_tutorial/Screens/Perfil/perfil.dart';
