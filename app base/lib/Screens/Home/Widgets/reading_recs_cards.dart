@@ -1,4 +1,5 @@
 import 'package:chat_app_tutorial/Screens/Reading/reading_screen.dart';
+import 'package:chat_app_tutorial/Screens/Video/video_interv_screen.dart';
 import 'package:chat_app_tutorial/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -10,57 +11,56 @@ class RecomendsReadings extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return
-          Expanded(
-            child: GridView(
-              padding: EdgeInsets.zero,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3,
-                crossAxisSpacing: 10,
-                mainAxisSpacing: 10,
-                childAspectRatio: 1,
-              ),
-              scrollDirection: Axis.vertical,
-              children: <Widget>[
-                ReadingRecomendCard(
-                  image: "assets/images/gardening02.jpg",
-                  title: "Lazer",
-                  press: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => ReadingScreen()));
-                  },
-                ),
-                ReadingRecomendCard(
-                  image: "assets/images/gardening02.jpg",
-                  title: "Sono",
-                  press: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => ReadingScreen()));
-                  },
-                ),
-                ReadingRecomendCard(
-                  image: "assets/images/gardening02.jpg",
-                  title: "Estresse",
-                  press: () {},
-                ),
-                ReadingRecomendCard(
-                  image: "assets/images/gardening02.jpg",
-                  title: "Estresse",
-                  press: () {},
-                ),
-                ReadingRecomendCard(
-                  image: "assets/images/gardening02.jpg",
-                  title: "Estresse",
-                  press: () {},
-                ),
-                ReadingRecomendCard(
-                  image: "assets/images/gardening02.jpg",
-                  title: "Estresse",
-                  press: () {},
-                ),
-              ],
-            ),
-          );
+    return Expanded(
+      child: GridView(
+        padding: EdgeInsets.zero,
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 3,
+          crossAxisSpacing: 10,
+          mainAxisSpacing: 10,
+          childAspectRatio: 0.95,
+        ),
+        scrollDirection: Axis.vertical,
+        children: <Widget>[
+          ReadingRecomendCard(
+            image: "assets/images/gardening02.jpg",
+            title: "Lazer",
+            press: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => ReadingScreen()));
+            },
+          ),
+          ReadingRecomendCard(
+            image: "assets/images/sleep01.jpg",
+            title: "Sono",
+            press: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => VideoScreen()));
+            },
+          ),
+          ReadingRecomendCard(
+            image: "assets/images/mentalhealth01.jpg",
+            title: "Estresse",
+            press: () {},
+          ),
+          ReadingRecomendCard(
+            image: "assets/images/jogging01.jpg",
+            title: "Exercícios",
+            press: () {},
+          ),
+          ReadingRecomendCard(
+            image: "assets/images/happy01.jpg",
+            title: "Felicidade",
+            press: () {},
+          ),
+          ReadingRecomendCard(
+            image: "assets/images/habits.jpg",
+            title: "Rotina",
+            press: () {},
+          ),
+        ],
+      ),
+    );
   }
 }
 
@@ -78,7 +78,7 @@ class ReadingRecomendCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(top: kDefaultPadding / 4,),
+      margin: EdgeInsets.only(top: kDefaultPadding * 0.6),
       child: Column(
         children: <Widget>[
           Container(
@@ -98,7 +98,6 @@ class ReadingRecomendCard extends StatelessWidget {
               //margin: EdgeInsets.all(kDefaultPadding / 4),
               //padding: EdgeInsets.all(kDefaultPadding / 4),
               decoration: BoxDecoration(
-
                   borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(10),
                     bottomRight: Radius.circular(10),

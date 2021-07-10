@@ -21,6 +21,7 @@ class _HomePageState extends State<HomePage> {
     ProfilePage(),
     ContactsScreen(),
     QuestsScreen(),
+
   ];
 
   int _selectedIndex = 0;

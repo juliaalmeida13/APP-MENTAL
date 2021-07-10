@@ -125,7 +125,7 @@ class _QuestsScreenState extends State<QuestsScreen> {
                 children: [
                   QuizCard(),
                 ],
-              ),*/
+              )*/
               Icon(Icons.directions_bike),
             ],
           ),
@@ -168,18 +168,19 @@ class QuestRoomTile extends StatelessWidget {
           width: double.infinity,
           child: Column(
             children: [
-              ListTile(
-                  title: Text(questName),
-                  onTap: () {
-                    print('userEmail no navigator: $userEmail' + "//");
-                    Navigator.of(context)
-                        .pushNamed(routes[questId], arguments: {
-                      'title': questName,
-                      'userEscala': userEscala,
-                      'answeredUntil': answeredUntil,
-                      'email': userEmail,
-                    });
-                  }),
+            ListTile(
+                    title: Text(questName),
+                    onTap: () {
+                      print('userEmail no navigator: $userEmail' + "//");
+                      Navigator.of(context)
+                          .pushNamed(routes[questId], arguments: {
+                        'title': questName,
+                        'userEscala': userEscala,
+                        'answeredUntil': answeredUntil,
+                        'email': userEmail,
+                      });
+                    }),
+
               Divider(thickness: 2.0),
             ],
           ));

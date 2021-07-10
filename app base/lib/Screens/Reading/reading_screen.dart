@@ -1,6 +1,5 @@
 import 'package:chat_app_tutorial/Screens/Reading/Widgets/body.dart';
 import 'package:flutter/material.dart';
-
 import 'package:chat_app_tutorial/constants.dart';
 
 class ReadingScreen extends StatefulWidget {
