@@ -59,6 +59,24 @@ class Promisn1Result extends StatelessWidget {
       databaseMethods.createQuest(promisn2UserEscala, questMap, email);
     }
     ;
+
+    if (query.docs[0].get("dom3") > 2) {
+      String mdqUserEscala = "$userEscala-Mdq";
+      List<String> week = questName.split("-");
+      String mdqQuestName =
+          "Questionário de Transtorno de Humor" + " -" + week[1];
+      Map<String, dynamic> questMap = {
+        "unanswered?": true,
+        "questId": "mdq",
+        "questName": mdqQuestName,
+        "availableAt": now,
+        "userEscala": mdqUserEscala,
+        "answeredUntil": 0,
+      };
+      databaseMethods.createQuest(mdqUserEscala, questMap, email);
+    }
+    ;
+
     databaseMethods.updateQuestIndex(userEscala, email, questionIndex);
     databaseMethods.disableQuest(userEscala, email);
   }
