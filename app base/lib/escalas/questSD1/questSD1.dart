@@ -60,62 +60,81 @@ class QuestSD1 extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text(
-            "Questão ${questionIndex + 1} de $lastIndex",
-            textAlign: TextAlign.center,
+          Flexible(
+            flex: 1,
+            child: Text(
+              "Questão ${questionIndex + 1} de $lastIndex",
+              textAlign: TextAlign.center,
+            ),
           ),
-          Spacer(),
-          Question(
-            questions[questionIndex]['questionText'],
+          Flexible(
+            flex: 1,
+            child: Divider(),
           ),
-          ...(questions[questionIndex]['answers'] as List<Map<String, Object>>)
-              .map((answer) {
-            return PromisAnswer(
-              () => answerQuestion(answer['score']),
-              answer['text'],
-            );
-          }).toList(),
-          Spacer(),
-          Container(
-            child: Column(
+          Flexible(
+            flex: 3,
+            child: Question(
+              questions[questionIndex]['questionText'],
+            ),
+          ),
+          Flexible(
+            flex: 7,
+            child: ListView(
               children: [
-                TextButton(
-                  onPressed: () {
-                    resetQuestion();
-                  },
-                  child: const Text("Voltar para a questão anterior"),
-                ),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                      primary: Color.fromRGBO(104, 202, 138, 1)),
-                  onPressed: () => showDialog<String>(
-                    context: context,
-                    builder: (BuildContext context) => AlertDialog(
-                      title: const Text('Responder depois'),
-                      content: const Text(
-                          'Deseja salvar suas respostas e terminar de responder mais tarde?'),
-                      actions: <Widget>[
-                        TextButton(
-                          onPressed: () => Navigator.pop(context, 'Cancel'),
-                          child: const Text('Cancelar'),
-                        ),
-                        TextButton(
-                          onPressed: () async {
-                            sendQuestSD1PartialScore(userEmail);
-                            Navigator.pop(context, 'Ok');
-                            await Navigator.of(context).push(
-                                new MaterialPageRoute(
-                                    builder: (context) => MyApp()));
-                          },
-                          child: const Text('OK'),
-                        ),
-                      ],
-                    ),
-                  ),
-                  child: const Text('Responder depois',
-                      style: TextStyle(color: Colors.black)),
-                ),
+                ...(questions[questionIndex]['answers']
+                        as List<Map<String, Object>>)
+                    .map((answer) {
+                  return PromisAnswer(
+                    () => answerQuestion(answer['score']),
+                    answer['text'],
+                  );
+                }).toList(),
               ],
+            ),
+          ),
+          Flexible(
+            flex: 3,
+            child: Container(
+              child: Column(
+                children: [
+                  TextButton(
+                    onPressed: () {
+                      resetQuestion();
+                    },
+                    child: const Text("Voltar para a questão anterior"),
+                  ),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        primary: Color.fromRGBO(104, 202, 138, 1)),
+                    onPressed: () => showDialog<String>(
+                      context: context,
+                      builder: (BuildContext context) => AlertDialog(
+                        title: const Text('Responder depois'),
+                        content: const Text(
+                            'Deseja salvar suas respostas e terminar de responder mais tarde?'),
+                        actions: <Widget>[
+                          TextButton(
+                            onPressed: () => Navigator.pop(context, 'Cancel'),
+                            child: const Text('Cancelar'),
+                          ),
+                          TextButton(
+                            onPressed: () async {
+                              sendQuestSD1PartialScore(userEmail);
+                              Navigator.pop(context, 'Ok');
+                              await Navigator.of(context).push(
+                                  new MaterialPageRoute(
+                                      builder: (context) => MyApp()));
+                            },
+                            child: const Text('OK'),
+                          ),
+                        ],
+                      ),
+                    ),
+                    child: const Text('Responder depois',
+                        style: TextStyle(color: Colors.black)),
+                  ),
+                ],
+              ),
             ),
           )
         ],
