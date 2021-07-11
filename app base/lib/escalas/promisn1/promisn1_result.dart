@@ -77,6 +77,23 @@ class Promisn1Result extends StatelessWidget {
     }
     ;
 
+    if (query.docs[0].get("dom4") > 2) {
+      String promisAnsiUserEscala = "$userEscala-PromisAnsi";
+      List<String> week = questName.split("-");
+      String promisAnsiQuestName =
+          "Escala PROMIS Nível 2 (Ansiedade)" + " -" + week[1];
+      Map<String, dynamic> questMap = {
+        "unanswered?": true,
+        "questId": "pn2A",
+        "questName": promisAnsiQuestName,
+        "availableAt": now,
+        "userEscala": promisAnsiUserEscala,
+        "answeredUntil": 0,
+      };
+      databaseMethods.createQuest(promisAnsiUserEscala, questMap, email);
+    }
+    ;
+
     databaseMethods.updateQuestIndex(userEscala, email, questionIndex);
     databaseMethods.disableQuest(userEscala, email);
   }

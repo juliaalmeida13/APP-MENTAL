@@ -1,7 +1,9 @@
 import 'package:chat_app_tutorial/Screens/ChatRoom/Widgets/calendar.dart';
 import 'package:chat_app_tutorial/Screens/Contacts/contacts_screen.dart';
 import 'package:chat_app_tutorial/Screens/Home/home_screen.dart';
+import 'package:chat_app_tutorial/escalas/mdq/mdq_screen.dart';
 import 'package:chat_app_tutorial/escalas/pcl5/pcl5_screen.dart';
+import 'package:chat_app_tutorial/escalas/promisAnsiedade/promisAnsi_screen.dart';
 import 'package:chat_app_tutorial/escalas/promisn1/promisn1_screen.dart';
 import 'package:chat_app_tutorial/escalas/promisn2/promisn2_screen.dart';
 import 'package:chat_app_tutorial/escalas/pset/pset_screen.dart';
@@ -156,6 +158,8 @@ class QuestRoomTile extends StatelessWidget {
     "quesi": QuesiScreen.routeName,
     "questSD1": QuestSD1Screen.routeName,
     "questSD2": QuestSD2Screen.routeName,
+    "mdq": MdqScreen.routeName,
+    "pn2A": PromisAnsiScreen.routeName,
   };
 
   QuestRoomTile(
