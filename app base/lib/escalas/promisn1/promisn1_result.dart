@@ -111,6 +111,23 @@ class Promisn1Result extends StatelessWidget {
     }
     ;
 
+    if (query.docs[0].get("dom8") > 2) {
+      String psqiUserEscala = "$userEscala-Psqi";
+      List<String> week = questName.split("-");
+      String psqiQuestName =
+          "Índice de Qualidae de Sono de Pittsburrgh" + " -" + week[1];
+      Map<String, dynamic> questMap = {
+        "unanswered?": true,
+        "questId": "psqi",
+        "questName": psqiQuestName,
+        "availableAt": now,
+        "userEscala": psqiUserEscala,
+        "answeredUntil": 0,
+      };
+      databaseMethods.createQuest(psqiUserEscala, questMap, email);
+    }
+    ;
+
     databaseMethods.updateQuestIndex(userEscala, email, questionIndex);
     databaseMethods.disableQuest(userEscala, email);
   }
@@ -122,12 +139,6 @@ class Promisn1Result extends StatelessWidget {
     this.userEmail,
     this.questionIndex,
   });
-
-  /* void _returnMenu(BuildContext ctx) {
-    Navigator.of(ctx).pushNamed(
-      CategoriesScreen.routeName,
-    );
-  }*/
 
   @override
   Widget build(BuildContext context) {
