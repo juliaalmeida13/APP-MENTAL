@@ -94,6 +94,23 @@ class Promisn1Result extends StatelessWidget {
     }
     ;
 
+    if (query.docs[0].get("dom5") > 2) {
+      String phq15UserEscala = "$userEscala-Phq15";
+      List<String> week = questName.split("-");
+      String phq15QuestName =
+          "Questionário de Saúde do Paciente" + " -" + week[1];
+      Map<String, dynamic> questMap = {
+        "unanswered?": true,
+        "questId": "phq15",
+        "questName": phq15QuestName,
+        "availableAt": now,
+        "userEscala": phq15UserEscala,
+        "answeredUntil": 0,
+      };
+      databaseMethods.createQuest(phq15UserEscala, questMap, email);
+    }
+    ;
+
     databaseMethods.updateQuestIndex(userEscala, email, questionIndex);
     databaseMethods.disableQuest(userEscala, email);
   }
