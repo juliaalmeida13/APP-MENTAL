@@ -6,8 +6,11 @@ import 'package:flutter/material.dart';
 ///Primary Colors & Background
 const kPrimaryGreen = Color(0xFFB2FFA9);
 const kBackgroundColor = Color(0XFFFFFFFF);
+
+
 const kBackgroundGrey = Color(0XFFE5E5E5);
 const kBackgroundYellow = Color(0XFFFFE66F);
+const kBackgroundLightGreen = Color(0XFFB2FFA9);
 
 ///Secondary Colors
 const kSecondaryGreen = Color(0XFF68CA8A);

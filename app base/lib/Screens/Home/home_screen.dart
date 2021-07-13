@@ -1,4 +1,5 @@
 import 'package:chat_app_tutorial/Screens/Home/Widgets/body.dart';
+import 'package:chat_app_tutorial/constants.dart';
 import 'package:chat_app_tutorial/helper/authenticate.dart';
 import 'package:chat_app_tutorial/Services/auth.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +19,8 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: kPrimaryGreen,
+        elevation: 0,
         actions: [
           GestureDetector(
             onTap: () {

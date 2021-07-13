@@ -1,4 +1,5 @@
 import 'package:chat_app_tutorial/Screens/Reading/reading_screen.dart';
+import 'package:chat_app_tutorial/Screens/Video/video_interv_screen.dart';
 import 'package:chat_app_tutorial/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -10,9 +11,16 @@ class RecomendsReadings extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Row(
+    return Expanded(
+      child: GridView(
+        padding: EdgeInsets.zero,
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 3,
+          crossAxisSpacing: 10,
+          mainAxisSpacing: 10,
+          childAspectRatio: 0.95,
+        ),
+        scrollDirection: Axis.vertical,
         children: <Widget>[
           ReadingRecomendCard(
             image: "assets/images/gardening02.jpg",
@@ -23,16 +31,31 @@ class RecomendsReadings extends StatelessWidget {
             },
           ),
           ReadingRecomendCard(
-            image: "assets/images/gardening02.jpg",
+            image: "assets/images/sleep01.jpg",
             title: "Sono",
             press: () {
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => ReadingScreen()));
+                  MaterialPageRoute(builder: (context) => VideoScreen()));
             },
           ),
           ReadingRecomendCard(
-            image: "assets/images/gardening02.jpg",
-            title: "estresse",
+            image: "assets/images/mentalhealth01.jpg",
+            title: "Estresse",
+            press: () {},
+          ),
+          ReadingRecomendCard(
+            image: "assets/images/jogging01.jpg",
+            title: "Exercícios",
+            press: () {},
+          ),
+          ReadingRecomendCard(
+            image: "assets/images/happy01.jpg",
+            title: "Felicidade",
+            press: () {},
+          ),
+          ReadingRecomendCard(
+            image: "assets/images/habits.jpg",
+            title: "Rotina",
             press: () {},
           ),
         ],
@@ -54,20 +77,13 @@ class ReadingRecomendCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     return Container(
-      margin: EdgeInsets.only(
-        left: kDefaultPadding,
-        top: kDefaultPadding / 2,
-        bottom: kDefaultPadding * 2.5,
-      ),
-      width: size.width * 0.4,
+      margin: EdgeInsets.only(top: kDefaultPadding * 0.6),
       child: Column(
         children: <Widget>[
           Container(
-              margin: EdgeInsets.symmetric(horizontal: kDefaultPadding / 4),
-              width: size.width * 0.4,
-              height: 160,
+              width: 100,
+              height: 100,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
                   image: DecorationImage(
@@ -77,10 +93,11 @@ class ReadingRecomendCard extends StatelessWidget {
           GestureDetector(
             onTap: press,
             child: Container(
-              margin: EdgeInsets.all(kDefaultPadding / 4),
-              padding: EdgeInsets.all(kDefaultPadding / 4),
+              width: 100,
+              height: 25,
+              //margin: EdgeInsets.all(kDefaultPadding / 4),
+              //padding: EdgeInsets.all(kDefaultPadding / 4),
               decoration: BoxDecoration(
-                  color: Colors.white,
                   borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(10),
                     bottomRight: Radius.circular(10),
@@ -96,7 +113,7 @@ class ReadingRecomendCard extends StatelessWidget {
                 "$title\n",
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontSize: 20,
+                  fontSize: 18,
                   color: Colors.black.withOpacity(0.5),
                 ),
               ),
