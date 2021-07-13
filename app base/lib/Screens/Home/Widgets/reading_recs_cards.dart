@@ -39,7 +39,7 @@ class RecomendsReadings extends StatelessWidget {
             },
           ),
           ReadingRecomendCard(
-            image: "assets/images/mentalhealth01.jpg",
+            image: "assets/images/stress01.jpg",
             title: "Estresse",
             press: () {},
           ),
@@ -49,13 +49,23 @@ class RecomendsReadings extends StatelessWidget {
             press: () {},
           ),
           ReadingRecomendCard(
-            image: "assets/images/happy01.jpg",
+            image: "assets/images/happy02.jpg",
             title: "Felicidade",
             press: () {},
           ),
           ReadingRecomendCard(
             image: "assets/images/habits.jpg",
             title: "Rotina",
+            press: () {},
+          ),
+          ReadingRecomendCard(
+            image: "assets/images/mentalhealth01.jpg",
+            title: "PICS",
+            press: () {},
+          ),
+          ReadingRecomendCard(
+            image: "assets/images/care01.jpg",
+            title: "Redução Danos",
             press: () {},
           ),
         ],

@@ -80,7 +80,7 @@ class VideoPlayer extends StatelessWidget {
               child: YoutubePlayerIFrame(
                 controller: _controller,
                 aspectRatio: 16 / 9,
-              ) ///'https://www.youtube.com/watch?v=C30hQ0ZSFoM',
+              )
             )
           ),
         ],
@@ -90,7 +90,7 @@ class VideoPlayer extends StatelessWidget {
 }
 
 YoutubePlayerController _controller = YoutubePlayerController(
-  initialVideoId: 'C30hQ0ZSFoM',
+  initialVideoId: 'mnfZ3UmaydM',
   params: YoutubePlayerParams(
     startAt: Duration(seconds: 1),
     showControls: true,

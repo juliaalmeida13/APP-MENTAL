@@ -1,0 +1,3 @@
+A espiritualidade faz parte da sua saúde.
+Ela é uma busca pessoal pelo autoconhecimento e por respostas que são essenciais para cada pessoa (para entender o propósito de sua vida e sua relação com o mundo.) Ela pode estar relacionada à formação de uma comunidade,  à uma prática religiosa…
+Sobre quais pontos da sua vida você precisa se aprofundar? Como isso pode ajudar você a encontrar essas respostas?

@@ -12,7 +12,7 @@ class Body extends StatelessWidget {
       children: [
         InterventionTitle(text:'Jardinagem'),
         SafeArea(
-              child:ImgAndTextInfoCard(size:size,interventionImage: "assets/images/gardening02.jpg", interventionText: "assets/text/test.md"),
+              child:ImgAndTextInfoCard(size:size,interventionImage: "assets/images/gardening02.jpg", interventionText: "assets/text/Leisure/leisure02.md"),
           ),
       ],
     );
