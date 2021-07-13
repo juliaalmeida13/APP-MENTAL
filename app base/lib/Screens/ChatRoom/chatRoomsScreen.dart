@@ -4,8 +4,9 @@ import 'package:chat_app_tutorial/Shared/Widgets/MainAppBar.dart';
 import 'package:chat_app_tutorial/helper/authenticate.dart';
 import 'package:chat_app_tutorial/helper/constants.dart';
 import 'package:chat_app_tutorial/helper/helperfuncions.dart';
-import 'package:chat_app_tutorial/Services/auth.dart';
-import 'package:chat_app_tutorial/Services/database.dart';
+import 'package:chat_app_tutorial/main.dart';
+import 'package:chat_app_tutorial/services/auth.dart';
+import 'package:chat_app_tutorial/services/database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -70,7 +71,7 @@ class _ChatRoomState extends State<ChatRoom> {
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => Authenticate(),
+                  builder: (context) => LandingPage(),
                 ),
               );
             },

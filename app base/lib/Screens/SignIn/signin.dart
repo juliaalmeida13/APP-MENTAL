@@ -1,5 +1,7 @@
 import 'package:chat_app_tutorial/Screens/ChatRoom/chatRoomsScreen.dart';
 import 'package:chat_app_tutorial/Screens/Home/home_screen.dart';
+import 'package:chat_app_tutorial/Screens/HomePage/home_page.dart';
+import 'package:chat_app_tutorial/Screens/SignUp/signup.dart';
 import 'package:chat_app_tutorial/animation/FadeAnimation.dart';
 import 'package:chat_app_tutorial/constants.dart';
 import 'package:chat_app_tutorial/helper/helperfuncions.dart';
@@ -10,9 +12,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class SignIn extends StatefulWidget {
-  final Function toggle;
+  //final Function toggle;
 
-  SignIn(this.toggle);
+  //SignIn(this.toggle);
 
   @override
   _SignInState createState() => _SignInState();
@@ -56,7 +58,7 @@ class _SignInState extends State<SignIn> {
           Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                builder: (context) => HomeScreen(),
+                builder: (context) => HomePage(),
               ));
         }
       });
@@ -189,7 +191,10 @@ class _SignInState extends State<SignIn> {
                       2,
                       GestureDetector(
                         onTap: () {
-                          widget.toggle();
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => SignUp()));
                         },
                         child: Container(
                           //padding: EdgeInsets.symmetric(vertical: 8),

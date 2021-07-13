@@ -1,5 +1,7 @@
 import 'package:chat_app_tutorial/Screens/ChatRoom/Widgets/calendar.dart';
 import 'package:chat_app_tutorial/Screens/ChatRoom/chatRoomsScreen.dart';
+import 'package:chat_app_tutorial/Screens/HomePage/home_page.dart';
+import 'package:chat_app_tutorial/Screens/SignIn/signin.dart';
 import 'package:chat_app_tutorial/animation/FadeAnimation.dart';
 import 'package:chat_app_tutorial/constants.dart';
 import 'package:chat_app_tutorial/helper/helperfuncions.dart';
@@ -8,8 +10,8 @@ import 'package:chat_app_tutorial/Services/database.dart';
 import 'package:flutter/material.dart';
 
 class SignUp extends StatefulWidget {
-  final Function toggle;
-  SignUp(this.toggle);
+  //final Function toggle;
+  //SignUp(this.toggle);
   @override
   _SignUpState createState() => _SignUpState();
 }
@@ -128,7 +130,7 @@ class _SignUpState extends State<SignUp> {
         Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (context) => ChatRoom(),
+              builder: (context) => HomePage(),
             ));
       });
     }
@@ -430,7 +432,11 @@ class _SignUpState extends State<SignUp> {
                       2,
                       GestureDetector(
                         onTap: () {
-                          widget.toggle();
+                          /*Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => SignIn()));*/
+                          Navigator.pop(context);
                         },
                         child: Container(
                           //padding: EdgeInsets.symmetric(vertical: 8),
