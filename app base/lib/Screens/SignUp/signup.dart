@@ -53,7 +53,7 @@ class _SignUpState extends State<SignUp> {
           .then((value) => {
                 if (value.length > 0)
                   {
-                    print('email já existe'),
+                    showAlertDialog(context),
                   }
                 else
                   {
@@ -419,4 +419,28 @@ class _SignUpState extends State<SignUp> {
       ),
     );
   }
+}
+
+showAlertDialog(BuildContext context) {
+  Widget okButton = TextButton(
+    child: Text('ok'),
+    onPressed: () {
+      Navigator.of(context).pop();
+    },
+  );
+
+  AlertDialog alerta = AlertDialog(
+    title: Text('E-mail já cadastrado'),
+    content: Text("Já existe uma conta associada a este e-mail"),
+    actions: [
+      okButton,
+    ],
+  );
+
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alerta;
+    },
+  );
 }
