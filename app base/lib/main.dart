@@ -17,6 +17,7 @@ void main() {
 }
 
 class MyApp extends StatefulWidget {
+  static const routeName = '/main-screen';
   // This widget is the root of your application.
   @override
   _MyAppState createState() => _MyAppState();

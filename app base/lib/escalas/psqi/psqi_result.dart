@@ -1,20 +1,18 @@
 import 'package:chat_app_tutorial/Services/database.dart';
 import 'package:chat_app_tutorial/main.dart';
 import 'package:flutter/material.dart';
-// import './categories_screen.dart';
 
-class Promisn2Result extends StatelessWidget {
+class PsqiResult extends StatelessWidget {
   final List<int> resultScoreList;
   final int questionIndex;
   final String userEmail;
   final String questName;
   final String userEscala;
   final DateTime instantTime = DateTime.now();
-  //final Function resetHandler;
 
   final DatabaseMethods databaseMethods = new DatabaseMethods();
 
-  sendPromisn2Score(String email) {
+  sendPsqiScore(String email) {
     Map<String, dynamic> answerMap = {
       "q1": resultScoreList[1],
       "q2": resultScoreList[2],
@@ -24,6 +22,22 @@ class Promisn2Result extends StatelessWidget {
       "q6": resultScoreList[6],
       "q7": resultScoreList[7],
       "q8": resultScoreList[8],
+      "q9": resultScoreList[9],
+      "q10": resultScoreList[10],
+      "q11": resultScoreList[11],
+      "q12": resultScoreList[12],
+      "q13": resultScoreList[13],
+      "q14": resultScoreList[14],
+      "q15": resultScoreList[15],
+      "q16": resultScoreList[16],
+      "q17": resultScoreList[17],
+      "q18": resultScoreList[18],
+      "q19": resultScoreList[19],
+      "q20": resultScoreList[20],
+      "q21": resultScoreList[21],
+      "q22": resultScoreList[22],
+      "q23": resultScoreList[23],
+      "q24": resultScoreList[24],
       "answeredAt": instantTime,
       "questName": questName,
       "answeredUntil": questionIndex,
@@ -33,7 +47,7 @@ class Promisn2Result extends StatelessWidget {
     databaseMethods.disableQuest(userEscala, email);
   }
 
-  Promisn2Result({
+  PsqiResult({
     this.resultScoreList,
     this.questionIndex,
     this.userEmail,
@@ -42,7 +56,7 @@ class Promisn2Result extends StatelessWidget {
   });
 
   final String resultPhrase =
-      'PROMIS Nível 2 concluído! \n\nSuas respostas serão enviadas, e analisadas anonimamente para a recomendação de novas atividades.\n\nEstá de acordo?';
+      'Questionário concluído! \n\nSuas respostas serão enviadas, e analisadas anonimamente para a recomendação de novas atividades.\n\nEstá de acordo?';
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +80,7 @@ class Promisn2Result extends StatelessWidget {
             child: const Text('Sim, estou de acordo',
                 style: TextStyle(color: Colors.black)),
             onPressed: () {
-              sendPromisn2Score(userEmail);
+              sendPsqiScore(userEmail);
               showDialog<String>(
                 context: context,
                 builder: (BuildContext context) => AlertDialog(
@@ -76,11 +90,9 @@ class Promisn2Result extends StatelessWidget {
                   actions: <Widget>[
                     TextButton(
                       onPressed: () async {
-                        //enviarDominios(userEmail);
                         Navigator.pop(context, 'Ok');
                         await Navigator.of(context).push(new MaterialPageRoute(
                             builder: (context) => MyApp()));
-                        //Navigator.pop(context, 'OK');
                       },
                       child: const Text('Ok'),
                     ),
@@ -90,16 +102,6 @@ class Promisn2Result extends StatelessWidget {
             },
           ),
         ),
-        /*FlatButton(
-          child: Text('Retornar ao menu'),
-          textColor: Colors.blue,
-          onPressed: () => {
-            Navigator.of(context).pushNamed(
-              CategoriesScreen.routeName,
-              arguments: {},
-            )
-          },
-        ),*/
       ],
     );
   }

@@ -383,17 +383,41 @@ class _Promisn1ScreenState extends State<Promisn1Screen> {
     });
 
     if (_questionIndex < _questions.length) {
-      print('ahn');
+      print("qIndex : $_questionIndex");
     }
+  }
+
+  void _resetLastDomain(int dom) {
+    print("dooom:$dom");
+    _totalScoreList[dom] = 0;
+    var _resetQuestionIndex = _questionIndex;
+    int beforeDomain = 0;
+    do {
+      _resetQuestionIndex -= 1;
+      var beforeList = _questions[_resetQuestionIndex - 1]["answers"]
+          as List<Map<String, Object>>;
+      beforeDomain = beforeList[0]["dom"];
+      print("resset $_resetQuestionIndex");
+    } while (dom == beforeDomain);
+    setState(() {
+      _questionIndex = _resetQuestionIndex;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     final routeArgs =
-        ModalRoute.of(context).settings.arguments as Map<String, String>;
+        ModalRoute.of(context).settings.arguments as Map<String, Object>;
     final titleAA = routeArgs['title'];
     final _userEscala = routeArgs['userEscala'];
+    final _answeredUntil = routeArgs['answeredUntil'];
+    final _userEmail = routeArgs['email'];
+    var index = _answeredUntil as int;
+    if (_questionIndex < index) {
+      _questionIndex = index;
+    }
 
+    print("aaaa" + _userEmail);
     return Scaffold(
       appBar: AppBar(
         title: Text(titleAA),
@@ -404,13 +428,20 @@ class _Promisn1ScreenState extends State<Promisn1Screen> {
         child: _questionIndex < _questions.length
             ? Promisn1(
                 answerQuestion: _answerQuestion,
+                resetLastDomain: _resetLastDomain,
                 questionIndex: _questionIndex,
                 questions: _questions,
+                userEmail: _userEmail,
+                resultScoreList: _totalScoreList,
+                userEscala: _userEscala,
+                questName: titleAA,
               ) //Quiz
             : Promisn1Result(
                 resultScoreList: _totalScoreList,
                 questName: titleAA,
                 userEscala: _userEscala,
+                userEmail: _userEmail,
+                questionIndex: _questionIndex,
               ),
       ), //Padding
     ); //Scaffold

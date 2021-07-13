@@ -1,23 +1,33 @@
 import 'package:chat_app_tutorial/Services/database.dart';
 import 'package:chat_app_tutorial/main.dart';
 import 'package:flutter/material.dart';
-
-import 'package:chat_app_tutorial/escalas/promis_answer.dart';
 import 'package:chat_app_tutorial/escalas/question.dart';
+import 'package:chat_app_tutorial/escalas/promis_answer.dart';
 
-class Pcl5 extends StatelessWidget {
+class Mdq extends StatelessWidget {
   final List<Map<String, Object>> questions;
   final int questionIndex;
+  final List<int> resultScoreList;
   final Function answerQuestion;
   final Function resetQuestion;
   final String userEmail;
-  final DatabaseMethods databaseMethods = new DatabaseMethods();
-  final List<int> resultScoreList;
   final String userEscala;
   final String questName;
+  final DatabaseMethods databaseMethods = new DatabaseMethods();
   final DateTime now = DateTime.now();
 
-  sendPcl5PartialResult(String email) {
+  Mdq({
+    this.questions,
+    @required this.answerQuestion,
+    @required this.questionIndex,
+    this.resultScoreList,
+    this.userEmail,
+    this.userEscala,
+    this.questName,
+    this.resetQuestion,
+  });
+
+  sendMdqPartialScore(String email) {
     Map<String, dynamic> answerMap = {
       "q1": resultScoreList[1],
       "q2": resultScoreList[2],
@@ -36,9 +46,6 @@ class Pcl5 extends StatelessWidget {
       "q15": resultScoreList[15],
       "q16": resultScoreList[16],
       "q17": resultScoreList[17],
-      "q18": resultScoreList[18],
-      "q19": resultScoreList[19],
-      "q20": resultScoreList[20],
       "answeredAt": now,
       "questName": questName,
       "answeredUntil": questionIndex,
@@ -46,17 +53,6 @@ class Pcl5 extends StatelessWidget {
     databaseMethods.addQuestAnswer(answerMap, userEmail, userEscala);
     databaseMethods.updateQuestIndex(userEscala, userEmail, questionIndex);
   }
-
-  Pcl5({
-    this.questions,
-    @required this.answerQuestion,
-    @required this.questionIndex,
-    this.userEmail,
-    this.resultScoreList,
-    this.userEscala,
-    this.questName,
-    this.resetQuestion,
-  });
 
   @override
   Widget build(BuildContext context) {
@@ -83,7 +79,7 @@ class Pcl5 extends StatelessWidget {
           ...(questions[questionIndex]['answers'] as List<Map<String, Object>>)
               .map((answer) {
             return PromisAnswer(
-              () => answerQuestion(answer['score'], answer['index']),
+              () => answerQuestion(answer['score']),
               answer['text'],
             );
           }).toList(),
@@ -100,14 +96,6 @@ class Pcl5 extends StatelessWidget {
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
                       primary: Color.fromRGBO(104, 202, 138, 1)),
-                  /*onPressed: () {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return alert;
-                      },
-                    );
-                    },*/
                   onPressed: () => showDialog<String>(
                     context: context,
                     builder: (BuildContext context) => AlertDialog(
@@ -121,12 +109,11 @@ class Pcl5 extends StatelessWidget {
                         ),
                         TextButton(
                           onPressed: () async {
-                            sendPcl5PartialResult(userEmail);
+                            sendMdqPartialScore(userEmail);
                             Navigator.pop(context, 'Ok');
                             await Navigator.of(context).push(
                                 new MaterialPageRoute(
                                     builder: (context) => MyApp()));
-                            //Navigator.pop(context, 'OK');
                           },
                           child: const Text('OK'),
                         ),

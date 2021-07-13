@@ -1,29 +1,58 @@
 import 'package:flutter/material.dart';
-//import 'fancy_button.dart'
-import 'package:chat_app_tutorial/escalas/promisn2/promisn2.dart';
-import 'package:chat_app_tutorial/escalas/promisn2/promisn2_result.dart';
+import 'package:chat_app_tutorial/escalas/promisAnsiedade/promisAnsi.dart';
+import 'package:chat_app_tutorial/escalas/promisAnsiedade/promisAnsi_result.dart';
 
-class Promisn2Screen extends StatefulWidget {
-  static const routeName = '/promisn2-screen';
+class PromisAnsiScreen extends StatefulWidget {
+  static const routeName = '/promisAnsi-screen';
 
   @override
-  _Promisn2ScreenState createState() {
-    return _Promisn2ScreenState();
+  _PromisAnsiScreenState createState() {
+    return _PromisAnsiScreenState();
   }
 }
 
-class _Promisn2ScreenState extends State<Promisn2Screen> {
+class _PromisAnsiScreenState extends State<PromisAnsiScreen> {
   static const _questions = [
     {
       'questionText':
-          'As questões a seguir perguntam sobre coisas que podem tê-lo pertubado nestes últimos sete (7) dias. Para cada pergunta, escolha o número que melhor descreve o quanto (ou com que frequência) você foi perturbado pelos problemas descritos a seguir.',
+          'As questões a seguir visam obter informações sobre a freqüência que você tem sido incomodado por uma lista de \“sentimentos negativos\” durante a última semana. Para cada pergunta, escolha o número que melhor descreve o quanto (ou com que frequência) você tem sido incomodado pelos "sentimentos negativos" descritos a seguir.',
       'answers': [
         {'text': 'Entendi e quero prosseguir', 'score': 0},
       ],
     },
     {
+      'questionText': 'I. Eu me senti apreensivo (a).',
+      'answers': [
+        {'text': 'Nunca', 'score': 0},
+        {'text': 'Raramente', 'score': 1},
+        {'text': 'Às vezes', 'score': 2},
+        {'text': 'Frequentemente', 'score': 3},
+        {'text': 'Sempre', 'score': 4},
+      ],
+    },
+    {
+      'questionText': 'II. Eu me senti ansioso (a).',
+      'answers': [
+        {'text': 'Nunca', 'score': 0},
+        {'text': 'Raramente', 'score': 1},
+        {'text': 'Às vezes', 'score': 2},
+        {'text': 'Frequentemente', 'score': 3},
+        {'text': 'Sempre', 'score': 4},
+      ],
+    },
+    {
+      'questionText': 'III. Eu me senti preocupado (a).',
+      'answers': [
+        {'text': 'Nunca', 'score': 0},
+        {'text': 'Raramente', 'score': 1},
+        {'text': 'Às vezes', 'score': 2},
+        {'text': 'Frequentemente', 'score': 3},
+        {'text': 'Sempre', 'score': 4},
+      ],
+    },
+    {
       'questionText':
-          'I. Senti-me sem valor e sem importância (inútil para as pessoas)',
+          'IV. Achei difícil me concentrar em qualquer coisa a não ser na minha ansiedade.',
       'answers': [
         {'text': 'Nunca', 'score': 0},
         {'text': 'Raramente', 'score': 1},
@@ -33,7 +62,7 @@ class _Promisn2ScreenState extends State<Promisn2Screen> {
       ],
     },
     {
-      'questionText': 'II. Senti que eu não tinha expectativas para o futuro',
+      'questionText': 'V. Eu me senti nervoso (a).',
       'answers': [
         {'text': 'Nunca', 'score': 0},
         {'text': 'Raramente', 'score': 1},
@@ -43,7 +72,7 @@ class _Promisn2ScreenState extends State<Promisn2Screen> {
       ],
     },
     {
-      'questionText': 'III. Senti-me incapaz',
+      'questionText': 'VI. Eu me senti inquieto (a).',
       'answers': [
         {'text': 'Nunca', 'score': 0},
         {'text': 'Raramente', 'score': 1},
@@ -53,47 +82,7 @@ class _Promisn2ScreenState extends State<Promisn2Screen> {
       ],
     },
     {
-      'questionText': 'IV. Senti-me triste',
-      'answers': [
-        {'text': 'Nunca', 'score': 0},
-        {'text': 'Raramente', 'score': 1},
-        {'text': 'Às vezes', 'score': 2},
-        {'text': 'Frequentemente', 'score': 3},
-        {'text': 'Sempre', 'score': 4},
-      ],
-    },
-    {
-      'questionText': 'V. Senti-me um fracassado(a)',
-      'answers': [
-        {'text': 'Nunca', 'score': 0},
-        {'text': 'Raramente', 'score': 1},
-        {'text': 'Às vezes', 'score': 2},
-        {'text': 'Frequentemente', 'score': 3},
-        {'text': 'Sempre', 'score': 4},
-      ],
-    },
-    {
-      'questionText': 'VI. Senti-me deprimido(a)',
-      'answers': [
-        {'text': 'Nunca', 'score': 0},
-        {'text': 'Raramente', 'score': 1},
-        {'text': 'Às vezes', 'score': 2},
-        {'text': 'Frequentemente', 'score': 3},
-        {'text': 'Sempre', 'score': 4},
-      ],
-    },
-    {
-      'questionText': 'VII. Senti-me infeliz',
-      'answers': [
-        {'text': 'Nunca', 'score': 0},
-        {'text': 'Raramente', 'score': 1},
-        {'text': 'Às vezes', 'score': 2},
-        {'text': 'Frequentemente', 'score': 3},
-        {'text': 'Sempre', 'score': 4},
-      ],
-    },
-    {
-      'questionText': 'VIII. Senti-me sem esperança',
+      'questionText': 'VII. Eu me senti tenso (a).',
       'answers': [
         {'text': 'Nunca', 'score': 0},
         {'text': 'Raramente', 'score': 1},
@@ -104,19 +93,9 @@ class _Promisn2ScreenState extends State<Promisn2Screen> {
     },
   ];
 
-  //(p. ex. analgésicos, estimulantes, sedativos ou tranquilizantes, ou drogas como maconha, cocaína ou crack, drogas sintéticas, alucinógenos, heroína, inalantes ou solventes ou metanfetamina?
   var _questionIndex = 0;
-  var _totalScoreList = List<int>.filled(9, 0);
+  var _totalScoreList = List<int>.filled(8, 0);
 
-  /*void _resetQuiz(BuildContext ctx) {
-    _questionIndex = 0;
-    _totalScore = 0;
-    Navigator.of(ctx).pop();
-    /*setState(() {
-      _questionIndex = 0;
-      _totalScore = 0;
-    }); */
-*/
   void _answerQuestion(int score) {
     _totalScoreList[_questionIndex] = score;
     setState(() {
@@ -150,7 +129,7 @@ class _Promisn2ScreenState extends State<Promisn2Screen> {
       _questionIndex = index;
     }
 
-    print("Promisn2_screen: " + _userEmail);
+    print("PromisAnsi_screen: " + _userEmail);
     return Scaffold(
       appBar: AppBar(
         title: Text(titleAA),
@@ -159,7 +138,7 @@ class _Promisn2ScreenState extends State<Promisn2Screen> {
       body: Padding(
         padding: const EdgeInsets.all(30.0),
         child: _questionIndex < _questions.length
-            ? Promisn2(
+            ? PromisAnsi(
                 answerQuestion: _answerQuestion,
                 resetQuestion: _resetQuestion,
                 questionIndex: _questionIndex,
@@ -169,7 +148,7 @@ class _Promisn2ScreenState extends State<Promisn2Screen> {
                 userEscala: _userEscala,
                 questName: titleAA,
               ) //Quiz
-            : Promisn2Result(
+            : PromisAnsiResult(
                 resultScoreList: _totalScoreList,
                 questName: titleAA,
                 userEscala: _userEscala,
@@ -178,6 +157,5 @@ class _Promisn2ScreenState extends State<Promisn2Screen> {
               ),
       ), //Padding
     ); //Scaffold
-    // debugShowCheckedModeBanner: false,;
   }
 }

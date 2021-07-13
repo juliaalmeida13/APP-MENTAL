@@ -1,5 +1,5 @@
 import 'package:chat_app_tutorial/helper/helperfuncions.dart';
-import 'package:chat_app_tutorial/services/database.dart';
+import 'package:chat_app_tutorial/Services/database.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 

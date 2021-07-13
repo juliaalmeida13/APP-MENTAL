@@ -42,10 +42,24 @@ class DatabaseMethods {
   }
 
   disableQuest(String questId, userEmail) {
-    DateTime instantTime;
-    instantTime = DateTime.now();
     Map<String, dynamic> disableMap = {
       "unanswered?": false,
+    };
+
+    FirebaseFirestore.instance
+        .collection("Escala")
+        .doc(userEmail)
+        .collection("userEscalas")
+        .doc(questId)
+        .update(disableMap)
+        .catchError((e) {
+      print(e.toString());
+    });
+  }
+
+  updateQuestIndex(String questId, String userEmail, index) {
+    Map<String, dynamic> disableMap = {
+      "answeredUntil": index,
     };
 
     FirebaseFirestore.instance
@@ -125,5 +139,17 @@ class DatabaseMethods {
         .doc(userEmail)
         .collection("userEscalas")
         .snapshots();
+  }
+
+  getDomFromAnswers(String userEmail, String userEscala, String dom) async {
+    return FirebaseFirestore.instance
+        .collection("Escala")
+        .doc(userEmail)
+        .collection("userEscalas")
+        .doc(userEscala)
+        .collection("answers")
+        .orderBy(dom, descending: true)
+        .limit(1)
+        .get();
   }
 }

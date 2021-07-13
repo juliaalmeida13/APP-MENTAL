@@ -3,8 +3,8 @@ import 'package:chat_app_tutorial/Screens/ChatRoom/chatRoomsScreen.dart';
 import 'package:chat_app_tutorial/animation/FadeAnimation.dart';
 import 'package:chat_app_tutorial/constants.dart';
 import 'package:chat_app_tutorial/helper/helperfuncions.dart';
-import 'package:chat_app_tutorial/services/auth.dart';
-import 'package:chat_app_tutorial/services/database.dart';
+import 'package:chat_app_tutorial/Services/auth.dart';
+import 'package:chat_app_tutorial/Services/database.dart';
 import 'package:flutter/material.dart';
 
 class SignUp extends StatefulWidget {
@@ -55,18 +55,74 @@ class _SignUpState extends State<SignUp> {
         print('$now aaaaaa');
         var firstDay = getNextSunday(now);
 
-        for (var i = 1; i <= 6; i++) {
+        //add promisn1
+        for (var i = 1; i <= 11; i += 2) {
           String userEscala = 'promisN1_week$i';
           Map<String, dynamic> questMap = {
             "unanswered?": true,
             "questId": "pn1",
-            "questName": "PROMIS Nível 1 - Semana $i",
+            "questName": "Escala PROMIS Nível 1 - Semana $i",
             "userEscala": userEscala,
             "availableAt": addWeeks(day: firstDay, n: i - 2),
+            "answeredUntil": 0,
           };
           DatabaseMethods().createQuest(
               userEscala, questMap, emailTextEdittingController.text);
         }
+        //add pset
+        for (var i = 1; i <= 12; i += 2) {
+          if (i != 6 && i != 10) {
+            String userEscala = 'pset_week$i';
+            Map<String, dynamic> questMap = {
+              "unanswered?": true,
+              "questId": "pset",
+              "questName": "Pergunta Eventos Traumáticos - Semana $i",
+              "userEscala": userEscala,
+              "availableAt": addWeeks(day: firstDay, n: i - 1),
+              "answeredUntil": 0,
+            };
+            DatabaseMethods().createQuest(
+                userEscala, questMap, emailTextEdittingController.text);
+          }
+        }
+        //add quesi
+        String userEscala = 'quesi_week6';
+        Map<String, dynamic> questMap = {
+          "unanswered?": true,
+          "questId": "quesi",
+          "questName": "Questionário Sobre Traumas na Infância - Semana 6",
+          "userEscala": userEscala,
+          "availableAt": addWeeks(day: firstDay, n: -1),
+          "answeredUntil": 0,
+        };
+        DatabaseMethods().createQuest(
+            userEscala, questMap, emailTextEdittingController.text);
+
+        //add questSD1
+        String userEscala1 = 'questSD1_week1';
+        Map<String, dynamic> questMap1 = {
+          "unanswered?": true,
+          "questId": "questSD1",
+          "questName": "Questionário Sociodemográfico (1) - Semana 1",
+          "userEscala": userEscala1,
+          "availableAt": addWeeks(day: firstDay, n: -1),
+          "answeredUntil": 0,
+        };
+        DatabaseMethods().createQuest(
+            userEscala1, questMap1, emailTextEdittingController.text);
+
+        //add questSD2
+        String userEscala2 = 'questSD2_week2';
+        Map<String, dynamic> questMap2 = {
+          "unanswered?": true,
+          "questId": "questSD2",
+          "questName": "Questionário Sociodemográfico (2) - Semana 2",
+          "userEscala": userEscala2,
+          "availableAt": addWeeks(day: firstDay, n: -1),
+          "answeredUntil": 0,
+        };
+        DatabaseMethods().createQuest(
+            userEscala2, questMap2, emailTextEdittingController.text);
 
         HelperFunctions.saveUserLoggedInSharedPreference(true);
         Navigator.pushReplacement(
