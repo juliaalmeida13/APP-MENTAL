@@ -7,6 +7,7 @@ import 'package:chat_app_tutorial/constants.dart';
 import 'package:chat_app_tutorial/helper/helperfuncions.dart';
 import 'package:chat_app_tutorial/services/auth.dart';
 import 'package:chat_app_tutorial/services/database.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class SignUp extends StatefulWidget {
@@ -46,37 +47,51 @@ class _SignUpState extends State<SignUp> {
         isLoading = true;
       });
 
-      authMethods
-          .signUpWithEmailAndPassword(emailTextEdittingController.text,
-              passwordTextEdittingController.text)
-          .then((val) {
-        //print("${val.hashCode}");
+      //verificando se email já existe
+      FirebaseAuth.instance
+          .fetchSignInMethodsForEmail(emailTextEdittingController.text)
+          .then((value) => {
+                if (value.length > 0)
+                  {
+                    print('email já existe'),
+                  }
+                else
+                  {
+                    print('email não existe'),
+                    authMethods
+                        .signUpWithEmailAndPassword(
+                            emailTextEdittingController.text,
+                            passwordTextEdittingController.text)
+                        .then((val) {
+                      //print("${val.hashCode}");
 
-        databaseMethods.uploadUserInfo(userInfoMap);
-        now = DateTime.now();
-        print('$now aaaaaa');
-        var firstDay = getNextSunday(now);
+                      databaseMethods.uploadUserInfo(userInfoMap);
+                      now = DateTime.now();
+                      print('$now aaaaaa');
+                      var firstDay = getNextSunday(now);
 
-        for (var i = 1; i <= 6; i++) {
-          String userEscala = 'promisN1_week$i';
-          Map<String, dynamic> questMap = {
-            "unanswered?": true,
-            "questId": "pn1",
-            "questName": "PROMIS Nível 1 - Semana $i",
-            "userEscala": userEscala,
-            "availableAt": addWeeks(day: firstDay, n: i - 2),
-          };
-          DatabaseMethods().createQuest(
-              userEscala, questMap, emailTextEdittingController.text);
-        }
+                      for (var i = 1; i <= 6; i++) {
+                        String userEscala = 'promisN1_week$i';
+                        Map<String, dynamic> questMap = {
+                          "unanswered?": true,
+                          "questId": "pn1",
+                          "questName": "PROMIS Nível 1 - Semana $i",
+                          "userEscala": userEscala,
+                          "availableAt": addWeeks(day: firstDay, n: i - 2),
+                        };
+                        DatabaseMethods().createQuest(userEscala, questMap,
+                            emailTextEdittingController.text);
+                      }
 
-        HelperFunctions.saveUserLoggedInSharedPreference(true);
-        Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) => HomePage(),
-            ));
-      });
+                      HelperFunctions.saveUserLoggedInSharedPreference(true);
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => HomePage(),
+                          ));
+                    })
+                  }
+              });
     }
   }
 
@@ -356,8 +371,8 @@ class _SignUpState extends State<SignUp> {
                                 AppColors.green,
                                 AppColors.green06,
                               ])),
-                          child: GestureDetector(
-                            onTap: () {
+                          child: TextButton(
+                            onPressed: () {
                               signMeUp();
                             },
                             child: Center(

@@ -21,7 +21,7 @@ class _HomePageState extends State<HomePage> {
     HomeScreen(),
     SleepPage(),
     ProfilePage(),
-    ContactsScreen(),
+    ChatRoom(),
     QuestsScreen(),
   ];
 

@@ -162,8 +162,8 @@ class _SignInState extends State<SignIn> {
                                 AppColors.green,
                                 AppColors.green06,
                               ])),
-                          child: GestureDetector(
-                            onTap: () {
+                          child: TextButton(
+                            onPressed: () {
                               signIn();
                             },
                             child: Center(
