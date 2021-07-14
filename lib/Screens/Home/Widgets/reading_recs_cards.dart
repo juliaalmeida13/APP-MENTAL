@@ -25,7 +25,7 @@ class RecomendsReadings extends StatelessWidget {
             title: "Lazer",
             press: () {
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => ReadingScreen("titulo","assets/text/DailyLifeHabits/dailylife01.md","assets/images/gardening02.jpg")));
+                  MaterialPageRoute(builder: (context) => ReadingScreen("Lazer","assets/text/DailyLifeHabits/dailylife01.md","assets/images/gardening02.jpg")));
             },
           ),
           ReadingRecomendCard(

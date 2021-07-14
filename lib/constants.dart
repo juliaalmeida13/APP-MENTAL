@@ -65,7 +65,7 @@ class AppTextStyles {
       fontWeight: FontWeight.w600);
 
   static final TextStyle titulotab =
-      TextStyle(fontFamily: "Inter", color: Colors.black, fontSize: 40, fontWeight: FontWeight.bold);
+      TextStyle(fontFamily: "Inter", color: Colors.black, fontSize: 14, fontWeight: FontWeight.bold);
 
   static final TextStyle descratividades = TextStyle(
       fontFamily: "Inter",
