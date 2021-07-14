@@ -19,13 +19,13 @@ class ChatRoom extends StatefulWidget {
 class _ChatRoomState extends State<ChatRoom> {
   AuthMethods authMethods = new AuthMethods();
   DatabaseMethods databaseMethods = new DatabaseMethods();
-  late Stream<QuerySnapshot<Object?>> chatRoomsStream;
+  Stream<QuerySnapshot<Object?>>? chatRoomsStream;
 
   Widget chatRoomList() {
     return StreamBuilder<QuerySnapshot>(
       stream: chatRoomsStream,
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-        return snapshot.hasData
+        return snapshot.hasData && snapshot.data!.docs.length > 0
             ? ListView.builder(
                 itemCount: snapshot.data!.docs.length,
                 itemBuilder: (context, index) {
@@ -45,8 +45,10 @@ class _ChatRoomState extends State<ChatRoom> {
 
   @override
   void initState() {
-    getUserInfo();
     super.initState();
+    getUserInfo().whenComplete(() {
+      setState(() {});
+    });
   }
 
   getUserInfo() async {
@@ -56,8 +58,6 @@ class _ChatRoomState extends State<ChatRoom> {
         chatRoomsStream = val;
       });
     });
-
-    setState(() {});
   }
 
   @override

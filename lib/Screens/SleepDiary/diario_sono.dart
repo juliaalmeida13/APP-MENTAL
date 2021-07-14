@@ -38,7 +38,7 @@ class _DiarioSonoState extends State<DiarioSono> {
             width: 600,
             child: SurveyKit(
               surveyController:
-                  SurveyController(onCloseSurvey: (context, resultFunction) {
+              SurveyController(onCloseSurvey: (context, resultFunction) {
                 print('cancelado');
               }),
               onResult: (SurveyResult result) async {
@@ -104,7 +104,7 @@ class _DiarioSonoState extends State<DiarioSono> {
                       Size(150.0, 60.0),
                     ),
                     side: MaterialStateProperty.resolveWith(
-                      (Set<MaterialState> state) {
+                          (Set<MaterialState> state) {
                         if (state.contains(MaterialState.disabled)) {
                           return BorderSide(
                             color: Colors.grey,
@@ -121,15 +121,15 @@ class _DiarioSonoState extends State<DiarioSono> {
                       ),
                     ),
                     textStyle: MaterialStateProperty.resolveWith(
-                      (Set<MaterialState> state) {
+                          (Set<MaterialState> state) {
                         if (state.contains(MaterialState.disabled)) {
                           return Theme.of(context).textTheme.button?.copyWith(
-                                color: Colors.grey,
-                              );
+                            color: Colors.grey,
+                          );
                         }
                         return Theme.of(context).textTheme.button?.copyWith(
-                              color: Colors.cyan,
-                            );
+                          color: Colors.cyan,
+                        );
                       },
                     ),
                   ),
@@ -138,8 +138,8 @@ class _DiarioSonoState extends State<DiarioSono> {
                   style: ButtonStyle(
                     textStyle: MaterialStateProperty.all(
                       Theme.of(context).textTheme.button?.copyWith(
-                            color: Colors.cyan,
-                          ),
+                        color: Colors.cyan,
+                      ),
                     ),
                   ),
                 ),
@@ -189,7 +189,7 @@ class _DiarioSonoState extends State<DiarioSono> {
         ),
         QuestionStep(
           title:
-              'Quantas vezes você acordou, sem contar o seu despertar final?',
+          'Quantas vezes você acordou, sem contar o seu despertar final?',
           answerFormat: IntegerAnswerFormat(
               defaultValue: 0, hint: 'Por favor insira a quantidade'),
         ),
@@ -232,7 +232,7 @@ class _DiarioSonoState extends State<DiarioSono> {
         CompletionStep(
           //id: StepIdentifier(id: '321'),
           text:
-              'Obrigado por responder o questionário!\n Por favor, volte amanha!',
+          'Obrigado por responder o questionário!\n Por favor, volte amanha!',
           title: 'Pronto!',
           buttonText: 'Enviar respostas', id: StepIdentifier(),
         ),
@@ -270,7 +270,7 @@ Future<void> showInformationDialog(
                     textAlign: TextAlign.center,
                   ),
                   decoration:
-                      BoxDecoration(border: Border.all(color: Colors.green)),
+                  BoxDecoration(border: Border.all(color: Colors.green)),
                 ),
                 SizedBox(
                   height: 30,
@@ -300,7 +300,7 @@ Future<void> showInformationDialog(
                     textAlign: TextAlign.center,
                   ),
                   decoration:
-                      BoxDecoration(border: Border.all(color: Colors.green)),
+                  BoxDecoration(border: Border.all(color: Colors.green)),
                 ),
               ],
             )),
@@ -336,13 +336,13 @@ calculoEficienciaSono(
   var quest7 = format.parse(_resQuest7);
 
   var intervaloTentouDormirEAcordou =
-      format.parse(quest6.difference(quest2).toString());
+  format.parse(quest6.difference(quest2).toString());
 
   var intervaloFoiParaCamaEAcordou =
-      format.parse(quest6.difference(quest1).toString());
+  format.parse(quest6.difference(quest1).toString());
 
   var demorouDomirMaisTotalDespertar =
-      quest3.add(Duration(hours: quest5.hour, minutes: quest5.minute));
+  quest3.add(Duration(hours: quest5.hour, minutes: quest5.minute));
   var tempoTotalDeSono = intervaloTentouDormirEAcordou.subtract(Duration(
     hours: demorouDomirMaisTotalDespertar.hour,
     minutes: demorouDomirMaisTotalDespertar.minute,

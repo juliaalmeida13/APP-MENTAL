@@ -6,6 +6,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+
 class LandingPage extends StatelessWidget {
   final Future<FirebaseApp> _initialization = Firebase.initializeApp();
 
@@ -27,7 +28,7 @@ class LandingPage extends StatelessWidget {
             stream: FirebaseAuth.instance.authStateChanges(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.active) {
-                User? user = snapshot.data as User?;
+                User user = snapshot.data as User;
 
                 print(user);
 
@@ -43,8 +44,8 @@ class LandingPage extends StatelessWidget {
                 body: Container(
                   decoration: BoxDecoration(
                       image: DecorationImage(
-                    image: AssetImage(AppImages.appMentalLogo),
-                  )),
+                        image: AssetImage(AppImages.appMentalLogo),
+                      )),
                 ),
               );
             },
@@ -56,8 +57,8 @@ class LandingPage extends StatelessWidget {
           body: Container(
             decoration: BoxDecoration(
                 image: DecorationImage(
-              image: AssetImage(AppImages.appMentalLogo),
-            )),
+                  image: AssetImage(AppImages.appMentalLogo),
+                )),
           ),
         );
       },

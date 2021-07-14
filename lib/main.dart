@@ -9,12 +9,12 @@ import 'package:app_mental/escalas/pset/pset_screen.dart';
 import 'package:app_mental/helper/authenticate.dart';
 import 'package:app_mental/helper/helperfuncions.dart';
 
+
 void main() {
   runApp(MyApp());
 }
 
 class MyApp extends StatefulWidget {
-  static const routeName = '/main-screen';
   // This widget is the root of your application.
   @override
   _MyAppState createState() => _MyAppState();

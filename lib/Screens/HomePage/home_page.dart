@@ -21,9 +21,8 @@ class _HomePageState extends State<HomePage> {
     HomeScreen(),
     SleepPage(),
     ProfilePage(),
-    ContactsScreen(),
+    ChatRoom(),
     QuestsScreen(),
-
   ];
 
   int _selectedIndex = 0;
@@ -48,7 +47,7 @@ class _HomePageState extends State<HomePage> {
         physics: NeverScrollableScrollPhysics(),
       ),
       bottomNavigationBar:
-          /*BottomNavigationBar(
+      /*BottomNavigationBar(
         onTap: _onItemTapped,
         items: [
           buildBottomNavigationBarItem(Icons.home, 0),
@@ -59,7 +58,7 @@ class _HomePageState extends State<HomePage> {
           buildBottomNavigationBarItem(Icons.dynamic_form_outlined, 4)
         ],
       ),*/
-          CurvedNavigationBar(
+      CurvedNavigationBar(
         height: 50,
         onTap: _onItemTapped,
         color: kTextColorGreen,

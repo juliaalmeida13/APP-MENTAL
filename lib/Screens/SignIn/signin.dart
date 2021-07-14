@@ -1,5 +1,3 @@
-import 'package:app_mental/Screens/ChatRoom/chatRoomsScreen.dart';
-import 'package:app_mental/Screens/Home/home_screen.dart';
 import 'package:app_mental/Screens/HomePage/home_page.dart';
 import 'package:app_mental/Screens/SignUp/signup.dart';
 import 'package:app_mental/animation/FadeAnimation.dart';
@@ -25,9 +23,9 @@ class _SignInState extends State<SignIn> {
   AuthMethods authMethods = new AuthMethods();
   DatabaseMethods databaseMethods = new DatabaseMethods();
   TextEditingController emailTextEdittingController =
-      new TextEditingController();
+  new TextEditingController();
   TextEditingController passwordTextEdittingController =
-      new TextEditingController();
+  new TextEditingController();
 
   bool isLoading = false;
   late QuerySnapshot snapshotUserInfo;
@@ -51,7 +49,7 @@ class _SignInState extends State<SignIn> {
 
       authMethods
           .signInWithEmailAndPassword(emailTextEdittingController.text,
-              passwordTextEdittingController.text)
+          passwordTextEdittingController.text)
           .then((value) {
         if (value != null) {
           HelperFunctions.saveUserLoggedInSharedPreference(true);
@@ -117,13 +115,13 @@ class _SignInState extends State<SignIn> {
                                                   color: Colors.grey)),
                                           validator: (val) {
                                             return RegExp(
-                                                        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                                                    .hasMatch(val!)
+                                                r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                                .hasMatch(val!)
                                                 ? null
                                                 : "Por favor verifique seu email";
                                           },
                                           controller:
-                                              emailTextEdittingController,
+                                          emailTextEdittingController,
                                         ),
                                       )),
                                   FadeAnimation(
@@ -143,7 +141,7 @@ class _SignInState extends State<SignIn> {
                                                 : "Por favor verifique sua senha";
                                           },
                                           controller:
-                                              passwordTextEdittingController,
+                                          passwordTextEdittingController,
                                         ),
                                       ))
                                 ],
@@ -162,8 +160,8 @@ class _SignInState extends State<SignIn> {
                                 AppColors.green,
                                 AppColors.green06,
                               ])),
-                          child: GestureDetector(
-                            onTap: () {
+                          child: TextButton(
+                            onPressed: () {
                               signIn();
                             },
                             child: Center(
