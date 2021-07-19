@@ -12,6 +12,7 @@ import 'package:app_mental/escalas/psqi/psqi_screen.dart';
 import 'package:app_mental/escalas/quesi/quesi_screen.dart';
 import 'package:app_mental/escalas/questSD1/questSD1_screen.dart';
 import 'package:app_mental/escalas/questSD2/questSD2_screen.dart';
+import 'package:app_mental/escalas/assist/assist_screen.dart';
 import 'package:app_mental/helper/constants.dart';
 import 'package:app_mental/helper/helperfuncions.dart';
 import 'package:app_mental/Services/auth.dart';
@@ -98,6 +99,11 @@ class _QuestsScreenState extends State<QuestsScreen> {
         QuesiScreen.routeName: (ctx) => QuesiScreen(),
         QuestSD1Screen.routeName: (ctx) => QuestSD1Screen(),
         QuestSD2Screen.routeName: (ctx) => QuestSD2Screen(),
+        MdqScreen.routeName: (ctx) => MdqScreen(),
+        PromisAnsiScreen.routeName: (ctx) => PromisAnsiScreen(),
+        Phq15Screen.routeName: (ctx) => Phq15Screen(),
+        PsqiScreen.routeName: (ctx) => PsqiScreen(),
+        AssistScreen.routeName: (ctx) => AssistScreen(),
       },
       debugShowCheckedModeBanner: false,
       home: DefaultTabController(
@@ -167,6 +173,7 @@ class QuestRoomTile extends StatelessWidget {
     "pn2A": PromisAnsiScreen.routeName,
     "phq15": Phq15Screen.routeName,
     "psqi": PsqiScreen.routeName,
+    "assist": AssistScreen.routeName,
   };
 
   QuestRoomTile(
