@@ -134,7 +134,7 @@ class _AssistScreenState extends State<AssistScreen> {
       _questionIndex = index;
     }
 
-    print("Mdq_screen: " + _userEmail!);
+    print("Assistn2_screen: " + _userEmail!);
     return Scaffold(
       appBar: AppBar(
         title: Text(titleAA!),

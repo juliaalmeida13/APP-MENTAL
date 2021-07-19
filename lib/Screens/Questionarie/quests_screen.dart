@@ -1,6 +1,7 @@
 import 'package:app_mental/Screens/ChatRoom/Widgets/calendar.dart';
 import 'package:app_mental/Screens/Contacts/contacts_screen.dart';
 import 'package:app_mental/Screens/Home/home_screen.dart';
+import 'package:app_mental/escalas/assistn2/assistn2_screen.dart';
 import 'package:app_mental/escalas/mdq/mdq_screen.dart';
 import 'package:app_mental/escalas/pcl5/pcl5_screen.dart';
 import 'package:app_mental/escalas/phq15/phq15_screen.dart';
@@ -104,6 +105,7 @@ class _QuestsScreenState extends State<QuestsScreen> {
         Phq15Screen.routeName: (ctx) => Phq15Screen(),
         PsqiScreen.routeName: (ctx) => PsqiScreen(),
         AssistScreen.routeName: (ctx) => AssistScreen(),
+        Assistn2Screen.routeName: (ctx) => Assistn2Screen(),
       },
       debugShowCheckedModeBanner: false,
       home: DefaultTabController(
@@ -174,6 +176,7 @@ class QuestRoomTile extends StatelessWidget {
     "phq15": Phq15Screen.routeName,
     "psqi": PsqiScreen.routeName,
     "assist": AssistScreen.routeName,
+    "assist2": Assistn2Screen.routeName,
   };
 
   QuestRoomTile(
