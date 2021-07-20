@@ -176,7 +176,7 @@ class QuestRoomTile extends StatelessWidget {
     "phq15": Phq15Screen.routeName,
     "psqi": PsqiScreen.routeName,
     "assist": AssistScreen.routeName,
-    "assist2": Assistn2Screen.routeName,
+    "assistn2": Assistn2Screen.routeName,
   };
 
   QuestRoomTile(

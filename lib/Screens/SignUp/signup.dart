@@ -68,6 +68,21 @@ class _SignUpState extends State<SignUp> {
                       print('$now aaaaaa');
                       var firstDay = getNextSunday(now);
 
+                      //add promisn1
+                      for (var i = 1; i <= 11; i += 2) {
+                        String userEscala = 'promisN1_week$i';
+                        Map<String, dynamic> questMap = {
+                          "unanswered?": true,
+                          "questId": "pn1",
+                          "questName": "Escala PROMIS Nível 1 - Semana $i",
+                          "userEscala": userEscala,
+                          "availableAt": addWeeks(day: firstDay, n: i - 2),
+                          "answeredUntil": 0,
+                        };
+                        DatabaseMethods().createQuest(userEscala, questMap,
+                            emailTextEdittingController.text);
+                      }
+
                       //add pset
                       for (var i = 1; i <= 12; i += 2) {
                         if (i != 6 && i != 10) {

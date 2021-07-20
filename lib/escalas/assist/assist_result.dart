@@ -31,11 +31,9 @@ class AssistResult extends StatelessWidget {
     databaseMethods.updateQuestIndex(userEscala, email, questionIndex);
     databaseMethods.disableQuest(userEscala, email);
 
-    var query =
+    var answerQ1 =
         await databaseMethods.getDomFromAnswers(userEmail, userEscala, "q1");
-    //sum all q1
-
-    if (query.docs[0].get("q1") == 1) {
+    if (answerQ1.docs[0].get("q1") == 1) {
       String promisn2UserEscala = "$userEscala-assistN2";
       List<String> week = questName.split("-");
       String promisn2QuestName =
@@ -50,7 +48,165 @@ class AssistResult extends StatelessWidget {
       };
       databaseMethods.createQuest(promisn2UserEscala, questMap, email);
     }
-    ;
+
+    var answerQ2 =
+        await databaseMethods.getDomFromAnswers(userEmail, userEscala, "q2");
+    if (answerQ2.docs[0].get("q2") == 1) {
+      String promisn2UserEscala = "$userEscala-assistN2";
+      List<String> week = questName.split("-");
+      String promisn2QuestName =
+          "ASSIST - (bebidas alcoólicas)" + " -" + week[1];
+      Map<String, dynamic> questMap = {
+        "unanswered?": true,
+        "questId": "assistn2",
+        "questName": promisn2QuestName,
+        "availableAt": instantTime,
+        "userEscala": promisn2UserEscala,
+        "answeredUntil": 0,
+      };
+      databaseMethods.createQuest(promisn2UserEscala, questMap, email);
+    }
+
+    var answerQ3 =
+        await databaseMethods.getDomFromAnswers(userEmail, userEscala, "q3");
+    if (answerQ3.docs[0].get("q3") == 1) {
+      String promisn2UserEscala = "$userEscala-assistN2";
+      List<String> week = questName.split("-");
+      String promisn2QuestName = "ASSIST - (maconha)" + " -" + week[1];
+      Map<String, dynamic> questMap = {
+        "unanswered?": true,
+        "questId": "assistn2",
+        "questName": promisn2QuestName,
+        "availableAt": instantTime,
+        "userEscala": promisn2UserEscala,
+        "answeredUntil": 0,
+      };
+      databaseMethods.createQuest(promisn2UserEscala, questMap, email);
+    }
+
+    var answerQ4 =
+        await databaseMethods.getDomFromAnswers(userEmail, userEscala, "q4");
+    if (answerQ4.docs[0].get("q4") == 1) {
+      String promisn2UserEscala = "$userEscala-assistN2";
+      List<String> week = questName.split("-");
+      String promisn2QuestName = "ASSIST - (cocaína, crack)" + " -" + week[1];
+      Map<String, dynamic> questMap = {
+        "unanswered?": true,
+        "questId": "assistn2",
+        "questName": promisn2QuestName,
+        "availableAt": instantTime,
+        "userEscala": promisn2UserEscala,
+        "answeredUntil": 0,
+      };
+      databaseMethods.createQuest(promisn2UserEscala, questMap, email);
+    }
+
+    var answerQ5 =
+        await databaseMethods.getDomFromAnswers(userEmail, userEscala, "q5");
+    if (answerQ5.docs[0].get("q5") == 1) {
+      String promisn2UserEscala = "$userEscala-assistN2";
+      List<String> week = questName.split("-");
+      String promisn2QuestName =
+          "ASSIST - (anfetaminas ou êxtase)" + " -" + week[1];
+      Map<String, dynamic> questMap = {
+        "unanswered?": true,
+        "questId": "assistn2",
+        "questName": promisn2QuestName,
+        "availableAt": instantTime,
+        "userEscala": promisn2UserEscala,
+        "answeredUntil": 0,
+      };
+      databaseMethods.createQuest(promisn2UserEscala, questMap, email);
+    }
+
+    var answerQ6 =
+        await databaseMethods.getDomFromAnswers(userEmail, userEscala, "q6");
+    if (answerQ6.docs[0].get("q6") == 1) {
+      String promisn2UserEscala = "$userEscala-assistN2";
+      List<String> week = questName.split("-");
+      String promisn2QuestName = "ASSIST - (inalantes)" + " -" + week[1];
+      Map<String, dynamic> questMap = {
+        "unanswered?": true,
+        "questId": "assistn2",
+        "questName": promisn2QuestName,
+        "availableAt": instantTime,
+        "userEscala": promisn2UserEscala,
+        "answeredUntil": 0,
+      };
+      databaseMethods.createQuest(promisn2UserEscala, questMap, email);
+    }
+
+    var answerQ7 =
+        await databaseMethods.getDomFromAnswers(userEmail, userEscala, "q7");
+    if (answerQ7.docs[0].get("q7") == 1) {
+      String promisn2UserEscala = "$userEscala-assistN2";
+      List<String> week = questName.split("-");
+      String promisn2QuestName =
+          "ASSIST - (hipnóticos ou sedativos)" + " -" + week[1];
+      Map<String, dynamic> questMap = {
+        "unanswered?": true,
+        "questId": "assistn2",
+        "questName": promisn2QuestName,
+        "availableAt": instantTime,
+        "userEscala": promisn2UserEscala,
+        "answeredUntil": 0,
+      };
+      databaseMethods.createQuest(promisn2UserEscala, questMap, email);
+    }
+
+    var answerQ8 =
+        await databaseMethods.getDomFromAnswers(userEmail, userEscala, "q8");
+    if (answerQ8.docs[0].get("q8") == 1) {
+      String promisn2UserEscala = "$userEscala-assistN2";
+      List<String> week = questName.split("-");
+      String promisn2QuestName = "ASSIST - (alucinógenos)" + " -" + week[1];
+      Map<String, dynamic> questMap = {
+        "unanswered?": true,
+        "questId": "assistn2",
+        "questName": promisn2QuestName,
+        "availableAt": instantTime,
+        "userEscala": promisn2UserEscala,
+        "answeredUntil": 0,
+      };
+      databaseMethods.createQuest(promisn2UserEscala, questMap, email);
+    }
+
+    var answerQ9 =
+        await databaseMethods.getDomFromAnswers(userEmail, userEscala, "q9");
+    if (answerQ9.docs[0].get("q9") == 1) {
+      String promisn2UserEscala = "$userEscala-assistN2";
+      List<String> week = questName.split("-");
+      String promisn2QuestName = "ASSIST - (opioides)" + " -" + week[1];
+      Map<String, dynamic> questMap = {
+        "unanswered?": true,
+        "questId": "assistn2",
+        "questName": promisn2QuestName,
+        "availableAt": instantTime,
+        "userEscala": promisn2UserEscala,
+        "answeredUntil": 0,
+      };
+      databaseMethods.createQuest(promisn2UserEscala, questMap, email);
+    }
+
+    //to do
+    //change answer type to String and use it in
+    var answerQ10 =
+        await databaseMethods.getDomFromAnswers(userEmail, userEscala, "q10");
+    if (answerQ10.docs[0].get("q10") == 1) {
+      String promisn2UserEscala = "$userEscala-assistN2";
+      List<String> week = questName.split("-");
+      String promisn2QuestName =
+          "ASSIST - (outras substâncias)" + " -" + week[1];
+      Map<String, dynamic> questMap = {
+        "unanswered?": true,
+        "questId": "assistn2",
+        "questName": promisn2QuestName,
+        "availableAt": instantTime,
+        "userEscala": promisn2UserEscala,
+        "answeredUntil": 0,
+      };
+      databaseMethods.createQuest(promisn2UserEscala, questMap, email);
+    }
   }
 
   AssistResult({
