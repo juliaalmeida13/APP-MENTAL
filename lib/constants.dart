@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 const kPrimaryGreen = Color(0xFFB2FFA9);
 const kBackgroundColor = Color(0XFFFFFFFF);
 
-
 const kBackgroundGrey = Color(0XFFE5E5E5);
 const kBackgroundYellow = Color(0XFFFFE66F);
 const kBackgroundLightGreen = Color(0XFFB2FFA9);
@@ -64,8 +63,11 @@ class AppTextStyles {
       fontSize: 20,
       fontWeight: FontWeight.w600);
 
-  static final TextStyle titulotab =
-      TextStyle(fontFamily: "Inter", color: Colors.black, fontSize: 14, fontWeight: FontWeight.bold);
+  static final TextStyle titulotab = TextStyle(
+      fontFamily: "Inter",
+      color: Colors.black,
+      fontSize: 14,
+      fontWeight: FontWeight.bold);
 
   static final TextStyle descratividades = TextStyle(
       fontFamily: "Inter",
@@ -231,5 +233,5 @@ class AppImages {
   static String get background => "assets/images/background.png";
   static String get searchWhite => "assets/images/background.png";
   static String get send => "assets/images/send.png";
-  static String get promis1 => "assets/images/arquivo-medico.png";
+  static String get cards => "assets/images/arquivo-medico.png";
 }

@@ -23,11 +23,11 @@ class _SignUpState extends State<SignUp> {
 
   final formKey = GlobalKey<FormState>();
   TextEditingController userNameTextEdittingController =
-  new TextEditingController();
+      new TextEditingController();
   TextEditingController emailTextEdittingController =
-  new TextEditingController();
+      new TextEditingController();
   TextEditingController passwordTextEdittingController =
-  new TextEditingController();
+      new TextEditingController();
 
   signMeUp() {
     if (formKey.currentState!.validate()) {
@@ -49,47 +49,108 @@ class _SignUpState extends State<SignUp> {
       FirebaseAuth.instance
           .fetchSignInMethodsForEmail(emailTextEdittingController.text)
           .then((value) => {
-        if (value.length > 0)
-          {
-            showAlertDialog(context),
-          }
-        else
-          {
-            print('email não existe'),
-            authMethods
-                .signUpWithEmailAndPassword(
-                emailTextEdittingController.text,
-                passwordTextEdittingController.text)
-                .then((val) {
-              //print("${val.hashCode}");
+                if (value.length > 0)
+                  {
+                    showAlertDialog(context),
+                  }
+                else
+                  {
+                    print('email não existe'),
+                    authMethods
+                        .signUpWithEmailAndPassword(
+                            emailTextEdittingController.text,
+                            passwordTextEdittingController.text)
+                        .then((val) {
+                      //print("${val.hashCode}");
 
-              databaseMethods.uploadUserInfo(userInfoMap);
-              now = DateTime.now();
-              print('$now aaaaaa');
-              var firstDay = getNextSunday(now);
+                      databaseMethods.uploadUserInfo(userInfoMap);
+                      now = DateTime.now();
+                      print('$now aaaaaa');
+                      var firstDay = getNextSunday(now);
 
-              for (var i = 1; i <= 6; i++) {
-                String userEscala = 'promisN1_week$i';
-                Map<String, dynamic> questMap = {
-                  "unanswered?": true,
-                  "questId": "pn1",
-                  "questName": "PROMIS Nível 1 - Semana $i",
-                  "userEscala": userEscala,
-                  "availableAt": addWeeks(day: firstDay, n: i - 2),
-                };
-                DatabaseMethods().createQuest(userEscala, questMap,
-                    emailTextEdittingController.text);
-              }
+                      //add promisn1
+                      for (var i = 1; i <= 11; i += 2) {
+                        String userEscala = 'promisN1_week$i';
+                        Map<String, dynamic> questMap = {
+                          "unanswered?": true,
+                          "questId": "pn1",
+                          "questName": "Escala PROMIS Nível 1 - Semana $i",
+                          "userEscala": userEscala,
+                          "availableAt": addWeeks(day: firstDay, n: i - 2),
+                          "answeredUntil": 0,
+                        };
+                        DatabaseMethods().createQuest(userEscala, questMap,
+                            emailTextEdittingController.text);
+                      }
 
-              HelperFunctions.saveUserLoggedInSharedPreference(true);
-              Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => HomePage(),
-                  ));
-            })
-          }
-      });
+                      //add pset
+                      for (var i = 1; i <= 12; i += 2) {
+                        if (i != 6 && i != 10) {
+                          String userEscala = 'pset_week$i';
+                          Map<String, dynamic> questMap = {
+                            "unanswered?": true,
+                            "questId": "pset",
+                            "questName":
+                                "Pergunta Eventos Traumáticos - Semana $i",
+                            "userEscala": userEscala,
+                            "availableAt": addWeeks(day: firstDay, n: i - 1),
+                            "answeredUntil": 0,
+                          };
+                          DatabaseMethods().createQuest(userEscala, questMap,
+                              emailTextEdittingController.text);
+                        }
+                      }
+                      //add quesi
+                      String userEscala = 'quesi_week6';
+                      Map<String, dynamic> questMap = {
+                        "unanswered?": true,
+                        "questId": "quesi",
+                        "questName":
+                            "Questionário Sobre Traumas na Infância - Semana 6",
+                        "userEscala": userEscala,
+                        "availableAt": addWeeks(day: firstDay, n: -1),
+                        "answeredUntil": 0,
+                      };
+                      DatabaseMethods().createQuest(userEscala, questMap,
+                          emailTextEdittingController.text);
+
+                      //add questSD1
+                      String userEscala1 = 'questSD1_week1';
+                      Map<String, dynamic> questMap1 = {
+                        "unanswered?": true,
+                        "questId": "questSD1",
+                        "questName":
+                            "Questionário Sociodemográfico (1) - Semana 1",
+                        "userEscala": userEscala1,
+                        "availableAt": addWeeks(day: firstDay, n: -1),
+                        "answeredUntil": 0,
+                      };
+                      DatabaseMethods().createQuest(userEscala1, questMap1,
+                          emailTextEdittingController.text);
+
+                      //add questSD2
+                      String userEscala2 = 'questSD2_week2';
+                      Map<String, dynamic> questMap2 = {
+                        "unanswered?": true,
+                        "questId": "questSD2",
+                        "questName":
+                            "Questionário Sociodemográfico (2) - Semana 2",
+                        "userEscala": userEscala2,
+                        "availableAt": addWeeks(day: firstDay, n: -1),
+                        "answeredUntil": 0,
+                      };
+                      DatabaseMethods().createQuest(userEscala2, questMap2,
+                          emailTextEdittingController.text);
+
+                      HelperFunctions.saveUserLoggedInSharedPreference(true);
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => HomePage(),
+                          ));
+                    })
+                  }
+              });
     }
   }
 
@@ -300,12 +361,13 @@ class _SignUpState extends State<SignUp> {
                                               hintStyle: TextStyle(
                                                   color: Colors.grey)),
                                           validator: (val) {
-                                            return val!.isEmpty || val.length < 2
+                                            return val!.isEmpty ||
+                                                    val.length < 2
                                                 ? "Please Provide a valid UserName"
                                                 : null;
                                           },
                                           controller:
-                                          userNameTextEdittingController,
+                                              userNameTextEdittingController,
                                         ),
                                       )),
                                   FadeAnimation(
@@ -324,13 +386,13 @@ class _SignUpState extends State<SignUp> {
                                                   color: Colors.grey)),
                                           validator: (val) {
                                             return RegExp(
-                                                r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                                                .hasMatch(val!)
+                                                        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                                    .hasMatch(val!)
                                                 ? null
                                                 : "Por favor verifique seu email";
                                           },
                                           controller:
-                                          emailTextEdittingController,
+                                              emailTextEdittingController,
                                         ),
                                       )),
                                   FadeAnimation(
@@ -350,7 +412,7 @@ class _SignUpState extends State<SignUp> {
                                                 : "Por favor verifique sua senha";
                                           },
                                           controller:
-                                          passwordTextEdittingController,
+                                              passwordTextEdittingController,
                                         ),
                                       ))
                                 ],
