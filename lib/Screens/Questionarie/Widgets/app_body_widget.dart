@@ -32,15 +32,15 @@ class QuizCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                height: 50,
-                width: 50,
+                height: MediaQuery.of(context).size.height * .08,
+                width: MediaQuery.of(context).size.width * .08,
                 decoration: BoxDecoration(
                   image: DecorationImage(
                       image: AssetImage(AppImages.cards), fit: BoxFit.fitWidth),
                 ),
               ),
               SizedBox(
-                height: 24,
+                height: MediaQuery.of(context).size.height * .02,
               ),
               Text(title, style: AppTextStyles.heading15),
               SizedBox(
@@ -51,14 +51,14 @@ class QuizCard extends StatelessWidget {
                   Expanded(
                       flex: 1,
                       child: Text(completed, style: AppTextStyles.body11)),
-                  Expanded(
+                  /*Expanded(
                     flex: 2,
                     child: LinearProgressIndicator(
                         value: 0.75,
                         backgroundColor: AppColors.verdeclaro,
                         valueColor: AlwaysStoppedAnimation<Color>(
                             AppColors.verdementa)),
-                  )
+                  )*/
                 ],
               )
             ],

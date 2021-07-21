@@ -48,18 +48,15 @@ class _QuestsScreenState extends State<QuestsScreen> {
                   crossAxisSpacing: 16,
                 ),
                 itemBuilder: (context, index) {
-                  return Container(
-                    alignment: Alignment.center,
-                    child: QuestRoomTile(
-                      snapshot.data!.docs[index].get("questName"),
-                      snapshot.data!.docs[index].get("questId"),
-                      snapshot.data!.docs[index].get("availableAt").toDate(),
-                      snapshot.data!.docs[index].get("userEscala"),
-                      snapshot.data!.docs[index].get("answeredUntil"),
-                      Constants.myEmail,
-                    ),
+                  return QuestRoomTile(
+                    snapshot.data!.docs[index].get("questName"),
+                    snapshot.data!.docs[index].get("questId"),
+                    snapshot.data!.docs[index].get("availableAt").toDate(),
+                    snapshot.data!.docs[index].get("userEscala"),
+                    snapshot.data!.docs[index].get("answeredUntil"),
+                    Constants.myEmail,
                   );
-                  /*UnavailableQuestRoomTile(
+                  /*:UnavailableQuestRoomTile(
                           snapshot.data!.docs[index].get("questName"))*/
                 },
               )
@@ -191,7 +188,7 @@ class QuestRoomTile extends StatelessWidget {
     if (now.isAfter(availableAt) && now.isBefore(nextSunday)) {
       return QuizCard(
           title: questName,
-          completed: "$answeredUntil de 10",
+          completed: "Questões respondidas: $answeredUntil",
           onTap: () {
             print('userEmail no navigator: $userEmail' + "//");
             Navigator.of(context).pushNamed(routes[questId], arguments: {
