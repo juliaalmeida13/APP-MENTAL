@@ -59,7 +59,6 @@ class _SignUpState extends State<SignUp> {
         User? user = result.user;
         HelperFunctions.saveUserInfoToSharedPrefs(user);
         CreateQuests();
-        HelperFunctions.saveUserLoggedInSharedPreference(true);
         Navigator.pushReplacement(
             context,
             MaterialPageRoute(
