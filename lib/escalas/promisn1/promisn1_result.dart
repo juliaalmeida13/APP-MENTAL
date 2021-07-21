@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:app_mental/Services/database.dart';
+import 'package:app_mental/constants.dart';
 import 'package:app_mental/main.dart';
 import 'package:flutter/material.dart';
 // import './categories_screen.dart';
@@ -75,7 +76,6 @@ class Promisn1Result extends StatelessWidget {
       };
       databaseMethods.createQuest(mdqUserEscala, questMap, email);
     }
-
 
     if (query.docs[0].get("dom4") > 2) {
       String promisAnsiUserEscala = "$userEscala-PromisAnsi";
@@ -168,7 +168,7 @@ class Promisn1Result extends StatelessWidget {
                 builder: (BuildContext context) => AlertDialog(
                   title: const Text('Êxito!'),
                   content: const Text(
-                      'Suas respostas foram enviadas!\n Novas atividades serão disponibilizadas em breve.'),
+                      'Suas respostas foram enviadas!\nNovas atividades serão disponibilizadas em breve.'),
                   actions: <Widget>[
                     TextButton(
                       onPressed: () async {
@@ -178,7 +178,9 @@ class Promisn1Result extends StatelessWidget {
                             builder: (context) => MyApp()));
                         //Navigator.pop(context, 'OK');
                       },
-                      child: const Text('Ok'),
+                      child: const Text('Ok',
+                          style: TextStyle(
+                              color: Color.fromRGBO(104, 202, 138, 1))),
                     ),
                   ],
                 ),
