@@ -1,5 +1,7 @@
 import 'package:app_mental/Screens/ChatRoom/Widgets/calendar.dart';
+import 'package:app_mental/Screens/ChatRoom/chatRoomsScreen.dart';
 import 'package:app_mental/Screens/HomePage/home_page.dart';
+import 'package:app_mental/Screens/SignIn/signin.dart';
 import 'package:app_mental/animation/FadeAnimation.dart';
 import 'package:app_mental/constants.dart';
 import 'package:app_mental/helper/helperfuncions.dart';
@@ -23,73 +25,70 @@ class _SignUpState extends State<SignUp> {
 
   final formKey = GlobalKey<FormState>();
   TextEditingController userNameTextEdittingController =
-  new TextEditingController();
+      new TextEditingController();
   TextEditingController emailTextEdittingController =
-  new TextEditingController();
+      new TextEditingController();
   TextEditingController passwordTextEdittingController =
-  new TextEditingController();
+      new TextEditingController();
 
   signMeUp() {
-    if (formKey.currentState!.validate()) {
-      Map<String, String> userInfoMap = {
-        "name": userNameTextEdittingController.text,
-        "email": emailTextEdittingController.text,
+    if (!formKey.currentState!.validate()) {
+      return;
+    }
+
+    String userEmail = emailTextEdittingController.text;
+    String userName = userNameTextEdittingController.text;
+    String userPassword = passwordTextEdittingController.text;
+
+    setState(() {
+      isLoading = true;
+    });
+    final snackBar = SnackBar(content:  new Row(
+      children: <Widget>[
+        new CircularProgressIndicator(),
+        new Text("    Criando conta...")
+      ],
+    ));
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
+    authMethods
+        .signupWithEmailAndPasswordAndName(userName, userEmail, userPassword)
+        .then((result) {
+      if (result !=null && result.user!=null) {
+        ScaffoldMessenger.of(context).hideCurrentSnackBar();
+        User? user = result.user;
+        HelperFunctions.saveUserInfoToSharedPrefs(user);
+        CreateQuests();
+        HelperFunctions.saveUserLoggedInSharedPreference(true);
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => HomePage(),
+            ));
+      } else {
+        final snackBar = SnackBar(content: Text('Email já em uso!',style: TextStyle(color: Colors.white)), backgroundColor: Colors.red);
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      }
+    });
+  }
+
+  void CreateQuests() {
+    now = DateTime.now();
+    var firstDay = getNextSunday(now);
+
+    //add promisn1
+    for (var i = 1; i <= 6; i++) {
+      String userEscala = 'promisN1_week$i';
+      Map<String, dynamic> questMap = {
+        "unanswered?": true,
+        "questId": "pn1",
+        "questName": "PROMIS Nível 1 - Semana $i",
+        "userEscala": userEscala,
+        "availableAt": addWeeks(day: firstDay, n: i - 2),
+        "answeredUntil":0
       };
-
-      HelperFunctions.saveUserEmailInSharedPreference(
-          emailTextEdittingController.text);
-      HelperFunctions.saveUserNameInSharedPreference(
-          userNameTextEdittingController.text);
-
-      setState(() {
-        isLoading = true;
-      });
-
-      //verificando se email já existe
-      FirebaseAuth.instance
-          .fetchSignInMethodsForEmail(emailTextEdittingController.text)
-          .then((value) => {
-        if (value.length > 0)
-          {
-            showAlertDialog(context),
-          }
-        else
-          {
-            print('email não existe'),
-            authMethods
-                .signUpWithEmailAndPassword(
-                emailTextEdittingController.text,
-                passwordTextEdittingController.text)
-                .then((val) {
-              //print("${val.hashCode}");
-
-              databaseMethods.uploadUserInfo(userInfoMap);
-              now = DateTime.now();
-              print('$now aaaaaa');
-              var firstDay = getNextSunday(now);
-
-              for (var i = 1; i <= 6; i++) {
-                String userEscala = 'promisN1_week$i';
-                Map<String, dynamic> questMap = {
-                  "unanswered?": true,
-                  "questId": "pn1",
-                  "questName": "PROMIS Nível 1 - Semana $i",
-                  "userEscala": userEscala,
-                  "availableAt": addWeeks(day: firstDay, n: i - 2),
-                };
-                DatabaseMethods().createQuest(userEscala, questMap,
-                    emailTextEdittingController.text);
-              }
-
-              HelperFunctions.saveUserLoggedInSharedPreference(true);
-              Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => HomePage(),
-                  ));
-            })
-          }
-      });
+      DatabaseMethods()
+          .createQuest(userEscala, questMap, emailTextEdittingController.text);
     }
   }
 
@@ -300,12 +299,13 @@ class _SignUpState extends State<SignUp> {
                                               hintStyle: TextStyle(
                                                   color: Colors.grey)),
                                           validator: (val) {
-                                            return val!.isEmpty || val.length < 2
-                                                ? "Please Provide a valid UserName"
+                                            return val!.isEmpty ||
+                                                    val.length < 2
+                                                ? "O nome de usuário não pode ser vazio ou ter menos que 2 caracteres"
                                                 : null;
                                           },
                                           controller:
-                                          userNameTextEdittingController,
+                                              userNameTextEdittingController,
                                         ),
                                       )),
                                   FadeAnimation(
@@ -324,13 +324,13 @@ class _SignUpState extends State<SignUp> {
                                                   color: Colors.grey)),
                                           validator: (val) {
                                             return RegExp(
-                                                r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                                                .hasMatch(val!)
+                                                        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                                    .hasMatch(val!)
                                                 ? null
                                                 : "Por favor verifique seu email";
                                           },
                                           controller:
-                                          emailTextEdittingController,
+                                              emailTextEdittingController,
                                         ),
                                       )),
                                   FadeAnimation(
@@ -347,10 +347,10 @@ class _SignUpState extends State<SignUp> {
                                           validator: (val) {
                                             return val!.length > 6
                                                 ? null
-                                                : "Por favor verifique sua senha";
+                                                : "A senha não pode ter menos que 6 caracteres";
                                           },
                                           controller:
-                                          passwordTextEdittingController,
+                                              passwordTextEdittingController,
                                         ),
                                       ))
                                 ],
@@ -369,8 +369,8 @@ class _SignUpState extends State<SignUp> {
                                 AppColors.green,
                                 AppColors.green06,
                               ])),
-                          child: TextButton(
-                            onPressed: () {
+                          child: GestureDetector(
+                            onTap: () {
                               signMeUp();
                             },
                             child: Center(
@@ -417,28 +417,4 @@ class _SignUpState extends State<SignUp> {
       ),
     );
   }
-}
-
-showAlertDialog(BuildContext context) {
-  Widget okButton = TextButton(
-    child: Text('ok'),
-    onPressed: () {
-      Navigator.of(context).pop();
-    },
-  );
-
-  AlertDialog alerta = AlertDialog(
-    title: Text('E-mail já cadastrado'),
-    content: Text("Já existe uma conta associada a este e-mail"),
-    actions: [
-      okButton,
-    ],
-  );
-
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return alerta;
-    },
-  );
 }

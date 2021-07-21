@@ -1,3 +1,5 @@
+import 'package:app_mental/Screens/ChatRoom/chatRoomsScreen.dart';
+import 'package:app_mental/Screens/Home/home_screen.dart';
 import 'package:app_mental/Screens/HomePage/home_page.dart';
 import 'package:app_mental/Screens/SignUp/signup.dart';
 import 'package:app_mental/animation/FadeAnimation.dart';
@@ -6,6 +8,7 @@ import 'package:app_mental/helper/helperfuncions.dart';
 import 'package:app_mental/Services/auth.dart';
 import 'package:app_mental/Services/database.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -23,45 +26,49 @@ class _SignInState extends State<SignIn> {
   AuthMethods authMethods = new AuthMethods();
   DatabaseMethods databaseMethods = new DatabaseMethods();
   TextEditingController emailTextEdittingController =
-  new TextEditingController();
+      new TextEditingController();
   TextEditingController passwordTextEdittingController =
-  new TextEditingController();
+      new TextEditingController();
 
   bool isLoading = false;
   late QuerySnapshot snapshotUserInfo;
 
   signIn() {
-    if (formKey.currentState!.validate()) {
-      HelperFunctions.saveUserEmailInSharedPreference(
-          emailTextEdittingController.text);
-
-      databaseMethods
-          .getUserByEmail(emailTextEdittingController.text)
-          .then((val) {
-        snapshotUserInfo = val;
-        HelperFunctions.saveUserNameInSharedPreference(
-            snapshotUserInfo.docs[0].get("name"));
-        print("${snapshotUserInfo.docs[0].get("name")}");
-      });
-      setState(() {
-        isLoading = true;
-      });
-
-      authMethods
-          .signInWithEmailAndPassword(emailTextEdittingController.text,
-          passwordTextEdittingController.text)
-          .then((value) {
-        if (value != null) {
-          HelperFunctions.saveUserLoggedInSharedPreference(true);
-          Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (context) => HomePage(),
-              ));
-        }
-      });
+    if (!formKey.currentState!.validate()) {
+      return;
     }
+
+    setState(() {
+      isLoading = true;
+    });
+    final snackBar = SnackBar(content:  new Row(
+      children: <Widget>[
+        new CircularProgressIndicator(),
+        new Text("    Entrando...")
+      ],
+    ));
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    authMethods
+        .signInWithEmailAndPassword(emailTextEdittingController.text,
+            passwordTextEdittingController.text)
+        .then((result) {
+      if (result!=null && result.user != null) {
+        ScaffoldMessenger.of(context).hideCurrentSnackBar();
+        User user = result.user as User;
+        HelperFunctions.saveUserInfoToSharedPrefs(user);
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => HomePage(),
+            ));
+      } else {
+        final snackBar = SnackBar(content: Text('Senha ou email inválidos',style: TextStyle(color: Colors.white)), backgroundColor: Colors.red);
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      }
+    });
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -115,13 +122,13 @@ class _SignInState extends State<SignIn> {
                                                   color: Colors.grey)),
                                           validator: (val) {
                                             return RegExp(
-                                                r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                                                .hasMatch(val!)
+                                                        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                                    .hasMatch(val!)
                                                 ? null
                                                 : "Por favor verifique seu email";
                                           },
                                           controller:
-                                          emailTextEdittingController,
+                                              emailTextEdittingController,
                                         ),
                                       )),
                                   FadeAnimation(
@@ -138,10 +145,10 @@ class _SignInState extends State<SignIn> {
                                           validator: (val) {
                                             return val!.length > 6
                                                 ? null
-                                                : "Por favor verifique sua senha";
+                                                : "Por favor verifique sua senha, ela deve conter pelo menos 6 caracteres";
                                           },
                                           controller:
-                                          passwordTextEdittingController,
+                                              passwordTextEdittingController,
                                         ),
                                       ))
                                 ],
@@ -160,8 +167,8 @@ class _SignInState extends State<SignIn> {
                                 AppColors.green,
                                 AppColors.green06,
                               ])),
-                          child: TextButton(
-                            onPressed: () {
+                          child: GestureDetector(
+                            onTap: () {
                               signIn();
                             },
                             child: Center(
