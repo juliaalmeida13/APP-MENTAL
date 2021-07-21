@@ -41,6 +41,31 @@ class DatabaseMethods {
     });
   }
 
+  recomendReading(String readingsId, readingsMap, userEmail) {
+    FirebaseFirestore.instance
+        .collection("Readings")
+        .doc(userEmail)
+        .collection("userReadings")
+        .doc(readingsId)
+        .set(readingsMap)
+        .catchError((e) {
+      print(e.toString());
+    });
+  }
+
+  checkExistingReadings(String userEmail) {
+    FirebaseFirestore.instance
+        .collection('Readings')
+        .doc(userEmail)
+        .get()
+        .then((DocumentSnapshot documentSnapshot) {
+      if (documentSnapshot.exists) {
+        return true;
+      }
+    });
+    return false;
+  }
+
   disableQuest(String questId, userEmail) {
     Map<String, dynamic> disableMap = {
       "unanswered?": false,
@@ -133,11 +158,21 @@ class DatabaseMethods {
         .snapshots();
   }
 
-  Future<Stream<QuerySnapshot<Map<String, dynamic>>>> getCreatedQuests(String userEmail) async {
+  Future<Stream<QuerySnapshot<Map<String, dynamic>>>> getCreatedQuests(
+      String userEmail) async {
     return FirebaseFirestore.instance
         .collection("Escala")
         .doc(userEmail)
         .collection("userEscalas")
+        .snapshots();
+  }
+
+  Future<Stream<QuerySnapshot<Map<String, dynamic>>>> getRecomendedReadings(
+      String userEmail) async {
+    return FirebaseFirestore.instance
+        .collection("Readings")
+        .doc(userEmail)
+        .collection("userReadings")
         .snapshots();
   }
 
