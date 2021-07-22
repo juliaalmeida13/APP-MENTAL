@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "621367318185",
-    "project_id": "app-mental",
-    "storage_bucket": "app-mental.appspot.com"
+    "project_number": "782162939026",
+    "project_id": "appmental-ae32c",
+    "storage_bucket": "appmental-ae32c.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:621367318185:android:2db20aad328171c89e3bb8",
+        "mobilesdk_app_id": "1:782162939026:android:0fdf1cd5064028533faa4b",
         "android_client_info": {
           "package_name": "com.ufscar.app_mental"
         }
       },
       "oauth_client": [
         {
-          "client_id": "621367318185-vcmscp6nicehqc63hfpda8icehm4mclf.apps.googleusercontent.com",
+          "client_id": "782162939026-pr72k6adori6umce4e7g70l1enrjn9in.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyC2rsxzagMfsOTJzNM8VzzlTGKrG513Jts"
+          "current_key": "AIzaSyC2M6LDqlt1iF47iwWBynVGVmqi3qJaUPQ"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "621367318185-vcmscp6nicehqc63hfpda8icehm4mclf.apps.googleusercontent.com",
+              "client_id": "782162939026-pr72k6adori6umce4e7g70l1enrjn9in.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
