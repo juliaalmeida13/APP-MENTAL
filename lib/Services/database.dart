@@ -126,6 +126,14 @@ class DatabaseMethods {
         .snapshots();
   }
 
+  getCreatedContacts(String email) async {
+    return FirebaseFirestore.instance
+        .collection("Contacts")
+        .doc(email)
+        .collection("list")
+        .snapshots();
+  }
+
   getChatRooms(String userName) async {
     return FirebaseFirestore.instance
         .collection("ChatRoom")
@@ -133,7 +141,8 @@ class DatabaseMethods {
         .snapshots();
   }
 
-  Future<Stream<QuerySnapshot<Map<String, dynamic>>>> getCreatedQuests(String userEmail) async {
+  Future<Stream<QuerySnapshot<Map<String, dynamic>>>> getCreatedQuests(
+      String userEmail) async {
     return FirebaseFirestore.instance
         .collection("Escala")
         .doc(userEmail)
