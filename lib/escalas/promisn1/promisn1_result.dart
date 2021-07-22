@@ -41,10 +41,9 @@ class Promisn1Result extends StatelessWidget {
     print(userEscala);
     databaseMethods.addQuestAnswer(promisn1Map, email, userEscala);
 
-    var query =
+    var answerDom1 =
         await databaseMethods.getDomFromAnswers(userEmail, userEscala, "dom1");
-
-    if (query.docs[0].get("dom1") > 2) {
+    if (answerDom1.docs[0].get("dom1") > 2) {
       String promisn2UserEscala = "$userEscala-promisN2";
       List<String> week = questName.split("-");
       String promisn2QuestName = "Escala PROMIS Nível 2" + " -" + week[1];
@@ -57,10 +56,19 @@ class Promisn1Result extends StatelessWidget {
         "answeredUntil": 0,
       };
       databaseMethods.createQuest(promisn2UserEscala, questMap, email);
-    }
-    ;
 
-    if (query.docs[0].get("dom3") > 2) {
+      Map<String, dynamic> readingsMap = {
+        "imagePath": "assets/images/gardening02.jpg",
+        "title": "Lazer",
+        "readingsId": "lazer1",
+        "isVideo": "false",
+      };
+      databaseMethods.recomendReading("lazer1", readingsMap, email);
+    }
+
+    var answerDom2 =
+        await databaseMethods.getDomFromAnswers(userEmail, userEscala, "dom2");
+    if (answerDom2.docs[0].get("dom3") > 2) {
       String mdqUserEscala = "$userEscala-Mdq";
       List<String> week = questName.split("-");
       String mdqQuestName =
@@ -76,8 +84,9 @@ class Promisn1Result extends StatelessWidget {
       databaseMethods.createQuest(mdqUserEscala, questMap, email);
     }
 
-
-    if (query.docs[0].get("dom4") > 2) {
+    var answerDom4 =
+        await databaseMethods.getDomFromAnswers(userEmail, userEscala, "dom4");
+    if (answerDom4.docs[0].get("dom4") > 2) {
       String promisAnsiUserEscala = "$userEscala-PromisAnsi";
       List<String> week = questName.split("-");
       String promisAnsiQuestName =
@@ -92,9 +101,10 @@ class Promisn1Result extends StatelessWidget {
       };
       databaseMethods.createQuest(promisAnsiUserEscala, questMap, email);
     }
-    ;
 
-    if (query.docs[0].get("dom5") > 2) {
+    var answerDom5 =
+        await databaseMethods.getDomFromAnswers(userEmail, userEscala, "dom5");
+    if (answerDom5.docs[0].get("dom5") > 2) {
       String phq15UserEscala = "$userEscala-Phq15";
       List<String> week = questName.split("-");
       String phq15QuestName =
@@ -109,9 +119,10 @@ class Promisn1Result extends StatelessWidget {
       };
       databaseMethods.createQuest(phq15UserEscala, questMap, email);
     }
-    ;
 
-    if (query.docs[0].get("dom8") > 2) {
+    var answerDom8 =
+        await databaseMethods.getDomFromAnswers(userEmail, userEscala, "dom8");
+    if (answerDom8.docs[0].get("dom8") > 2) {
       String psqiUserEscala = "$userEscala-Psqi";
       List<String> week = questName.split("-");
       String psqiQuestName =
@@ -126,7 +137,23 @@ class Promisn1Result extends StatelessWidget {
       };
       databaseMethods.createQuest(psqiUserEscala, questMap, email);
     }
-    ;
+
+    var answerDom13 =
+        await databaseMethods.getDomFromAnswers(userEmail, userEscala, "dom13");
+    if (answerDom13.docs[0].get("dom13") > 1) {
+      String assistUserEscala = "$userEscala-Assist";
+      List<String> week = questName.split("-");
+      String assistQuestName = "ASSIST OMS" + " -" + week[1];
+      Map<String, dynamic> questMap = {
+        "unanswered?": true,
+        "questId": "assist",
+        "questName": assistQuestName,
+        "availableAt": now,
+        "userEscala": assistUserEscala,
+        "answeredUntil": 0,
+      };
+      databaseMethods.createQuest(assistUserEscala, questMap, email);
+    }
 
     databaseMethods.updateQuestIndex(userEscala, email, questionIndex);
     databaseMethods.disableQuest(userEscala, email);
