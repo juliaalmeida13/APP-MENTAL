@@ -1,10 +1,10 @@
 import 'package:app_mental/Screens/ChatRoom/Widgets/calendar.dart';
 import 'package:app_mental/Screens/HomePage/home_page.dart';
+import 'package:app_mental/Services/auth.dart';
+import 'package:app_mental/Services/database.dart';
 import 'package:app_mental/animation/FadeAnimation.dart';
 import 'package:app_mental/constants.dart';
 import 'package:app_mental/helper/helperfuncions.dart';
-import 'package:app_mental/Services/auth.dart';
-import 'package:app_mental/Services/database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -141,6 +141,13 @@ class _SignUpState extends State<SignUp> {
                       };
                       DatabaseMethods().createQuest(userEscala2, questMap2,
                           emailTextEdittingController.text);
+                      Map<String, dynamic> contactMap = {
+                        "name": "Emergência",
+                        "number": 800,
+                      };
+
+                      DatabaseMethods().createContactList(
+                          contactMap, emailTextEdittingController.text);
 
                       HelperFunctions.saveUserLoggedInSharedPreference(true);
                       Navigator.pushReplacement(

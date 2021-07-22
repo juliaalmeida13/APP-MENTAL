@@ -1,8 +1,11 @@
+import 'package:app_mental/Services/auth.dart';
+import 'package:app_mental/Services/database.dart';
 import 'package:app_mental/constants.dart';
+import 'package:app_mental/helper/constants.dart';
+import 'package:app_mental/helper/helperfuncions.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
-import 'package:app_mental/modal/contact.dart';
-import 'Widgets/new_contact.dart';
 
 class ContactsScreen extends StatefulWidget {
   static const routeName = '/contacts-screen';
@@ -12,151 +15,140 @@ class ContactsScreen extends StatefulWidget {
 }
 
 class _ContactsScreenState extends State<ContactsScreen> {
-  final List<Contact> _userContacts = [
-    Contact(
-      name: 'Lucas',
-      number: '991920513',
-    ),
-    Contact(
-      name: 'Heidy',
-      number: '991920514',
-    ),
-  ];
-
-  void _addNewContact(String ncName, String ncNumber) {
-    final newCt = Contact(
-      name: ncName,
-      number: ncNumber,
-    );
-
-    setState(() {
-      _userContacts.add(newCt);
-    });
-  }
-
-  void _startAddNewContact(BuildContext ctx) {
-    showModalBottomSheet(
-        context: ctx,
-        builder: (_) {
-          return GestureDetector(
-            onTap: () {},
-            child: NewContact(_addNewContact),
-            behavior: HitTestBehavior.opaque,
-          );
-        });
-  }
+  AuthMethods authMethods = new AuthMethods();
+  DatabaseMethods databaseMethods = new DatabaseMethods();
+  late Stream<QuerySnapshot<Object?>> contactsRoomsStream = new Stream.empty();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: kPrimaryGreen,
-        foregroundColor: Colors.black,
-        onPressed:() => { _startAddNewContact(context)},
-        child: Icon(Icons.add),
-      ),
-      backgroundColor: kTextColorGreen,
-      body: Stack(
-        children:[ ListView(
-          children: [
-            Padding(
+      backgroundColor: AppColors.green,
+      body: ListView(
+        children: [
+          Padding(
+            padding: EdgeInsets.only(
+              top: 15.0,
+              left: 10.0,
+            ),
+          ),
+          SizedBox(height: 25.0),
+          Padding(
+            padding: EdgeInsets.only(left: 40.0),
+            child: Row(
+              children: [
+                Text(
+                  'Contatos',
+                  style: TextStyle(
+                    fontFamily: 'Raleway',
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 25.0,
+                  ),
+                ),
+                SizedBox(width: 10),
+                Text(
+                  'de Emergência',
+                  style: TextStyle(
+                    fontFamily: 'Raleway',
+                    color: Colors.white,
+                    fontSize: 25.0,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(height: 40.0),
+          Container(
+            height: MediaQuery.of(context).size.height,
+            decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(75.0),
+                )),
+            child: ListView(
+              primary: false,
               padding: EdgeInsets.only(
-                top: 15.0,
-                left: 10.0,
+                left: 25.0,
+                right: 20.0,
               ),
-            ),
-            SizedBox(height: 25.0),
-            Padding(
-              padding: EdgeInsets.only(left: 40.0),
-              child: Row(
-                children: [
-                  Text(
-                    'Contatos',
-                    style: TextStyle(
-                      fontFamily: 'Raleway',
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 25.0,
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(top: 45.0),
+                  child: Container(
+                    height: MediaQuery.of(context).size.height - 300.0,
+                    child: Container(
+                      child: StreamBuilder<QuerySnapshot>(
+                        stream: contactsRoomsStream,
+                        builder: (BuildContext context,
+                            AsyncSnapshot<QuerySnapshot> snapshot) {
+                          return snapshot.hasData
+                              ? ListView.builder(
+                                  itemCount: snapshot.data!.docs.length,
+                                  itemBuilder: (context, index) {
+                                    return _buildContactItem(
+                                      snapshot.data!.docs[index].get("name"),
+                                      snapshot.data!.docs[index].get("number"),
+                                    );
+                                  },
+                                )
+                              : Container();
+                        },
+                      ),
                     ),
                   ),
-                  SizedBox(width: 10),
-                  Text(
-                    'de Emergência',
-                    style: TextStyle(
-                      fontFamily: 'Raleway',
-                      color: Colors.white,
-                      fontSize: 25.0,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(height: 40.0),
-            Container(
-              height: MediaQuery.of(context).size.height - 180,
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(75.0),
-                  )),
-              child: Container(
-
-                child: ListView(
-                  primary: false,
-                  padding: EdgeInsets.only(
-                    left: 25.0,
-                    right: 20.0,
-                  ),
+                ),
+                /*Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Padding(
-                      padding: EdgeInsets.only(top: 45.0),
-                      child: Container(
-                        height: MediaQuery.of(context).size.height - 300.0,
-                        child: Container(
-                          child: ListView.builder(
-                              itemCount: _userContacts.length,
-                              itemBuilder: (ctx, index) {
-                                return _buildContactItem(_userContacts[index].name,
-                                    _userContacts[index].number);
-                              }),
+                    Container(
+                      child: OutlinedButton.icon(
+                        label: Text(
+                          'Adicionar novo contato',
+                          style: TextStyle(
+                            fontFamily: 'Raleway',
+                            color: Color(0xFF21BFBD),
+                            fontSize: 15.0,
+                          ),
+                        ),
+                        onPressed: () {},
+                        icon: Icon(
+                          Icons.add,
+                          color: Color(0xFF21BFBD),
                         ),
                       ),
                     ),
-                    /*Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(
-                          child: OutlinedButton.icon(
-                            label: Text(
-                              'Adicionar novo contato',
-                              style: TextStyle(
-                                fontFamily: 'Raleway',
-                                color: Color(0xFF21BFBD),
-                                fontSize: 15.0,
-                              ),
-                            ),
-                            onPressed: () => _startAddNewContact(context),
-                            icon: Icon(
-                              Icons.add,
-                              color: Color(0xFF21BFBD),
-                            ),
-                          ),
-                        ),
-                      ],
-                    )*/
                   ],
-                ),
-              ),
-            )
-          ],
-        ),
-        ]
+                )*/
+              ],
+            ),
+          )
+        ],
       ),
     );
   }
+
+  @override
+  void initState() {
+    getUserInfo();
+    super.initState();
+  }
+
+  getUserInfo() async {
+    Constants.myName = await HelperFunctions.getUserNameInSharedPreference();
+    Constants.myEmail = await HelperFunctions.getUserEmailInSharedPreference();
+    Constants.myEmail = Constants.myEmail.trim();
+    print(Constants.myEmail);
+    databaseMethods.getCreatedContacts(Constants.myEmail).then((val) {
+      setState(() {
+        contactsRoomsStream = val;
+      });
+    });
+
+    setState(() {});
+  }
 }
 
-Widget _buildContactItem(String name, String number) {
+Widget _buildContactItem(String name, int number) {
   return Padding(
     padding: const EdgeInsets.only(top: 20),
     child: Container(
@@ -203,7 +195,7 @@ Widget _buildContactItem(String name, String number) {
                           ),
                         ),
                         Text(
-                          number,
+                          number.toString(),
                           style: TextStyle(
                             fontFamily: 'Raleway',
                             fontSize: 15.0,
@@ -219,7 +211,7 @@ Widget _buildContactItem(String name, String number) {
                 icon: Icon(Icons.call),
                 color: Colors.black,
                 onPressed: () {
-                  _callNumber(number);
+                  _callNumber(number.toString());
                 },
               ),
             ],

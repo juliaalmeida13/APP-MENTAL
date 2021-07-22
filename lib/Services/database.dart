@@ -53,6 +53,17 @@ class DatabaseMethods {
     });
   }
 
+  createContactList(contactMap, userEmail) {
+    FirebaseFirestore.instance
+        .collection("Contacts")
+        .doc(userEmail)
+        .collection("list")
+        .add(contactMap)
+        .catchError((e) {
+      print(e.toString());
+    });
+  }
+
   checkExistingReadings(String userEmail) {
     FirebaseFirestore.instance
         .collection('Readings')
@@ -148,6 +159,14 @@ class DatabaseMethods {
         .doc(chatRoomId)
         .collection("chats")
         .orderBy("time", descending: false)
+        .snapshots();
+  }
+
+  getCreatedContacts(String email) async {
+    return FirebaseFirestore.instance
+        .collection("Contacts")
+        .doc(email)
+        .collection("list")
         .snapshots();
   }
 
