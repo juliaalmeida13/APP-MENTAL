@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class DatabaseMethods {
   getUserByUsername(String username) async {
@@ -64,17 +65,26 @@ class DatabaseMethods {
     });
   }
 
-  checkExistingReadings(String userEmail) {
-    FirebaseFirestore.instance
-        .collection('Readings')
+  Future<Stream<QuerySnapshot<Map<String, dynamic>>>> getRecomendedReadings(
+      String userEmail) async {
+    print("aa");
+    print(FirebaseAuth.instance.currentUser!.email);
+    return FirebaseFirestore.instance
+        .collection("Readings")
         .doc(userEmail)
-        .get()
-        .then((DocumentSnapshot documentSnapshot) {
-      if (documentSnapshot.exists) {
-        return true;
-      }
-    });
-    return false;
+        .collection("userReadings")
+        .snapshots();
+  }
+
+  Future<bool> readingsIsEmpty() async {
+    print("check");
+    print(FirebaseAuth.instance.currentUser!.email);
+    return FirebaseFirestore.instance
+        .collection('Readings')
+        .doc(FirebaseAuth.instance.currentUser!.email)
+        .collection("userReadings")
+        .snapshots()
+        .isEmpty;
   }
 
   disableQuest(String questId, userEmail) {
@@ -183,15 +193,6 @@ class DatabaseMethods {
         .collection("Escala")
         .doc(userEmail)
         .collection("userEscalas")
-        .snapshots();
-  }
-
-  Future<Stream<QuerySnapshot<Map<String, dynamic>>>> getRecomendedReadings(
-      String userEmail) async {
-    return FirebaseFirestore.instance
-        .collection("Readings")
-        .doc(userEmail)
-        .collection("userReadings")
         .snapshots();
   }
 

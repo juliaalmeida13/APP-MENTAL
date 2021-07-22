@@ -1,5 +1,4 @@
 import 'package:app_mental/Screens/Reading/reading_screen.dart';
-import 'package:app_mental/Screens/Video/video_interv_screen.dart';
 import 'package:app_mental/Services/auth.dart';
 import 'package:app_mental/Services/database.dart';
 import 'package:app_mental/constants.dart';
@@ -68,6 +67,7 @@ class _RecomendedReadingsStreamState extends State<RecomendedReadingsStream> {
   getUserInfo() async {
     Constants.myEmail = await HelperFunctions.getUserEmailInSharedPreference();
     Constants.myEmail = Constants.myEmail.trim();
+    print(Constants.myEmail);
     databaseMethods.getRecomendedReadings(Constants.myEmail).then((val) {
       setState(() {
         readingsStream = val;
