@@ -30,135 +30,129 @@ class _SignUpState extends State<SignUp> {
       new TextEditingController();
 
   signMeUp() {
-    if (formKey.currentState!.validate()) {
-      Map<String, String> userInfoMap = {
-        "name": userNameTextEdittingController.text,
-        "email": emailTextEdittingController.text,
-      };
-
-      HelperFunctions.saveUserEmailInSharedPreference(
-          emailTextEdittingController.text);
-      HelperFunctions.saveUserNameInSharedPreference(
-          userNameTextEdittingController.text);
-
-      setState(() {
-        isLoading = true;
-      });
-
-      //verificando se email já existe
-      FirebaseAuth.instance
-          .fetchSignInMethodsForEmail(emailTextEdittingController.text)
-          .then((value) => {
-                if (value.length > 0)
-                  {
-                    showAlertDialog(context),
-                  }
-                else
-                  {
-                    print('email não existe'),
-                    authMethods
-                        .signUpWithEmailAndPassword(
-                            emailTextEdittingController.text,
-                            passwordTextEdittingController.text)
-                        .then((val) {
-                      //print("${val.hashCode}");
-
-                      databaseMethods.uploadUserInfo(userInfoMap);
-                      now = DateTime.now();
-                      print('$now aaaaaa');
-                      var firstDay = getNextSunday(now);
-
-                      //add promisn1
-                      for (var i = 1; i <= 11; i += 2) {
-                        String userEscala = 'promisN1_week$i';
-                        Map<String, dynamic> questMap = {
-                          "unanswered?": true,
-                          "questId": "pn1",
-                          "questName": "Escala PROMIS Nível 1 - Semana $i",
-                          "userEscala": userEscala,
-                          "availableAt": addWeeks(day: firstDay, n: i - 2),
-                          "answeredUntil": 0,
-                        };
-                        DatabaseMethods().createQuest(userEscala, questMap,
-                            emailTextEdittingController.text);
-                      }
-
-                      //add pset
-                      for (var i = 1; i <= 12; i += 2) {
-                        if (i != 6 && i != 10) {
-                          String userEscala = 'pset_week$i';
-                          Map<String, dynamic> questMap = {
-                            "unanswered?": true,
-                            "questId": "pset",
-                            "questName":
-                                "Pergunta Eventos Traumáticos - Semana $i",
-                            "userEscala": userEscala,
-                            "availableAt": addWeeks(day: firstDay, n: i - 1),
-                            "answeredUntil": 0,
-                          };
-                          DatabaseMethods().createQuest(userEscala, questMap,
-                              emailTextEdittingController.text);
-                        }
-                      }
-                      //add quesi
-                      String userEscala = 'quesi_week6';
-                      Map<String, dynamic> questMap = {
-                        "unanswered?": true,
-                        "questId": "quesi",
-                        "questName":
-                            "Questionário Sobre Traumas na Infância - Semana 6",
-                        "userEscala": userEscala,
-                        "availableAt": addWeeks(day: firstDay, n: -1),
-                        "answeredUntil": 0,
-                      };
-                      DatabaseMethods().createQuest(userEscala, questMap,
-                          emailTextEdittingController.text);
-
-                      //add questSD1
-                      String userEscala1 = 'questSD1_week1';
-                      Map<String, dynamic> questMap1 = {
-                        "unanswered?": true,
-                        "questId": "questSD1",
-                        "questName":
-                            "Questionário Sociodemográfico (1) - Semana 1",
-                        "userEscala": userEscala1,
-                        "availableAt": addWeeks(day: firstDay, n: -1),
-                        "answeredUntil": 0,
-                      };
-                      DatabaseMethods().createQuest(userEscala1, questMap1,
-                          emailTextEdittingController.text);
-
-                      //add questSD2
-                      String userEscala2 = 'questSD2_week2';
-                      Map<String, dynamic> questMap2 = {
-                        "unanswered?": true,
-                        "questId": "questSD2",
-                        "questName":
-                            "Questionário Sociodemográfico (2) - Semana 2",
-                        "userEscala": userEscala2,
-                        "availableAt": addWeeks(day: firstDay, n: -1),
-                        "answeredUntil": 0,
-                      };
-                      DatabaseMethods().createQuest(userEscala2, questMap2,
-                          emailTextEdittingController.text);
-                      Map<String, dynamic> contactMap = {
-                        "name": "Emergência",
-                        "number": 800,
-                      };
-
-                      DatabaseMethods().createContactList(
-                          contactMap, emailTextEdittingController.text);
-
-                      HelperFunctions.saveUserLoggedInSharedPreference(true);
-                      Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => HomePage(),
-                          ));
-                    })
-                  }
-              });
+    if (!formKey.currentState!.validate()) {
+      return;
     }
+
+    String userEmail = emailTextEdittingController.text;
+    String userName = userNameTextEdittingController.text;
+    String userPassword = passwordTextEdittingController.text;
+
+    setState(() {
+      isLoading = true;
+    });
+    final snackBar = SnackBar(
+        content: new Row(
+      children: <Widget>[
+        new CircularProgressIndicator(),
+        new Text("    Criando conta...")
+      ],
+    ));
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
+    authMethods
+        .signupWithEmailAndPasswordAndName(userName, userEmail, userPassword)
+        .then((result) {
+      if (result != null && result.user != null) {
+        ScaffoldMessenger.of(context).hideCurrentSnackBar();
+        User? user = result.user;
+        HelperFunctions.saveUserInfoToSharedPrefs(user);
+        CreateQuests();
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => HomePage(),
+            ));
+      } else {
+        final snackBar = SnackBar(
+            content:
+                Text('Email já em uso!', style: TextStyle(color: Colors.white)),
+            backgroundColor: Colors.red);
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      }
+    });
+  }
+
+  void CreateQuests() {
+    now = DateTime.now();
+    var firstDay = getNextSunday(now);
+
+    //add promisn1
+    for (var i = 1; i <= 11; i += 2) {
+      String userEscala = 'promisN1_week$i';
+      Map<String, dynamic> questMap = {
+        "unanswered?": true,
+        "questId": "pn1",
+        "questName": "Escala PROMIS Nível 1 - Semana $i",
+        "userEscala": userEscala,
+        "availableAt": addWeeks(day: firstDay, n: i - 2),
+        "answeredUntil": 0,
+      };
+      DatabaseMethods()
+          .createQuest(userEscala, questMap, emailTextEdittingController.text);
+    }
+
+    //add pset
+    for (var i = 1; i <= 12; i += 2) {
+      if (i != 6 && i != 10) {
+        String userEscala = 'pset_week$i';
+        Map<String, dynamic> questMap = {
+          "unanswered?": true,
+          "questId": "pset",
+          "questName": "Pergunta Eventos Traumáticos - Semana $i",
+          "userEscala": userEscala,
+          "availableAt": addWeeks(day: firstDay, n: i - 1),
+          "answeredUntil": 0,
+        };
+        DatabaseMethods().createQuest(
+            userEscala, questMap, emailTextEdittingController.text);
+      }
+    }
+    //add quesi
+    String userEscala = 'quesi_week6';
+    Map<String, dynamic> questMap = {
+      "unanswered?": true,
+      "questId": "quesi",
+      "questName": "Questionário Sobre Traumas na Infância - Semana 6",
+      "userEscala": userEscala,
+      "availableAt": addWeeks(day: firstDay, n: -1),
+      "answeredUntil": 0,
+    };
+    DatabaseMethods()
+        .createQuest(userEscala, questMap, emailTextEdittingController.text);
+
+    //add questSD1
+    String userEscala1 = 'questSD1_week1';
+    Map<String, dynamic> questMap1 = {
+      "unanswered?": true,
+      "questId": "questSD1",
+      "questName": "Questionário Sociodemográfico (1) - Semana 1",
+      "userEscala": userEscala1,
+      "availableAt": addWeeks(day: firstDay, n: -1),
+      "answeredUntil": 0,
+    };
+    DatabaseMethods()
+        .createQuest(userEscala1, questMap1, emailTextEdittingController.text);
+
+    //add questSD2
+    String userEscala2 = 'questSD2_week2';
+    Map<String, dynamic> questMap2 = {
+      "unanswered?": true,
+      "questId": "questSD2",
+      "questName": "Questionário Sociodemográfico (2) - Semana 2",
+      "userEscala": userEscala2,
+      "availableAt": addWeeks(day: firstDay, n: -1),
+      "answeredUntil": 0,
+    };
+    DatabaseMethods()
+        .createQuest(userEscala2, questMap2, emailTextEdittingController.text);
+    Map<String, dynamic> contactMap = {
+      "name": "Emergência",
+      "number": 800,
+    };
+
+    DatabaseMethods()
+        .createContactList(contactMap, emailTextEdittingController.text);
   }
 
   /*
@@ -370,7 +364,7 @@ class _SignUpState extends State<SignUp> {
                                           validator: (val) {
                                             return val!.isEmpty ||
                                                     val.length < 2
-                                                ? "Please Provide a valid UserName"
+                                                ? "O nome de usuário não pode ser vazio ou ter menos que 2 caracteres"
                                                 : null;
                                           },
                                           controller:
@@ -416,7 +410,7 @@ class _SignUpState extends State<SignUp> {
                                           validator: (val) {
                                             return val!.length > 6
                                                 ? null
-                                                : "Por favor verifique sua senha";
+                                                : "A senha não pode ter menos que 6 caracteres";
                                           },
                                           controller:
                                               passwordTextEdittingController,
@@ -438,8 +432,8 @@ class _SignUpState extends State<SignUp> {
                                 AppColors.green,
                                 AppColors.green06,
                               ])),
-                          child: TextButton(
-                            onPressed: () {
+                          child: GestureDetector(
+                            onTap: () {
                               signMeUp();
                             },
                             child: Center(
@@ -486,28 +480,4 @@ class _SignUpState extends State<SignUp> {
       ),
     );
   }
-}
-
-showAlertDialog(BuildContext context) {
-  Widget okButton = TextButton(
-    child: Text('ok'),
-    onPressed: () {
-      Navigator.of(context).pop();
-    },
-  );
-
-  AlertDialog alerta = AlertDialog(
-    title: Text('E-mail já cadastrado'),
-    content: Text("Já existe uma conta associada a este e-mail"),
-    actions: [
-      okButton,
-    ],
-  );
-
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return alerta;
-    },
-  );
 }
