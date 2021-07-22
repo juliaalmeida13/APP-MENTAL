@@ -41,6 +41,17 @@ class DatabaseMethods {
     });
   }
 
+  createContactList(contactMap, userEmail) {
+    FirebaseFirestore.instance
+        .collection("Contacts")
+        .doc(userEmail)
+        .collection("list")
+        .add(contactMap)
+        .catchError((e) {
+      print(e.toString());
+    });
+  }
+
   disableQuest(String questId, userEmail) {
     Map<String, dynamic> disableMap = {
       "unanswered?": false,

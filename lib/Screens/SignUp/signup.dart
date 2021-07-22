@@ -23,11 +23,11 @@ class _SignUpState extends State<SignUp> {
 
   final formKey = GlobalKey<FormState>();
   TextEditingController userNameTextEdittingController =
-  new TextEditingController();
+      new TextEditingController();
   TextEditingController emailTextEdittingController =
-  new TextEditingController();
+      new TextEditingController();
   TextEditingController passwordTextEdittingController =
-  new TextEditingController();
+      new TextEditingController();
 
   signMeUp() {
     if (formKey.currentState!.validate()) {
@@ -49,47 +49,55 @@ class _SignUpState extends State<SignUp> {
       FirebaseAuth.instance
           .fetchSignInMethodsForEmail(emailTextEdittingController.text)
           .then((value) => {
-        if (value.length > 0)
-          {
-            showAlertDialog(context),
-          }
-        else
-          {
-            print('email não existe'),
-            authMethods
-                .signUpWithEmailAndPassword(
-                emailTextEdittingController.text,
-                passwordTextEdittingController.text)
-                .then((val) {
-              //print("${val.hashCode}");
+                if (value.length > 0)
+                  {
+                    showAlertDialog(context),
+                  }
+                else
+                  {
+                    print('email não existe'),
+                    authMethods
+                        .signUpWithEmailAndPassword(
+                            emailTextEdittingController.text,
+                            passwordTextEdittingController.text)
+                        .then((val) {
+                      //print("${val.hashCode}");
 
-              databaseMethods.uploadUserInfo(userInfoMap);
-              now = DateTime.now();
-              print('$now aaaaaa');
-              var firstDay = getNextSunday(now);
+                      databaseMethods.uploadUserInfo(userInfoMap);
+                      now = DateTime.now();
+                      print('$now aaaaaa');
+                      var firstDay = getNextSunday(now);
 
-              for (var i = 1; i <= 6; i++) {
-                String userEscala = 'promisN1_week$i';
-                Map<String, dynamic> questMap = {
-                  "unanswered?": true,
-                  "questId": "pn1",
-                  "questName": "PROMIS Nível 1 - Semana $i",
-                  "userEscala": userEscala,
-                  "availableAt": addWeeks(day: firstDay, n: i - 2),
-                };
-                DatabaseMethods().createQuest(userEscala, questMap,
-                    emailTextEdittingController.text);
-              }
+                      for (var i = 1; i <= 6; i++) {
+                        String userEscala = 'promisN1_week$i';
+                        Map<String, dynamic> questMap = {
+                          "unanswered?": true,
+                          "questId": "pn1",
+                          "questName": "PROMIS Nível 1 - Semana $i",
+                          "userEscala": userEscala,
+                          "availableAt": addWeeks(day: firstDay, n: i - 2),
+                        };
+                        DatabaseMethods().createQuest(userEscala, questMap,
+                            emailTextEdittingController.text);
+                      }
 
-              HelperFunctions.saveUserLoggedInSharedPreference(true);
-              Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => HomePage(),
-                  ));
-            })
-          }
-      });
+                      Map<String, dynamic> contactMap = {
+                        "name": "Emergência",
+                        "number": 800,
+                      };
+
+                      DatabaseMethods().createContactList(
+                          contactMap, emailTextEdittingController.text);
+
+                      HelperFunctions.saveUserLoggedInSharedPreference(true);
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => HomePage(),
+                          ));
+                    })
+                  }
+              });
     }
   }
 
@@ -300,12 +308,13 @@ class _SignUpState extends State<SignUp> {
                                               hintStyle: TextStyle(
                                                   color: Colors.grey)),
                                           validator: (val) {
-                                            return val!.isEmpty || val.length < 2
+                                            return val!.isEmpty ||
+                                                    val.length < 2
                                                 ? "Please Provide a valid UserName"
                                                 : null;
                                           },
                                           controller:
-                                          userNameTextEdittingController,
+                                              userNameTextEdittingController,
                                         ),
                                       )),
                                   FadeAnimation(
@@ -324,13 +333,13 @@ class _SignUpState extends State<SignUp> {
                                                   color: Colors.grey)),
                                           validator: (val) {
                                             return RegExp(
-                                                r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                                                .hasMatch(val!)
+                                                        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                                    .hasMatch(val!)
                                                 ? null
                                                 : "Por favor verifique seu email";
                                           },
                                           controller:
-                                          emailTextEdittingController,
+                                              emailTextEdittingController,
                                         ),
                                       )),
                                   FadeAnimation(
@@ -350,7 +359,7 @@ class _SignUpState extends State<SignUp> {
                                                 : "Por favor verifique sua senha";
                                           },
                                           controller:
-                                          passwordTextEdittingController,
+                                              passwordTextEdittingController,
                                         ),
                                       ))
                                 ],
