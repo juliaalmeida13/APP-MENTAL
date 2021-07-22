@@ -1,7 +1,7 @@
 import 'package:app_mental/Screens/ChatRoom/Widgets/calendar.dart';
 import 'package:app_mental/Screens/Contacts/contacts_screen.dart';
 import 'package:app_mental/Screens/Home/home_screen.dart';
-import 'package:app_mental/escalas/assistn2/assistn2_screen.dart';
+import 'package:app_mental/Screens/Questionarie/Widgets/app_body_widget.dart';
 import 'package:app_mental/escalas/mdq/mdq_screen.dart';
 import 'package:app_mental/escalas/pcl5/pcl5_screen.dart';
 import 'package:app_mental/escalas/phq15/phq15_screen.dart';
@@ -26,7 +26,6 @@ import '../../constants.dart';
 
 class QuestsScreen extends StatefulWidget {
   static const routeName = '/quests-screen';
-
   @override
   _QuestsScreenState createState() => _QuestsScreenState();
 }
@@ -45,19 +44,16 @@ class _QuestsScreenState extends State<QuestsScreen> {
             ? ListView.builder(
                 itemCount: snapshot.data!.docs.length,
                 itemBuilder: (context, index) {
-                  return snapshot.data!.docs[index].get("unanswered?")
-                      ? QuestRoomTile(
-                          snapshot.data!.docs[index].get("questName"),
-                          snapshot.data!.docs[index].get("questId"),
-                          snapshot.data!.docs[index]
-                              .get("availableAt")
-                              .toDate(),
-                          snapshot.data!.docs[index].get("userEscala"),
-                          snapshot.data!.docs[index].get("answeredUntil"),
-                          Constants.myEmail,
-                        )
-                      : UnavailableQuestRoomTile(
-                          snapshot.data!.docs[index].get("questName"));
+                  return QuestRoomTile(
+                    snapshot.data!.docs[index].get("questName"),
+                    snapshot.data!.docs[index].get("questId"),
+                    snapshot.data!.docs[index].get("availableAt").toDate(),
+                    snapshot.data!.docs[index].get("userEscala"),
+                    snapshot.data!.docs[index].get("answeredUntil"),
+                    Constants.myEmail,
+                  );
+                  /*:UnavailableQuestRoomTile(
+                          snapshot.data!.docs[index].get("questName"))*/
                 },
               )
             : Container();
@@ -124,6 +120,7 @@ class _QuestsScreenState extends State<QuestsScreen> {
                   child: new Container(
                       width: 300.0,
                       child: new TabBar(
+                        indicatorColor: AppColors.verdeclaro,
                         labelStyle: AppTextStyles.titulotab,
                         labelColor: Colors.black,
                         tabs: [
@@ -141,11 +138,10 @@ class _QuestsScreenState extends State<QuestsScreen> {
             children: [
               questsRoomList(),
               /*GridView.count(
+                crossAxisSpacing: 16,
+                mainAxisSpacing: 16,
                 crossAxisCount: 2,
-                children: [
-                  QuizCard(),
-                ],
-              )*/
+                children: */
               Icon(Icons.directions_bike),
             ],
           ),
@@ -194,25 +190,18 @@ class QuestRoomTile extends StatelessWidget {
     var nextSunday = getNextSunday(availableAt);
     print('id: $questId');
     if (now.isAfter(availableAt) && now.isBefore(nextSunday)) {
-      return Container(
-          width: double.infinity,
-          child: Column(
-            children: [
-              ListTile(
-                  title: Text(questName),
-                  onTap: () {
-                    print('userEmail no navigator: $userEmail' + "//");
-                    Navigator.of(context)
-                        .pushNamed(routes[questId], arguments: {
-                      'title': questName,
-                      'userEscala': userEscala,
-                      'answeredUntil': answeredUntil,
-                      'email': userEmail,
-                    });
-                  }),
-              Divider(thickness: 2.0),
-            ],
-          ));
+      return QuizCard(
+          title: questName,
+          completed: "Questões respondidas: $answeredUntil",
+          onTap: () {
+            print('userEmail no navigator: $userEmail' + "//");
+            Navigator.of(context).pushNamed(routes[questId], arguments: {
+              'title': questName,
+              'userEscala': userEscala,
+              'answeredUntil': answeredUntil,
+              'email': userEmail,
+            });
+          });
     } else {
       return Container();
     }
