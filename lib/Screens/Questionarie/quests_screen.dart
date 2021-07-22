@@ -40,13 +40,8 @@ class _QuestsScreenState extends State<QuestsScreen> {
       stream: questsRoomsStream,
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         return snapshot.hasData && snapshot.data!.docs.length > 0
-            ? GridView.builder(
+            ? ListView.builder(
                 itemCount: snapshot.data!.docs.length,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  mainAxisSpacing: 16,
-                  crossAxisSpacing: 16,
-                ),
                 itemBuilder: (context, index) {
                   return QuestRoomTile(
                     snapshot.data!.docs[index].get("questName"),
