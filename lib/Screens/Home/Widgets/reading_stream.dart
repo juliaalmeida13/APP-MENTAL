@@ -1,5 +1,4 @@
 import 'package:app_mental/Screens/Reading/reading_screen.dart';
-import 'package:app_mental/Screens/Video/video_interv_screen.dart';
 import 'package:app_mental/Services/auth.dart';
 import 'package:app_mental/Services/database.dart';
 import 'package:app_mental/constants.dart';
@@ -92,7 +91,7 @@ class RecomendedReadingCard extends StatelessWidget {
   });
 
   final String imagePath, title, userEmail, readingsId;
-  final bool isVideo;
+  final String isVideo;
   static const Map<String, dynamic> routes = {
     "sono1": "assets/text/Sleep/sleep01.md",
     "sono2": "assets/text/Sleep/sleep02.md",
@@ -121,7 +120,7 @@ class RecomendedReadingCard extends StatelessWidget {
                     ))),
             GestureDetector(
               onTap: () {
-                if (!isVideo) {
+                if (isVideo == 'false') {
                   Navigator.push(
                       context,
                       MaterialPageRoute(

@@ -68,7 +68,7 @@ class DatabaseMethods {
   Future<Stream<QuerySnapshot<Map<String, dynamic>>>> getRecomendedReadings(
       String userEmail) async {
     print("aa");
-    print(FirebaseAuth.instance.currentUser!.email);
+    print(userEmail);
     return FirebaseFirestore.instance
         .collection("Readings")
         .doc(userEmail)
@@ -76,15 +76,15 @@ class DatabaseMethods {
         .snapshots();
   }
 
-  Future<bool> readingsIsEmpty() async {
+  Future<QuerySnapshot> readingsAreEmpty() async {
     print("check");
     print(FirebaseAuth.instance.currentUser!.email);
     return FirebaseFirestore.instance
         .collection('Readings')
         .doc(FirebaseAuth.instance.currentUser!.email)
         .collection("userReadings")
-        .snapshots()
-        .isEmpty;
+        .limit(1)
+        .get();
   }
 
   disableQuest(String questId, userEmail) {

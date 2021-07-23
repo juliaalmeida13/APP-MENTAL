@@ -24,10 +24,10 @@ class _BodyState extends State<Body> {
   }
 
   getReadings() async {
-    DatabaseMethods().readingsIsEmpty().then((bool empty) {
-      setState(() {
-        existingReadings = !empty;
-      });
+    var ds = await DatabaseMethods().readingsAreEmpty();
+
+    setState(() {
+      existingReadings = ds.docs.length != 0;
     });
   }
 
