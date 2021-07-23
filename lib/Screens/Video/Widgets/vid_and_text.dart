@@ -28,7 +28,7 @@ class VidAndTextInfoCard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            VideoPlayer(key: UniqueKey(), size: size),
+            VideoPlayer(key: UniqueKey(), size: size, videoId: videoID),
             InfoTextCard(
                 key: UniqueKey(), size: size, textFile: interventionText)
           ],
@@ -42,12 +42,12 @@ class VidAndTextInfoCard extends StatelessWidget {
 ///
 
 class VideoPlayer extends StatelessWidget {
-  const VideoPlayer({
-    required Key key,
-    required this.size,
-  }) : super(key: key);
+  const VideoPlayer(
+      {required Key key, required this.size, required this.videoId})
+      : super(key: key);
 
   final Size size;
+  final String videoId;
 
   @override
   Widget build(BuildContext context) {
@@ -78,25 +78,22 @@ class VideoPlayer extends StatelessWidget {
                 child: ClipRRect(
                     borderRadius: BorderRadius.circular(20),
                     child: YoutubePlayer(
-                      controller: _controller,
+                      controller: YoutubePlayerController(
+                          initialVideoId: videoId,
+                          flags: YoutubePlayerFlags(
+                            startAt: 0,
+                            controlsVisibleAtStart: true,
+                            autoPlay: true,
+                          )),
                       aspectRatio: 16 / 9,
                     )
 
-                  ///'https://www.youtube.com/watch?v=C30hQ0ZSFoM',
-                )),
+                    ///'https://www.youtube.com/watch?v=C30hQ0ZSFoM',
+                    )),
           ],
         ));
   }
 }
-
-YoutubePlayerController _controller = YoutubePlayerController(
-    initialVideoId: 'C30hQ0ZSFoM',
-    flags: YoutubePlayerFlags(
-      startAt: 0,
-      controlsVisibleAtStart: true,
-      autoPlay: true,
-    )
-);
 
 ///Texto da intervencao
 class InfoTextCard extends StatelessWidget {
@@ -148,9 +145,7 @@ class InfoText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery
-        .of(context)
-        .size;
+    Size size = MediaQuery.of(context).size;
     return FutureBuilder(
         future: rootBundle.loadString(markdownFile),
         builder: (BuildContext context, AsyncSnapshot<String> snapshot) {

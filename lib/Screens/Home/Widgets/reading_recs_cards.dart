@@ -24,16 +24,26 @@ class RecomendsReadings extends StatelessWidget {
             image: "assets/images/gardening02.jpg",
             title: "Lazer",
             press: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => ReadingScreen("Lazer","assets/text/DailyLifeHabits/dailylife01.md","assets/images/gardening02.jpg")));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => ReadingScreen(
+                          "Lazer",
+                          "assets/text/DailyLifeHabits/dailylife01.md",
+                          "assets/images/gardening02.jpg")));
             },
           ),
           ReadingRecomendCard(
             image: "assets/images/sleep01.jpg",
             title: "Sono",
             press: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => VideoScreen()));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => VideoScreen(
+                          "titulo",
+                          "assets/text/DailyLifeHabits/dailylife01.md",
+                          "xcJtL7QggTI")));
             },
           ),
           ReadingRecomendCard(
@@ -84,50 +94,51 @@ class ReadingRecomendCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-        children: [Expanded(
-      child: Column(
-        children: <Widget>[
-          Container(
-              width: 100,
-              height: 100,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  image: DecorationImage(
-                    fit: BoxFit.cover,
-                    image: AssetImage(image),
-                  ))),
-          GestureDetector(
-            onTap: press,
-            child: Container(
-              width: 100,
-              height: 25,
-              //margin: EdgeInsets.all(kDefaultPadding / 4),
-              //padding: EdgeInsets.all(kDefaultPadding / 4),
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(10),
-                    bottomRight: Radius.circular(10),
-                  ),
-                  boxShadow: [
-                    BoxShadow(
-                      offset: Offset(0, 10),
-                      blurRadius: 50,
-                      color: kBackgroundGrey.withOpacity(0.23),
+    return Row(children: [
+      Expanded(
+        child: Column(
+          children: <Widget>[
+            Container(
+                width: 100,
+                height: 100,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    image: DecorationImage(
+                      fit: BoxFit.cover,
+                      image: AssetImage(image),
+                    ))),
+            GestureDetector(
+              onTap: press,
+              child: Container(
+                width: 100,
+                height: 25,
+                //margin: EdgeInsets.all(kDefaultPadding / 4),
+                //padding: EdgeInsets.all(kDefaultPadding / 4),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(10),
+                      bottomRight: Radius.circular(10),
                     ),
-                  ]),
-              child: Text(
-                "$title\n",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 18,
-                  color: Colors.black.withOpacity(0.5),
+                    boxShadow: [
+                      BoxShadow(
+                        offset: Offset(0, 10),
+                        blurRadius: 50,
+                        color: kBackgroundGrey.withOpacity(0.23),
+                      ),
+                    ]),
+                child: Text(
+                  "$title\n",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: Colors.black.withOpacity(0.5),
+                  ),
                 ),
               ),
             ),
-          ),
-        ],
-      ),
-    )]);
+          ],
+        ),
+      )
+    ]);
   }
 }
