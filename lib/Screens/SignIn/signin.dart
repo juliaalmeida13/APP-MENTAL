@@ -41,7 +41,8 @@ class _SignInState extends State<SignIn> {
     setState(() {
       isLoading = true;
     });
-    final snackBar = SnackBar(content:  new Row(
+    final snackBar = SnackBar(
+        content: new Row(
       children: <Widget>[
         new CircularProgressIndicator(),
         new Text("    Entrando...")
@@ -52,7 +53,7 @@ class _SignInState extends State<SignIn> {
         .signInWithEmailAndPassword(emailTextEdittingController.text,
             passwordTextEdittingController.text)
         .then((result) {
-      if (result!=null && result.user != null) {
+      if (result != null && result.user != null) {
         ScaffoldMessenger.of(context).hideCurrentSnackBar();
         User user = result.user as User;
         HelperFunctions.saveUserInfoToSharedPrefs(user);
@@ -62,13 +63,14 @@ class _SignInState extends State<SignIn> {
               builder: (context) => HomePage(),
             ));
       } else {
-        final snackBar = SnackBar(content: Text('Senha ou email inválidos',style: TextStyle(color: Colors.white)), backgroundColor: Colors.red);
+        final snackBar = SnackBar(
+            content: Text('Senha ou email inválidos',
+                style: TextStyle(color: Colors.white)),
+            backgroundColor: Colors.red);
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
       }
     });
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -167,8 +169,8 @@ class _SignInState extends State<SignIn> {
                                 AppColors.green,
                                 AppColors.green06,
                               ])),
-                          child: GestureDetector(
-                            onTap: () {
+                          child: TextButton(
+                            onPressed: () {
                               signIn();
                             },
                             child: Center(
