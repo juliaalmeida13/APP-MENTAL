@@ -1,4 +1,5 @@
 import 'package:app_mental/Screens/Reading/reading_screen.dart';
+import 'package:app_mental/Screens/Video/video_interv_screen.dart';
 import 'package:app_mental/Services/auth.dart';
 import 'package:app_mental/Services/database.dart';
 import 'package:app_mental/constants.dart';
@@ -90,9 +91,17 @@ class RecomendedReadingCard extends StatelessWidget {
     required this.userEmail,
   });
 
-  final String imagePath, title, userEmail, readingsId, isVideo;
+  final String imagePath, title, userEmail, readingsId;
+  final bool isVideo;
   static const Map<String, dynamic> routes = {
-    "lazer1": "assets/text/DailyLifeHabits/dailylife01.md",
+    "sono1": "assets/text/Sleep/sleep01.md",
+    "sono2": "assets/text/Sleep/sleep02.md",
+    "sono3": "assets/text/Sleep/sleep03.md",
+    "sono4": "assets/text/Sleep/sleep04.md",
+    "reduce1": "assets/text/DamageControl/damage_control01.md",
+    "reduce2": "assets/text/DamageControl/damage_control02.md",
+    "reduce3": "assets/text/DamageControl/damage_control03.md",
+    "reduce4": "assets/text/DamageControl/damage_control04.md",
   };
 
   @override
@@ -112,11 +121,16 @@ class RecomendedReadingCard extends StatelessWidget {
                     ))),
             GestureDetector(
               onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => ReadingScreen(
-                            title, routes[readingsId], imagePath)));
+                if (!isVideo) {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ReadingScreen(
+                              title, routes[readingsId], imagePath)));
+                } else {
+                  /*Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => VideoScreen()));*/
+                }
               },
               child: Container(
                 width: 100,

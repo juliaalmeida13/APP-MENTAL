@@ -45,6 +45,42 @@ class PsqiResult extends StatelessWidget {
     databaseMethods.addQuestAnswer(answerMap, email, userEscala);
     databaseMethods.updateQuestIndex(userEscala, email, questionIndex);
     databaseMethods.disableQuest(userEscala, email);
+
+    int sum =
+        resultScoreList.fold(0, (previous, current) => previous + current);
+    if (sum > 4) {
+      Map<String, dynamic> readingsMap1 = {
+        "imagePath": "assets/images/sleep01.jpg",
+        "title": "Higiene do Sono",
+        "readingsId": "sono1",
+        "isVideo": false,
+      };
+      databaseMethods.recomendReading("sono1", readingsMap1, email);
+
+      Map<String, dynamic> readingsMap2 = {
+        "imagePath": "assets/images/sleep02.jpg",
+        "title": "Higiene do Sono",
+        "readingsId": "sono2",
+        "isVideo": false,
+      };
+      databaseMethods.recomendReading("sono2", readingsMap2, email);
+
+      Map<String, dynamic> readingsMap3 = {
+        "imagePath": "assets/images/sleep03.jpg",
+        "title": "Higiene do Sono",
+        "readingsId": "sono3",
+        "isVideo": false,
+      };
+      databaseMethods.recomendReading("sono3", readingsMap3, email);
+
+      Map<String, dynamic> readingsMap4 = {
+        "imagePath": "assets/images/sleep04.jpg",
+        "title": "Higiene do Sono",
+        "readingsId": "sono4",
+        "isVideo": false,
+      };
+      databaseMethods.recomendReading("sono4", readingsMap4, email);
+    }
   }
 
   PsqiResult({

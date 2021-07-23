@@ -57,14 +57,6 @@ class Promisn1Result extends StatelessWidget {
         "answeredUntil": 0,
       };
       databaseMethods.createQuest(promisn2UserEscala, questMap, email);
-
-      Map<String, dynamic> readingsMap = {
-        "imagePath": "assets/images/gardening02.jpg",
-        "title": "Lazer",
-        "readingsId": "lazer1",
-        "isVideo": "false",
-      };
-      databaseMethods.recomendReading("lazer1", readingsMap, email);
     }
 
     var answerDom2 =
