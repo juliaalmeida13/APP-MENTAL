@@ -77,7 +77,7 @@ class _SignUpState extends State<SignUp> {
     now = DateTime.now();
     var firstDay = getNextSunday(now);
 
-    //add promisn1
+    //add promisn1 every other week, odd numbers
     for (var i = 1; i <= 11; i += 2) {
       String userEscala = 'promisN1_week$i';
       Map<String, dynamic> questMap = {
@@ -85,14 +85,14 @@ class _SignUpState extends State<SignUp> {
         "questId": "pn1",
         "questName": "Escala PROMIS Nível 1 - Semana $i",
         "userEscala": userEscala,
-        "availableAt": addWeeks(day: firstDay, n: i - 2),
+        "availableAt": addWeeks(day: firstDay, n: i - 1),
         "answeredUntil": 0,
       };
       DatabaseMethods()
           .createQuest(userEscala, questMap, emailTextEdittingController.text);
     }
 
-    //add pset
+    //add pset every other week, even numbers (except 6 and 10)
     for (var i = 1; i <= 12; i += 2) {
       if (i != 6 && i != 10) {
         String userEscala = 'pset_week$i';
@@ -101,56 +101,57 @@ class _SignUpState extends State<SignUp> {
           "questId": "pset",
           "questName": "Pergunta Eventos Traumáticos - Semana $i",
           "userEscala": userEscala,
-          "availableAt": addWeeks(day: firstDay, n: i - 1),
+          "availableAt": addWeeks(day: firstDay, n: i),
           "answeredUntil": 0,
         };
         DatabaseMethods().createQuest(
             userEscala, questMap, emailTextEdittingController.text);
       }
     }
-    //add quesi
+    //add quesi 6th week
     String userEscala = 'quesi_week6';
     Map<String, dynamic> questMap = {
       "unanswered?": true,
       "questId": "quesi",
       "questName": "Questionário Sobre Traumas na Infância - Semana 6",
       "userEscala": userEscala,
-      "availableAt": addWeeks(day: firstDay, n: -1),
+      "availableAt": addWeeks(day: firstDay, n: 5),
       "answeredUntil": 0,
     };
     DatabaseMethods()
         .createQuest(userEscala, questMap, emailTextEdittingController.text);
 
-    //add questSD1
+    //add questSD1 1st week
     String userEscala1 = 'questSD1_week1';
     Map<String, dynamic> questMap1 = {
       "unanswered?": true,
       "questId": "questSD1",
       "questName": "Questionário Sociodemográfico (1) - Semana 1",
       "userEscala": userEscala1,
-      "availableAt": addWeeks(day: firstDay, n: -1),
+      "availableAt": firstDay,
       "answeredUntil": 0,
     };
     DatabaseMethods()
         .createQuest(userEscala1, questMap1, emailTextEdittingController.text);
 
-    //add questSD2
+    //add questSD2 2nd week
     String userEscala2 = 'questSD2_week2';
     Map<String, dynamic> questMap2 = {
       "unanswered?": true,
       "questId": "questSD2",
       "questName": "Questionário Sociodemográfico (2) - Semana 2",
       "userEscala": userEscala2,
-      "availableAt": addWeeks(day: firstDay, n: -1),
+      "availableAt": addWeeks(day: firstDay, n: 1),
       "answeredUntil": 0,
     };
     DatabaseMethods()
         .createQuest(userEscala2, questMap2, emailTextEdittingController.text);
+
+    //add contact
     Map<String, dynamic> contactMap = {
       "name": "Emergência",
       "number": 800,
     };
-
     DatabaseMethods()
         .createContactList(contactMap, emailTextEdittingController.text);
   }

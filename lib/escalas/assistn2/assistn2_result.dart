@@ -26,6 +26,18 @@ class Assistn2Result extends StatelessWidget {
     databaseMethods.addQuestAnswer(answerMap, email, userEscala);
     databaseMethods.updateQuestIndex(userEscala, email, questionIndex);
     databaseMethods.disableQuest(userEscala, email);
+
+    int sum =
+        resultScoreList.fold(0, (previous, current) => previous + current);
+    if (sum > 3) {
+      Map<String, dynamic> readingsMap = {
+        "imagePath": "assets/images/sleep01.jpg",
+        "title": "assets/images/care01.jpg",
+        "readingsId": "reduce1",
+        "isVideo": false,
+      };
+      databaseMethods.recomendReading("reduce1", readingsMap, email);
+    }
   }
 
   Assistn2Result({

@@ -45,6 +45,18 @@ class PsqiResult extends StatelessWidget {
     databaseMethods.addQuestAnswer(answerMap, email, userEscala);
     databaseMethods.updateQuestIndex(userEscala, email, questionIndex);
     databaseMethods.disableQuest(userEscala, email);
+
+    int sum =
+        resultScoreList.fold(0, (previous, current) => previous + current);
+    if (sum > 4) {
+      Map<String, dynamic> readingsMap = {
+        "imagePath": "assets/images/sleep01.jpg",
+        "title": "Higiene do Sono",
+        "readingsId": "sono1",
+        "isVideo": true,
+      };
+      databaseMethods.recomendReading("sono1", readingsMap, email);
+    }
   }
 
   PsqiResult({
