@@ -30,13 +30,37 @@ class Assistn2Result extends StatelessWidget {
     int sum =
         resultScoreList.fold(0, (previous, current) => previous + current);
     if (sum > 3) {
-      Map<String, dynamic> readingsMap = {
-        "imagePath": "assets/images/sleep01.jpg",
-        "title": "assets/images/care01.jpg",
+      Map<String, dynamic> readingsMap1 = {
+        "imagePath": "assets/images/care01.jpg",
+        "title": "Redução de Danos",
         "readingsId": "reduce1",
         "isVideo": false,
       };
-      databaseMethods.recomendReading("reduce1", readingsMap, email);
+      databaseMethods.recomendReading("reduce1", readingsMap1, email);
+
+      Map<String, dynamic> readingsMap2 = {
+        "imagePath": "assets/images/care01.jpg",
+        "title": "Redução de Danos",
+        "readingsId": "reduce2",
+        "isVideo": false,
+      };
+      databaseMethods.recomendReading("reduce2", readingsMap2, email);
+
+      Map<String, dynamic> readingsMap3 = {
+        "imagePath": "assets/images/care01.jpg",
+        "title": "Redução de Danos",
+        "readingsId": "reduce3",
+        "isVideo": false,
+      };
+      databaseMethods.recomendReading("reduce3", readingsMap3, email);
+
+      Map<String, dynamic> readingsMap4 = {
+        "imagePath": "assets/images/care01.jpg",
+        "title": "Redução de Danos",
+        "readingsId": "reduce4",
+        "isVideo": false,
+      };
+      databaseMethods.recomendReading("reduce4", readingsMap4, email);
     }
   }
 
