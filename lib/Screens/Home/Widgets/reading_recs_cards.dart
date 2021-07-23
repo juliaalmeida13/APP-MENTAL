@@ -21,7 +21,7 @@ class RecomendsReadings extends StatelessWidget {
         scrollDirection: Axis.vertical,
         children: <Widget>[
           ReadingRecomendCard(
-            image: "assets/images/gardening02.jpg",
+            image: "assets/images/reading01.jpg",
             title: "Lazer",
             press: () {
               Navigator.push(
@@ -29,8 +29,8 @@ class RecomendsReadings extends StatelessWidget {
                   MaterialPageRoute(
                       builder: (context) => ReadingScreen(
                           "Lazer",
-                          "assets/text/DailyLifeHabits/dailylife01.md",
-                          "assets/images/gardening02.jpg")));
+                          "assets/text/Leisure/leisure01.md",
+                          "assets/images/reading01.jpg")));
             },
           ),
           ReadingRecomendCard(
@@ -40,41 +40,89 @@ class RecomendsReadings extends StatelessWidget {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => VideoScreen(
-                          "titulo",
-                          "assets/text/DailyLifeHabits/dailylife01.md",
-                          "xcJtL7QggTI")));
+                      builder: (context) => ReadingScreen(
+                          "Sono",
+                          "assets/text/Sleep/sleep03.md",
+                          "assets/images/sleep01.jpg")));
             },
           ),
           ReadingRecomendCard(
             image: "assets/images/stress01.jpg",
             title: "Estresse",
-            press: () {},
+            press: (){
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => ReadingScreen(
+                          "Manejo Estresse",
+                          "assets/text/StressMgt/stress01.md",
+                          "assets/images/stress01.jpg")));
+            },
           ),
           ReadingRecomendCard(
             image: "assets/images/jogging01.jpg",
             title: "Exercícios",
-            press: () {},
+            press: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => ReadingScreen(
+                          "Atividade Física",
+                          "assets/text/Exercise/exercise01.md",
+                          "assets/images/jogging01.jpg")));
+            },
           ),
           ReadingRecomendCard(
             image: "assets/images/happy02.jpg",
             title: "Felicidade",
-            press: () {},
+            press: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => ReadingScreen(
+                          "Felicidade",
+                          "assets/text/Happiness/hapiness01.md",
+                          "assets/images/happy02.jpg")));
+            },
           ),
           ReadingRecomendCard(
             image: "assets/images/habits.jpg",
             title: "Rotina",
-            press: () {},
+            press: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => ReadingScreen(
+                          "Rotina",
+                          "assets/text/DailyLifeHabits/dailylife01.md",
+                          "assets/images/cooking01.jpg")));
+            },
           ),
           ReadingRecomendCard(
             image: "assets/images/mentalhealth01.jpg",
             title: "PICS",
-            press: () {},
+            press: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => VideoScreen(
+                          "Yoga",
+                          "assets/text/PICS/pics01.md",
+                          "mnfZ3UmaydM")));
+            },
           ),
           ReadingRecomendCard(
             image: "assets/images/care01.jpg",
             title: "Redução Danos",
-            press: () {},
+            press: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => ReadingScreen(
+                          "Alcóol",
+                          "assets/text/DamageControl/damage_control02.md",
+                          "assets/images/touch01.jpg")));
+            },
           ),
         ],
       ),
