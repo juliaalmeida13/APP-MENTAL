@@ -91,7 +91,7 @@ class RecomendedReadingCard extends StatelessWidget {
   });
 
   final String imagePath, title, userEmail, readingsId;
-  final String isVideo;
+  final bool isVideo;
   static const Map<String, dynamic> routes = {
     "sono1": "assets/text/Sleep/sleep01.md",
     "sono2": "assets/text/Sleep/sleep02.md",
@@ -120,7 +120,7 @@ class RecomendedReadingCard extends StatelessWidget {
                     ))),
             GestureDetector(
               onTap: () {
-                if (isVideo == 'false') {
+                if (isVideo == false) {
                   Navigator.push(
                       context,
                       MaterialPageRoute(

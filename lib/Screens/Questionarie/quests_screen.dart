@@ -45,14 +45,18 @@ class _QuestsScreenState extends State<QuestsScreen> {
             ? ListView.builder(
                 itemCount: snapshot.data!.docs.length,
                 itemBuilder: (context, index) {
-                  return QuestRoomTile(
-                    snapshot.data!.docs[index].get("questName"),
-                    snapshot.data!.docs[index].get("questId"),
-                    snapshot.data!.docs[index].get("availableAt").toDate(),
-                    snapshot.data!.docs[index].get("userEscala"),
-                    snapshot.data!.docs[index].get("answeredUntil"),
-                    Constants.myEmail,
-                  );
+                  return snapshot.data!.docs[index].get("unanswered?")
+                      ? QuestRoomTile(
+                          snapshot.data!.docs[index].get("questName"),
+                          snapshot.data!.docs[index].get("questId"),
+                          snapshot.data!.docs[index]
+                              .get("availableAt")
+                              .toDate(),
+                          snapshot.data!.docs[index].get("userEscala"),
+                          snapshot.data!.docs[index].get("answeredUntil"),
+                          Constants.myEmail,
+                        )
+                      : Container();
                   /*:UnavailableQuestRoomTile(
                           snapshot.data!.docs[index].get("questName"))*/
                 },

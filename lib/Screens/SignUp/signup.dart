@@ -85,7 +85,7 @@ class _SignUpState extends State<SignUp> {
         "questId": "pn1",
         "questName": "Escala PROMIS Nível 1 - Semana $i",
         "userEscala": userEscala,
-        "availableAt": addWeeks(day: firstDay, n: i - 1),
+        "availableAt": addWeeks(day: firstDay, n: i - 2),
         "answeredUntil": 0,
       };
       DatabaseMethods()
@@ -101,7 +101,7 @@ class _SignUpState extends State<SignUp> {
           "questId": "pset",
           "questName": "Pergunta Eventos Traumáticos - Semana $i",
           "userEscala": userEscala,
-          "availableAt": addWeeks(day: firstDay, n: i),
+          "availableAt": addWeeks(day: firstDay, n: i - 1),
           "answeredUntil": 0,
         };
         DatabaseMethods().createQuest(
@@ -115,7 +115,7 @@ class _SignUpState extends State<SignUp> {
       "questId": "quesi",
       "questName": "Questionário Sobre Traumas na Infância - Semana 6",
       "userEscala": userEscala,
-      "availableAt": addWeeks(day: firstDay, n: 5),
+      "availableAt": addWeeks(day: firstDay, n: 4),
       "answeredUntil": 0,
     };
     DatabaseMethods()
@@ -128,7 +128,7 @@ class _SignUpState extends State<SignUp> {
       "questId": "questSD1",
       "questName": "Questionário Sociodemográfico (1) - Semana 1",
       "userEscala": userEscala1,
-      "availableAt": firstDay,
+      "availableAt": addWeeks(day: firstDay, n: -1),
       "answeredUntil": 0,
     };
     DatabaseMethods()
@@ -141,7 +141,7 @@ class _SignUpState extends State<SignUp> {
       "questId": "questSD2",
       "questName": "Questionário Sociodemográfico (2) - Semana 2",
       "userEscala": userEscala2,
-      "availableAt": addWeeks(day: firstDay, n: 1),
+      "availableAt": addWeeks(day: firstDay, n: 0),
       "answeredUntil": 0,
     };
     DatabaseMethods()
