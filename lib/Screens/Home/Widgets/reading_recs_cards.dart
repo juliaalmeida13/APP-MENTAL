@@ -49,7 +49,7 @@ class RecomendsReadings extends StatelessWidget {
           ReadingRecomendCard(
             image: "assets/images/stress01.jpg",
             title: "Estresse",
-            press: (){
+            press: () {
               Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -105,10 +105,8 @@ class RecomendsReadings extends StatelessWidget {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => VideoScreen(
-                          "Yoga",
-                          "assets/text/PICS/pics01.md",
-                          "mnfZ3UmaydM")));
+                      builder: (context) => VideoScreen("Yoga",
+                          "assets/text/PICS/pics01.md", "mnfZ3UmaydM")));
             },
           ),
           ReadingRecomendCard(
@@ -142,22 +140,22 @@ class ReadingRecomendCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(children: [
-      Expanded(
-        child: Column(
-          children: <Widget>[
-            Container(
-                width: 100,
-                height: 100,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    image: DecorationImage(
-                      fit: BoxFit.cover,
-                      image: AssetImage(image),
-                    ))),
-            GestureDetector(
-              onTap: press,
-              child: Container(
+    return GestureDetector(
+      onTap: press,
+      child: Row(children: [
+        Expanded(
+          child: Column(
+            children: <Widget>[
+              Container(
+                  width: 100,
+                  height: 100,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      image: DecorationImage(
+                        fit: BoxFit.cover,
+                        image: AssetImage(image),
+                      ))),
+              Container(
                 width: 100,
                 height: 25,
                 //margin: EdgeInsets.all(kDefaultPadding / 4),
@@ -183,10 +181,10 @@ class ReadingRecomendCard extends StatelessWidget {
                   ),
                 ),
               ),
-            ),
-          ],
-        ),
-      )
-    ]);
+            ],
+          ),
+        )
+      ]),
+    );
   }
 }
