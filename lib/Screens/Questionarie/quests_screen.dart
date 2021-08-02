@@ -34,31 +34,27 @@ class QuestsScreen extends StatefulWidget {
 class _QuestsScreenState extends State<QuestsScreen> {
   AuthMethods authMethods = new AuthMethods();
   DatabaseMethods databaseMethods = new DatabaseMethods();
-  Stream<QuerySnapshot<Object?>>? questsRoomsStream;
+  Stream<QuerySnapshot<Object?>>? questsAnsweredRoomsStream;
+  Stream<QuerySnapshot<Object?>>? questsUnansweredRoomsStream;
 
-  Widget questsRoomList() {
+  Widget questsRoomList(Stream<QuerySnapshot<Object?>>? stream) {
     print('(((' + Constants.myEmail + ')))');
     return StreamBuilder<QuerySnapshot>(
-      stream: questsRoomsStream,
+      stream: stream,
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         return snapshot.hasData && snapshot.data!.docs.length > 0
             ? ListView.builder(
                 itemCount: snapshot.data!.docs.length,
                 itemBuilder: (context, index) {
-                  return snapshot.data!.docs[index].get("unanswered?")
-                      ? QuestRoomTile(
-                          snapshot.data!.docs[index].get("questName"),
-                          snapshot.data!.docs[index].get("questId"),
-                          snapshot.data!.docs[index]
-                              .get("availableAt")
-                              .toDate(),
-                          snapshot.data!.docs[index].get("userEscala"),
-                          snapshot.data!.docs[index].get("answeredUntil"),
-                          Constants.myEmail,
-                        )
-                      : Container();
-                  /*:UnavailableQuestRoomTile(
-                          snapshot.data!.docs[index].get("questName"))*/
+                  return QuestRoomTile(
+                    snapshot.data!.docs[index].get("questName"),
+                    snapshot.data!.docs[index].get("questId"),
+                    snapshot.data!.docs[index].get("availableAt").toDate(),
+                    snapshot.data!.docs[index].get("userEscala"),
+                    snapshot.data!.docs[index].get("answeredUntil"),
+                    snapshot.data!.docs[index].get("unanswered?"),
+                    Constants.myEmail,
+                  );
                 },
               )
             : Container();
@@ -78,9 +74,14 @@ class _QuestsScreenState extends State<QuestsScreen> {
     Constants.myName = await HelperFunctions.getUserNameInSharedPreference();
     Constants.myEmail = await HelperFunctions.getUserEmailInSharedPreference();
     Constants.myEmail = Constants.myEmail.trim();
-    databaseMethods.getCreatedQuests(Constants.myEmail).then((val) {
+    databaseMethods.getAnsweredQuests(Constants.myEmail).then((val) {
       setState(() {
-        questsRoomsStream = val;
+        questsAnsweredRoomsStream = val;
+      });
+    });
+    databaseMethods.getUnansweredQuests(Constants.myEmail).then((val) {
+      setState(() {
+        questsUnansweredRoomsStream = val;
       });
     });
   }
@@ -141,13 +142,8 @@ class _QuestsScreenState extends State<QuestsScreen> {
                       )))),
           body: TabBarView(
             children: [
-              questsRoomList(),
-              /*GridView.count(
-                crossAxisSpacing: 16,
-                mainAxisSpacing: 16,
-                crossAxisCount: 2,
-                children: */
-              Icon(Icons.directions_bike),
+              questsRoomList(questsUnansweredRoomsStream),
+              questsRoomList(questsAnsweredRoomsStream),
             ],
           ),
         ),
@@ -162,6 +158,7 @@ class QuestRoomTile extends StatelessWidget {
   final DateTime availableAt;
   final String userEscala;
   final int answeredUntil;
+  final bool unanswered;
   final String userEmail;
   final DateTime now = DateTime.now();
   final Map<String, dynamic> routes = {
@@ -186,6 +183,7 @@ class QuestRoomTile extends StatelessWidget {
     this.availableAt,
     this.userEscala,
     this.answeredUntil,
+    this.unanswered,
     this.userEmail,
   );
 
@@ -197,38 +195,22 @@ class QuestRoomTile extends StatelessWidget {
     if (now.isAfter(availableAt) && now.isBefore(nextSunday)) {
       return QuizCard(
           title: questName,
-          completed: "Questões respondidas: $answeredUntil",
+          completed: unanswered
+              ? "Questões respondidas: $answeredUntil"
+              : "Completado!",
           onTap: () {
-            print('userEmail no navigator: $userEmail' + "//");
-            Navigator.of(context).pushNamed(routes[questId], arguments: {
-              'title': questName,
-              'userEscala': userEscala,
-              'answeredUntil': answeredUntil,
-              'email': userEmail,
-            });
+            if (unanswered) {
+              print('userEmail no navigator: $userEmail' + "//");
+              Navigator.of(context).pushNamed(routes[questId], arguments: {
+                'title': questName,
+                'userEscala': userEscala,
+                'answeredUntil': answeredUntil,
+                'email': userEmail,
+              });
+            }
           });
     } else {
       return Container();
     }
-  }
-}
-
-class UnavailableQuestRoomTile extends StatelessWidget {
-  final String questName;
-
-  UnavailableQuestRoomTile(this.questName);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-        width: double.infinity,
-        child: Column(
-          children: [
-            ListTile(
-              title: Text("$questName - Já respondido!"),
-            ),
-            Divider(thickness: 2.0),
-          ],
-        ));
   }
 }

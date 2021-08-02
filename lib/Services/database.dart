@@ -196,6 +196,26 @@ class DatabaseMethods {
         .snapshots();
   }
 
+  Future<Stream<QuerySnapshot<Map<String, dynamic>>>> getUnansweredQuests(
+      String userEmail) async {
+    return FirebaseFirestore.instance
+        .collection("Escala")
+        .doc(userEmail)
+        .collection("userEscalas")
+        .where("unanswered?", isEqualTo: true)
+        .snapshots();
+  }
+
+  Future<Stream<QuerySnapshot<Map<String, dynamic>>>> getAnsweredQuests(
+      String userEmail) async {
+    return FirebaseFirestore.instance
+        .collection("Escala")
+        .doc(userEmail)
+        .collection("userEscalas")
+        .where("unanswered?", isEqualTo: false)
+        .snapshots();
+  }
+
   getDomFromAnswers(String userEmail, String userEscala, String dom) async {
     return FirebaseFirestore.instance
         .collection("Escala")
