@@ -1,8 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.ufscar.app_mental">
    <application
-        android:label="app_mental"
-        android:icon="@mipmap/ic_launcher">
+        android:label="App Mental"
+        android:icon="@mipmap/launcher_icon">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
