@@ -40,10 +40,19 @@ dependencies:
   survey_kit: ^0.0.11
   youtube_player_flutter: ^8.0.0
   feedback: ^2.0.0
+  flutter_launcher_icons: ^0.9.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/icons/app-mental-logo.png"
+  adaptive_icon_background: "#b2ffa9"
+  adaptive_icon_foreground: "assets/icons/app-mental-logo.png"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
