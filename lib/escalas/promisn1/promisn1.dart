@@ -1,8 +1,6 @@
 import 'dart:ui';
 
-import 'package:app_mental/Services/database.dart';
-import 'package:app_mental/escalas/promis_answer.dart';
-import 'package:app_mental/escalas/question.dart';
+import 'package:app_mental/Screens/Contacts/contacts_screen.dart';
 import 'package:app_mental/main.dart';
 import 'package:flutter/material.dart';
 
@@ -42,6 +40,22 @@ class Promisn1 extends StatelessWidget {
     print(userEscala);
     databaseMethods.addQuestAnswer(promisn1Map, userEmail, userEscala);
     databaseMethods.updateQuestIndex(userEscala, userEmail, questionIndex);
+  }
+
+  isCritical() {
+    //dom 2, 9, 10, 11, 12, leve ou maior (>2)
+    //dom 6, 7 muito leve ou maior (>1)
+    if (resultScoreList[2] > 2 ||
+        resultScoreList[6] > 1 ||
+        resultScoreList[7] > 1 ||
+        resultScoreList[9] > 2 ||
+        resultScoreList[10] > 2 ||
+        resultScoreList[11] > 2 ||
+        resultScoreList[12] > 2) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   Promisn1({
@@ -182,11 +196,37 @@ class Promisn1 extends StatelessWidget {
                         TextButton(
                           onPressed: () async {
                             enviarDominios(userEmail);
-                            Navigator.pop(context, 'Ok');
-                            await Navigator.of(context).push(
-                                new MaterialPageRoute(
-                                    builder: (context) => MyApp()));
-                            //Navigator.pop(context, 'OK');
+                            if (isCritical()) {
+                              showDialog<String>(
+                                context: context,
+                                builder: (BuildContext context) => AlertDialog(
+                                  title: const Text(
+                                      'Entre em contato com alguém!'),
+                                  content: const Text(
+                                      'Percebemos que você pode estar em um estado bastante delicado e gostaríamos de sugerir que entre em contato conosco ou com alguém próximo!'),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      onPressed: () async {
+                                        Navigator.pop(context, 'Ok');
+                                        await Navigator.of(context).pushNamed(
+                                          ContactsScreen.routeName,
+                                          arguments: {},
+                                        );
+                                      },
+                                      child: const Text('Ok',
+                                          style: TextStyle(
+                                              color: Color.fromRGBO(
+                                                  104, 202, 138, 1))),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            } else {
+                              Navigator.pop(context, 'Ok');
+                              await Navigator.of(context).push(
+                                  new MaterialPageRoute(
+                                      builder: (context) => MyApp()));
+                            }
                           },
                           child: const Text('Salvar'),
                         ),
