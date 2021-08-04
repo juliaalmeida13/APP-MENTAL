@@ -105,33 +105,33 @@ class RecomendedReadingCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(children: [
-      Expanded(
-        child: Column(
-          children: <Widget>[
-            Container(
-                width: 100,
-                height: 100,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    image: DecorationImage(
-                      fit: BoxFit.cover,
-                      image: AssetImage(imagePath),
-                    ))),
-            GestureDetector(
-              onTap: () {
-                if (isVideo == false) {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => ReadingScreen(
-                              title, routes[readingsId], imagePath)));
-                } else {
-                  /*Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => VideoScreen()));*/
-                }
-              },
-              child: Container(
+    return GestureDetector(
+      onTap: () {
+        if (isVideo == false) {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) =>
+                      ReadingScreen(title, routes[readingsId], imagePath)));
+        } else {
+          /*Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => VideoScreen()));*/
+        }
+      },
+      child: Row(children: [
+        Expanded(
+          child: Column(
+            children: <Widget>[
+              Container(
+                  width: 100,
+                  height: 100,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      image: DecorationImage(
+                        fit: BoxFit.cover,
+                        image: AssetImage(imagePath),
+                      ))),
+              Container(
                 width: 100,
                 height: 25,
                 decoration: BoxDecoration(
@@ -155,10 +155,10 @@ class RecomendedReadingCard extends StatelessWidget {
                   ),
                 ),
               ),
-            ),
-          ],
-        ),
-      )
-    ]);
+            ],
+          ),
+        )
+      ]),
+    );
   }
 }
