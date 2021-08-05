@@ -150,7 +150,7 @@ class _SignUpState extends State<SignUp> {
     //add contact
     Map<String, dynamic> contactMap = {
       "name": "Emergência",
-      "number": 800,
+      "number": 188,
     };
     DatabaseMethods()
         .createContactList(contactMap, emailTextEdittingController.text);
