@@ -58,8 +58,6 @@ class _MyAppState extends State<MyApp> {
       ),
       routes: {
         Promisn1Screen.routeName: (ctx) => Promisn1Screen(),
-        //Promisn2Screen.routeName: (ctx) => Promisn2Screen(),
-        //QuestsRoom.routeName: (ctx) => QuestsRoom(),
         ContactsScreen.routeName: (ctx) => ContactsScreen(),
         Promisn2Screen.routeName: (ctx) => Promisn2Screen(),
         Pcl5Screen.routeName: (ctx) => Pcl5Screen(),
