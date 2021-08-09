@@ -1,3 +1,4 @@
+import 'package:app_mental/Screens/Contacts/contacts_screen.dart';
 import 'package:app_mental/Services/database.dart';
 import 'package:flutter/material.dart';
 
@@ -39,6 +40,16 @@ class MdqResult extends StatelessWidget {
     databaseMethods.disableQuest(userEscala, email);
   }
 
+  isCritical() {
+    int sum =
+        resultScoreList.fold(0, (previous, current) => previous + current);
+    if (sum > 6) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   MdqResult({
     required this.resultScoreList,
     required this.questionIndex,
@@ -73,23 +84,50 @@ class MdqResult extends StatelessWidget {
                 style: TextStyle(color: Colors.black)),
             onPressed: () {
               sendMdqScore(userEmail);
-              showDialog<String>(
-                context: context,
-                builder: (BuildContext context) => AlertDialog(
-                  title: const Text('Êxito!'),
-                  content: const Text(
-                      'Suas respostas foram enviadas!\nNovas atividades serão disponibilizadas em breve.'),
-                  actions: <Widget>[
-                    TextButton(
-                      onPressed: () async {
-                        Navigator.pop(context);
-                        Navigator.pop(context);
-                      },
-                      child: const Text('Ok'),
-                    ),
-                  ],
-                ),
-              );
+              if (isCritical()) {
+                showDialog<String>(
+                  context: context,
+                  builder: (BuildContext context) => AlertDialog(
+                    title: const Text('Entre em contato com alguém!'),
+                    content: const Text(
+                        'Percebemos que você pode estar em um estado bastante delicado e gostaríamos de sugerir que entre em contato conosco ou com alguém próximo!'),
+                    actions: <Widget>[
+                      TextButton(
+                        onPressed: () async {
+                          Navigator.pop(context, 'Ok');
+                          await Navigator.of(context).pushNamed(
+                            ContactsScreen.routeName,
+                            arguments: {},
+                          );
+                        },
+                        child: const Text('Ok',
+                            style: TextStyle(
+                                color: Color.fromRGBO(104, 202, 138, 1))),
+                      ),
+                    ],
+                  ),
+                );
+              } else {
+                showDialog<String>(
+                  context: context,
+                  builder: (BuildContext context) => AlertDialog(
+                    title: const Text('Êxito!'),
+                    content: const Text(
+                        'Suas respostas foram enviadas!\nNovas atividades serão disponibilizadas em breve.'),
+                    actions: <Widget>[
+                      TextButton(
+                        onPressed: () async {
+                          Navigator.pop(context, 'Ok');
+                          await Navigator.of(context).push(
+                              new MaterialPageRoute(
+                                  builder: (context) => MyApp()));
+                        },
+                        child: const Text('Ok'),
+                      ),
+                    ],
+                  ),
+                );
+              }
             },
           ),
         ),
