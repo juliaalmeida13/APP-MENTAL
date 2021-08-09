@@ -31,20 +31,25 @@ class _RecomendedReadingsStreamState extends State<RecomendedReadingsStream> {
                 children: [
                   Container(
                     height: 200,
+                    margin: EdgeInsets.only(left: 10),
                     child: ListView.builder(
-                      // scrollDirection: Axis.horizontal,
+                      scrollDirection: Axis.horizontal,
                       shrinkWrap: true,
                       itemCount: snapshot.data!.docs.length,
                       itemBuilder: (context, index) {
                         print("something something");
-                        return RecomendedReadingCard(
-                          imagePath:
-                              snapshot.data!.docs[index].get("imagePath"),
-                          title: snapshot.data!.docs[index].get("title"),
-                          readingsId:
-                              snapshot.data!.docs[index].get("readingsId"),
-                          isVideo: snapshot.data!.docs[index].get("isVideo"),
-                          userEmail: Constants.myEmail,
+                        return Container(
+                          margin: EdgeInsets.only(right: 10),
+                          width: 100,
+                          child: RecomendedReadingCard(
+                            imagePath:
+                                snapshot.data!.docs[index].get("imagePath"),
+                            title: snapshot.data!.docs[index].get("title"),
+                            readingsId:
+                                snapshot.data!.docs[index].get("readingsId"),
+                            isVideo: snapshot.data!.docs[index].get("isVideo"),
+                            userEmail: Constants.myEmail,
+                          ),
                         );
                       },
                     ),
