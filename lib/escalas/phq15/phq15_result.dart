@@ -93,7 +93,8 @@ class Phq15Result extends StatelessWidget {
                       TextButton(
                         onPressed: () async {
                           Navigator.pop(context, 'Ok');
-                          await Navigator.of(context).pushNamed(
+                          await Navigator.pushReplacementNamed(
+                            context,
                             ContactsScreen.routeName,
                             arguments: {},
                           );
@@ -115,10 +116,8 @@ class Phq15Result extends StatelessWidget {
                     actions: <Widget>[
                       TextButton(
                         onPressed: () async {
-                          Navigator.pop(context, 'Ok');
-                          await Navigator.of(context).push(
-                              new MaterialPageRoute(
-                                  builder: (context) => MyApp()));
+                          Navigator.pop(context, "Ok");
+                          Navigator.pop(context);
                         },
                         child: const Text('Ok'),
                       ),

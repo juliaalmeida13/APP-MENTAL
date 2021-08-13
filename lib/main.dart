@@ -71,8 +71,8 @@ class _MyAppState extends State<MyApp> {
         PsqiScreen.routeName: (ctx) => PsqiScreen(),
         AssistScreen.routeName: (ctx) => AssistScreen(),
         Assistn2Screen.routeName: (ctx) => Assistn2Screen(),
-        "AuthenticatedHomePage": (ctx) => HomePage(),
-        "SignIn": (ctx) => SignIn()
+        "/logged-home": (ctx) => HomePage(),
+        "/sign-in": (ctx) => SignIn()
       },
       home: LandingPage(),
     );

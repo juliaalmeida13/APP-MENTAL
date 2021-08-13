@@ -54,7 +54,7 @@ class _SignInState extends State<SignIn> {
         User user = result.user as User;
         HelperFunctions.saveUserInfoToSharedPrefs(user);
         Navigator.pushNamedAndRemoveUntil(
-            context, "AuthenticatedHomePage", (Route<dynamic> route) => false);
+            context, "/logged-home", (Route<dynamic> route) => false);
       } else {
         final snackBar = SnackBar(
             content: Text('Senha ou email inválidos',

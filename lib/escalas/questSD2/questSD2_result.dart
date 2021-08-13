@@ -81,7 +81,7 @@ class QuestSD2Result extends StatelessWidget {
                   actions: <Widget>[
                     TextButton(
                       onPressed: () async {
-                        Navigator.pop(context);
+                        Navigator.pop(context, "Ok");
                         Navigator.pop(context);
                       },
                       child: const Text('Ok'),

@@ -1,4 +1,5 @@
 import 'dart:ui';
+
 import 'package:app_mental/Screens/Contacts/contacts_screen.dart';
 import 'package:app_mental/Services/database.dart';
 import 'package:app_mental/main.dart';
@@ -210,7 +211,8 @@ class Promisn1Result extends StatelessWidget {
                       TextButton(
                         onPressed: () async {
                           Navigator.pop(context, 'Ok');
-                          await Navigator.of(context).pushNamed(
+                          await Navigator.pushReplacementNamed(
+                            context,
                             ContactsScreen.routeName,
                             arguments: {},
                           );
@@ -233,11 +235,8 @@ class Promisn1Result extends StatelessWidget {
                       TextButton(
                         onPressed: () async {
                           //enviarDominios(userEmail);
-                          Navigator.pop(context, 'Ok');
-                          await Navigator.of(context).push(
-                              new MaterialPageRoute(
-                                  builder: (context) => MyApp()));
-                          //Navigator.pop(context, 'OK');
+                          Navigator.pop(context);
+                          Navigator.pop(context);
                         },
                         child: const Text('Ok',
                             style: TextStyle(

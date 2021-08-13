@@ -85,7 +85,8 @@ class PromisAnsiResult extends StatelessWidget {
                       TextButton(
                         onPressed: () async {
                           Navigator.pop(context, 'Ok');
-                          await Navigator.of(context).pushNamed(
+                          await Navigator.pushReplacementNamed(
+                            context,
                             ContactsScreen.routeName,
                             arguments: {},
                           );
@@ -108,11 +109,8 @@ class PromisAnsiResult extends StatelessWidget {
                       TextButton(
                         onPressed: () async {
                           //enviarDominios(userEmail);
-                          Navigator.pop(context, 'Ok');
-                          await Navigator.of(context).push(
-                              new MaterialPageRoute(
-                                  builder: (context) => MyApp()));
-                          //Navigator.pop(context, 'OK');
+                          Navigator.pop(context, "Ok");
+                          Navigator.pop(context);
                         },
                         child: const Text('Ok'),
                       ),

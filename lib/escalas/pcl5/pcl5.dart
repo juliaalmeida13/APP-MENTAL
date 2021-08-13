@@ -1,9 +1,7 @@
 import 'package:app_mental/Services/database.dart';
-import 'package:app_mental/main.dart';
-import 'package:flutter/material.dart';
-
 import 'package:app_mental/escalas/promis_answer.dart';
 import 'package:app_mental/escalas/question.dart';
+import 'package:flutter/material.dart';
 
 class Pcl5 extends StatelessWidget {
   final List<Map<String, Object>> questions;
@@ -123,10 +121,7 @@ class Pcl5 extends StatelessWidget {
                           onPressed: () async {
                             sendPcl5PartialResult(userEmail);
                             Navigator.pop(context, 'Ok');
-                            await Navigator.of(context).push(
-                                new MaterialPageRoute(
-                                    builder: (context) => MyApp()));
-                            //Navigator.pop(context, 'OK');
+                            Navigator.pop(context);
                           },
                           child: const Text('OK'),
                         ),

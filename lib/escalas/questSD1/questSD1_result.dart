@@ -76,8 +76,8 @@ class QuestSD1Result extends StatelessWidget {
                   actions: <Widget>[
                     TextButton(
                       onPressed: () async {
-                        await Navigator.popAndPushNamed(
-                            context, "AuthenticatedHomePage");
+                        Navigator.pop(context, "Ok");
+                        Navigator.pop(context);
                       },
                       child: const Text('Ok'),
                     ),

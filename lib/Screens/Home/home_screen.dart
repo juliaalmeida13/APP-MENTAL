@@ -27,7 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
             onTap: () {
               authMethods.signOut();
               Navigator.pushNamedAndRemoveUntil(
-                  context, "SignIn", (Route<dynamic> route) => false);
+                  context, "/sign-in", (Route<dynamic> route) => false);
             },
             child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 16),

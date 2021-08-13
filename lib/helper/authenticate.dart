@@ -29,13 +29,11 @@ class LandingPage extends StatelessWidget {
                 if (user == null) {
                   Future.delayed(const Duration(milliseconds: 500), () {
                     Navigator.pushNamedAndRemoveUntil(
-                        context, "SignIn", (Route<dynamic> route) => false);
+                        context, "/sign-in", (Route<dynamic> route) => false);
                   });
                 } else {
                   Future.delayed(const Duration(milliseconds: 500), () {
-                    Navigator.pushNamedAndRemoveUntil(
-                        context,
-                        "AuthenticatedHomePage",
+                    Navigator.pushNamedAndRemoveUntil(context, "/logged-home",
                         (Route<dynamic> route) => false);
                   });
                 }
