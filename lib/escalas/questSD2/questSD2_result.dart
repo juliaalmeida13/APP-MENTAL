@@ -1,5 +1,4 @@
 import 'package:app_mental/Services/database.dart';
-import 'package:app_mental/main.dart';
 import 'package:flutter/material.dart';
 
 class QuestSD2Result extends StatelessWidget {
@@ -82,9 +81,8 @@ class QuestSD2Result extends StatelessWidget {
                   actions: <Widget>[
                     TextButton(
                       onPressed: () async {
-                        Navigator.pop(context, 'Ok');
-                        await Navigator.of(context).push(new MaterialPageRoute(
-                            builder: (context) => MyApp()));
+                        Navigator.pop(context);
+                        Navigator.pop(context);
                       },
                       child: const Text('Ok'),
                     ),

@@ -1,15 +1,11 @@
-import 'package:app_mental/Screens/ChatRoom/chatRoomsScreen.dart';
-import 'package:app_mental/Screens/Home/home_screen.dart';
-import 'package:app_mental/Screens/HomePage/home_page.dart';
 import 'package:app_mental/Screens/SignUp/signup.dart';
+import 'package:app_mental/Services/auth.dart';
+import 'package:app_mental/Services/database.dart';
 import 'package:app_mental/animation/FadeAnimation.dart';
 import 'package:app_mental/constants.dart';
 import 'package:app_mental/helper/helperfuncions.dart';
-import 'package:app_mental/Services/auth.dart';
-import 'package:app_mental/Services/database.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class SignIn extends StatefulWidget {
@@ -57,11 +53,8 @@ class _SignInState extends State<SignIn> {
         ScaffoldMessenger.of(context).hideCurrentSnackBar();
         User user = result.user as User;
         HelperFunctions.saveUserInfoToSharedPrefs(user);
-        Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) => HomePage(),
-            ));
+        Navigator.pushNamedAndRemoveUntil(
+            context, "AuthenticatedHomePage", (Route<dynamic> route) => false);
       } else {
         final snackBar = SnackBar(
             content: Text('Senha ou email inválidos',

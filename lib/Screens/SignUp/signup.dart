@@ -1,5 +1,4 @@
 import 'package:app_mental/Screens/ChatRoom/Widgets/calendar.dart';
-import 'package:app_mental/Screens/HomePage/home_page.dart';
 import 'package:app_mental/Services/auth.dart';
 import 'package:app_mental/Services/database.dart';
 import 'package:app_mental/animation/FadeAnimation.dart';
@@ -58,11 +57,8 @@ class _SignUpState extends State<SignUp> {
         User? user = result.user;
         HelperFunctions.saveUserInfoToSharedPrefs(user);
         CreateQuests();
-        Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) => HomePage(),
-            ));
+        Navigator.pushNamedAndRemoveUntil(
+            context, "AuthenticatedHomePage", (Route<dynamic> route) => false);
       } else {
         final snackBar = SnackBar(
             content:

@@ -1,12 +1,10 @@
 import 'dart:ui';
 
-import 'package:app_mental/main.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
-
+import 'package:app_mental/Services/database.dart';
 import 'package:app_mental/escalas/promis_answer.dart';
 import 'package:app_mental/escalas/question.dart';
-import 'package:app_mental/Services/database.dart';
+import 'package:app_mental/main.dart';
+import 'package:flutter/material.dart';
 
 class Promisn1 extends StatelessWidget {
   final List<Map<String, Object>> questions;
@@ -114,7 +112,7 @@ class Promisn1 extends StatelessWidget {
     var lastDom = lastAnswer[0]['dom'];
     return Container(
       height: double.infinity,
-      padding: EdgeInsets.only(top: 15, left: 15, right:15, bottom: 15),
+      padding: EdgeInsets.only(top: 15, left: 15, right: 15, bottom: 15),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         color: Color.fromRGBO(244, 244, 244, 1),

@@ -1,5 +1,4 @@
 import 'package:app_mental/Services/database.dart';
-import 'package:app_mental/main.dart';
 import 'package:flutter/material.dart';
 // import './categories_screen.dart';
 
@@ -77,10 +76,8 @@ class Promisn2Result extends StatelessWidget {
                     TextButton(
                       onPressed: () async {
                         //enviarDominios(userEmail);
-                        Navigator.pop(context, 'Ok');
-                        await Navigator.of(context).push(new MaterialPageRoute(
-                            builder: (context) => MyApp()));
-                        //Navigator.pop(context, 'OK');
+                        Navigator.pop(context);
+                        Navigator.pop(context);
                       },
                       child: const Text('Ok'),
                     ),

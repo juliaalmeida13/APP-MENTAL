@@ -1,7 +1,6 @@
 import 'package:app_mental/Screens/Home/Widgets/body.dart';
-import 'package:app_mental/constants.dart';
-import 'package:app_mental/helper/authenticate.dart';
 import 'package:app_mental/Services/auth.dart';
+import 'package:app_mental/constants.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -19,20 +18,16 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading:false,
-        title:Text("APP Mental"),
+        automaticallyImplyLeading: false,
+        title: Text("APP Mental"),
         backgroundColor: kTextColorGreen,
         elevation: 0,
         actions: [
           GestureDetector(
             onTap: () {
               authMethods.signOut();
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => LandingPage(),
-                ),
-              );
+              Navigator.pushNamedAndRemoveUntil(
+                  context, "SignIn", (Route<dynamic> route) => false);
             },
             child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 16),
