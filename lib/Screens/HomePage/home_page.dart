@@ -5,6 +5,8 @@ import 'package:app_mental/Screens/Perfil/perfil.dart';
 import 'package:app_mental/Screens/Questionarie/quests_screen.dart';
 import 'package:app_mental/Screens/SleepDiary/diario_sono.dart';
 import 'package:app_mental/Screens/SleepDiary/sleep_diary.dart';
+import 'package:app_mental/Services/auth.dart';
+import 'package:app_mental/Shared/Widgets/AppDrawer.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 
@@ -17,6 +19,8 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   PageController _pageController = PageController();
+  AuthMethods authMethods = new AuthMethods();
+
   List<Widget> _screens = [
     HomeScreen(),
     SleepPage(),
@@ -40,41 +44,27 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: kTextColorGreen,
+        shadowColor: Color.fromRGBO(1, 1, 1, 0),
+        actions: [
+        GestureDetector(
+          onTap: () {
+            authMethods.signOut();
+            Navigator.pushNamedAndRemoveUntil(
+                context, "/sign-in", (Route<dynamic> route) => false);
+          },
+          child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 16),
+              child: Icon(Icons.exit_to_app)),
+        ),
+      ],),
+      drawer: AppDrawer(),
       body: PageView(
         controller: _pageController,
         children: _screens,
         onPageChanged: _onPageChanged,
         physics: NeverScrollableScrollPhysics(),
-      ),
-      bottomNavigationBar:
-          /*BottomNavigationBar(
-        onTap: _onItemTapped,
-        items: [
-          buildBottomNavigationBarItem(Icons.home, 0),
-          buildBottomNavigationBarItem(
-              Icons.airline_seat_individual_suite_sharp, 1),
-          buildBottomNavigationBarItem(Icons.account_circle_rounded, 2),
-          buildBottomNavigationBarItem(Icons.quick_contacts_mail_rounded, 3),
-          buildBottomNavigationBarItem(Icons.dynamic_form_outlined, 4)
-        ],
-      ),*/
-          CurvedNavigationBar(
-        height: 50,
-        onTap: _onItemTapped,
-        color: kTextColorGreen,
-        backgroundColor: AppColors.white,
-        buttonBackgroundColor: AppColors.verdeclaro,
-        items: <Widget>[
-          Icon(Icons.home, size: 20, color: Colors.black87),
-          Icon(Icons.airline_seat_individual_suite_sharp,
-              size: 20, color: Colors.black87),
-          Icon(Icons.account_circle_rounded, size: 20, color: Colors.black87),
-          Icon(Icons.quick_contacts_mail_rounded,
-              size: 20, color: Colors.black87),
-          Icon(Icons.article_outlined, size: 20, color: Colors.black87)
-        ],
-        animationDuration: Duration(milliseconds: 200),
-        animationCurve: Curves.linear,
       ),
     );
   }

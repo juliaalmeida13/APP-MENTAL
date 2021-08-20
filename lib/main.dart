@@ -1,5 +1,6 @@
 import 'package:app_mental/Screens/Contacts/contacts_screen.dart';
 import 'package:app_mental/Screens/HomePage/home_page.dart';
+import 'package:app_mental/Screens/SleepDiary/sleep_diary.dart';
 import 'package:app_mental/escalas/assist/assist_screen.dart';
 import 'package:app_mental/escalas/assistn2/assistn2_screen.dart';
 import 'package:app_mental/escalas/mdq/mdq_screen.dart';
@@ -72,6 +73,8 @@ class _MyAppState extends State<MyApp> {
         AssistScreen.routeName: (ctx) => AssistScreen(),
         Assistn2Screen.routeName: (ctx) => Assistn2Screen(),
         "/logged-home": (ctx) => HomePage(),
+        "/sleep-diary": (ctx) => SleepPage(),
+
         "/sign-in": (ctx) => SignIn()
       },
       home: LandingPage(),

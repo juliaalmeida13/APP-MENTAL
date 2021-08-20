@@ -17,24 +17,6 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: Text("APP Mental"),
-        backgroundColor: kTextColorGreen,
-        elevation: 0,
-        actions: [
-          GestureDetector(
-            onTap: () {
-              authMethods.signOut();
-              Navigator.pushNamedAndRemoveUntil(
-                  context, "/sign-in", (Route<dynamic> route) => false);
-            },
-            child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 16),
-                child: Icon(Icons.exit_to_app)),
-          ),
-        ],
-      ),
       body: Body(),
     );
   }
