@@ -1,14 +1,14 @@
 import 'package:app_mental/Screens/ChatRoom/Widgets/conversation_screen.dart';
 import 'package:app_mental/Screens/ChatRoom/Widgets/search.dart';
-import 'package:app_mental/Shared/Widgets/MainAppBar.dart';
-import 'package:app_mental/helper/authenticate.dart';
-import 'package:app_mental/helper/constants.dart';
-import 'package:app_mental/helper/helperfuncions.dart';
-import 'package:app_mental/main.dart';
 import 'package:app_mental/Services/auth.dart';
 import 'package:app_mental/Services/database.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:app_mental/Shared/Widgets/AppDrawer.dart';
+import 'package:app_mental/Shared/Widgets/MainAppBar.dart';
+import 'package:app_mental/constants.dart';
+import 'package:app_mental/helper/constants.dart';
+import 'package:app_mental/helper/helperfuncions.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ChatRoom extends StatefulWidget {
@@ -63,23 +63,10 @@ class _ChatRoomState extends State<ChatRoom> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: AppDrawer(),
       appBar: AppBar(
-        actions: [
-          GestureDetector(
-            onTap: () {
-              authMethods.signOut();
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => LandingPage(),
-                ),
-              );
-            },
-            child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 16),
-                child: Icon(Icons.exit_to_app)),
-          ),
-        ],
+        backgroundColor: kTextColorGreen,
+        title: Text("Chat"),
       ),
       body: chatRoomList(),
       floatingActionButton: FloatingActionButton(

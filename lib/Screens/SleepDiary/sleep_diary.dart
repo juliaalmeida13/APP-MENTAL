@@ -1,6 +1,7 @@
-import 'package:app_mental/Shared/Widgets/AppDrawer.dart';
-import 'package:app_mental/helper/helperfuncions.dart';
 import 'package:app_mental/Services/database.dart';
+import 'package:app_mental/Shared/Widgets/AppDrawer.dart';
+import 'package:app_mental/constants.dart';
+import 'package:app_mental/helper/helperfuncions.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -84,53 +85,54 @@ class _SleepPageState extends State<SleepPage> {
 
   Widget _buildQuest1() {
     return Container(
-        margin: EdgeInsets.symmetric(vertical: 10.0),
-        child: ListView(
-          scrollDirection: Axis.horizontal,
-          children: [
-            Container(
-              alignment: Alignment.center,
-              width: 200,
-              child: Text(
-                "Que horas você foi para a cama?",
-                style: TextStyle(fontSize: 16),
-              ),
+      height: 50,
+      margin: EdgeInsets.symmetric(vertical: 10.0),
+      child: ListView(
+        scrollDirection: Axis.horizontal,
+        children: [
+          Container(
+            alignment: Alignment.center,
+            width: 200,
+            child: Text(
+              "Que horas você foi para a cama?",
+              style: TextStyle(fontSize: 16),
             ),
-            Container(
-              width: 100,
-              child: TextFormField(
-                controller: resp1,
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'vazio';
-                  }
-                  return null;
-                },
-                onTap: () async {
-                  _resQuest1 =
-                      await _selectTime(context, "Por favor, coloque o horário.");
-                  resp1.text = _resQuest1;
-                  setState(() {
-                    _resQuest1 = _resQuest1;
-                  });
-                },
-                readOnly: true,
-                showCursor: false,
-                textAlign: TextAlign.center,
-                decoration: InputDecoration(
-                  hintText: _resQuest1 == null ? "00:00" : _resQuest1,
-                  hintStyle: TextStyle(
-                    fontSize: 18,
-                  ),
+          ),
+          Container(
+            width: 100,
+            child: TextFormField(
+              controller: resp1,
+              validator: (value) {
+                if (value!.isEmpty) {
+                  return 'vazio';
+                }
+                return null;
+              },
+              onTap: () async {
+                _resQuest1 =
+                    await _selectTime(context, "Por favor, coloque o horário.");
+                resp1.text = _resQuest1;
+                setState(() {
+                  _resQuest1 = _resQuest1;
+                });
+              },
+              readOnly: true,
+              showCursor: false,
+              textAlign: TextAlign.center,
+              decoration: InputDecoration(
+                hintText: _resQuest1 == null ? "00:00" : _resQuest1,
+                hintStyle: TextStyle(
+                  fontSize: 18,
                 ),
               ),
             ),
-            Container(
-              width: 50,
-              child: Icon(Icons.access_time_rounded),
-            ),
-          ],
-        ),
+          ),
+          Container(
+            width: 50,
+            child: Icon(Icons.access_time_rounded),
+          ),
+        ],
+      ),
     );
   }
 
@@ -567,8 +569,14 @@ class _SleepPageState extends State<SleepPage> {
   }*/
   Widget build(BuildContext context) {
     return Scaffold(
-    drawer: AppDrawer(),
-    body: Center(
+      appBar: AppBar(
+        title: Text("Diário do sono"),
+        backgroundColor: kTextColorGreen,
+        shadowColor: Color.fromRGBO(1, 1, 1, 0),
+        actions: [],
+      ),
+      drawer: AppDrawer(),
+      body: Center(
         child: SingleChildScrollView(
           child: _loading
               ? Center(

@@ -2,6 +2,7 @@ import 'package:app_mental/Screens/ChatRoom/Widgets/calendar.dart';
 import 'package:app_mental/Screens/Questionarie/Widgets/app_body_widget.dart';
 import 'package:app_mental/Services/auth.dart';
 import 'package:app_mental/Services/database.dart';
+import 'package:app_mental/Shared/Widgets/AppDrawer.dart';
 import 'package:app_mental/escalas/assist/assist_screen.dart';
 import 'package:app_mental/escalas/assistn2/assistn2_screen.dart';
 import 'package:app_mental/escalas/mdq/mdq_screen.dart';
@@ -91,13 +92,14 @@ class _QuestsScreenState extends State<QuestsScreen> {
     return DefaultTabController(
         length: 2,
         child: Scaffold(
+          drawer: AppDrawer(),
           appBar: AppBar(
+              centerTitle: true,
+              iconTheme: IconThemeData(color: kTextColorGreen),
               backgroundColor: Colors.white,
-              title: Center(
-                child: Text(
-                  'Suas Atividades',
-                  style: AppTextStyles.tituloatividades,
-                ),
+              title: Text(
+                'Suas Atividades',
+                style: AppTextStyles.tituloatividades,
               ),
               bottom: new PreferredSize(
                   preferredSize: new Size(300.0, 50.0),
