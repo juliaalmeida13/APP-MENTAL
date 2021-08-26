@@ -1,56 +1,133 @@
 import 'package:app_mental/constants.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class AppDrawer extends StatelessWidget {
-  const AppDrawer({
+  final padding = EdgeInsets.symmetric(horizontal: 10);
+  /*const*/ AppDrawer({
     Key? key,
   }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
+    final name = FirebaseAuth.instance.currentUser!.displayName ?? "Sem Email";
+    final email = FirebaseAuth.instance.currentUser!.email ?? "Sem Nome";
+    final image = 'assets/images/woman.png';
     return Drawer(
-      child: ListView(
-        // Important: Remove any padding from the ListView.
-        padding: EdgeInsets.zero,
-        children: [
-          const DrawerHeader(
-            decoration: BoxDecoration(
-              color: kTextColorGreen,
+      child: Material(
+        color: AppColors.verdementa,
+        child: ListView(
+          padding: padding,
+          children: <Widget>[
+            buildHeader(
+                image: image,
+                name: name,
+                email: email,
+                onClicked: () => selectedItem(context, 4)),
+            Divider(color: Colors.black54),
+            const SizedBox(height: 16),
+            buildMenuItem(
+              text: 'Home',
+              icon: Icons.house,
+              onClicked: () => selectedItem(context, 0),
             ),
-            child: Text('Drawer Header'),
-          ),
-          ListTile(
-            title: const Text('Home'),
-            onTap: () {
-              Navigator.pushReplacementNamed(context, "/logged-home");
-            },
-          ),
-          ListTile(
-            title: const Text('Diário do sono'),
-            onTap: () {
-              Navigator.pushReplacementNamed(context, "/sleep-diary");
-            },
-          ),
-          ListTile(
-            title: const Text('Chat'),
-            onTap: () {
-              Navigator.pushReplacementNamed(context, "/chat");
-            },
-          ),
-          ListTile(
-            title: const Text('Questionários'),
-            onTap: () {
-              Navigator.pushReplacementNamed(context, "/quests-screen");
-            },
-          ),
-          ListTile(
-            title: const Text('Contatos'),
-            onTap: () {
-              Navigator.pushReplacementNamed(context, "/contacts-screen");
-            },
-          ),
-        ],
+            const SizedBox(height: 16),
+            buildMenuItem(
+              text: 'Diário do sono',
+              icon: Icons.bed,
+              onClicked: () => selectedItem(context, 1),
+            ),
+            const SizedBox(height: 16),
+            buildMenuItem(
+              text: 'Questionários',
+              icon: Icons.list_alt,
+              onClicked: () => selectedItem(context, 2),
+            ),
+            const SizedBox(height: 16),
+            buildMenuItem(
+              text: 'Contatos',
+              icon: Icons.people,
+              onClicked: () => selectedItem(context, 3),
+            )
+          ],
+        ),
       ),
     );
+  }
+
+  Widget buildHeader({
+    required String image,
+    required String name,
+    required String email,
+    required VoidCallback onClicked,
+  }) =>
+      Container(
+        padding: padding.add(EdgeInsets.symmetric(vertical: 50)),
+        child: Row(
+          children: [
+            CircleAvatar(
+                radius: 30,
+                backgroundImage: AssetImage('assets/images/woman.png')),
+            SizedBox(width: 20),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Olá, $name",
+                  style: TextStyle(
+                      fontFamily: "Inter", fontSize: 20, color: Colors.black),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  email,
+                  style: TextStyle(
+                      fontFamily: "Inter", fontSize: 14, color: Colors.black),
+                ),
+              ],
+            ),
+            Spacer(),
+            InkWell(
+              onTap: onClicked,
+              child: CircleAvatar(
+                radius: 24,
+                backgroundColor: Color(0xFF55A772),
+                child: Icon(Icons.chat_bubble, color: Colors.black87),
+              ),
+            )
+          ],
+        ),
+      );
+
+  Widget buildMenuItem(
+      {required String text, required IconData icon, VoidCallback? onClicked}) {
+    final color = Colors.black;
+    final hoverColor = AppColors.verdeclaro;
+
+    return ListTile(
+        leading: Icon(icon, color: color),
+        title: Text(text,
+            style: TextStyle(
+                fontFamily: "Inter", fontSize: 15, color: Colors.black)),
+        hoverColor: hoverColor,
+        onTap: onClicked);
+  }
+
+  void selectedItem(BuildContext context, int index) {
+    switch (index) {
+      case 0:
+        Navigator.pushReplacementNamed(context, "/logged-home");
+        break;
+      case 1:
+        Navigator.pushReplacementNamed(context, "/sleep-diary");
+        break;
+      case 2:
+        Navigator.pushReplacementNamed(context, "/quests-screen");
+        break;
+      case 3:
+        Navigator.pushReplacementNamed(context, "/contacts-screen");
+        break;
+      case 4:
+        Navigator.pushReplacementNamed(context, "/chat");
+        break;
+    }
   }
 }
