@@ -114,19 +114,19 @@ class AppDrawer extends StatelessWidget {
   void selectedItem(BuildContext context, int index) {
     switch (index) {
       case 0:
-        Navigator.pushReplacementNamed(context, "/logged-home");
+        Navigator.pushNamed(context, "/logged-home");
         break;
       case 1:
-        Navigator.pushReplacementNamed(context, "/sleep-diary");
+        Navigator.pushNamed(context, "/sleep-diary");
         break;
       case 2:
-        Navigator.pushReplacementNamed(context, "/quests-screen");
+        Navigator.pushNamed(context, "/quests-screen");
         break;
       case 3:
-        Navigator.pushReplacementNamed(context, "/contacts-screen");
+        Navigator.pushNamed(context, "/contacts-screen");
         break;
       case 4:
-        Navigator.pushReplacementNamed(context, "/chat");
+        Navigator.pushNamed(context, "/chat");
         break;
     }
   }
