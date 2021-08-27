@@ -21,6 +21,7 @@ import 'package:app_mental/helper/helperfuncions.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import 'Services/intervencoes.dart';
 import 'escalas/quesi/quesi_screen.dart';
 
 void main() {
@@ -38,6 +39,7 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void initState() {
+    loadIntervencoes();
     getLoggedInState();
     super.initState();
   }

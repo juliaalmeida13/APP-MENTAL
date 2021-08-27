@@ -4,6 +4,7 @@ import 'package:app_mental/Screens/Home/Widgets/reading_recs_cards.dart';
 import 'package:app_mental/Screens/Home/Widgets/reading_stream.dart';
 import 'package:app_mental/Screens/Home/Widgets/section_title.dart';
 import 'package:app_mental/Services/database.dart';
+import 'package:app_mental/Services/intervencoes.dart';
 import 'package:flutter/material.dart';
 
 import 'header_with_searchbox.dart';
@@ -18,6 +19,8 @@ class _BodyState extends State<Body> {
   @override
   void initState() {
     super.initState();
+    print(intervencoes);
+
     getReadings().whenComplete(() {
       setState(() {});
     });
@@ -25,7 +28,7 @@ class _BodyState extends State<Body> {
 
   getReadings() async {
     var ds = await DatabaseMethods().readingsAreEmpty();
-
+    print(intervencoes);
     setState(() {
       existingReadings = ds.docs.length != 0;
     });
