@@ -4,54 +4,54 @@ import 'package:flutter/material.dart';
 
 class AppDrawer extends StatelessWidget {
   final padding = EdgeInsets.symmetric(horizontal: 10);
-  /*const*/ AppDrawer({
+
+  AppDrawer({
     Key? key,
   }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     final name = FirebaseAuth.instance.currentUser!.displayName ?? "Sem Email";
     final email = FirebaseAuth.instance.currentUser!.email ?? "Sem Nome";
     final image = 'assets/images/woman.png';
     return Drawer(
-      child: Material(
-        color: AppColors.verdementa,
-        child: ListView(
-          padding: padding,
-          children: <Widget>[
-            buildHeader(
-                image: image,
-                name: name,
-                email: email,
-                onClicked: () => selectedItem(context, 4)),
-            Divider(color: Colors.black54),
-            const SizedBox(height: 16),
-            buildMenuItem(
-              text: 'Home',
-              icon: Icons.house,
-              onClicked: () => selectedItem(context, 0),
-            ),
-            const SizedBox(height: 16),
-            buildMenuItem(
-              text: 'Diário do sono',
-              icon: Icons.bed,
-              onClicked: () => selectedItem(context, 1),
-            ),
-            const SizedBox(height: 16),
-            buildMenuItem(
-              text: 'Questionários',
-              icon: Icons.list_alt,
-              onClicked: () => selectedItem(context, 2),
-            ),
-            const SizedBox(height: 16),
-            buildMenuItem(
-              text: 'Contatos',
-              icon: Icons.people,
-              onClicked: () => selectedItem(context, 3),
-            )
-          ],
-        ),
+        child: Container(
+      color: AppColors.verdementa,
+      child: ListView(
+        padding: padding,
+        children: <Widget>[
+          buildHeader(
+              image: image,
+              name: name,
+              email: email,
+              onClicked: () => selectedItem(context, 4)),
+          const SizedBox(height: 16),
+          buildMenuItem(
+            text: 'Home',
+            icon: Icons.house,
+            onClicked: () => selectedItem(context, 0),
+          ),
+          const SizedBox(height: 16),
+          buildMenuItem(
+            text: 'Diário do sono',
+            icon: Icons.bed,
+            onClicked: () => selectedItem(context, 1),
+          ),
+          const SizedBox(height: 16),
+          buildMenuItem(
+            text: 'Questionários',
+            icon: Icons.list_alt,
+            onClicked: () => selectedItem(context, 2),
+          ),
+          const SizedBox(height: 16),
+          buildMenuItem(
+            text: 'Contatos',
+            icon: Icons.people,
+            onClicked: () => selectedItem(context, 3),
+          )
+        ],
       ),
-    );
+    ));
   }
 
   Widget buildHeader({
@@ -60,15 +60,17 @@ class AppDrawer extends StatelessWidget {
     required String email,
     required VoidCallback onClicked,
   }) =>
-      Container(
-        padding: padding.add(EdgeInsets.symmetric(vertical: 50)),
+      DrawerHeader(
+        padding: EdgeInsets.zero,
         child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             CircleAvatar(
-                radius: 30,
+                maxRadius: 30,
                 backgroundImage: AssetImage('assets/images/woman.png')),
-            SizedBox(width: 20),
             Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
@@ -84,11 +86,9 @@ class AppDrawer extends StatelessWidget {
                 ),
               ],
             ),
-            Spacer(),
             InkWell(
               onTap: onClicked,
               child: CircleAvatar(
-                radius: 24,
                 backgroundColor: Color(0xFF55A772),
                 child: Icon(Icons.chat_bubble, color: Colors.black87),
               ),
