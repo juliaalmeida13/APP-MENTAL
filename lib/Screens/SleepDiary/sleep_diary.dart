@@ -656,16 +656,12 @@ class _SleepPageState extends State<SleepPage> {
       initialTime: TimeOfDay(hour: 0, minute: 0),
       builder: (context, child) {
         return MediaQuery(
-            data: MediaQuery.of(context).copyWith(
-              alwaysUse24HourFormat: true,
-            ),
+            data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
             child: child!);
       },
     );
-
     if (result != null) {
-      return DateFormat("HH:mm")
-          .format(DateFormat.jm().parse(result.format(context)));
+      return "${result.hour.toString().padLeft(2, "0")}:${result.minute.toString().padLeft(2, "0")}";
     } else {
       return "Vazio";
     }
