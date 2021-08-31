@@ -19,6 +19,28 @@ class _ContactsScreenState extends State<ContactsScreen> {
   DatabaseMethods databaseMethods = new DatabaseMethods();
   late Stream<QuerySnapshot<Object?>> contactsRoomsStream = new Stream.empty();
 
+  final _formKey = GlobalKey<FormState>();
+  TextEditingController nameContact = TextEditingController();
+  TextEditingController numberContact = TextEditingController();
+
+  @override
+  void initState() {
+    getUserInfo();
+    super.initState();
+  }
+
+  getUserInfo() async {
+    Constants.myName = await HelperFunctions.getUserNameInSharedPreference();
+    Constants.myEmail = await HelperFunctions.getUserEmailInSharedPreference();
+    Constants.myEmail = Constants.myEmail.trim();
+    print(Constants.myEmail);
+    databaseMethods.getCreatedContacts(Constants.myEmail).then((val) {
+      setState(() {
+        contactsRoomsStream = val;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -86,9 +108,14 @@ class _ContactsScreenState extends State<ContactsScreen> {
                                   itemCount: snapshot.data!.docs.length,
                                   itemBuilder: (context, index) {
                                     return _buildContactItem(
-                                      snapshot.data!.docs[index].get("name"),
-                                      snapshot.data!.docs[index].get("number"),
-                                    );
+                                        context,
+                                        snapshot.data!.docs[index].get("name"),
+                                        snapshot.data!.docs[index]
+                                            .get("number"),
+                                        snapshot.data!.docs[index].id,
+                                        _formKey,
+                                        nameContact,
+                                        numberContact);
                                   },
                                 )
                               : Container();
@@ -97,7 +124,7 @@ class _ContactsScreenState extends State<ContactsScreen> {
                     ),
                   ),
                 ),
-                /*Row(
+                Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Container(
@@ -110,7 +137,10 @@ class _ContactsScreenState extends State<ContactsScreen> {
                             fontSize: 15.0,
                           ),
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          addContactDialog(
+                              context, _formKey, nameContact, numberContact);
+                        },
                         icon: Icon(
                           Icons.add,
                           color: Color(0xFF21BFBD),
@@ -118,7 +148,7 @@ class _ContactsScreenState extends State<ContactsScreen> {
                       ),
                     ),
                   ],
-                )*/
+                )
               ],
             ),
           )
@@ -126,95 +156,114 @@ class _ContactsScreenState extends State<ContactsScreen> {
       ),
     );
   }
-
-  @override
-  void initState() {
-    getUserInfo();
-    super.initState();
-  }
-
-  getUserInfo() async {
-    Constants.myName = await HelperFunctions.getUserNameInSharedPreference();
-    Constants.myEmail = await HelperFunctions.getUserEmailInSharedPreference();
-    Constants.myEmail = Constants.myEmail.trim();
-    print(Constants.myEmail);
-    databaseMethods.getCreatedContacts(Constants.myEmail).then((val) {
-      setState(() {
-        contactsRoomsStream = val;
-      });
-    });
-
-    setState(() {});
-  }
 }
 
-Widget _buildContactItem(String name, int number) {
+Widget _buildContactItem(BuildContext context, String name, int number, id,
+    _formKey, nameContact, numberContact) {
   return Padding(
     padding: const EdgeInsets.only(top: 20),
-    child: Container(
-      width: 335,
-      height: 50,
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(8),
-              topRight: Radius.circular(8),
-              bottomLeft: Radius.circular(8),
-              bottomRight: Radius.circular(8)),
-          color: AppColors.cinza,
-          boxShadow: [
-            BoxShadow(
-                color: Color.fromRGBO(0, 0, 0, 0.25),
-                offset: Offset(0, 4),
-                blurRadius: 4)
-          ]),
-      child: Padding(
-        padding: EdgeInsets.only(
-          left: 10.0,
-          right: 10.0,
-          top: 10.0,
-        ),
-        child: InkWell(
-          onTap: () {},
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Container(
-                child: Row(
-                  children: [
-                    SizedBox(width: 10.0),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          name,
-                          style: TextStyle(
-                            fontFamily: 'Raleway',
-                            fontSize: 17.0,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black,
+    child: GestureDetector(
+      onLongPress: () {
+        print('apertei ${name}');
+        showMenu(
+          position: RelativeRect.fromLTRB(0, 0, 0, 0),
+          items: [
+            PopupMenuItem(
+              value: 1,
+              child: Row(
+                children: <Widget>[
+                  Icon(Icons.edit),
+                  Text("Editar"),
+                ],
+              ),
+            ),
+            PopupMenuItem(
+              value: 2,
+              child: Row(
+                children: <Widget>[
+                  Icon(Icons.delete),
+                  Text("Deletar"),
+                ],
+              ),
+            )
+          ],
+          context: context,
+        ).then<void>((value) {
+          if (value == 1) {
+            print('Editando ${name}');
+            editContactDialog(context, _formKey, name, number, id, nameContact,
+                numberContact);
+          } else if (value == 2) {
+            print('Deletando ${name}');
+            _confirmDelDialog(context, id);
+          }
+        });
+      },
+      child: Container(
+        width: 335,
+        height: 50,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(8),
+                topRight: Radius.circular(8),
+                bottomLeft: Radius.circular(8),
+                bottomRight: Radius.circular(8)),
+            color: AppColors.cinza,
+            boxShadow: [
+              BoxShadow(
+                  color: Color.fromRGBO(0, 0, 0, 0.25),
+                  offset: Offset(0, 4),
+                  blurRadius: 4)
+            ]),
+        child: Padding(
+          padding: EdgeInsets.only(
+            left: 10.0,
+            right: 10.0,
+            top: 10.0,
+          ),
+          child: InkWell(
+            onTap: () {},
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  child: Row(
+                    children: [
+                      SizedBox(width: 10.0),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            name,
+                            style: TextStyle(
+                              fontFamily: 'Raleway',
+                              fontSize: 17.0,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                            ),
                           ),
-                        ),
-                        Text(
-                          number.toString(),
-                          style: TextStyle(
-                            fontFamily: 'Raleway',
-                            fontSize: 15.0,
-                            color: Colors.grey,
+                          Text(
+                            number.toString(),
+                            style: TextStyle(
+                              fontFamily: 'Raleway',
+                              fontSize: 15.0,
+                              color: Colors.grey,
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ],
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              IconButton(
-                icon: Icon(Icons.call),
-                color: Colors.black,
-                onPressed: () {
-                  _callNumber(number.toString());
-                },
-              ),
-            ],
+                IconButton(
+                  icon: Icon(Icons.call),
+                  color: Colors.black,
+                  onPressed: () {
+                    _callNumber(number.toString());
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -222,7 +271,199 @@ Widget _buildContactItem(String name, int number) {
   );
 }
 
+_confirmDelDialog(BuildContext context, id) async {
+  Widget cancelaButton = TextButton(
+    child: Text("Cancelar"),
+    onPressed: () {
+      Navigator.of(context).pop();
+    },
+  );
+  Widget continuaButton = TextButton(
+    child: Text("Excluir"),
+    onPressed: () {
+      DatabaseMethods().deleteContact(Constants.myEmail, id);
+      Navigator.of(context).pop();
+    },
+  );
+  //configura o AlertDialog
+  AlertDialog alert = AlertDialog(
+    title: Text("Excluir Contato"),
+    content: Text("Deseja realmente excluir o contato?"),
+    actions: [
+      cancelaButton,
+      continuaButton,
+    ],
+  );
+  //exibe o diálogo
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
+}
+
 _callNumber(String phoneNumber) async {
   String number = phoneNumber;
   await FlutterPhoneDirectCaller.callNumber(number);
+}
+
+_addContact(nameContact, numberContact) async {
+  Map<String, dynamic> contactMap = {
+    "name": nameContact.text,
+    "number": int.parse(numberContact.text),
+  };
+  DatabaseMethods().createContactList(contactMap, Constants.myEmail);
+}
+
+_updateContact(nameContact, numberContact, id) async {
+  Map<String, dynamic> contactMap = {
+    "name": nameContact.text,
+    "number": int.parse(numberContact.text),
+  };
+  DatabaseMethods().updateContact(Constants.myEmail, id, contactMap);
+}
+
+editContactDialog(BuildContext context, _formKey, name, number, id, nameContact,
+    numberContact) async {
+  nameContact.text = name;
+  numberContact.text = number.toString();
+  return await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: Stack(
+            overflow: Overflow.visible,
+            children: <Widget>[
+              Positioned(
+                right: -40.0,
+                top: -40.0,
+                child: InkResponse(
+                  onTap: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: CircleAvatar(
+                    child: Icon(Icons.close),
+                    backgroundColor: Colors.red,
+                  ),
+                ),
+              ),
+              Form(
+                key: _formKey,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: TextFormField(
+                          controller: nameContact,
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'vazio';
+                            }
+                            return null;
+                          }),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: TextFormField(
+                        keyboardType: TextInputType.number,
+                        controller: numberContact,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'vazio';
+                          }
+                          return null;
+                        },
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ElevatedButton(
+                        child: Text("Alterar"),
+                        onPressed: () async {
+                          if (_formKey.currentState!.validate()) {
+                            _updateContact(nameContact, numberContact, id);
+                            nameContact.clear();
+                            numberContact.clear();
+                            Navigator.of(context).pop();
+                          }
+                        },
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ],
+          ),
+        );
+      });
+}
+
+addContactDialog(
+    BuildContext context, _formKey, nameContact, numberContact) async {
+  return await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: Stack(
+            overflow: Overflow.visible,
+            children: <Widget>[
+              Form(
+                key: _formKey,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: TextFormField(
+                        controller: nameContact,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'vazio';
+                          }
+                          return null;
+                        },
+                        decoration: InputDecoration(
+                          hintText: 'Nome',
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: TextFormField(
+                        keyboardType: TextInputType.number,
+                        controller: numberContact,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'vazio';
+                          }
+                          return null;
+                        },
+                        decoration: InputDecoration(
+                          hintText: 'Número',
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ElevatedButton(
+                        child: Text("Adicionar"),
+                        onPressed: () async {
+                          if (_formKey.currentState!.validate()) {
+                            _addContact(nameContact, numberContact);
+                            nameContact.clear();
+                            numberContact.clear();
+                            Navigator.of(context).pop();
+                          }
+                        },
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ],
+          ),
+        );
+      });
 }

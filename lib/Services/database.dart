@@ -65,6 +65,26 @@ class DatabaseMethods {
     });
   }
 
+  deleteContact(userEmail, docId) {
+    CollectionReference _mainCollection =
+        FirebaseFirestore.instance.collection('Contacts');
+
+    DocumentReference documentReference =
+        _mainCollection.doc(userEmail).collection('list').doc(docId);
+
+    documentReference.delete();
+  }
+
+  updateContact(userEmail, docId, contactMap) {
+    CollectionReference _mainCollection =
+        FirebaseFirestore.instance.collection('Contacts');
+
+    DocumentReference documentReference =
+        _mainCollection.doc(userEmail).collection('list').doc(docId);
+
+    documentReference.update(contactMap);
+  }
+
   Future<Stream<QuerySnapshot<Map<String, dynamic>>>> getRecomendedReadings(
       String userEmail) async {
     print("aa");
@@ -177,6 +197,7 @@ class DatabaseMethods {
         .collection("Contacts")
         .doc(email)
         .collection("list")
+        .orderBy('name')
         .snapshots();
   }
 
