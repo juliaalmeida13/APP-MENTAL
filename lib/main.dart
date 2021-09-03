@@ -79,7 +79,6 @@ class _MyAppState extends State<MyApp> {
         "/sleep-diary": (ctx) => SleepPage(),
         "/chat": (ctx) => ChatRoom(),
         "/quests-screen": (ctx) => QuestsScreen(),
-        "/contacts-screen": (ctx) => ContactsScreen(),
       },
       home: LandingPage(),
     );

@@ -53,6 +53,16 @@ class Assistn2 extends StatelessWidget {
     }
   }
 
+  hasRecommendation() {
+    int sum =
+        resultScoreList.fold(0, (previous, current) => previous + current);
+    if (sum > 3) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     var lastIndex = questions.length + 1;
@@ -132,6 +142,31 @@ class Assistn2 extends StatelessWidget {
                                         Navigator.pop(context, 'Ok');
                                         await Navigator.of(context).pushNamed(
                                           ContactsScreen.routeName,
+                                          arguments: {},
+                                        );
+                                      },
+                                      child: const Text('Ok',
+                                          style: TextStyle(
+                                              color: Color.fromRGBO(
+                                                  104, 202, 138, 1))),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            } else if (hasRecommendation()) {
+                              showDialog<String>(
+                                context: context,
+                                builder: (BuildContext context) => AlertDialog(
+                                  title: const Text('Recomendações para você!'),
+                                  content: const Text(
+                                      'Seguindo uma análise rápida das suas respostas, algumas leituras ou vídeos foram recomendadas para você, e estarão disponíveis em sua tela inicial!'),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      onPressed: () async {
+                                        Navigator.pop(context, 'Ok');
+                                        await Navigator.pushReplacementNamed(
+                                          context,
+                                          "/logged-home",
                                           arguments: {},
                                         );
                                       },

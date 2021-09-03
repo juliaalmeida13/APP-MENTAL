@@ -1,4 +1,5 @@
 import 'package:app_mental/Screens/Contacts/contacts_screen.dart';
+import 'package:app_mental/Screens/Home/home_screen.dart';
 import 'package:app_mental/Services/database.dart';
 import 'package:flutter/material.dart';
 
@@ -58,7 +59,7 @@ class PsqiResult extends StatelessWidget {
       databaseMethods.recomendReading("sono1", readingsMap1, email);
 
       Map<String, dynamic> readingsMap2 = {
-        "imagePath": "assets/images/sleep02.jpg",
+        "imagePath": "assets/images/sleep01.jpg",
         "title": "Higiene do Sono",
         "readingsId": "sono2",
         "isVideo": false,
@@ -66,7 +67,7 @@ class PsqiResult extends StatelessWidget {
       databaseMethods.recomendReading("sono2", readingsMap2, email);
 
       Map<String, dynamic> readingsMap3 = {
-        "imagePath": "assets/images/sleep03.jpg",
+        "imagePath": "assets/images/sleep01.jpg",
         "title": "Higiene do Sono",
         "readingsId": "sono3",
         "isVideo": false,
@@ -74,7 +75,7 @@ class PsqiResult extends StatelessWidget {
       databaseMethods.recomendReading("sono3", readingsMap3, email);
 
       Map<String, dynamic> readingsMap4 = {
-        "imagePath": "assets/images/sleep04.jpg",
+        "imagePath": "assets/images/sleep01.jpg",
         "title": "Higiene do Sono",
         "readingsId": "sono4",
         "isVideo": false,
@@ -87,6 +88,16 @@ class PsqiResult extends StatelessWidget {
     int sum =
         resultScoreList.fold(0, (previous, current) => previous + current);
     if (sum > 10) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  hasRecommendation() {
+    int sum =
+        resultScoreList.fold(0, (previous, current) => previous + current);
+    if (sum > 4) {
       return true;
     } else {
       return false;
@@ -151,6 +162,30 @@ class PsqiResult extends StatelessWidget {
                     ],
                   ),
                 );
+              } else if (hasRecommendation()) {
+                showDialog<String>(
+                  context: context,
+                  builder: (BuildContext context) => AlertDialog(
+                    title: const Text('Recomendações para você!'),
+                    content: const Text(
+                        'Seguindo uma análise rápida das suas respostas, algumas leituras ou vídeos foram recomendadas para você, e estarão disponíveis em sua tela inicial!'),
+                    actions: <Widget>[
+                      TextButton(
+                        onPressed: () async {
+                          Navigator.pop(context, 'Ok');
+                          await Navigator.pushReplacementNamed(
+                            context,
+                            "/logged-home",
+                            arguments: {},
+                          );
+                        },
+                        child: const Text('Ok',
+                            style: TextStyle(
+                                color: Color.fromRGBO(104, 202, 138, 1))),
+                      ),
+                    ],
+                  ),
+                );
               } else {
                 showDialog<String>(
                   context: context,
@@ -161,7 +196,6 @@ class PsqiResult extends StatelessWidget {
                     actions: <Widget>[
                       TextButton(
                         onPressed: () async {
-                          //enviarDominios(userEmail);
                           Navigator.pop(context, "Ok");
                           Navigator.pop(context);
                         },

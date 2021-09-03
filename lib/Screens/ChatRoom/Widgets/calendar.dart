@@ -11,6 +11,11 @@ DateTime getNextSunday(DateTime day) {
   return day;
 }
 
+DateTime addHours({required DateTime day, required int n}) {
+  day = day.add(new Duration(hours: 1 * n));
+  return day;
+}
+
 DateTime addWeeks({required DateTime day, required int n}) {
   day = day.add(new Duration(days: 7 * n));
   return day;
