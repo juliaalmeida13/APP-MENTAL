@@ -1,6 +1,7 @@
 import 'dart:ui';
+
+import 'package:app_mental/Screens/Contacts/contacts_screen.dart';
 import 'package:app_mental/Services/database.dart';
-import 'package:app_mental/constants.dart';
 import 'package:app_mental/main.dart';
 import 'package:flutter/material.dart';
 // import './categories_screen.dart';
@@ -152,6 +153,22 @@ class Promisn1Result extends StatelessWidget {
     databaseMethods.disableQuest(userEscala, email);
   }
 
+  isCritical() {
+    //dom 2, 9, 10, 11, 12, leve ou maior (>2)
+    //dom 6, 7 muito leve ou maior (>1)
+    if (resultScoreList[2] > 2 ||
+        resultScoreList[6] > 1 ||
+        resultScoreList[7] > 1 ||
+        resultScoreList[9] > 2 ||
+        resultScoreList[10] > 2 ||
+        resultScoreList[11] > 2 ||
+        resultScoreList[12] > 2) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   Promisn1Result({
     required this.resultScoreList,
     required this.questName,
@@ -183,28 +200,52 @@ class Promisn1Result extends StatelessWidget {
                 style: TextStyle(color: Colors.black)),
             onPressed: () {
               enviarDominios(userEmail);
-              showDialog<String>(
-                context: context,
-                builder: (BuildContext context) => AlertDialog(
-                  title: const Text('Êxito!'),
-                  content: const Text(
-                      'Suas respostas foram enviadas!\nNovas atividades serão disponibilizadas em breve.'),
-                  actions: <Widget>[
-                    TextButton(
-                      onPressed: () async {
-                        //enviarDominios(userEmail);
-                        Navigator.pop(context, 'Ok');
-                        await Navigator.of(context).push(new MaterialPageRoute(
-                            builder: (context) => MyApp()));
-                        //Navigator.pop(context, 'OK');
-                      },
-                      child: const Text('Ok',
-                          style: TextStyle(
-                              color: Color.fromRGBO(104, 202, 138, 1))),
-                    ),
-                  ],
-                ),
-              );
+              if (isCritical()) {
+                showDialog<String>(
+                  context: context,
+                  builder: (BuildContext context) => AlertDialog(
+                    title: const Text('Entre em contato com alguém!'),
+                    content: const Text(
+                        'Percebemos que você pode estar em um estado bastante delicado e gostaríamos de sugerir que entre em contato conosco ou com alguém próximo!'),
+                    actions: <Widget>[
+                      TextButton(
+                        onPressed: () async {
+                          Navigator.pop(context, 'Ok');
+                          await Navigator.pushReplacementNamed(
+                            context,
+                            ContactsScreen.routeName,
+                            arguments: {},
+                          );
+                        },
+                        child: const Text('Ok',
+                            style: TextStyle(
+                                color: Color.fromRGBO(104, 202, 138, 1))),
+                      ),
+                    ],
+                  ),
+                );
+              } else {
+                showDialog<String>(
+                  context: context,
+                  builder: (BuildContext context) => AlertDialog(
+                    title: const Text('Êxito!'),
+                    content: const Text(
+                        'Suas respostas foram enviadas!\nNovas atividades serão disponibilizadas em breve.'),
+                    actions: <Widget>[
+                      TextButton(
+                        onPressed: () async {
+                          //enviarDominios(userEmail);
+                          Navigator.pop(context);
+                          Navigator.pop(context);
+                        },
+                        child: const Text('Ok',
+                            style: TextStyle(
+                                color: Color.fromRGBO(104, 202, 138, 1))),
+                      ),
+                    ],
+                  ),
+                );
+              }
             },
           ),
         ),

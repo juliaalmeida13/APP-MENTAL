@@ -1,5 +1,6 @@
 import 'package:app_mental/Services/auth.dart';
 import 'package:app_mental/Services/database.dart';
+import 'package:app_mental/Shared/Widgets/AppDrawer.dart';
 import 'package:app_mental/constants.dart';
 import 'package:app_mental/helper/constants.dart';
 import 'package:app_mental/helper/helperfuncions.dart';
@@ -22,42 +23,15 @@ class _ContactsScreenState extends State<ContactsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: AppDrawer(),
+      appBar: AppBar(
+        backgroundColor: AppColors.green,
+        shadowColor: Colors.transparent,
+        title: Text("Contatos"),
+      ),
       backgroundColor: AppColors.green,
       body: ListView(
         children: [
-          Padding(
-            padding: EdgeInsets.only(
-              top: 15.0,
-              left: 10.0,
-            ),
-          ),
-          SizedBox(height: 25.0),
-          Padding(
-            padding: EdgeInsets.only(left: 40.0),
-            child: Row(
-              children: [
-                Text(
-                  'Contatos',
-                  style: TextStyle(
-                    fontFamily: 'Raleway',
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 25.0,
-                  ),
-                ),
-                SizedBox(width: 10),
-                Text(
-                  'de Emergência',
-                  style: TextStyle(
-                    fontFamily: 'Raleway',
-                    color: Colors.white,
-                    fontSize: 25.0,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          SizedBox(height: 40.0),
           Container(
             height: MediaQuery.of(context).size.height,
             decoration: BoxDecoration(

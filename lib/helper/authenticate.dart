@@ -1,11 +1,7 @@
-import 'package:app_mental/Screens/HomePage/home_page.dart';
-import 'package:app_mental/Screens/SignIn/signin.dart';
 import 'package:app_mental/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 
 class LandingPage extends StatelessWidget {
   final Future<FirebaseApp> _initialization = Firebase.initializeApp();
@@ -29,13 +25,17 @@ class LandingPage extends StatelessWidget {
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.active) {
                 User? user = snapshot.data as User?;
-
                 print(user);
-
                 if (user == null) {
-                  return SignIn();
+                  Future.delayed(const Duration(milliseconds: 500), () {
+                    Navigator.pushNamedAndRemoveUntil(
+                        context, "/sign-in", (Route<dynamic> route) => false);
+                  });
                 } else {
-                  return HomePage();
+                  Future.delayed(const Duration(milliseconds: 500), () {
+                    Navigator.pushNamedAndRemoveUntil(context, "/logged-home",
+                        (Route<dynamic> route) => false);
+                  });
                 }
               }
 
@@ -44,8 +44,8 @@ class LandingPage extends StatelessWidget {
                 body: Container(
                   decoration: BoxDecoration(
                       image: DecorationImage(
-                        image: AssetImage(AppImages.appMentalLogo),
-                      )),
+                    image: AssetImage(AppImages.appMentalLogo),
+                  )),
                 ),
               );
             },
@@ -57,8 +57,8 @@ class LandingPage extends StatelessWidget {
           body: Container(
             decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage(AppImages.appMentalLogo),
-                )),
+              image: AssetImage(AppImages.appMentalLogo),
+            )),
           ),
         );
       },

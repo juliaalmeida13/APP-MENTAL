@@ -1,9 +1,8 @@
 import 'package:app_mental/Screens/ChatRoom/Widgets/calendar.dart';
-import 'package:app_mental/Screens/Contacts/contacts_screen.dart';
-import 'package:app_mental/Screens/Home/home_screen.dart';
 import 'package:app_mental/Screens/Questionarie/Widgets/app_body_widget.dart';
 import 'package:app_mental/Services/auth.dart';
 import 'package:app_mental/Services/database.dart';
+import 'package:app_mental/Shared/Widgets/AppDrawer.dart';
 import 'package:app_mental/escalas/assist/assist_screen.dart';
 import 'package:app_mental/escalas/assistn2/assistn2_screen.dart';
 import 'package:app_mental/escalas/mdq/mdq_screen.dart';
@@ -27,6 +26,7 @@ import '../../constants.dart';
 
 class QuestsScreen extends StatefulWidget {
   static const routeName = '/quests-screen';
+
   @override
   _QuestsScreenState createState() => _QuestsScreenState();
 }
@@ -89,37 +89,17 @@ class _QuestsScreenState extends State<QuestsScreen> {
   @override
   Widget build(BuildContext context) {
     print(Constants.myEmail + "a");
-    return MaterialApp(
-      routes: {
-        HomeScreen.routeName: (ctx) => HomeScreen(),
-        Promisn1Screen.routeName: (ctx) => Promisn1Screen(),
-        //Promisn2Screen.routeName: (ctx) => Promisn2Screen(),
-        //QuestsRoom.routeName: (ctx) => QuestsRoom(),
-        ContactsScreen.routeName: (ctx) => ContactsScreen(),
-        Promisn2Screen.routeName: (ctx) => Promisn2Screen(),
-        Pcl5Screen.routeName: (ctx) => Pcl5Screen(),
-        PsetScreen.routeName: (ctx) => PsetScreen(),
-        QuesiScreen.routeName: (ctx) => QuesiScreen(),
-        QuestSD1Screen.routeName: (ctx) => QuestSD1Screen(),
-        QuestSD2Screen.routeName: (ctx) => QuestSD2Screen(),
-        MdqScreen.routeName: (ctx) => MdqScreen(),
-        PromisAnsiScreen.routeName: (ctx) => PromisAnsiScreen(),
-        Phq15Screen.routeName: (ctx) => Phq15Screen(),
-        PsqiScreen.routeName: (ctx) => PsqiScreen(),
-        AssistScreen.routeName: (ctx) => AssistScreen(),
-        Assistn2Screen.routeName: (ctx) => Assistn2Screen(),
-      },
-      debugShowCheckedModeBanner: false,
-      home: DefaultTabController(
+    return DefaultTabController(
         length: 2,
         child: Scaffold(
+          drawer: AppDrawer(),
           appBar: AppBar(
+              centerTitle: true,
+              iconTheme: IconThemeData(color: kTextColorGreen),
               backgroundColor: Colors.white,
-              title: Center(
-                child: Text(
-                  'Suas Atividades',
-                  style: AppTextStyles.tituloatividades,
-                ),
+              title: Text(
+                'Suas Atividades',
+                style: AppTextStyles.tituloatividades,
               ),
               bottom: new PreferredSize(
                   preferredSize: new Size(300.0, 50.0),
@@ -146,9 +126,7 @@ class _QuestsScreenState extends State<QuestsScreen> {
               questsRoomList(questsAnsweredRoomsStream),
             ],
           ),
-        ),
-      ),
-    );
+        ));
   }
 }
 

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide TimePickerDialog;
 import 'package:survey_kit/survey_kit.dart';
 import 'package:intl/intl.dart';
 

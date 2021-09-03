@@ -1,5 +1,7 @@
-import 'package:app_mental/helper/helperfuncions.dart';
 import 'package:app_mental/Services/database.dart';
+import 'package:app_mental/Shared/Widgets/AppDrawer.dart';
+import 'package:app_mental/constants.dart';
+import 'package:app_mental/helper/helperfuncions.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -567,6 +569,13 @@ class _SleepPageState extends State<SleepPage> {
   }*/
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text("Diário do sono"),
+        backgroundColor: kTextColorGreen,
+        shadowColor: Color.fromRGBO(1, 1, 1, 0),
+        actions: [],
+      ),
+      drawer: AppDrawer(),
       body: Center(
         child: SingleChildScrollView(
           child: _loading
@@ -647,16 +656,12 @@ class _SleepPageState extends State<SleepPage> {
       initialTime: TimeOfDay(hour: 0, minute: 0),
       builder: (context, child) {
         return MediaQuery(
-            data: MediaQuery.of(context).copyWith(
-              alwaysUse24HourFormat: true,
-            ),
+            data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
             child: child!);
       },
     );
-
     if (result != null) {
-      return DateFormat("HH:mm")
-          .format(DateFormat.jm().parse(result.format(context)));
+      return "${result.hour.toString().padLeft(2, "0")}:${result.minute.toString().padLeft(2, "0")}";
     } else {
       return "Vazio";
     }

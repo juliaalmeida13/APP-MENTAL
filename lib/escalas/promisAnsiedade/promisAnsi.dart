@@ -1,8 +1,8 @@
+import 'package:app_mental/Screens/Contacts/contacts_screen.dart';
 import 'package:app_mental/Services/database.dart';
-import 'package:app_mental/main.dart';
-import 'package:flutter/material.dart';
-import 'package:app_mental/escalas/question.dart';
 import 'package:app_mental/escalas/promis_answer.dart';
+import 'package:app_mental/escalas/question.dart';
+import 'package:flutter/material.dart';
 
 class PromisAnsi extends StatelessWidget {
   final List<Map<String, Object>> questions;
@@ -18,8 +18,8 @@ class PromisAnsi extends StatelessWidget {
 
   PromisAnsi({
     required this.questions,
-    required  this.answerQuestion,
-    required  this.questionIndex,
+    required this.answerQuestion,
+    required this.questionIndex,
     required this.resultScoreList,
     required this.userEmail,
     required this.userEscala,
@@ -42,6 +42,16 @@ class PromisAnsi extends StatelessWidget {
     };
     databaseMethods.addQuestAnswer(answerMap, userEmail, userEscala);
     databaseMethods.updateQuestIndex(userEscala, userEmail, questionIndex);
+  }
+
+  isCritical() {
+    int sum =
+        resultScoreList.fold(0, (previous, current) => previous + current);
+    if (sum > 19) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   @override
@@ -100,10 +110,35 @@ class PromisAnsi extends StatelessWidget {
                         TextButton(
                           onPressed: () async {
                             sendPromisAnsiPartialScore(userEmail);
-                            Navigator.pop(context, 'Ok');
-                            await Navigator.of(context).push(
-                                new MaterialPageRoute(
-                                    builder: (context) => MyApp()));
+                            if (isCritical()) {
+                              showDialog<String>(
+                                context: context,
+                                builder: (BuildContext context) => AlertDialog(
+                                  title: const Text(
+                                      'Entre em contato com alguém!'),
+                                  content: const Text(
+                                      'Percebemos que você pode estar em um estado bastante delicado e gostaríamos de sugerir que entre em contato conosco ou com alguém próximo!'),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      onPressed: () async {
+                                        Navigator.pop(context, 'Ok');
+                                        await Navigator.of(context).pushNamed(
+                                          ContactsScreen.routeName,
+                                          arguments: {},
+                                        );
+                                      },
+                                      child: const Text('Ok',
+                                          style: TextStyle(
+                                              color: Color.fromRGBO(
+                                                  104, 202, 138, 1))),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            } else {
+                              Navigator.pop(context, 'Ok');
+                              Navigator.pop(context, "Ok");
+                            }
                           },
                           child: const Text('OK'),
                         ),

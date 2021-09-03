@@ -1,8 +1,8 @@
+import 'package:app_mental/Screens/Contacts/contacts_screen.dart';
 import 'package:app_mental/Services/database.dart';
-import 'package:app_mental/main.dart';
-import 'package:flutter/material.dart';
-import 'package:app_mental/escalas/question.dart';
 import 'package:app_mental/escalas/promis_answer.dart';
+import 'package:app_mental/escalas/question.dart';
+import 'package:flutter/material.dart';
 
 class Phq15 extends StatelessWidget {
   final List<Map<String, Object>> questions;
@@ -50,6 +50,16 @@ class Phq15 extends StatelessWidget {
     };
     databaseMethods.addQuestAnswer(answerMap, userEmail, userEscala);
     databaseMethods.updateQuestIndex(userEscala, userEmail, questionIndex);
+  }
+
+  isCritical() {
+    int sum =
+        resultScoreList.fold(0, (previous, current) => previous + current);
+    if (sum > 9) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   @override
@@ -108,10 +118,35 @@ class Phq15 extends StatelessWidget {
                         TextButton(
                           onPressed: () async {
                             sendPhq15PartialScore(userEmail);
-                            Navigator.pop(context, 'Ok');
-                            await Navigator.of(context).push(
-                                new MaterialPageRoute(
-                                    builder: (context) => MyApp()));
+                            if (isCritical()) {
+                              showDialog<String>(
+                                context: context,
+                                builder: (BuildContext context) => AlertDialog(
+                                  title: const Text(
+                                      'Entre em contato com alguém!'),
+                                  content: const Text(
+                                      'Percebemos que você pode estar em um estado bastante delicado e gostaríamos de sugerir que entre em contato conosco ou com alguém próximo!'),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      onPressed: () async {
+                                        Navigator.pop(context, 'Ok');
+                                        await Navigator.of(context).pushNamed(
+                                          ContactsScreen.routeName,
+                                          arguments: {},
+                                        );
+                                      },
+                                      child: const Text('Ok',
+                                          style: TextStyle(
+                                              color: Color.fromRGBO(
+                                                  104, 202, 138, 1))),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            } else {
+                              Navigator.pop(context, 'Ok');
+                              Navigator.pop(context, "Ok");
+                            }
                           },
                           child: const Text('OK'),
                         ),

@@ -1,6 +1,4 @@
-import 'package:app_mental/helper/helperfuncions.dart';
 import 'package:app_mental/Services/database.dart';
-import 'package:app_mental/main.dart';
 import 'package:flutter/material.dart';
 // import './categories_screen.dart';
 
@@ -88,9 +86,8 @@ class Pcl5Result extends StatelessWidget {
                   actions: <Widget>[
                     TextButton(
                       onPressed: () async {
-                        Navigator.pop(context, 'Ok');
-                        await Navigator.of(context).push(new MaterialPageRoute(
-                            builder: (context) => MyApp()));
+                        Navigator.pop(context, "Ok");
+                        Navigator.pop(context);
                       },
                       child: const Text('Ok'),
                     ),
