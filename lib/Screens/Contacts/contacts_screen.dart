@@ -23,6 +23,11 @@ class _ContactsScreenState extends State<ContactsScreen> {
   TextEditingController nameContact = TextEditingController();
   TextEditingController numberContact = TextEditingController();
 
+  // ↓ hold tap position, set during onTapDown, using getPosition() method
+  late Offset tapXY;
+  // ↓ hold screen size, using first line in build() method
+  late RenderBox overlay;
+
   @override
   void initState() {
     getUserInfo();
@@ -41,8 +46,130 @@ class _ContactsScreenState extends State<ContactsScreen> {
     });
   }
 
+
+  Widget _buildContactItem(BuildContext context, String name, int number, id,
+      _formKey, nameContact, numberContact) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 20),
+      child: GestureDetector(
+      onTapDown: getPosition,
+        onLongPress: () {
+          showMenu(
+            context: context,
+            position: relRectSize,
+            items: [
+              PopupMenuItem(
+                value: 1,
+                child: Row(
+                  children: <Widget>[
+                    Icon(Icons.edit),
+                    Text("Editar"),
+                  ],
+                ),
+              ),
+              PopupMenuItem(
+                value: 2,
+                child: Row(
+                  children: <Widget>[
+                    Icon(Icons.delete),
+                    Text("Deletar"),
+                  ],
+                ),
+              )
+            ],
+          ).then<void>((value) {
+            if (value == 1) {
+              print('Editando ${name}');
+              editContactDialog(context, _formKey, name, number, id, nameContact,
+                  numberContact);
+            } else if (value == 2) {
+              print('Deletando ${name}');
+              _confirmDelDialog(context, id);
+            }
+          });
+        },
+        child: Container(
+          width: 335,
+          height: 50,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(8),
+                  topRight: Radius.circular(8),
+                  bottomLeft: Radius.circular(8),
+                  bottomRight: Radius.circular(8)),
+              color: AppColors.cinza,
+              boxShadow: [
+                BoxShadow(
+                    color: Color.fromRGBO(0, 0, 0, 0.25),
+                    offset: Offset(0, 4),
+                    blurRadius: 4)
+              ]),
+          child: Padding(
+            padding: EdgeInsets.only(
+              left: 10.0,
+              right: 10.0,
+              top: 10.0,
+            ),
+            child: InkWell(
+              onTap: () {},
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                    child: Row(
+                      children: [
+                        SizedBox(width: 10.0),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              name,
+                              style: TextStyle(
+                                fontFamily: 'Raleway',
+                                fontSize: 17.0,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
+                              ),
+                            ),
+                            Text(
+                              number.toString(),
+                              style: TextStyle(
+                                fontFamily: 'Raleway',
+                                fontSize: 15.0,
+                                color: Colors.grey,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.call),
+                    color: Colors.black,
+                    onPressed: () {
+                      _callNumber(number.toString());
+                    },
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  // ↓ create the RelativeRect from size of screen and where you tapped
+  RelativeRect get relRectSize => RelativeRect.fromSize(tapXY & const Size(40,40), overlay.size);
+
+  // ↓ get the tap position Offset
+  void getPosition(TapDownDetails detail) {
+    tapXY = detail.globalPosition;
+  }
   @override
   Widget build(BuildContext context) {
+    overlay = Overlay.of(context)!.context.findRenderObject() as RenderBox;
     return Scaffold(
       backgroundColor: AppColors.green,
       body: ListView(
@@ -156,119 +283,6 @@ class _ContactsScreenState extends State<ContactsScreen> {
       ),
     );
   }
-}
-
-Widget _buildContactItem(BuildContext context, String name, int number, id,
-    _formKey, nameContact, numberContact) {
-  return Padding(
-    padding: const EdgeInsets.only(top: 20),
-    child: GestureDetector(
-      onLongPress: () {
-        print('apertei ${name}');
-        showMenu(
-          position: RelativeRect.fromLTRB(0, 0, 0, 0),
-          items: [
-            PopupMenuItem(
-              value: 1,
-              child: Row(
-                children: <Widget>[
-                  Icon(Icons.edit),
-                  Text("Editar"),
-                ],
-              ),
-            ),
-            PopupMenuItem(
-              value: 2,
-              child: Row(
-                children: <Widget>[
-                  Icon(Icons.delete),
-                  Text("Deletar"),
-                ],
-              ),
-            )
-          ],
-          context: context,
-        ).then<void>((value) {
-          if (value == 1) {
-            print('Editando ${name}');
-            editContactDialog(context, _formKey, name, number, id, nameContact,
-                numberContact);
-          } else if (value == 2) {
-            print('Deletando ${name}');
-            _confirmDelDialog(context, id);
-          }
-        });
-      },
-      child: Container(
-        width: 335,
-        height: 50,
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(8),
-                topRight: Radius.circular(8),
-                bottomLeft: Radius.circular(8),
-                bottomRight: Radius.circular(8)),
-            color: AppColors.cinza,
-            boxShadow: [
-              BoxShadow(
-                  color: Color.fromRGBO(0, 0, 0, 0.25),
-                  offset: Offset(0, 4),
-                  blurRadius: 4)
-            ]),
-        child: Padding(
-          padding: EdgeInsets.only(
-            left: 10.0,
-            right: 10.0,
-            top: 10.0,
-          ),
-          child: InkWell(
-            onTap: () {},
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Container(
-                  child: Row(
-                    children: [
-                      SizedBox(width: 10.0),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            name,
-                            style: TextStyle(
-                              fontFamily: 'Raleway',
-                              fontSize: 17.0,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black,
-                            ),
-                          ),
-                          Text(
-                            number.toString(),
-                            style: TextStyle(
-                              fontFamily: 'Raleway',
-                              fontSize: 15.0,
-                              color: Colors.grey,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-                IconButton(
-                  icon: Icon(Icons.call),
-                  color: Colors.black,
-                  onPressed: () {
-                    _callNumber(number.toString());
-                  },
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    ),
-  );
 }
 
 _confirmDelDialog(BuildContext context, id) async {
