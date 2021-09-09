@@ -54,6 +54,18 @@ class DatabaseMethods {
     });
   }
 
+  rateReading(String readingsId, readingsMap, userEmail) {
+    FirebaseFirestore.instance
+        .collection("Readings")
+        .doc(userEmail)
+        .collection("userRatings")
+        .doc(readingsId)
+        .set(readingsMap)
+        .catchError((e) {
+      print(e.toString());
+    });
+  }
+
   createContactList(contactMap, userEmail) {
     FirebaseFirestore.instance
         .collection("Contacts")

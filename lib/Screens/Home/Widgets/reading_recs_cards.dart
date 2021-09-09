@@ -30,7 +30,8 @@ class RecomendsReadings extends StatelessWidget {
                       builder: (context) => ReadingScreen(
                           "Lazer",
                           "assets/text/Leisure/leisure01.md",
-                          "assets/images/reading01.jpg")));
+                          "assets/images/reading01.jpg",
+                          "lazer01")));
             },
           ),
           ReadingRecomendCard(
@@ -43,7 +44,8 @@ class RecomendsReadings extends StatelessWidget {
                       builder: (context) => ReadingScreen(
                           "Sono",
                           "assets/text/Sleep/sleep03.md",
-                          "assets/images/sleep01.jpg")));
+                          "assets/images/sleep01.jpg",
+                          "sono03")));
             },
           ),
           ReadingRecomendCard(
@@ -56,7 +58,8 @@ class RecomendsReadings extends StatelessWidget {
                       builder: (context) => ReadingScreen(
                           "Manejo Estresse",
                           "assets/text/StressMgt/stress01.md",
-                          "assets/images/stress01.jpg")));
+                          "assets/images/stress01.jpg",
+                          "stress01")));
             },
           ),
           ReadingRecomendCard(
@@ -69,7 +72,8 @@ class RecomendsReadings extends StatelessWidget {
                       builder: (context) => ReadingScreen(
                           "Atividade Física",
                           "assets/text/Exercise/exercise01.md",
-                          "assets/images/jogging01.jpg")));
+                          "assets/images/jogging01.jpg",
+                          "exercise01")));
             },
           ),
           ReadingRecomendCard(
@@ -82,7 +86,8 @@ class RecomendsReadings extends StatelessWidget {
                       builder: (context) => ReadingScreen(
                           "Felicidade",
                           "assets/text/Happiness/hapiness01.md",
-                          "assets/images/happy02.jpg")));
+                          "assets/images/happy02.jpg",
+                          "happines01")));
             },
           ),
           ReadingRecomendCard(
@@ -95,7 +100,8 @@ class RecomendsReadings extends StatelessWidget {
                       builder: (context) => ReadingScreen(
                           "Rotina",
                           "assets/text/DailyLifeHabits/dailylife01.md",
-                          "assets/images/cooking01.jpg")));
+                          "assets/images/cooking01.jpg",
+                          "rotina01")));
             },
           ),
           ReadingRecomendCard(
@@ -119,7 +125,8 @@ class RecomendsReadings extends StatelessWidget {
                       builder: (context) => ReadingScreen(
                           "Alcóol",
                           "assets/text/DamageControl/damage_control02.md",
-                          "assets/images/touch01.jpg")));
+                          "assets/images/touch01.jpg",
+                          "reduce02")));
             },
           ),
         ],
