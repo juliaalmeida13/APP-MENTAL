@@ -48,6 +48,12 @@ class AppDrawer extends StatelessWidget {
             text: 'Contatos',
             icon: Icons.people,
             onClicked: () => selectedItem(context, 3),
+          ),
+          const SizedBox(height: 16),
+          buildMenuItem(
+            text: 'Chat',
+            icon: Icons.chat,
+            onClicked: () => selectedItem(context, 4),
           )
         ],
       ),

@@ -27,6 +27,7 @@ class _HomePageState extends State<HomePage> {
     ProfilePage(),
     ContactsScreen(),
     QuestsScreen(),
+    ChatRoom()
   ];
 
   int _selectedIndex = 0;
@@ -48,17 +49,18 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: kTextColorGreen,
         shadowColor: Color.fromRGBO(1, 1, 1, 0),
         actions: [
-        GestureDetector(
-          onTap: () {
-            authMethods.signOut();
-            Navigator.pushNamedAndRemoveUntil(
-                context, "/sign-in", (Route<dynamic> route) => false);
-          },
-          child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 16),
-              child: Icon(Icons.exit_to_app)),
-        ),
-      ],),
+          GestureDetector(
+            onTap: () {
+              authMethods.signOut();
+              Navigator.pushNamedAndRemoveUntil(
+                  context, "/sign-in", (Route<dynamic> route) => false);
+            },
+            child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 16),
+                child: Icon(Icons.exit_to_app)),
+          ),
+        ],
+      ),
       drawer: AppDrawer(),
       body: PageView(
         controller: _pageController,
