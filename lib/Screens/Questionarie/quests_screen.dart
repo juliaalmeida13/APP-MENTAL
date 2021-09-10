@@ -138,7 +138,7 @@ class QuestRoomTile extends StatelessWidget {
   final int answeredUntil;
   final bool unanswered;
   final String userEmail;
-  final DateTime now = DateTime.now();
+  final DateTime _now = DateTime.now();
   final Map<String, dynamic> routes = {
     "pn1": Promisn1Screen.routeName,
     "pn2": Promisn2Screen.routeName,
@@ -170,13 +170,16 @@ class QuestRoomTile extends StatelessWidget {
     print("aa aa aa $availableAt");
     //var nextSunday = getNextSunday(availableAt);
     var nextSunday = addHours(day: availableAt, n: 1);
+
     print('id: $questId');
-    if (now.isAfter(availableAt) && now.isBefore(nextSunday)) {
+    if (_now.isAfter(availableAt) && _now.isBefore(nextSunday)) {
       return QuizCard(
           title: questName,
           completed: unanswered
               ? "Questões respondidas: $answeredUntil"
               : "Completado!",
+          now: _now,
+          expirationDate: nextSunday,
           onTap: () {
             if (unanswered) {
               print('userEmail no navigator: $userEmail' + "//");
