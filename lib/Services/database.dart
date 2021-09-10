@@ -99,6 +99,21 @@ class DatabaseMethods {
         .get();
   }
 
+  Future<QuerySnapshot> ratingsAreEmpty(String readingId) async {
+    print("check");
+    print(FirebaseAuth.instance.currentUser!.email);
+    return FirebaseFirestore.instance
+        .collection('Readings')
+        .doc(FirebaseAuth.instance.currentUser!.email)
+        .collection("userRatings")
+        .where(
+          "readingsId",
+          isEqualTo: readingId,
+        )
+        .limit(1)
+        .get();
+  }
+
   disableQuest(String questId, userEmail) {
     Map<String, dynamic> disableMap = {
       "unanswered?": false,

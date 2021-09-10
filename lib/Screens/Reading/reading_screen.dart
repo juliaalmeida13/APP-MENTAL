@@ -14,10 +14,20 @@ class ReadingScreen extends StatelessWidget {
   final String id;
   final DatabaseMethods databaseMethods = new DatabaseMethods();
 
-  void _showRatingDialog(context, String dialogTitle, String id) {
+  void _showRatingDialog(context, String dialogTitle, String id) async {
+    bool existingRating = false;
+    var ds = await DatabaseMethods().ratingsAreEmpty(id);
+    String ratingTitle = 'Avalie este conteúdo!';
+
+    existingRating = ds.docs.length != 0;
+    if (existingRating) {
+      ratingTitle =
+          'Você já avaliou este conteúdo, deseja avaliá-lo novamente?';
+    }
+
     final _dialog = RatingDialog(
       // your app's name?
-      title: 'Avalie este conteúdo!',
+      title: ratingTitle,
       // encourage your user to leave a high rating?
       message:
           'Clique em uma estrela para avaliar, e adicione um comentário se quiser!',
