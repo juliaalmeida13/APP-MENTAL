@@ -47,13 +47,12 @@ class _ContactsScreenState extends State<ContactsScreen> {
     });
   }
 
-
   Widget _buildContactItem(BuildContext context, String name, int number, id,
       _formKey, nameContact, numberContact) {
     return Padding(
       padding: const EdgeInsets.only(top: 20),
       child: GestureDetector(
-      onTapDown: getPosition,
+        onTapDown: getPosition,
         onLongPress: () {
           showMenu(
             context: context,
@@ -81,8 +80,8 @@ class _ContactsScreenState extends State<ContactsScreen> {
           ).then<void>((value) {
             if (value == 1) {
               print('Editando ${name}');
-              editContactDialog(context, _formKey, name, number, id, nameContact,
-                  numberContact);
+              editContactDialog(context, _formKey, name, number, id,
+                  nameContact, numberContact);
             } else if (value == 2) {
               print('Deletando ${name}');
               _confirmDelDialog(context, id);
@@ -162,32 +161,34 @@ class _ContactsScreenState extends State<ContactsScreen> {
   }
 
   // ↓ create the RelativeRect from size of screen and where you tapped
-  RelativeRect get relRectSize => RelativeRect.fromSize(tapXY & const Size(40,40), overlay.size);
+  RelativeRect get relRectSize =>
+      RelativeRect.fromSize(tapXY & const Size(40, 40), overlay.size);
 
   // ↓ get the tap position Offset
   void getPosition(TapDownDetails detail) {
     tapXY = detail.globalPosition;
   }
+
   @override
   Widget build(BuildContext context) {
     overlay = Overlay.of(context)!.context.findRenderObject() as RenderBox;
     return Scaffold(
       drawer: AppDrawer(),
       appBar: AppBar(
-        backgroundColor: AppColors.green,
-        shadowColor: Colors.transparent,
-        title: Text("Contatos"),
+        centerTitle: true,
+        iconTheme: IconThemeData(color: kTextColorGreen),
+        backgroundColor: Colors.white,
+        title: Text(
+          'Contatos de Emergência',
+          style: AppTextStyles.tituloatividades,
+        ),
+        elevation: 0,
       ),
-      backgroundColor: AppColors.green,
       body: ListView(
         children: [
           Container(
+            color: Colors.white,
             height: MediaQuery.of(context).size.height,
-            decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(75.0),
-                )),
             child: ListView(
               primary: false,
               padding: EdgeInsets.only(
@@ -226,30 +227,22 @@ class _ContactsScreenState extends State<ContactsScreen> {
                   ),
                 ),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Container(
-                      child: OutlinedButton.icon(
-                        label: Text(
-                          'Adicionar novo contato',
-                          style: TextStyle(
-                            fontFamily: 'Raleway',
-                            color: Color(0xFF21BFBD),
-                            fontSize: 15.0,
-                          ),
-                        ),
+                      child: FloatingActionButton(
+                        backgroundColor: AppColors.verdementa,
                         onPressed: () {
                           addContactDialog(
                               context, _formKey, nameContact, numberContact);
                         },
-                        icon: Icon(
+                        child: Icon(
                           Icons.add,
-                          color: Color(0xFF21BFBD),
                         ),
                       ),
                     ),
                   ],
-                )
+                ),
               ],
             ),
           )
@@ -261,13 +254,13 @@ class _ContactsScreenState extends State<ContactsScreen> {
 
 _confirmDelDialog(BuildContext context, id) async {
   Widget cancelaButton = TextButton(
-    child: Text("Cancelar"),
+    child: Text("Cancelar", style: AppTextStyles.contatosalert),
     onPressed: () {
       Navigator.of(context).pop();
     },
   );
   Widget continuaButton = TextButton(
-    child: Text("Excluir"),
+    child: Text("Excluir", style: AppTextStyles.contatosalert),
     onPressed: () {
       DatabaseMethods().deleteContact(Constants.myEmail, id);
       Navigator.of(context).pop();
@@ -331,7 +324,10 @@ editContactDialog(BuildContext context, _formKey, name, number, id, nameContact,
                     Navigator.of(context).pop();
                   },
                   child: CircleAvatar(
-                    child: Icon(Icons.close),
+                    child: Icon(
+                      Icons.close,
+                      color: Colors.white,
+                    ),
                     backgroundColor: Colors.red,
                   ),
                 ),
@@ -368,7 +364,11 @@ editContactDialog(BuildContext context, _formKey, name, number, id, nameContact,
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: ElevatedButton(
-                        child: Text("Alterar"),
+                        style: ElevatedButton.styleFrom(
+                            primary: Color.fromRGBO(64, 223, 159, 1)),
+                        child: Text(
+                          "Alterar",
+                        ),
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
                             _updateContact(nameContact, numberContact, id);
@@ -436,6 +436,8 @@ addContactDialog(
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            primary: Color.fromRGBO(64, 223, 159, 1)),
                         child: Text("Adicionar"),
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {

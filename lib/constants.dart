@@ -57,6 +57,20 @@ class AppTextStyles {
       fontWeight: FontWeight.w600,
       height: 3);
 
+  static final TextStyle contatosalert = TextStyle(
+      fontFamily: "Inter",
+      color: AppColors.verdementa,
+      fontSize: 10,
+      fontWeight: FontWeight.w600,
+      height: 3);
+
+  static final TextStyle contatosbottom = TextStyle(
+    fontFamily: "Inter",
+    color: AppColors.white,
+    fontSize: 15,
+    fontWeight: FontWeight.w600,
+  );
+
   static final TextStyle tituloatividades = TextStyle(
       fontFamily: "Inter",
       color: AppColors.black,
