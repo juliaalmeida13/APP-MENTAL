@@ -54,6 +54,18 @@ class DatabaseMethods {
     });
   }
 
+  rateReading(String readingsId, readingsMap, userEmail) {
+    FirebaseFirestore.instance
+        .collection("Readings")
+        .doc(userEmail)
+        .collection("userRatings")
+        .doc(readingsId)
+        .set(readingsMap)
+        .catchError((e) {
+      print(e.toString());
+    });
+  }
+
   createContactList(contactMap, userEmail) {
     FirebaseFirestore.instance
         .collection("Contacts")
@@ -103,6 +115,21 @@ class DatabaseMethods {
         .collection('Readings')
         .doc(FirebaseAuth.instance.currentUser!.email)
         .collection("userReadings")
+        .limit(1)
+        .get();
+  }
+
+  Future<QuerySnapshot> ratingsAreEmpty(String readingId) async {
+    print("check");
+    print(FirebaseAuth.instance.currentUser!.email);
+    return FirebaseFirestore.instance
+        .collection('Readings')
+        .doc(FirebaseAuth.instance.currentUser!.email)
+        .collection("userRatings")
+        .where(
+          "readingsId",
+          isEqualTo: readingId,
+        )
         .limit(1)
         .get();
   }

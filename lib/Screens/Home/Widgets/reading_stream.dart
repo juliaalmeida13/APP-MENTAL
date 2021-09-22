@@ -116,8 +116,8 @@ class RecomendedReadingCard extends StatelessWidget {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) =>
-                      ReadingScreen(title, routes[readingsId], imagePath)));
+                  builder: (context) => ReadingScreen(
+                      title, routes[readingsId], imagePath, readingsId)));
         } else {
           /*Navigator.push(context,
                         MaterialPageRoute(builder: (context) => VideoScreen()));*/
