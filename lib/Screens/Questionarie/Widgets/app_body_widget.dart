@@ -1,4 +1,3 @@
-import 'package:app_mental/Screens/ChatRoom/Widgets/calendar.dart';
 import 'package:app_mental/constants.dart';
 import 'package:flutter/material.dart';
 
@@ -19,15 +18,18 @@ class QuizCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var daysToExpire = now.difference(expirationDate).inDays;
-    var hoursToExpire = now.difference(expirationDate).inHours;
+    var difference = expirationDate.difference(now);
+    var daysToExpire = difference.inDays;
+    var hoursToExpire = difference.inHours;
+    var minutesToExpire = difference.inMinutes;
+
     String expirationText;
     if (daysToExpire > 0) {
       expirationText = 'Expira em $daysToExpire dia(s)';
     } else if (hoursToExpire > 0) {
       expirationText = 'Expira em $hoursToExpire hora(s)';
     } else {
-      expirationText = 'Expira em alguns minutos';
+      expirationText = 'Expira em $minutesToExpire minuto(s)';
     }
 
     return GestureDetector(
@@ -74,6 +76,7 @@ class QuizCard extends StatelessWidget {
                       flex: 1,
                       child: Text(
                         expirationText,
+                        textAlign: TextAlign.right,
                         style: AppTextStyles.body11,
                       )),
                   /*Expanded(
