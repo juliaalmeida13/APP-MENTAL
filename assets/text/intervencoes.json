@@ -1,0 +1,229 @@
+[
+
+  {
+    "nome": "Alimentação",
+    "grupo": "Estilo de Vida",
+    "arquivo": "assets/text/DailyLifeHabits/dailylife01.md",
+    "imagem": "assets/images/bonding01.jpg"
+  },
+  {
+    "nome": "Rotina",
+    "grupo":"Estilo de Vida",
+    "arquivo":"assets/text/DailyLifeHabits/dailylife02.md",
+    "imagem": "assets/images/bonding01.jpg"
+  },
+  {
+    "nome": "Hábitos saudáveis",
+    "grupo": "Estilo de Vida",
+    "arquivo": "assets/text/DailyLifeHabits/dailylife03.md",
+    "imagem": "assets/images/bonding01.jpg"
+  },
+  {
+    "nome": "Autocuidado",
+    "grupo":"Estilo de Vida",
+    "arquivo": "assets/text/DailyLifeHabits/dailylife04.md",
+    "imagem": "assets/images/bonding01.jpg"
+  },
+
+
+
+  {
+    "nome": "Consumo de álcool",
+    "grupo": "Controle e Redução de Danos",
+    "arquivo": "assets/text/DamageControl/damage_control01.md",
+    "imagem": "assets/images/bonding01.jpg"
+  },
+  {
+    "nome": "Redução de danos",
+    "grupo":  "Controle e Redução de Danos",
+    "arquivo": "assets/text/DamageControl/damage_control02.md",
+    "imagem": "assets/images/bonding01.jpg"
+  },
+  {
+    "nome": "Fumantes e COVID-19",
+    "grupo":  "Controle e Redução de Danos",
+    "arquivo": "assets/text/DamageControl/damage_control03.md",
+    "imagem": "assets/images/bonding01.jpg"
+  },
+  {
+    "nome": "Calmantes",
+    "grupo":  "Controle e Redução de Danos",
+    "arquivo": "assets/text/DamageControl/damage_control04.md",
+    "imagem": "assets/images/bonding01.jpg"
+  },
+
+
+
+  {
+    "nome": "Atividade física",
+    "grupo": "Atividade Física",
+    "arquivo": "assets/text/Exercise/exercise01.md",
+    "imagem": "assets/images/bonding01.jpg"
+  },
+  {
+    "nome": "Exercícios e demência",
+    "grupo": "Atividade Física",
+    "arquivo": "assets/text/Exercise/exercise02.md",
+    "imagem": "assets/images/bonding01.jpg"
+  },
+  {
+    "nome": "Exercícios e sintomas depresssivos",
+    "grupo": "Atividade Física",
+    "arquivo": "assets/text/Exercise/exercise03.md",
+    "imagem": "assets/images/bonding01.jpg"
+  },
+  {
+    "nome": "Exercícios e saúde mental",
+    "grupo": "Atividade Física",
+    "arquivo": "assets/text/Exercise/exercise04.md",
+    "imagem": "assets/images/bonding01.jpg"
+  },
+
+
+
+  {
+    "nome": "O que é felicidade?",
+    "grupo": "Felicidade",
+    "arquivo": "assets/text/Happiness/happiness01.md",
+    "imagem": "assets/images/bonding01.jpg"
+  },
+  {
+    "nome": "Psicologia positiva",
+    "grupo": "Felicidade",
+    "arquivo": "assets/text/Happiness/happiness02.md",
+    "imagem": "assets/images/bonding01.jpg"
+  },
+  {
+    "nome": "Gratidão",
+    "grupo": "Felicidade",
+    "arquivo": "assets/text/Happiness/happiness03.md",
+    "imagem": "assets/images/bonding01.jpg"
+  },
+  {
+    "nome": "Resilência",
+    "grupo": "Felicidade",
+    "arquivo": "assets/text/Happiness/happiness04.md",
+    "imagem": "assets/images/bonding01.jpg"
+  },
+
+
+
+
+  {
+    "nome": "Lazer no dia-a-dia",
+    "grupo": "Lazer",
+    "arquivo": "assets/text/Leisure/leisure01.md",
+    "imagem": "assets/images/bonding01.jpg"
+  },
+  {
+    "nome": "Horta caseira",
+    "grupo": "Lazer",
+    "arquivo": "assets/text/Leisure/leisure02.md",
+    "imagem": "assets/images/bonding01.jpg"
+  },
+  {
+    "nome": "Jogo da memória",
+    "grupo": "Lazer",
+    "arquivo": "assets/text/Leisure/leisure02.md",
+    "imagem": "assets/images/bonding01.jpg"
+  },
+  {
+    "nome": "Receita de Pão de Queijo",
+    "grupo": "Lazer",
+    "arquivo": "assets/text/Leisure/leisure03.md",
+    "imagem": "assets/images/bonding01.jpg"
+  },
+
+
+
+
+  {
+    "nome": "Yoga",
+    "grupo": "PICS",
+    "arquivo": "assets/text/PICS/pics01.md",
+    "imagem": "assets/images/bonding01.jpg"
+  },
+  {
+    "nome": "Aromaterapia",
+    "grupo": "PICS",
+    "arquivo": "assets/text/PICS/pics02.md",
+    "imagem": "assets/images/bonding01.jpg"
+  },
+  {
+    "nome": "Espiratualidade",
+    "grupo": "PICS",
+    "arquivo": "assets/text/PICS/pics03.md",
+    "imagem": "assets/images/bonding01.jpg"
+  },
+  {
+    "nome": "Autoconhecimento",
+    "grupo": "PICS",
+    "arquivo": "assets/text/PICS/pics04.md",
+    "imagem": "assets/images/bonding01.jpg"
+  },
+
+
+
+  {
+    "nome": "Qualidade do sono",
+    "grupo": "Higiene do Sono",
+    "arquivo": "assets/text/Sleep/sleep01.md",
+    "imagem": "assets/images/bonding01.jpg"
+  },
+  {
+    "nome": "Diario do sono",
+    "grupo": "Higiene do Sono",
+    "arquivo": "assets/text/Sleep/sleep02.md",
+    "imagem": "assets/images/bonding01.jpg"
+  },
+  {
+    "nome": "Óleo essencial",
+    "grupo": "Higiene do Sono",
+    "arquivo": "assets/text/Sleep/sleep03.md",
+    "imagem": "assets/images/bonding01.jpg"
+  },
+  {
+    "nome": "Hábitos antes de dormir",
+    "grupo": "Higiene do Sono",
+    "arquivo": "assets/text/Sleep/sleep04.md",
+    "imagem": "assets/images/bonding01.jpg"
+  },
+
+
+
+
+  {
+    "nome": "Estresse no cotidiano",
+    "grupo": "Manejo de Estresse",
+    "arquivo": "assets/text/StressMgt/stress01.md",
+    "imagem": "assets/images/bonding01.jpg"
+  },
+  {
+    "nome": "Meditação",
+    "grupo": "Manejo de Estresse",
+    "arquivo": "assets/text/StressMgt/stress02.md",
+    "imagem": "assets/images/bonding01.jpg"
+  },
+  {
+    "nome": "Autocompaixão",
+    "grupo": "Manejo de Estresse",
+    "arquivo": "assets/text/StressMgt/stress03.md",
+    "imagem": "assets/images/bonding01.jpg"
+  },
+  {
+    "nome": "Comunicação e estresse",
+    "grupo": "Manejo de Estresse",
+    "arquivo": "assets/text/StressMgt/stress04.md",
+    "imagem": "assets/images/bonding01.jpg"
+  },
+  {
+    "nome": "Autorregulação",
+    "grupo": "Manejo de Estresse",
+    "arquivo": "assets/text/StressMgt/stress05.md",
+    "imagem": "assets/images/bonding01.jpg"
+
+  }
+
+
+
+]
