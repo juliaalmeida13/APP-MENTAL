@@ -1,5 +1,5 @@
-import 'package:app_mental/Screens/Reading/reading_screen.dart';
-import 'package:app_mental/Screens/Video/video_interv_screen.dart';
+import 'package:app_mental/Screens/InterventionListing/intervention_list.dart';
+import 'package:app_mental/Services/interventions.dart';
 import 'package:app_mental/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -9,8 +9,9 @@ class RecomendsReadings extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(Interventions().getInterventions());
     return Expanded(
-      child: GridView(
+      child: GridView.builder(
         padding: EdgeInsets.zero,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 3,
@@ -19,110 +20,25 @@ class RecomendsReadings extends StatelessWidget {
           childAspectRatio: 0.95,
         ),
         scrollDirection: Axis.vertical,
-        children: <Widget>[
-          ReadingRecomendCard(
+        itemCount: Interventions().getCategories().length,
+        itemBuilder: (BuildContext context, int index) {
+          final item = Interventions().getCategories()[index];
+
+          return ReadingRecomendCard(
             image: "assets/images/reading01.jpg",
-            title: "Lazer",
+            title: item.nome,
             press: () {
               Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => ReadingScreen(
-                          "Lazer",
-                          "assets/text/Leisure/leisure01.md",
-                          "assets/images/reading01.jpg")));
+                context,
+                MaterialPageRoute(
+                  builder: (context) {
+                    return GroupListScreen(item.nome);
+                  },
+                ),
+              );
             },
-          ),
-          ReadingRecomendCard(
-            image: "assets/images/sleep01.jpg",
-            title: "Sono",
-            press: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => ReadingScreen(
-                          "Sono",
-                          "assets/text/Sleep/sleep03.md",
-                          "assets/images/sleep01.jpg")));
-            },
-          ),
-          ReadingRecomendCard(
-            image: "assets/images/stress01.jpg",
-            title: "Estresse",
-            press: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => ReadingScreen(
-                          "Manejo Estresse",
-                          "assets/text/StressMgt/stress01.md",
-                          "assets/images/stress01.jpg")));
-            },
-          ),
-          ReadingRecomendCard(
-            image: "assets/images/jogging01.jpg",
-            title: "Exercícios",
-            press: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => ReadingScreen(
-                          "Atividade Física",
-                          "assets/text/Exercise/exercise01.md",
-                          "assets/images/jogging01.jpg")));
-            },
-          ),
-          ReadingRecomendCard(
-            image: "assets/images/happy02.jpg",
-            title: "Felicidade",
-            press: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => ReadingScreen(
-                          "Felicidade",
-                          "assets/text/Happiness/hapiness01.md",
-                          "assets/images/happy02.jpg")));
-            },
-          ),
-          ReadingRecomendCard(
-            image: "assets/images/habits.jpg",
-            title: "Rotina",
-            press: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => ReadingScreen(
-                          "Rotina",
-                          "assets/text/DailyLifeHabits/dailylife01.md",
-                          "assets/images/cooking01.jpg")));
-            },
-          ),
-          ReadingRecomendCard(
-            image: "assets/images/mentalhealth01.jpg",
-            title: "PICS",
-            press: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => VideoScreen("Yoga",
-                          "assets/text/PICS/pics01.md", "mnfZ3UmaydM")));
-            },
-          ),
-          ReadingRecomendCard(
-            image: "assets/images/care01.jpg",
-            title: "Redução Danos",
-            press: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => ReadingScreen(
-                          "Alcóol",
-                          "assets/text/DamageControl/damage_control02.md",
-                          "assets/images/touch01.jpg")));
-            },
-          ),
-        ],
+          );
+        },
       ),
     );
   }

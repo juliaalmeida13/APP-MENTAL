@@ -230,12 +230,12 @@ class _DiarioSonoState extends State<DiarioSono> {
           ),
         ),
         CompletionStep(
-          //id: StepIdentifier(id: '321'),
-          text:
-          'Obrigado por responder o questionário!\n Por favor, volte amanha!',
-          title: 'Pronto!',
-          buttonText: 'Enviar respostas', id: StepIdentifier(),
-        ),
+            //id: StepIdentifier(id: '321'),
+            text:
+                'Obrigado por responder o questionário!\n Por favor, volte amanha!',
+            title: 'Pronto!',
+            buttonText: 'Enviar respostas',
+            stepIdentifier: StepIdentifier()),
       ],
     );
     return task;
