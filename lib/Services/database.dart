@@ -248,4 +248,38 @@ class DatabaseMethods {
         .limit(1)
         .get();
   }
+
+  getDomTotal(
+    String userEmail,
+    String userEscala,
+    String dom,
+  ) async {
+    var doms = List<double>.filled(14, 0);
+    await FirebaseFirestore.instance
+        .collection("Escala")
+        .doc(userEmail)
+        .collection("userEscalas")
+        .doc(userEscala)
+        .collection("answers")
+        .orderBy(dom, descending: true)
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      querySnapshot.docs.forEach((doc) {
+        doms[1] += doc['dom1'].toDouble();
+        doms[2] += doc['dom2'].toDouble();
+        doms[3] += doc['dom3'].toDouble();
+        doms[4] += doc['dom4'].toDouble();
+        doms[5] += doc['dom5'].toDouble();
+        doms[6] += doc['dom6'].toDouble();
+        doms[7] += doc['dom7'].toDouble();
+        doms[8] += doc['dom8'].toDouble();
+        doms[9] += doc['dom9'].toDouble();
+        doms[10] += doc['dom10'].toDouble();
+        doms[11] += doc['dom11'].toDouble();
+        doms[12] += doc['dom12'].toDouble();
+        doms[13] += doc['dom13'].toDouble();
+      });
+    });
+    return doms;
+  }
 }
