@@ -11,8 +11,8 @@ class AppDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final name = FirebaseAuth.instance.currentUser!.displayName ?? "Sem Email";
-    final email = FirebaseAuth.instance.currentUser!.email ?? "Sem Nome";
+    final name = FirebaseAuth.instance.currentUser!.displayName ?? "Sem Nome";
+    final email = FirebaseAuth.instance.currentUser!.email ?? "Sem Email";
     final image = 'assets/images/woman.png';
     return Drawer(
         child: Container(

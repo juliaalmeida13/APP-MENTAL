@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:app_mental/Screens/ChatRoom/Widgets/conversation_screen.dart';
 import 'package:app_mental/Screens/ChatRoom/Widgets/search.dart';
 import 'package:app_mental/Services/auth.dart';
@@ -8,7 +10,9 @@ import 'package:app_mental/constants.dart';
 import 'package:app_mental/helper/constants.dart';
 import 'package:app_mental/helper/helperfuncions.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 class ChatRoom extends StatefulWidget {
@@ -52,10 +56,13 @@ class _ChatRoomState extends State<ChatRoom> {
   }
 
   getUserInfo() async {
-    Constants.myName = await HelperFunctions.getUserNameInSharedPreference();
+    Constants.myName =
+        FirebaseAuth.instance.currentUser!.displayName ?? "Sem Nome";
+    Constants.myEmail = FirebaseAuth.instance.currentUser!.email ?? "Sem Email";
     databaseMethods.getChatRooms(Constants.myName).then((val) {
       setState(() {
         chatRoomsStream = val;
+        print(Constants.myName);
       });
     });
   }
@@ -69,13 +76,14 @@ class _ChatRoomState extends State<ChatRoom> {
         title: Text("Chat"),
       ),
       body: chatRoomList(),
-      floatingActionButton: FloatingActionButton(
+      //botão para ir para pesquisa de usuario para abrir uma nova conversa
+      /*floatingActionButton: FloatingActionButton(
         child: Icon(Icons.search),
         onPressed: () {
           Navigator.push(
               context, MaterialPageRoute(builder: (context) => SearchScreen()));
         },
-      ),
+      )*/
     );
   }
 }
