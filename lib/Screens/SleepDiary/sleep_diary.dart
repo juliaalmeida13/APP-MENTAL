@@ -1,7 +1,7 @@
 import 'package:app_mental/Services/database.dart';
 import 'package:app_mental/Shared/Widgets/AppDrawer.dart';
 import 'package:app_mental/constants.dart';
-import 'package:app_mental/helper/helperfuncions.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -52,7 +52,8 @@ class _SleepPageState extends State<SleepPage> {
       print("Descupe, vc já respondeu hoje");
     } else {
       print("vc n respondeu hoje");
-      databaseMethods.addRespostaQuestionarioSono(userEmail, messageMap, data);
+      databaseMethods.addRespostaQuestionarioSono(
+          FirebaseAuth.instance.currentUser!.uid, messageMap, data);
       setState(() {
         dataIgual = true;
       });
@@ -68,8 +69,9 @@ class _SleepPageState extends State<SleepPage> {
   }
 
   getUserInfo() async {
-    userEmail = await HelperFunctions.getUserEmailInSharedPreference();
-    databaseMethods.getDataQuestSono(userEmail).then((value) {
+    databaseMethods
+        .getDataQuestSono(FirebaseAuth.instance.currentUser!.uid)
+        .then((value) {
       value.docs.forEach((element) {
         if (element.id == data) {
           print("${element.id} é = a ${data}");
@@ -575,7 +577,7 @@ class _SleepPageState extends State<SleepPage> {
         shadowColor: Color.fromRGBO(1, 1, 1, 0),
         actions: [],
       ),
-      drawer: AppDrawer(),
+      drawer: AppDrawer(key: Key("drawer")),
       body: Center(
         child: SingleChildScrollView(
           child: _loading

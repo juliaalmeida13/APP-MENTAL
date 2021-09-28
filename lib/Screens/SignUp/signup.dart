@@ -57,8 +57,10 @@ class _SignUpState extends State<SignUp> {
         User? user = result.user;
         HelperFunctions.saveUserInfoToSharedPrefs(user);
         CreateQuests();
-        Navigator.pushNamedAndRemoveUntil(
-            context, "/logged-home", (Route<dynamic> route) => false);
+        DatabaseMethods().fetchUser().whenComplete(() => {
+              Navigator.pushNamedAndRemoveUntil(
+                  context, "/logged-home", (Route<dynamic> route) => false)
+            });
       } else {
         final snackBar = SnackBar(
             content:
@@ -85,8 +87,8 @@ class _SignUpState extends State<SignUp> {
         "availableAt": addHours(day: firstDay, n: i - 1),
         "answeredUntil": 0,
       };
-      DatabaseMethods()
-          .createQuest(userEscala, questMap, emailTextEdittingController.text);
+      DatabaseMethods().createQuest(
+          userEscala, questMap, FirebaseAuth.instance.currentUser!.uid);
     }
 
     //add pset every other week, even numbers (except 6 and 10)
@@ -102,7 +104,7 @@ class _SignUpState extends State<SignUp> {
           "answeredUntil": 0,
         };
         DatabaseMethods().createQuest(
-            userEscala, questMap, emailTextEdittingController.text);
+            userEscala, questMap, FirebaseAuth.instance.currentUser!.uid);
       }
     }
     //add quesi 6th week
@@ -115,8 +117,8 @@ class _SignUpState extends State<SignUp> {
       "availableAt": addHours(day: firstDay, n: 5),
       "answeredUntil": 0,
     };
-    DatabaseMethods()
-        .createQuest(userEscala, questMap, emailTextEdittingController.text);
+    DatabaseMethods().createQuest(
+        userEscala, questMap, FirebaseAuth.instance.currentUser!.uid);
 
     //add questSD1 1st week
     String userEscala1 = 'questSD1_week1';
@@ -128,8 +130,8 @@ class _SignUpState extends State<SignUp> {
       "availableAt": addHours(day: firstDay, n: 0),
       "answeredUntil": 0,
     };
-    DatabaseMethods()
-        .createQuest(userEscala1, questMap1, emailTextEdittingController.text);
+    DatabaseMethods().createQuest(
+        userEscala1, questMap1, FirebaseAuth.instance.currentUser!.uid);
 
     //add questSD2 2nd week
     String userEscala2 = 'questSD2_week2';
@@ -141,8 +143,8 @@ class _SignUpState extends State<SignUp> {
       "availableAt": addHours(day: firstDay, n: 1),
       "answeredUntil": 0,
     };
-    DatabaseMethods()
-        .createQuest(userEscala2, questMap2, emailTextEdittingController.text);
+    DatabaseMethods().createQuest(
+        userEscala2, questMap2, FirebaseAuth.instance.currentUser!.uid);
 
     //add contact
     Map<String, dynamic> contactMap = {
@@ -150,7 +152,7 @@ class _SignUpState extends State<SignUp> {
       "number": 188,
     };
     DatabaseMethods()
-        .createContactList(contactMap, emailTextEdittingController.text);
+        .createContactList(contactMap, FirebaseAuth.instance.currentUser!.uid);
   }
 
   /*

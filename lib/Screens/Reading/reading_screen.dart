@@ -1,9 +1,9 @@
 import 'package:app_mental/Screens/Reading/Widgets/body.dart';
-import 'package:flutter/material.dart';
-import 'package:app_mental/constants.dart';
-import 'package:rating_dialog/rating_dialog.dart';
 import 'package:app_mental/Services/database.dart';
+import 'package:app_mental/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:rating_dialog/rating_dialog.dart';
 
 class ReadingScreen extends StatelessWidget {
   ReadingScreen(this.title, this.file, this.image, this.id);
@@ -45,7 +45,7 @@ class ReadingScreen extends StatelessWidget {
           "comment": response.comment,
         };
         databaseMethods.rateReading(
-            id, ratingMap, FirebaseAuth.instance.currentUser!.email);
+            id, ratingMap, FirebaseAuth.instance.currentUser!.uid);
       },
       commentHint: 'Nos conte o que achou!',
     );

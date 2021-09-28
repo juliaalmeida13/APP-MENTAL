@@ -5,6 +5,7 @@ import 'package:app_mental/constants.dart';
 import 'package:app_mental/helper/constants.dart';
 import 'package:app_mental/helper/helperfuncions.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 
@@ -40,20 +41,21 @@ class _ContactsScreenState extends State<ContactsScreen> {
     Constants.myEmail = await HelperFunctions.getUserEmailInSharedPreference();
     Constants.myEmail = Constants.myEmail.trim();
     print(Constants.myEmail);
-    databaseMethods.getCreatedContacts(Constants.myEmail).then((val) {
+    databaseMethods
+        .getCreatedContacts(FirebaseAuth.instance.currentUser!.uid)
+        .then((val) {
       setState(() {
         contactsRoomsStream = val;
       });
     });
   }
 
-
   Widget _buildContactItem(BuildContext context, String name, int number, id,
       _formKey, nameContact, numberContact) {
     return Padding(
       padding: const EdgeInsets.only(top: 20),
       child: GestureDetector(
-      onTapDown: getPosition,
+        onTapDown: getPosition,
         onLongPress: () {
           showMenu(
             context: context,
@@ -81,8 +83,8 @@ class _ContactsScreenState extends State<ContactsScreen> {
           ).then<void>((value) {
             if (value == 1) {
               print('Editando ${name}');
-              editContactDialog(context, _formKey, name, number, id, nameContact,
-                  numberContact);
+              editContactDialog(context, _formKey, name, number, id,
+                  nameContact, numberContact);
             } else if (value == 2) {
               print('Deletando ${name}');
               _confirmDelDialog(context, id);
@@ -162,17 +164,19 @@ class _ContactsScreenState extends State<ContactsScreen> {
   }
 
   // ↓ create the RelativeRect from size of screen and where you tapped
-  RelativeRect get relRectSize => RelativeRect.fromSize(tapXY & const Size(40,40), overlay.size);
+  RelativeRect get relRectSize =>
+      RelativeRect.fromSize(tapXY & const Size(40, 40), overlay.size);
 
   // ↓ get the tap position Offset
   void getPosition(TapDownDetails detail) {
     tapXY = detail.globalPosition;
   }
+
   @override
   Widget build(BuildContext context) {
     overlay = Overlay.of(context)!.context.findRenderObject() as RenderBox;
     return Scaffold(
-      drawer: AppDrawer(),
+      drawer: AppDrawer(key: Key("drawer")),
       appBar: AppBar(
         backgroundColor: AppColors.green,
         shadowColor: Colors.transparent,
@@ -269,7 +273,8 @@ _confirmDelDialog(BuildContext context, id) async {
   Widget continuaButton = TextButton(
     child: Text("Excluir"),
     onPressed: () {
-      DatabaseMethods().deleteContact(Constants.myEmail, id);
+      DatabaseMethods()
+          .deleteContact(FirebaseAuth.instance.currentUser!.uid, id);
       Navigator.of(context).pop();
     },
   );
@@ -301,7 +306,8 @@ _addContact(nameContact, numberContact) async {
     "name": nameContact.text,
     "number": int.parse(numberContact.text),
   };
-  DatabaseMethods().createContactList(contactMap, Constants.myEmail);
+  DatabaseMethods()
+      .createContactList(contactMap, FirebaseAuth.instance.currentUser!.uid);
 }
 
 _updateContact(nameContact, numberContact, id) async {
@@ -309,7 +315,8 @@ _updateContact(nameContact, numberContact, id) async {
     "name": nameContact.text,
     "number": int.parse(numberContact.text),
   };
-  DatabaseMethods().updateContact(Constants.myEmail, id, contactMap);
+  DatabaseMethods()
+      .updateContact(FirebaseAuth.instance.currentUser!.uid, id, contactMap);
 }
 
 editContactDialog(BuildContext context, _formKey, name, number, id, nameContact,

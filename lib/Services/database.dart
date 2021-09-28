@@ -1,7 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 
 class DatabaseMethods {
+  static types.User? chatUser;
+
   getUserByUsername(String username) async {
     return await FirebaseFirestore.instance
         .collection("users")
@@ -9,10 +12,10 @@ class DatabaseMethods {
         .get();
   }
 
-  getUserByEmail(String userEmail) async {
+  getUserByEmail(String uid) async {
     return await FirebaseFirestore.instance
         .collection("users")
-        .where("email", isEqualTo: userEmail)
+        .where("email", isEqualTo: uid)
         .get();
   }
 
@@ -30,10 +33,10 @@ class DatabaseMethods {
     });
   }
 
-  createQuest(String questId, questMap, userEmail) {
+  createQuest(String questId, questMap, uid) {
     FirebaseFirestore.instance
         .collection("Escala")
-        .doc(userEmail)
+        .doc(uid)
         .collection("userEscalas")
         .doc(questId)
         .set(questMap)
@@ -42,10 +45,10 @@ class DatabaseMethods {
     });
   }
 
-  recomendReading(String readingsId, readingsMap, userEmail) {
+  recomendReading(String readingsId, readingsMap, uid) {
     FirebaseFirestore.instance
         .collection("Readings")
-        .doc(userEmail)
+        .doc(uid)
         .collection("userReadings")
         .doc(readingsId)
         .set(readingsMap)
@@ -54,10 +57,10 @@ class DatabaseMethods {
     });
   }
 
-  rateReading(String readingsId, readingsMap, userEmail) {
+  rateReading(String readingsId, readingsMap, uid) {
     FirebaseFirestore.instance
         .collection("Readings")
-        .doc(userEmail)
+        .doc(uid)
         .collection("userRatings")
         .doc(readingsId)
         .set(readingsMap)
@@ -66,10 +69,59 @@ class DatabaseMethods {
     });
   }
 
-  createContactList(contactMap, userEmail) {
+  Future<types.User> getFirstContact() async {
+    print(FirebaseAuth.instance.currentUser!.uid);
+    var value = await FirebaseFirestore.instance
+        .collection("users")
+        .where("role", isEqualTo: "agent")
+        .get();
+    final data = value.docs[0].data();
+    data['id'] = value.docs[0].id;
+    data['createdAt'] = data['createdAt']?.millisecondsSinceEpoch;
+    data['lastSeen'] = data['lastSeen']?.millisecondsSinceEpoch;
+    data['updatedAt'] = data['updatedAt']?.millisecondsSinceEpoch;
+    final user = types.User.fromJson(data);
+    return user;
+  }
+
+  /// Fetches user from Firebase and returns a promise
+  Future<types.User?> fetchUser() async {
+    final doc = await FirebaseFirestore.instance
+        .collection("users")
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .get();
+
+    final data = doc.data()!;
+
+    data['createdAt'] = data['createdAt']?.millisecondsSinceEpoch;
+    data['id'] = doc.id;
+    data['lastSeen'] = data['lastSeen']?.millisecondsSinceEpoch;
+    data['updatedAt'] = data['updatedAt']?.millisecondsSinceEpoch;
+    chatUser = types.User.fromJson(data);
+    return chatUser;
+  }
+
+  /// Fetches user from Firebase and returns a promise
+  Future<types.User?> fetchUserByFirebaseUser(User user) async {
+    final doc = await FirebaseFirestore.instance
+        .collection("users")
+        .doc(user.uid)
+        .get();
+
+    final data = doc.data()!;
+
+    data['createdAt'] = data['createdAt']?.millisecondsSinceEpoch;
+    data['id'] = doc.id;
+    data['lastSeen'] = data['lastSeen']?.millisecondsSinceEpoch;
+    data['updatedAt'] = data['updatedAt']?.millisecondsSinceEpoch;
+    chatUser = types.User.fromJson(data);
+    return chatUser;
+  }
+
+  createContactList(contactMap, uid) {
     FirebaseFirestore.instance
         .collection("Contacts")
-        .doc(userEmail)
+        .doc(uid)
         .collection("list")
         .add(contactMap)
         .catchError((e) {
@@ -77,33 +129,33 @@ class DatabaseMethods {
     });
   }
 
-  deleteContact(userEmail, docId) {
+  deleteContact(uid, docId) {
     CollectionReference _mainCollection =
         FirebaseFirestore.instance.collection('Contacts');
 
     DocumentReference documentReference =
-        _mainCollection.doc(userEmail).collection('list').doc(docId);
+        _mainCollection.doc(uid).collection('list').doc(docId);
 
     documentReference.delete();
   }
 
-  updateContact(userEmail, docId, contactMap) {
+  updateContact(uid, docId, contactMap) {
     CollectionReference _mainCollection =
         FirebaseFirestore.instance.collection('Contacts');
 
     DocumentReference documentReference =
-        _mainCollection.doc(userEmail).collection('list').doc(docId);
+        _mainCollection.doc(uid).collection('list').doc(docId);
 
     documentReference.update(contactMap);
   }
 
   Future<Stream<QuerySnapshot<Map<String, dynamic>>>> getRecomendedReadings(
-      String userEmail) async {
+      String uid) async {
     print("aa");
-    print(userEmail);
+    print(uid);
     return FirebaseFirestore.instance
         .collection("Readings")
-        .doc(userEmail)
+        .doc(uid)
         .collection("userReadings")
         .snapshots();
   }
@@ -113,7 +165,7 @@ class DatabaseMethods {
     print(FirebaseAuth.instance.currentUser!.email);
     return FirebaseFirestore.instance
         .collection('Readings')
-        .doc(FirebaseAuth.instance.currentUser!.email)
+        .doc(FirebaseAuth.instance.currentUser!.uid)
         .collection("userReadings")
         .limit(1)
         .get();
@@ -121,10 +173,10 @@ class DatabaseMethods {
 
   Future<QuerySnapshot> ratingsAreEmpty(String readingId) async {
     print("check");
-    print(FirebaseAuth.instance.currentUser!.email);
+    print(FirebaseAuth.instance.currentUser!.uid);
     return FirebaseFirestore.instance
         .collection('Readings')
-        .doc(FirebaseAuth.instance.currentUser!.email)
+        .doc(FirebaseAuth.instance.currentUser!.uid)
         .collection("userRatings")
         .where(
           "readingsId",
@@ -134,14 +186,14 @@ class DatabaseMethods {
         .get();
   }
 
-  disableQuest(String questId, userEmail) {
+  disableQuest(String questId, uid) {
     Map<String, dynamic> disableMap = {
       "unanswered?": false,
     };
 
     FirebaseFirestore.instance
         .collection("Escala")
-        .doc(userEmail)
+        .doc(uid)
         .collection("userEscalas")
         .doc(questId)
         .update(disableMap)
@@ -150,14 +202,14 @@ class DatabaseMethods {
     });
   }
 
-  updateQuestIndex(String questId, String userEmail, index) {
+  updateQuestIndex(String questId, String uid, index) {
     Map<String, dynamic> disableMap = {
       "answeredUntil": index,
     };
 
     FirebaseFirestore.instance
         .collection("Escala")
-        .doc(userEmail)
+        .doc(uid)
         .collection("userEscalas")
         .doc(questId)
         .update(disableMap)
@@ -177,10 +229,10 @@ class DatabaseMethods {
     });
   }
 
-  addRespostaQuestionarioSono(String emailId, respostasMap, String data) {
+  addRespostaQuestionarioSono(String uid, respostasMap, String data) {
     FirebaseFirestore.instance
         .collection("questionarioSono")
-        .doc(emailId)
+        .doc(uid)
         .collection("respostas")
         .doc("${data}")
         .set(respostasMap)
@@ -189,10 +241,10 @@ class DatabaseMethods {
     });
   }
 
-  addQuestAnswer(answerMap, userEmail, questName) {
+  addQuestAnswer(answerMap, uid, questName) {
     FirebaseFirestore.instance
         .collection("Escala")
-        .doc(userEmail)
+        .doc(uid)
         .collection("userEscalas")
         .doc(questName)
         .collection("answers")
@@ -202,10 +254,10 @@ class DatabaseMethods {
     });
   }
 
-  getDataQuestSono(String email) async {
+  getDataQuestSono(String uid) async {
     return FirebaseFirestore.instance
         .collection("questionarioSono")
-        .doc(email)
+        .doc(uid)
         .collection("respostas")
         .get();
   }
@@ -219,10 +271,10 @@ class DatabaseMethods {
         .snapshots();
   }
 
-  getCreatedContacts(String email) async {
+  getCreatedContacts(String uid) async {
     return FirebaseFirestore.instance
         .collection("Contacts")
-        .doc(email)
+        .doc(uid)
         .collection("list")
         .orderBy('name')
         .snapshots();
@@ -236,38 +288,38 @@ class DatabaseMethods {
   }
 
   Future<Stream<QuerySnapshot<Map<String, dynamic>>>> getCreatedQuests(
-      String userEmail) async {
+      String uid) async {
     return FirebaseFirestore.instance
         .collection("Escala")
-        .doc(userEmail)
+        .doc(uid)
         .collection("userEscalas")
         .snapshots();
   }
 
   Future<Stream<QuerySnapshot<Map<String, dynamic>>>> getUnansweredQuests(
-      String userEmail) async {
+      String uid) async {
     return FirebaseFirestore.instance
         .collection("Escala")
-        .doc(userEmail)
+        .doc(uid)
         .collection("userEscalas")
         .where("unanswered?", isEqualTo: true)
         .snapshots();
   }
 
   Future<Stream<QuerySnapshot<Map<String, dynamic>>>> getAnsweredQuests(
-      String userEmail) async {
+      String uid) async {
     return FirebaseFirestore.instance
         .collection("Escala")
-        .doc(userEmail)
+        .doc(uid)
         .collection("userEscalas")
         .where("unanswered?", isEqualTo: false)
         .snapshots();
   }
 
-  getDomFromAnswers(String userEmail, String userEscala, String dom) async {
+  getDomFromAnswers(String uid, String userEscala, String dom) async {
     return FirebaseFirestore.instance
         .collection("Escala")
-        .doc(userEmail)
+        .doc(uid)
         .collection("userEscalas")
         .doc(userEscala)
         .collection("answers")

@@ -63,10 +63,10 @@ class _ChatRoomState extends State<ChatRoom> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: AppDrawer(),
+      drawer: AppDrawer(key: Key("drawer")),
       appBar: AppBar(
         backgroundColor: kTextColorGreen,
-        title: Text("Chat"),
+        title: Text("ChatPage"),
       ),
       body: chatRoomList(),
       floatingActionButton: FloatingActionButton(

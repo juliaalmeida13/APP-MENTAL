@@ -61,8 +61,12 @@ class IntervCard extends StatelessWidget {
             context,
             MaterialPageRoute(
               builder: (context) {
-                return ReadingScreen(intervention.nome, intervention.arquivo,
-                    intervention.imagem);
+                return ReadingScreen(
+                  intervention.nome,
+                  intervention.arquivo,
+                  intervention.imagem,
+                  intervention.nome,
+                );
               },
             ),
           );

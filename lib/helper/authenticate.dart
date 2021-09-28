@@ -1,3 +1,4 @@
+import 'package:app_mental/Services/database.dart';
 import 'package:app_mental/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -32,10 +33,12 @@ class LandingPage extends StatelessWidget {
                         context, "/sign-in", (Route<dynamic> route) => false);
                   });
                 } else {
-                  Future.delayed(const Duration(milliseconds: 500), () {
-                    Navigator.pushNamedAndRemoveUntil(context, "/logged-home",
-                        (Route<dynamic> route) => false);
-                  });
+                  DatabaseMethods()
+                      .fetchUserByFirebaseUser(user)
+                      .whenComplete(() => {
+                            Navigator.pushNamedAndRemoveUntil(context,
+                                "/logged-home", (Route<dynamic> route) => false)
+                          });
                 }
               }
 

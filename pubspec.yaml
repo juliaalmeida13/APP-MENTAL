@@ -42,6 +42,15 @@ dependencies:
   feedback: ^2.0.0
   flutter_launcher_icons: ^0.9.1
   rating_dialog: ^2.0.1
+  flutter_firebase_chat_core: ^1.4.2
+  flutter_chat_ui: ^1.4.3
+  http: ^0.13.3
+  image_picker: ^0.8.4+2
+  mime: ^1.0.0
+  open_file: ^3.2.1
+  firebase_storage: ^10.0.3
+  file_picker: ^4.1.1
+  path_provider: ^2.0.5
 
 dev_dependencies:
   flutter_test:
