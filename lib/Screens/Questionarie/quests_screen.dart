@@ -43,6 +43,7 @@ class _QuestsScreenState extends State<QuestsScreen> {
     return StreamBuilder<QuerySnapshot>(
       stream: stream,
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        print(snapshot.hasData && snapshot.data!.docs.length > 0);
         return snapshot.hasData && snapshot.data!.docs.length > 0
             ? ListView.builder(
                 itemCount: snapshot.data!.docs.length,
@@ -175,8 +176,9 @@ class QuestRoomTile extends StatelessWidget {
     print("aa aa aa $availableAt");
     //var nextSunday = getNextSunday(availableAt);
     var nextSunday = addHours(day: availableAt, n: 1);
+    print(nextSunday);
 
-    print('id: $questId');
+    print('id:');
     if (_now.isAfter(availableAt) && _now.isBefore(nextSunday)) {
       return QuizCard(
           title: questName,

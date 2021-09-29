@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:app_mental/Screens/Contacts/contacts_screen.dart';
 import 'package:app_mental/Services/database.dart';
 import 'package:app_mental/main.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 // import './categories_screen.dart';
 
@@ -10,7 +11,6 @@ class Promisn1Result extends StatelessWidget {
   final List<int> resultScoreList;
   final String questName;
   final String userEscala;
-  final String userEmail;
   final int questionIndex;
   final DateTime now = DateTime.now();
   //final Function resetHandler;
@@ -38,13 +38,15 @@ class Promisn1Result extends StatelessWidget {
       "questName": questName,
       "answeredUntil": questionIndex,
     };
-    print("EnviarDominios userEmail/userEscala PromisResult");
+    print(
+        "EnviarDominios FirebaseAuth.instance.currentUser!.uid/userEscala PromisResult");
     print(email);
     print(userEscala);
-    databaseMethods.addQuestAnswer(promisn1Map, email, userEscala);
+    databaseMethods.addQuestAnswer(
+        promisn1Map, FirebaseAuth.instance.currentUser!.uid, userEscala);
 
-    var answerDom1 =
-        await databaseMethods.getDomFromAnswers(userEmail, userEscala, "dom1");
+    var answerDom1 = await databaseMethods.getDomFromAnswers(
+        FirebaseAuth.instance.currentUser!.uid, userEscala, "dom1");
     if (answerDom1.docs[0].get("dom1") > 2) {
       String promisn2UserEscala = "$userEscala-promisN2";
       List<String> week = questName.split("-");
@@ -57,11 +59,12 @@ class Promisn1Result extends StatelessWidget {
         "userEscala": promisn2UserEscala,
         "answeredUntil": 0,
       };
-      databaseMethods.createQuest(promisn2UserEscala, questMap, email);
+      databaseMethods.createQuest(
+          promisn2UserEscala, questMap, FirebaseAuth.instance.currentUser!.uid);
     }
 
-    var answerDom2 =
-        await databaseMethods.getDomFromAnswers(userEmail, userEscala, "dom2");
+    var answerDom2 = await databaseMethods.getDomFromAnswers(
+        FirebaseAuth.instance.currentUser!.uid, userEscala, "dom2");
     if (answerDom2.docs[0].get("dom3") > 2) {
       String mdqUserEscala = "$userEscala-Mdq";
       List<String> week = questName.split("-");
@@ -78,8 +81,8 @@ class Promisn1Result extends StatelessWidget {
       databaseMethods.createQuest(mdqUserEscala, questMap, email);
     }
 
-    var answerDom4 =
-        await databaseMethods.getDomFromAnswers(userEmail, userEscala, "dom4");
+    var answerDom4 = await databaseMethods.getDomFromAnswers(
+        FirebaseAuth.instance.currentUser!.uid, userEscala, "dom4");
     if (answerDom4.docs[0].get("dom4") > 2) {
       String promisAnsiUserEscala = "$userEscala-PromisAnsi";
       List<String> week = questName.split("-");
@@ -96,8 +99,8 @@ class Promisn1Result extends StatelessWidget {
       databaseMethods.createQuest(promisAnsiUserEscala, questMap, email);
     }
 
-    var answerDom5 =
-        await databaseMethods.getDomFromAnswers(userEmail, userEscala, "dom5");
+    var answerDom5 = await databaseMethods.getDomFromAnswers(
+        FirebaseAuth.instance.currentUser!.uid, userEscala, "dom5");
     if (answerDom5.docs[0].get("dom5") > 2) {
       String phq15UserEscala = "$userEscala-Phq15";
       List<String> week = questName.split("-");
@@ -114,8 +117,8 @@ class Promisn1Result extends StatelessWidget {
       databaseMethods.createQuest(phq15UserEscala, questMap, email);
     }
 
-    var answerDom8 =
-        await databaseMethods.getDomFromAnswers(userEmail, userEscala, "dom8");
+    var answerDom8 = await databaseMethods.getDomFromAnswers(
+        FirebaseAuth.instance.currentUser!.uid, userEscala, "dom8");
     if (answerDom8.docs[0].get("dom8") > 2) {
       String psqiUserEscala = "$userEscala-Psqi";
       List<String> week = questName.split("-");
@@ -132,8 +135,8 @@ class Promisn1Result extends StatelessWidget {
       databaseMethods.createQuest(psqiUserEscala, questMap, email);
     }
 
-    var answerDom13 =
-        await databaseMethods.getDomFromAnswers(userEmail, userEscala, "dom13");
+    var answerDom13 = await databaseMethods.getDomFromAnswers(
+        FirebaseAuth.instance.currentUser!.uid, userEscala, "dom13");
     if (answerDom13.docs[0].get("dom13") > 1) {
       String assistUserEscala = "$userEscala-Assist";
       List<String> week = questName.split("-");
@@ -173,7 +176,6 @@ class Promisn1Result extends StatelessWidget {
     required this.resultScoreList,
     required this.questName,
     required this.userEscala,
-    required this.userEmail,
     required this.questionIndex,
   });
 
@@ -199,7 +201,7 @@ class Promisn1Result extends StatelessWidget {
             child: const Text('Sim, estou de acordo',
                 style: TextStyle(color: Colors.black)),
             onPressed: () {
-              enviarDominios(userEmail);
+              enviarDominios(FirebaseAuth.instance.currentUser!.uid);
               if (isCritical()) {
                 showDialog<String>(
                   context: context,
@@ -234,7 +236,7 @@ class Promisn1Result extends StatelessWidget {
                     actions: <Widget>[
                       TextButton(
                         onPressed: () async {
-                          //enviarDominios(userEmail);
+                          //enviarDominios(FirebaseAuth.instance.currentUser!.uid);
                           Navigator.pop(context);
                           Navigator.pop(context);
                         },
@@ -277,7 +279,7 @@ class Promisn1Result extends StatelessWidget {
         Navigator.popUntil(context, (route) {
           return count++ == 2;
         });*/
-        enviarDominios(userEmail);
+        enviarDominios(FirebaseAuth.instance.currentUser!.uid);
         Navigator.pop(context, 'Voltar');
         await Navigator.of(context)
             .push(new MaterialPageRoute(builder: (context) => MyApp()));

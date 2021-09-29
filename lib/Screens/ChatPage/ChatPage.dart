@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:app_mental/Shared/Widgets/AppDrawer.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -196,9 +195,11 @@ class _ChatPageState extends State<ChatPage> {
         title: Text("Chat"),
         backgroundColor: kTextColorGreen,
         shadowColor: Color.fromRGBO(1, 1, 1, 0),
-        actions: [],
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: Colors.white),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
       ),
-      drawer: AppDrawer(key: Key("drawer")),
       body: StreamBuilder<types.Room>(
         initialData: widget.room,
         stream: FirebaseChatCore.instance.room(widget.room.id),

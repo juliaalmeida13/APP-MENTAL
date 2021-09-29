@@ -1,4 +1,5 @@
 import 'package:app_mental/Screens/ChatPage/ChatPage.dart';
+import 'package:app_mental/Services/auth.dart';
 import 'package:app_mental/Services/database.dart';
 import 'package:app_mental/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -75,7 +76,17 @@ class _AppDrawerState extends State<AppDrawer> {
               icon: Icons.list_alt,
               onClicked: () => selectedItem(context, 4),
             ),
-          ]
+          ],
+          const SizedBox(height: 16),
+          buildMenuItem(
+            text: 'Sair',
+            icon: Icons.exit_to_app,
+            onClicked: () {
+              AuthMethods().signOut();
+              Navigator.pushNamedAndRemoveUntil(
+                  context, "/sign-in", (Route<dynamic> route) => false);
+            },
+          ),
         ])),
         if (user.role == types.Role.user) ...[
           Container(
@@ -85,7 +96,7 @@ class _AppDrawerState extends State<AppDrawer> {
                     children: <Widget>[
                       Divider(),
                       ListTile(
-                          leading: Icon(Icons.settings),
+                          leading: Icon(Icons.chat_rounded),
                           title: Text('Falar com pesquisador'),
                           onTap: () => openChat(context))
                     ],
@@ -109,6 +120,10 @@ class _AppDrawerState extends State<AppDrawer> {
             CircleAvatar(
                 maxRadius: 30,
                 backgroundImage: AssetImage('assets/images/woman.png')),
+            const SizedBox(
+              height: 10,
+              width: 10,
+            ),
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -147,7 +162,11 @@ class _AppDrawerState extends State<AppDrawer> {
   }
 
   void openChat(BuildContext context) async {
-    var user = await DatabaseMethods().getFirstContact();
+    var user = await DatabaseMethods()
+        .getFirstContact()
+        .catchError((error, stackTrace) {
+      print(error);
+    });
     var room = await FirebaseChatCore.instance.createRoom(user);
     Navigator.of(context).pop();
     Navigator.of(context).push(
@@ -162,19 +181,24 @@ class _AppDrawerState extends State<AppDrawer> {
   void selectedItem(BuildContext context, int index) {
     switch (index) {
       case 0:
-        Navigator.pushNamed(context, "/logged-home");
+        Navigator.of(context).popUntil(ModalRoute.withName('/logged-home'));
+        Navigator.of(context).pushNamed("/logged-home");
         break;
       case 1:
-        Navigator.pushNamed(context, "/sleep-diary");
+        Navigator.of(context).popUntil(ModalRoute.withName('/logged-home'));
+        Navigator.of(context).pushNamed("/sleep-diary");
         break;
       case 2:
-        Navigator.pushNamed(context, "/quests-screen");
+        Navigator.of(context).popUntil(ModalRoute.withName('/logged-home'));
+        Navigator.of(context).pushNamed("/quests-screen");
         break;
       case 3:
-        Navigator.pushNamed(context, "/contacts-screen");
+        Navigator.of(context).popUntil(ModalRoute.withName('/logged-home'));
+        Navigator.of(context).pushNamed("/contacts-screen");
         break;
       case 4:
-        Navigator.pushNamed(context, "/users");
+        Navigator.of(context).popUntil(ModalRoute.withName('/logged-home'));
+        Navigator.of(context).pushNamed("/users");
         break;
     }
   }

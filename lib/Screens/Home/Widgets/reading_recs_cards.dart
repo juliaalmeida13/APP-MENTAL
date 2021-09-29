@@ -1,6 +1,5 @@
 import 'package:app_mental/Screens/InterventionListing/intervention_list.dart';
 import 'package:app_mental/Services/interventions.dart';
-import 'package:app_mental/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -11,14 +10,8 @@ class RecomendsReadings extends StatelessWidget {
   Widget build(BuildContext context) {
     print(Interventions().getInterventions());
     return Expanded(
-      child: GridView.builder(
-        padding: EdgeInsets.zero,
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 3,
-          crossAxisSpacing: 10,
-          mainAxisSpacing: 10,
-          childAspectRatio: 0.95,
-        ),
+      child: ListView.builder(
+        padding: EdgeInsets.all(10.0),
         scrollDirection: Axis.vertical,
         itemCount: Interventions().getCategories().length,
         itemBuilder: (BuildContext context, int index) {
@@ -58,49 +51,32 @@ class ReadingRecomendCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: press,
-      child: Row(children: [
-        Expanded(
-          child: Column(
-            children: <Widget>[
-              Container(
-                  width: 100,
-                  height: 100,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      image: DecorationImage(
-                        fit: BoxFit.cover,
-                        image: AssetImage(image),
-                      ))),
-              Container(
-                width: 100,
-                height: 25,
-                //margin: EdgeInsets.all(kDefaultPadding / 4),
-                //padding: EdgeInsets.all(kDefaultPadding / 4),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(10),
-                      bottomRight: Radius.circular(10),
-                    ),
-                    boxShadow: [
-                      BoxShadow(
-                        offset: Offset(0, 10),
-                        blurRadius: 50,
-                        color: kBackgroundGrey.withOpacity(0.23),
-                      ),
-                    ]),
-                child: Text(
-                  "$title\n",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: Colors.black.withOpacity(0.5),
-                  ),
+      child: Card(
+        elevation: 2,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        clipBehavior: Clip.antiAlias,
+        child: Column(
+          children: [
+            ListTile(
+              title: Text(this.title),
+            ),
+            Container(
+              height: 100,
+              // child: SizedBox(child: Text('yashjha'),),
+              // child: Image.asset('lib/images/${images[index]}'),
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage(this.image),
+                  fit: BoxFit.fitWidth,
+                  alignment: Alignment.center,
                 ),
               ),
-            ],
-          ),
-        )
-      ]),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

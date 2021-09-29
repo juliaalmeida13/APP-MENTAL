@@ -57,6 +57,14 @@ class Interventions {
     return interventions;
   }
 
+  Intervention? getInterventionById(String id) {
+    Intervention? intervention;
+    interventions.values.forEach((list) => list.forEach((value) => {
+          if (value.id == id) {intervention = value}
+        }));
+    return intervention;
+  }
+
   List<Intervention>? getInterventionsByCategory(String cat) {
     return interventions[cat];
   }

@@ -36,7 +36,7 @@ class DatabaseMethods {
   createQuest(String questId, questMap, uid) {
     FirebaseFirestore.instance
         .collection("Escala")
-        .doc(uid)
+        .doc(FirebaseAuth.instance.currentUser!.uid)
         .collection("userEscalas")
         .doc(questId)
         .set(questMap)
@@ -48,7 +48,7 @@ class DatabaseMethods {
   recomendReading(String readingsId, readingsMap, uid) {
     FirebaseFirestore.instance
         .collection("Readings")
-        .doc(uid)
+        .doc(FirebaseAuth.instance.currentUser!.uid)
         .collection("userReadings")
         .doc(readingsId)
         .set(readingsMap)
@@ -60,7 +60,7 @@ class DatabaseMethods {
   rateReading(String readingsId, readingsMap, uid) {
     FirebaseFirestore.instance
         .collection("Readings")
-        .doc(uid)
+        .doc(FirebaseAuth.instance.currentUser!.uid)
         .collection("userRatings")
         .doc(readingsId)
         .set(readingsMap)
@@ -75,6 +75,10 @@ class DatabaseMethods {
         .collection("users")
         .where("role", isEqualTo: "agent")
         .get();
+    if (value.docs.length == 0 || value.docs[0].data() == null) {
+      return Future.error(
+          "Falha ao pegar dados relacionados ao chat do usuário");
+    }
     final data = value.docs[0].data();
     data['id'] = value.docs[0].id;
     data['createdAt'] = data['createdAt']?.millisecondsSinceEpoch;
@@ -91,7 +95,11 @@ class DatabaseMethods {
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .get();
 
-    final data = doc.data()!;
+    final data = doc.data();
+    if (data == null) {
+      return Future.error(
+          "Falha ao pegar dados relacionados ao chat do usuário");
+    }
 
     data['createdAt'] = data['createdAt']?.millisecondsSinceEpoch;
     data['id'] = doc.id;
@@ -108,8 +116,11 @@ class DatabaseMethods {
         .doc(user.uid)
         .get();
 
-    final data = doc.data()!;
-
+    final data = doc.data();
+    if (data == null) {
+      return Future.error(
+          "Falha ao pegar dados relacionados ao chat do usuário");
+    }
     data['createdAt'] = data['createdAt']?.millisecondsSinceEpoch;
     data['id'] = doc.id;
     data['lastSeen'] = data['lastSeen']?.millisecondsSinceEpoch;
@@ -121,7 +132,7 @@ class DatabaseMethods {
   createContactList(contactMap, uid) {
     FirebaseFirestore.instance
         .collection("Contacts")
-        .doc(uid)
+        .doc(FirebaseAuth.instance.currentUser!.uid)
         .collection("list")
         .add(contactMap)
         .catchError((e) {
@@ -149,13 +160,11 @@ class DatabaseMethods {
     documentReference.update(contactMap);
   }
 
-  Future<Stream<QuerySnapshot<Map<String, dynamic>>>> getRecomendedReadings(
-      String uid) async {
-    print("aa");
-    print(uid);
+  Future<Stream<QuerySnapshot<Map<String, dynamic>>>>
+      getRecomendedReadings() async {
     return FirebaseFirestore.instance
         .collection("Readings")
-        .doc(uid)
+        .doc(FirebaseAuth.instance.currentUser!.uid)
         .collection("userReadings")
         .snapshots();
   }
@@ -193,7 +202,7 @@ class DatabaseMethods {
 
     FirebaseFirestore.instance
         .collection("Escala")
-        .doc(uid)
+        .doc(FirebaseAuth.instance.currentUser!.uid)
         .collection("userEscalas")
         .doc(questId)
         .update(disableMap)
@@ -209,7 +218,7 @@ class DatabaseMethods {
 
     FirebaseFirestore.instance
         .collection("Escala")
-        .doc(uid)
+        .doc(FirebaseAuth.instance.currentUser!.uid)
         .collection("userEscalas")
         .doc(questId)
         .update(disableMap)
@@ -232,7 +241,7 @@ class DatabaseMethods {
   addRespostaQuestionarioSono(String uid, respostasMap, String data) {
     FirebaseFirestore.instance
         .collection("questionarioSono")
-        .doc(uid)
+        .doc(FirebaseAuth.instance.currentUser!.uid)
         .collection("respostas")
         .doc("${data}")
         .set(respostasMap)
@@ -244,7 +253,7 @@ class DatabaseMethods {
   addQuestAnswer(answerMap, uid, questName) {
     FirebaseFirestore.instance
         .collection("Escala")
-        .doc(uid)
+        .doc(FirebaseAuth.instance.currentUser!.uid)
         .collection("userEscalas")
         .doc(questName)
         .collection("answers")
@@ -257,7 +266,7 @@ class DatabaseMethods {
   getDataQuestSono(String uid) async {
     return FirebaseFirestore.instance
         .collection("questionarioSono")
-        .doc(uid)
+        .doc(FirebaseAuth.instance.currentUser!.uid)
         .collection("respostas")
         .get();
   }
@@ -274,7 +283,7 @@ class DatabaseMethods {
   getCreatedContacts(String uid) async {
     return FirebaseFirestore.instance
         .collection("Contacts")
-        .doc(uid)
+        .doc(FirebaseAuth.instance.currentUser!.uid)
         .collection("list")
         .orderBy('name')
         .snapshots();
@@ -291,7 +300,7 @@ class DatabaseMethods {
       String uid) async {
     return FirebaseFirestore.instance
         .collection("Escala")
-        .doc(uid)
+        .doc(FirebaseAuth.instance.currentUser!.uid)
         .collection("userEscalas")
         .snapshots();
   }
@@ -300,7 +309,7 @@ class DatabaseMethods {
       String uid) async {
     return FirebaseFirestore.instance
         .collection("Escala")
-        .doc(uid)
+        .doc(FirebaseAuth.instance.currentUser!.uid)
         .collection("userEscalas")
         .where("unanswered?", isEqualTo: true)
         .snapshots();
@@ -310,7 +319,7 @@ class DatabaseMethods {
       String uid) async {
     return FirebaseFirestore.instance
         .collection("Escala")
-        .doc(uid)
+        .doc(FirebaseAuth.instance.currentUser!.uid)
         .collection("userEscalas")
         .where("unanswered?", isEqualTo: false)
         .snapshots();
@@ -319,7 +328,7 @@ class DatabaseMethods {
   getDomFromAnswers(String uid, String userEscala, String dom) async {
     return FirebaseFirestore.instance
         .collection("Escala")
-        .doc(uid)
+        .doc(FirebaseAuth.instance.currentUser!.uid)
         .collection("userEscalas")
         .doc(userEscala)
         .collection("answers")
