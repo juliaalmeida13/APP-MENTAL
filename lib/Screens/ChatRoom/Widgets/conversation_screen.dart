@@ -1,5 +1,5 @@
-import 'package:app_mental/helper/constants.dart';
 import 'package:app_mental/Services/database.dart';
+import 'package:app_mental/helper/constants.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -25,7 +25,8 @@ class _ConversarionScreenState extends State<ConversarionScreen> {
                 itemBuilder: (context, index) {
                   return MessageTile(
                     snapshot.data!.docs[index].get("message"),
-                    snapshot.data!.docs[index].get("sendBy") == Constants.myName,
+                    snapshot.data!.docs[index].get("sendBy") ==
+                        Constants.myName,
                   );
                 },
               )
@@ -61,7 +62,7 @@ class _ConversarionScreenState extends State<ConversarionScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Chat com o pesquisador"),
+        title: Text("ChatPage com o pesquisador"),
         automaticallyImplyLeading: false,
       ),
       body: Container(

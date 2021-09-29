@@ -53,8 +53,10 @@ class _SignInState extends State<SignIn> {
         ScaffoldMessenger.of(context).hideCurrentSnackBar();
         User user = result.user as User;
         HelperFunctions.saveUserInfoToSharedPrefs(user);
-        Navigator.pushNamedAndRemoveUntil(
-            context, "/logged-home", (Route<dynamic> route) => false);
+        DatabaseMethods().fetchUser().whenComplete(() => {
+              Navigator.pushNamedAndRemoveUntil(
+                  context, "/logged-home", (Route<dynamic> route) => false)
+            });
       } else {
         final snackBar = SnackBar(
             content: Text('Senha ou email inválidos',

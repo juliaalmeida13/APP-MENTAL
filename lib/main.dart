@@ -1,6 +1,4 @@
-import 'package:app_mental/Screens/ChatRoom/chatRoomsScreen.dart';
 import 'package:app_mental/Screens/Contacts/contacts_screen.dart';
-import 'package:app_mental/Screens/HomePage/home_page.dart';
 import 'package:app_mental/Screens/Questionarie/quests_screen.dart';
 import 'package:app_mental/Screens/SignIn/signin.dart';
 import 'package:app_mental/Screens/SleepDiary/sleep_diary.dart';
@@ -20,12 +18,15 @@ import 'package:app_mental/helper/authenticate.dart';
 import 'package:app_mental/helper/helperfuncions.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
+import 'Screens/Home/home_screen.dart';
+import 'Screens/UsersPage/UsersPage.dart';
 import 'Services/interventions.dart';
 import 'escalas/quesi/quesi_screen.dart';
 
 void main() {
-  runApp(MyApp());
+  initializeDateFormatting('pt_BR', null).then((_) => runApp(MyApp()));
 }
 
 class MyApp extends StatefulWidget {
@@ -56,7 +57,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'App Mental',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
@@ -78,9 +79,9 @@ class _MyAppState extends State<MyApp> {
         AssistScreen.routeName: (ctx) => AssistScreen(),
         Assistn2Screen.routeName: (ctx) => Assistn2Screen(),
         "/sign-in": (ctx) => SignIn(),
-        "/logged-home": (ctx) => HomePage(),
+        "/logged-home": (ctx) => HomeScreen(),
         "/sleep-diary": (ctx) => SleepPage(),
-        "/chat": (ctx) => ChatRoom(),
+        "/users": (ctx) => UsersPage(),
         "/quests-screen": (ctx) => QuestsScreen(),
       },
       home: LandingPage(),

@@ -1,6 +1,7 @@
 import 'package:app_mental/Screens/Reading/reading_screen.dart';
 import 'package:app_mental/Services/auth.dart';
 import 'package:app_mental/Services/database.dart';
+import 'package:app_mental/Services/interventions.dart';
 import 'package:app_mental/constants.dart';
 import 'package:app_mental/helper/constants.dart';
 import 'package:app_mental/helper/helperfuncions.dart';
@@ -20,7 +21,6 @@ class _RecomendedReadingsStreamState extends State<RecomendedReadingsStream> {
   Stream<QuerySnapshot<Object?>>? readingsStream;
 
   Widget readingsList() {
-    print('(((' + Constants.myEmail + ')))');
     return StreamBuilder<QuerySnapshot>(
       stream: readingsStream,
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -30,21 +30,23 @@ class _RecomendedReadingsStreamState extends State<RecomendedReadingsStream> {
                 // mainAxisSize: MainAxisSize.min,
                 children: [
                   Container(
-                    height: 200,
+                    height: 140,
                     margin: EdgeInsets.only(left: 10),
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
                       shrinkWrap: true,
                       itemCount: snapshot.data!.docs.length,
                       itemBuilder: (context, index) {
-                        print("something something");
+                        print(snapshot.data!.docs[index].get("readingsId"));
+                        var i = Interventions().getInterventionById(
+                            snapshot.data!.docs[index].get("readingsId"));
+                        print(i!.arquivo);
                         return Container(
                           margin: EdgeInsets.only(right: 10),
-                          width: 100,
+                          width: 300,
                           child: RecomendedReadingCard(
-                            imagePath:
-                                snapshot.data!.docs[index].get("imagePath"),
-                            title: snapshot.data!.docs[index].get("title"),
+                            imagePath: i.imagem,
+                            title: i.nome,
                             readingsId:
                                 snapshot.data!.docs[index].get("readingsId"),
                             isVideo: snapshot.data!.docs[index].get("isVideo"),
@@ -73,7 +75,7 @@ class _RecomendedReadingsStreamState extends State<RecomendedReadingsStream> {
     Constants.myEmail = await HelperFunctions.getUserEmailInSharedPreference();
     Constants.myEmail = Constants.myEmail.trim();
     print(Constants.myEmail);
-    databaseMethods.getRecomendedReadings(Constants.myEmail).then((val) {
+    databaseMethods.getRecomendedReadings().then((val) {
       setState(() {
         readingsStream = val;
       });
@@ -82,7 +84,7 @@ class _RecomendedReadingsStreamState extends State<RecomendedReadingsStream> {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(child: readingsList());
+    return readingsList();
   }
 }
 
@@ -128,7 +130,7 @@ class RecomendedReadingCard extends StatelessWidget {
           child: Column(
             children: <Widget>[
               Container(
-                  width: 100,
+                  width: 300,
                   height: 100,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
@@ -137,7 +139,7 @@ class RecomendedReadingCard extends StatelessWidget {
                         image: AssetImage(imagePath),
                       ))),
               Container(
-                width: 100,
+                width: 300,
                 height: 25,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.only(

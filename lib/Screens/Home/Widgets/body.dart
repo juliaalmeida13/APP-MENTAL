@@ -6,8 +6,6 @@ import 'package:app_mental/Screens/Home/Widgets/section_title.dart';
 import 'package:app_mental/Services/database.dart';
 import 'package:flutter/material.dart';
 
-import 'header_with_searchbox.dart';
-
 class Body extends StatefulWidget {
   @override
   _BodyState createState() => _BodyState();
@@ -39,7 +37,6 @@ class _BodyState extends State<Body> {
     return SafeArea(
       child: Column(
         children: <Widget>[
-          HeaderWithSearchBox(key: UniqueKey(), size: size),
           //SectionTitle(key:UniqueKey(),title: "Calendário"),
           //RowCalendar(key:UniqueKey()),
           if (existingReadings) ...[

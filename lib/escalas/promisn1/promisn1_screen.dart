@@ -441,7 +441,6 @@ class _Promisn1ScreenState extends State<Promisn1Screen> {
                 resultScoreList: _totalScoreList,
                 questName: titleAA,
                 userEscala: _userEscala!,
-                userEmail: _userEmail,
                 questionIndex: _questionIndex,
               ),
       ), //Padding

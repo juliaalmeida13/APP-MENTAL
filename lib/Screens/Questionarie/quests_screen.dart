@@ -19,6 +19,7 @@ import 'package:app_mental/escalas/questSD2/questSD2_screen.dart';
 import 'package:app_mental/helper/constants.dart';
 import 'package:app_mental/helper/helperfuncions.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -42,6 +43,7 @@ class _QuestsScreenState extends State<QuestsScreen> {
     return StreamBuilder<QuerySnapshot>(
       stream: stream,
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        print(snapshot.hasData && snapshot.data!.docs.length > 0);
         return snapshot.hasData && snapshot.data!.docs.length > 0
             ? ListView.builder(
                 itemCount: snapshot.data!.docs.length,
@@ -74,12 +76,16 @@ class _QuestsScreenState extends State<QuestsScreen> {
     Constants.myName = await HelperFunctions.getUserNameInSharedPreference();
     Constants.myEmail = await HelperFunctions.getUserEmailInSharedPreference();
     Constants.myEmail = Constants.myEmail.trim();
-    databaseMethods.getAnsweredQuests(Constants.myEmail).then((val) {
+    databaseMethods
+        .getAnsweredQuests(FirebaseAuth.instance.currentUser!.uid)
+        .then((val) {
       setState(() {
         questsAnsweredRoomsStream = val;
       });
     });
-    databaseMethods.getUnansweredQuests(Constants.myEmail).then((val) {
+    databaseMethods
+        .getUnansweredQuests(FirebaseAuth.instance.currentUser!.uid)
+        .then((val) {
       setState(() {
         questsUnansweredRoomsStream = val;
       });
@@ -92,7 +98,7 @@ class _QuestsScreenState extends State<QuestsScreen> {
     return DefaultTabController(
         length: 2,
         child: Scaffold(
-          drawer: AppDrawer(),
+          drawer: AppDrawer(key: Key("drawer")),
           appBar: AppBar(
               centerTitle: true,
               iconTheme: IconThemeData(color: kTextColorGreen),
@@ -170,8 +176,9 @@ class QuestRoomTile extends StatelessWidget {
     print("aa aa aa $availableAt");
     //var nextSunday = getNextSunday(availableAt);
     var nextSunday = addHours(day: availableAt, n: 1);
+    print(nextSunday);
 
-    print('id: $questId');
+    print('id:');
     if (_now.isAfter(availableAt) && _now.isBefore(nextSunday)) {
       return QuizCard(
           title: questName,

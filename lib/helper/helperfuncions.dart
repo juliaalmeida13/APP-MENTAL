@@ -10,9 +10,11 @@ class HelperFunctions {
     String? userEmail = user.email;
     String? userDisplayName = user.displayName;
 
-    saveUserEmailInSharedPreference(userEmail==null?"Anonymous":userEmail);
+    saveUserEmailInSharedPreference(
+        userEmail == null ? "Anonymous" : userEmail);
     saveUserLoggedInSharedPreference(true);
-    saveUserNameInSharedPreference(userDisplayName==null?"Anonymous":userDisplayName);
+    saveUserNameInSharedPreference(
+        userDisplayName == null ? "Anonymous" : userDisplayName);
   }
 
   static Future<bool> saveUserLoggedInSharedPreference(
@@ -33,16 +35,16 @@ class HelperFunctions {
 
   static Future<bool> getUserLoggedInSharedPreference() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getBool(sharedPreferenceUserLoggedInKey)?? false;
+    return prefs.getBool(sharedPreferenceUserLoggedInKey) ?? false;
   }
 
   static Future<String> getUserNameInSharedPreference() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getString(sharedPreferenceUserNameKey)?? "Empty";
+    return prefs.getString(sharedPreferenceUserNameKey) ?? "Empty";
   }
 
   static Future<String> getUserEmailInSharedPreference() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getString(sharedPreferenceUserEmailKey)?? "Empty";
+    return prefs.getString(sharedPreferenceUserEmailKey) ?? "Empty";
   }
 }

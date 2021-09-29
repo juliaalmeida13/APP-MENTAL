@@ -3,11 +3,9 @@ import 'package:app_mental/Screens/Contacts/contacts_screen.dart';
 import 'package:app_mental/Screens/Home/home_screen.dart';
 import 'package:app_mental/Screens/Perfil/perfil.dart';
 import 'package:app_mental/Screens/Questionarie/quests_screen.dart';
-import 'package:app_mental/Screens/SleepDiary/diario_sono.dart';
 import 'package:app_mental/Screens/SleepDiary/sleep_diary.dart';
 import 'package:app_mental/Services/auth.dart';
 import 'package:app_mental/Shared/Widgets/AppDrawer.dart';
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 
 import '../../constants.dart';
@@ -61,7 +59,7 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-      drawer: AppDrawer(),
+      drawer: AppDrawer(key: Key("drawer")),
       body: PageView(
         controller: _pageController,
         children: _screens,
