@@ -7,7 +7,7 @@ import 'package:app_mental/helper/helperfuncions.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ContactsScreen extends StatefulWidget {
   static const routeName = '/contacts-screen';
@@ -93,7 +93,6 @@ class _ContactsScreenState extends State<ContactsScreen> {
         },
         child: Container(
           width: 335,
-          height: 50,
           decoration: BoxDecoration(
               borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(8),
@@ -104,15 +103,12 @@ class _ContactsScreenState extends State<ContactsScreen> {
               boxShadow: [
                 BoxShadow(
                     color: Color.fromRGBO(0, 0, 0, 0.25),
-                    offset: Offset(0, 4),
+                    offset: Offset(0, 1),
                     blurRadius: 4)
               ]),
           child: Padding(
-            padding: EdgeInsets.only(
-              left: 10.0,
-              right: 10.0,
-              top: 10.0,
-            ),
+            padding:
+                EdgeInsets.only(left: 4.0, right: 4.0, top: 4.0, bottom: 4.0),
             child: InkWell(
               onTap: () {},
               child: Row(
@@ -178,82 +174,51 @@ class _ContactsScreenState extends State<ContactsScreen> {
     return Scaffold(
       drawer: AppDrawer(key: Key("drawer")),
       appBar: AppBar(
-        backgroundColor: AppColors.green,
-        shadowColor: Colors.transparent,
-        title: Text("Contatos"),
-      ),
-      backgroundColor: AppColors.green,
+          backgroundColor: AppColors.green,
+          shadowColor: Colors.transparent,
+          title: Text("Contatos"),
+          actions: <Widget>[
+            IconButton(
+              icon: const Icon(Icons.add),
+              tooltip: 'Adicionar',
+              onPressed: () {
+                addContactDialog(context, _formKey, nameContact, numberContact);
+              },
+            )
+          ]),
       body: ListView(
         children: [
           Container(
             height: MediaQuery.of(context).size.height,
-            decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(75.0),
-                )),
             child: ListView(
-              primary: false,
-              padding: EdgeInsets.only(
-                left: 25.0,
-                right: 20.0,
-              ),
+              padding: EdgeInsets.all(20),
               children: [
-                Padding(
-                  padding: EdgeInsets.only(top: 45.0),
+                Container(
+                  height: MediaQuery.of(context).size.height - 300.0,
                   child: Container(
-                    height: MediaQuery.of(context).size.height - 300.0,
-                    child: Container(
-                      child: StreamBuilder<QuerySnapshot>(
-                        stream: contactsRoomsStream,
-                        builder: (BuildContext context,
-                            AsyncSnapshot<QuerySnapshot> snapshot) {
-                          return snapshot.hasData
-                              ? ListView.builder(
-                                  itemCount: snapshot.data!.docs.length,
-                                  itemBuilder: (context, index) {
-                                    return _buildContactItem(
-                                        context,
-                                        snapshot.data!.docs[index].get("name"),
-                                        snapshot.data!.docs[index]
-                                            .get("number"),
-                                        snapshot.data!.docs[index].id,
-                                        _formKey,
-                                        nameContact,
-                                        numberContact);
-                                  },
-                                )
-                              : Container();
-                        },
-                      ),
+                    child: StreamBuilder<QuerySnapshot>(
+                      stream: contactsRoomsStream,
+                      builder: (BuildContext context,
+                          AsyncSnapshot<QuerySnapshot> snapshot) {
+                        return snapshot.hasData
+                            ? ListView.builder(
+                                itemCount: snapshot.data!.docs.length,
+                                itemBuilder: (context, index) {
+                                  return _buildContactItem(
+                                      context,
+                                      snapshot.data!.docs[index].get("name"),
+                                      snapshot.data!.docs[index].get("number"),
+                                      snapshot.data!.docs[index].id,
+                                      _formKey,
+                                      nameContact,
+                                      numberContact);
+                                },
+                              )
+                            : Container();
+                      },
                     ),
                   ),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      child: OutlinedButton.icon(
-                        label: Text(
-                          'Adicionar novo contato',
-                          style: TextStyle(
-                            fontFamily: 'Raleway',
-                            color: Color(0xFF21BFBD),
-                            fontSize: 15.0,
-                          ),
-                        ),
-                        onPressed: () {
-                          addContactDialog(
-                              context, _formKey, nameContact, numberContact);
-                        },
-                        icon: Icon(
-                          Icons.add,
-                          color: Color(0xFF21BFBD),
-                        ),
-                      ),
-                    ),
-                  ],
-                )
               ],
             ),
           )
@@ -298,7 +263,7 @@ _confirmDelDialog(BuildContext context, id) async {
 
 _callNumber(String phoneNumber) async {
   String number = phoneNumber;
-  await FlutterPhoneDirectCaller.callNumber(number);
+  launch("tel://${number}");
 }
 
 _addContact(nameContact, numberContact) async {

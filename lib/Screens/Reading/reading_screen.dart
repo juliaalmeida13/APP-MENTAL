@@ -3,6 +3,7 @@ import 'package:app_mental/Services/database.dart';
 import 'package:app_mental/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:rating_dialog/rating_dialog.dart';
 
 class ReadingScreen extends StatelessWidget {

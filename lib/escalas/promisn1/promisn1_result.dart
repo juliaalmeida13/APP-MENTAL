@@ -44,7 +44,6 @@ class Promisn1Result extends StatelessWidget {
     print(userEscala);
     await databaseMethods.addQuestAnswer(promisn1Map, email, userEscala);
     var doms = await databaseMethods.getDomTotal(
-      userEmail,
       userEscala,
       "dom1",
     );

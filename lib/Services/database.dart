@@ -12,10 +12,10 @@ class DatabaseMethods {
         .get();
   }
 
-  getUserByEmail(String uid) async {
+  getUserByEmail(String email) async {
     return await FirebaseFirestore.instance
         .collection("users")
-        .where("email", isEqualTo: uid)
+        .where("email", isEqualTo: email)
         .get();
   }
 
@@ -171,7 +171,6 @@ class DatabaseMethods {
 
   Future<QuerySnapshot> readingsAreEmpty() async {
     print("check");
-    print(FirebaseAuth.instance.currentUser!.email);
     return FirebaseFirestore.instance
         .collection('Readings')
         .doc(FirebaseAuth.instance.currentUser!.uid)
@@ -338,14 +337,13 @@ class DatabaseMethods {
   }
 
   getDomTotal(
-    String userEmail,
     String userEscala,
     String dom,
   ) async {
     var doms = List<double>.filled(14, 0);
     await FirebaseFirestore.instance
         .collection("Escala")
-        .doc(userEmail)
+        .doc(FirebaseAuth.instance.currentUser!.uid)
         .collection("userEscalas")
         .doc(userEscala)
         .collection("answers")
