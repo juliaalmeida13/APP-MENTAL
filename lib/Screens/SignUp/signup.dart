@@ -107,18 +107,6 @@ class _SignUpState extends State<SignUp> {
             userEscala, questMap, FirebaseAuth.instance.currentUser!.uid);
       }
     }
-    //add quesi 6th week
-    String userEscala = 'quesi_week6';
-    Map<String, dynamic> questMap = {
-      "unanswered?": true,
-      "questId": "quesi",
-      "questName": "Questionário Sobre Traumas na Infância - Semana 6",
-      "userEscala": userEscala,
-      "availableAt": addHours(day: firstDay, n: 5),
-      "answeredUntil": 0,
-    };
-    DatabaseMethods().createQuest(
-        userEscala, questMap, FirebaseAuth.instance.currentUser!.uid);
 
     //add questSD1 1st week
     String userEscala1 = 'questSD1_week1';

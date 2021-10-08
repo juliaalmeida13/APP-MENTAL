@@ -52,7 +52,7 @@ class ReadingRecomendCard extends StatelessWidget {
     return GestureDetector(
       onTap: press,
       child: Card(
-        elevation: 2,
+        elevation: 1,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10.0),
         ),
@@ -61,18 +61,6 @@ class ReadingRecomendCard extends StatelessWidget {
           children: [
             ListTile(
               title: Text(this.title),
-            ),
-            Container(
-              height: 100,
-              // child: SizedBox(child: Text('yashjha'),),
-              // child: Image.asset('lib/images/${images[index]}'),
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage(this.image),
-                  fit: BoxFit.fitWidth,
-                  alignment: Alignment.center,
-                ),
-              ),
             ),
           ],
         ),

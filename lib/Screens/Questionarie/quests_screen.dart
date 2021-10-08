@@ -13,7 +13,6 @@ import 'package:app_mental/escalas/promisn1/promisn1_screen.dart';
 import 'package:app_mental/escalas/promisn2/promisn2_screen.dart';
 import 'package:app_mental/escalas/pset/pset_screen.dart';
 import 'package:app_mental/escalas/psqi/psqi_screen.dart';
-import 'package:app_mental/escalas/quesi/quesi_screen.dart';
 import 'package:app_mental/escalas/questSD1/questSD1_screen.dart';
 import 'package:app_mental/escalas/questSD2/questSD2_screen.dart';
 import 'package:app_mental/helper/constants.dart';
@@ -150,7 +149,6 @@ class QuestRoomTile extends StatelessWidget {
     "pn2": Promisn2Screen.routeName,
     "pset": PsetScreen.routeName,
     "pcl5": Pcl5Screen.routeName,
-    "quesi": QuesiScreen.routeName,
     "questSD1": QuestSD1Screen.routeName,
     "questSD2": QuestSD2Screen.routeName,
     "mdq": MdqScreen.routeName,

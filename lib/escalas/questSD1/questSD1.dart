@@ -47,11 +47,10 @@ class QuestSD1 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var lastIndex = questions.length + 1;
+    var lastIndex = questions.length;
     return Container(
       height: double.infinity,
-      margin: EdgeInsets.only(top: 6, left: 2, right: 2, bottom: 2),
-      padding: EdgeInsets.only(top: 6, left: 2, right: 2, bottom: 2),
+      padding: EdgeInsets.only(top: 15, left: 15, right: 15, bottom: 15),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         color: Color.fromRGBO(244, 244, 244, 1),

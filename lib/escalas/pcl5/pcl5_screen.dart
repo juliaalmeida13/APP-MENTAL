@@ -1,8 +1,8 @@
 import 'package:app_mental/constants.dart';
-import 'package:flutter/material.dart';
 //import 'fancy_button.dart'
 import 'package:app_mental/escalas/pcl5/pcl5.dart';
 import 'package:app_mental/escalas/pcl5/pcl5_result.dart';
+import 'package:flutter/material.dart';
 
 class Pcl5Screen extends StatefulWidget {
   static const routeName = '/pcl5-screen';
@@ -241,7 +241,7 @@ class _Pcl5ScreenState extends State<Pcl5Screen> {
 
   //(p. ex. analgésicos, estimulantes, sedativos ou tranquilizantes, ou drogas como maconha, cocaína ou crack, drogas sintéticas, alucinógenos, heroína, inalantes ou solventes ou metanfetamina?
   var _questionIndex = 0;
-  var _totalScoreList = List<int>.filled(20, 0);
+  var _totalScoreList = List<int>.filled(21, 0);
 
   void _answerQuestion(int score, int index) {
     _totalScoreList[index] = score;

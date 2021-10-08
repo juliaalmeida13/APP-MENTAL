@@ -23,7 +23,6 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'Screens/Home/home_screen.dart';
 import 'Screens/UsersPage/UsersPage.dart';
 import 'Services/interventions.dart';
-import 'escalas/quesi/quesi_screen.dart';
 
 void main() {
   initializeDateFormatting('pt_BR', null).then((_) => runApp(MyApp()));
@@ -69,7 +68,6 @@ class _MyAppState extends State<MyApp> {
         Promisn2Screen.routeName: (ctx) => Promisn2Screen(),
         Pcl5Screen.routeName: (ctx) => Pcl5Screen(),
         PsetScreen.routeName: (ctx) => PsetScreen(),
-        QuesiScreen.routeName: (ctx) => QuesiScreen(),
         QuestSD1Screen.routeName: (ctx) => QuestSD1Screen(),
         QuestSD2Screen.routeName: (ctx) => QuestSD2Screen(),
         MdqScreen.routeName: (ctx) => MdqScreen(),

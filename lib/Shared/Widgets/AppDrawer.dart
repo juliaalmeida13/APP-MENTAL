@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:flutter_firebase_chat_core/flutter_firebase_chat_core.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class AppDrawer extends StatefulWidget {
   AppDrawer({
@@ -45,39 +46,45 @@ class _AppDrawerState extends State<AppDrawer> {
               email: email,
               onClicked: () => selectedItem(context, 4)),
           if (user.role == types.Role.user) ...[
-            const SizedBox(height: 16),
+            const SizedBox(height: 8),
             buildMenuItem(
               text: 'Home',
               icon: Icons.house,
               onClicked: () => selectedItem(context, 0),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 8),
             buildMenuItem(
               text: 'Diário do sono',
               icon: Icons.bed,
               onClicked: () => selectedItem(context, 1),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 8),
             buildMenuItem(
               text: 'Questionários',
               icon: Icons.list_alt,
               onClicked: () => selectedItem(context, 2),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 8),
             buildMenuItem(
               text: 'Contatos',
               icon: Icons.people,
               onClicked: () => selectedItem(context, 3),
             )
           ] else if (user.role == types.Role.agent) ...[
-            const SizedBox(height: 16),
+            const SizedBox(height: 8),
             buildMenuItem(
               text: 'Chat',
               icon: Icons.list_alt,
               onClicked: () => selectedItem(context, 4),
             ),
           ],
-          const SizedBox(height: 16),
+          const SizedBox(height: 8),
+          buildMenuItem(
+            text: 'Tutorial',
+            icon: Icons.book,
+            onClicked: () => selectedItem(context, 5),
+          ),
+          const SizedBox(height: 8),
           buildMenuItem(
             text: 'Sair',
             icon: Icons.exit_to_app,
@@ -199,6 +206,10 @@ class _AppDrawerState extends State<AppDrawer> {
       case 4:
         Navigator.of(context).popUntil(ModalRoute.withName('/logged-home'));
         Navigator.of(context).pushNamed("/users");
+        break;
+      case 5:
+        launch(
+            "https://docs.google.com/document/d/1gu6D5SvLI-PSHiLukq7VX5_cDHx2zI0O8ulrwaB341k/edit");
         break;
     }
   }

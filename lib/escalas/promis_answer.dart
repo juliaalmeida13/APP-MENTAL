@@ -18,8 +18,19 @@ class PromisAnswer extends StatelessWidget {
       ),
     );
   }*/
-
   Widget build(BuildContext context) {
+    return OutlinedButton(
+      onPressed: selectHandler,
+      child: Text(
+        this.answerText,
+        textAlign: TextAlign.center,
+      ),
+      style: new ButtonStyle(
+          padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+              EdgeInsets.all(12))),
+    );
+  }
+  /*Widget build(BuildContext context) {
     return ListTile(
       leading: Container(
         width: 25,
@@ -35,5 +46,5 @@ class PromisAnswer extends StatelessWidget {
       ),
       onTap: selectHandler,
     );
-  }
+  }*/
 }
