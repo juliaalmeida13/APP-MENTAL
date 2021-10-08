@@ -1,6 +1,5 @@
 import 'package:app_mental/Screens/Contacts/contacts_screen.dart';
 import 'package:app_mental/Screens/Questionarie/quests_screen.dart';
-import 'package:app_mental/Screens/SignIn/signin.dart';
 import 'package:app_mental/Screens/SleepDiary/sleep_diary.dart';
 import 'package:app_mental/escalas/assist/assist_screen.dart';
 import 'package:app_mental/escalas/assistn2/assistn2_screen.dart';
@@ -21,6 +20,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
 import 'Screens/Home/home_screen.dart';
+import 'Screens/ResetPassword/reset_password.dart';
+import 'Screens/SignIn/signin.dart';
 import 'Screens/UsersPage/UsersPage.dart';
 import 'Services/interventions.dart';
 
@@ -76,6 +77,7 @@ class _MyAppState extends State<MyApp> {
         PsqiScreen.routeName: (ctx) => PsqiScreen(),
         AssistScreen.routeName: (ctx) => AssistScreen(),
         Assistn2Screen.routeName: (ctx) => Assistn2Screen(),
+        "/reset-password": (ctx) => ResetPassword(),
         "/sign-in": (ctx) => SignIn(),
         "/logged-home": (ctx) => HomeScreen(),
         "/sleep-diary": (ctx) => SleepPage(),

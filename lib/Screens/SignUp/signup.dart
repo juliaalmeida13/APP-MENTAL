@@ -308,11 +308,12 @@ class _SignUpState extends State<SignUp> {
           child: Column(
             children: <Widget>[
               Container(
-                height: 400,
+                height: 300,
                 decoration: BoxDecoration(
                     image: DecorationImage(
+                        alignment: Alignment.bottomCenter,
                         image: AssetImage('assets/images/background.png'),
-                        fit: BoxFit.fill)),
+                        fit: BoxFit.fitWidth)),
               ),
               Padding(
                 padding: EdgeInsets.all(30.0),

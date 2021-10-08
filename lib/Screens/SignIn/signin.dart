@@ -1,3 +1,4 @@
+import 'package:app_mental/Screens/ResetPassword/reset_password.dart';
 import 'package:app_mental/Screens/SignUp/signup.dart';
 import 'package:app_mental/Services/auth.dart';
 import 'package:app_mental/Services/database.dart';
@@ -74,13 +75,14 @@ class _SignInState extends State<SignIn> {
       body: SingleChildScrollView(
         child: Container(
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Container(
-                height: 400,
+                height: 350,
                 decoration: BoxDecoration(
                     image: DecorationImage(
                         image: AssetImage(AppImages.background),
-                        fit: BoxFit.fill)),
+                        fit: BoxFit.fitWidth)),
               ),
               Padding(
                 padding: EdgeInsets.all(30.0),
@@ -191,26 +193,46 @@ class _SignInState extends State<SignIn> {
                     ),
                     FadeAnimation(
                       2,
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => SignUp()));
-                        },
-                        child: Container(
-                          //padding: EdgeInsets.symmetric(vertical: 8),
-                          child: Text(
-                            "Criar conta",
-                            style: TextStyle(
-                              color: AppColors.green,
-                              fontSize: 17,
-                              decoration: TextDecoration.underline,
-                            ),
-                          ),
+                      Container(
+                        //padding: EdgeInsets.symmetric(vertical: 8),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => SignUp()));
+                                },
+                                child: Text(
+                                  "Criar conta",
+                                  style: TextStyle(
+                                    color: AppColors.green,
+                                    fontSize: 17,
+                                    decoration: TextDecoration.underline,
+                                  ),
+                                )),
+                            GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              ResetPassword()));
+                                },
+                                child: Text(
+                                  "Recuperar senha",
+                                  style: TextStyle(
+                                    color: AppColors.green,
+                                    fontSize: 17,
+                                    decoration: TextDecoration.underline,
+                                  ),
+                                )),
+                          ],
                         ),
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),
