@@ -33,6 +33,42 @@ class DatabaseMethods {
     });
   }
 
+  Future createReadingsDoc(String uid) async {
+    return await FirebaseFirestore.instance
+        .collection("Readings")
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .set({
+      "CreatedOn": Timestamp.now().toString(),
+    });
+  }
+
+  Future createContactsDoc(String uid) async {
+    return await FirebaseFirestore.instance
+        .collection("Contacts")
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .set({
+      "CreatedOn": Timestamp.now().toString(),
+    });
+  }
+
+  Future createQuestDoc(String uid) async {
+    return await FirebaseFirestore.instance
+        .collection("questionarioSono")
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .set({
+      "CreatedOn": Timestamp.now().toString(),
+    });
+  }
+
+  Future createEscalaDoc(String uid) async {
+    return await FirebaseFirestore.instance
+        .collection("Escala")
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .set({
+      "CreatedOn": Timestamp.now().toString(),
+    });
+  }
+
   createQuest(String questId, questMap, uid) {
     FirebaseFirestore.instance
         .collection("Escala")
@@ -260,6 +296,10 @@ class DatabaseMethods {
         .catchError((e) {
       print(e.toString());
     });
+  }
+
+  getDataQuestSonoFromAll() async {
+    return FirebaseFirestore.instance.collection("questionarioSono").get();
   }
 
   getDataQuestSono(String uid) async {

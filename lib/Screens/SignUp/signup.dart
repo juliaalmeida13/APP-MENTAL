@@ -54,9 +54,14 @@ class _SignUpState extends State<SignUp> {
         .then((result) {
       if (result != null && result.user != null) {
         ScaffoldMessenger.of(context).hideCurrentSnackBar();
-        User? user = result.user;
+        User? user = result.user!;
         HelperFunctions.saveUserInfoToSharedPrefs(user);
-        CreateQuests();
+        DatabaseMethods().createReadingsDoc(user.uid);
+        DatabaseMethods().createContactsDoc(user.uid);
+        DatabaseMethods().createQuestDoc(user.uid);
+        DatabaseMethods()
+            .createEscalaDoc(user.uid)
+            .then((value) => CreateQuests());
         DatabaseMethods().fetchUser().whenComplete(() => {
               Navigator.pushNamedAndRemoveUntil(
                   context, "/logged-home", (Route<dynamic> route) => false)
