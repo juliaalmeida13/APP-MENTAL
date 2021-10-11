@@ -1,10 +1,12 @@
-Todo mundo deveria conhecer a Redução de Danos e sua importância.
-Você sabia que a Redução de Danos (RD) surgiu na década de 80, como uma estratégia para diminuir a disseminação de doenças por meio do uso de drogas injetáveis? Naquele momento histórico, a estratégia tinha como foco a prevenção da AIDS, sendo também utilizada para diminuir os prejuízos causados pelo uso de substâncias psicoativas.
-Quer saber como funciona? (VER MAIS)
-A RD considera a importância da participação dos indivíduos no planejamento de seu tratamento, identificando o que é possível ser pactuado naquele momento (redução do uso, substituição de uma substância mais "pesada" por outra mais "leve", como o uso de bebidas destiladas por fermentadas).
-Além disso, a RD  valoriza a busca de estratégias concretas para reduzir os danos causados pelo uso de substâncias, a partir de um diálogo aberto e sem julgamentos com os profissionais da saúde.
-Não é o oposto da abstinência. Trata-se de uma estratégia de cuidado que respeita o momento da pessoa, e o planejamento se dá com ela e para ela, respeitando as dificuldades que o processo de interrupção do uso de drogas acarreta como, por exemplo, não conseguir interromper o uso de imediato.
-Que tal conhecer mais? Sugerimos alguns sites:
-https://edelei.org/wp-content/uploads/2019/01/Caderno-do-Redutor-e-da-Redutora-de-Danos-E-de-Lei.pdf.
+Será que você aumentou o consumo de bebida alcoólica?
+O uso de álcool durante a pandemia aumentou no mundo todo. Provavelmente como uma forma de lidar com o estresse imposto pela rotina, o isolamento e o luto.
+Pensando nisso, aqui vão 4 dicas para reduzir os danos causados pelo álcool. Vamos tentar?
+1.Fique atento(a) ao seu estado de humor e ao ambiente.
+Esteja sempre perto de pessoas nas quais confia.
+2.Coma antes de beber.
+Mesmo tendo um alto valor energético, o álcool não tem nutrientes. Além disso, beber sem comer pode provocar efeitos físicos indesejados, mais conhecidos como “porre” e “ressaca”. 😩
+3. Beba bastante água antes, durante e depois de consumir bebidas alcoólicas.
+O álcool pode causar desidratação.
+4.Cuide-se! Não existe uma dose segura!
+O uso de álcool, principalmente quando associado a outras substâncias, diminui a sua capacidade de julgamento te colocando em situações de risco e de constrangimento.
 
-https://www.abramd.org/conteudo/view?ID_CONTEUDO=416

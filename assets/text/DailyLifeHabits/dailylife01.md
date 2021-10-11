@@ -8,3 +8,4 @@ Qual foi a última vez que você comeu sua comida preferida? Quais sensações e
 Onde e com quem estava? Quem preparou?
 Quando foi a última vez que você fez uma refeição agradável com pessoas queridas? Onde estava? Quem preparou?
 Consegue se lembrar da sensação desse momento?
+

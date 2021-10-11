@@ -8,3 +8,4 @@ Foque nas atividades que está fazendo, principalmente naquelas que dão a você
 Cultive relações com familiares, amigos, parceiros;
 Invista em seus propósitos, naquilo que lhe dá sentido na vida;
 Relembre seus sonhos e tente realizá-los.
+

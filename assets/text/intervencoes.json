@@ -70,8 +70,8 @@
     "imagem": "assets/images/bonding01.jpg"
   },
   {
+    "nome": "Sintomas depresssivos",
     "id": "exercise03",
-    "nome": "Exercícios e sintomas depresssivos",
     "grupo": "Atividade Física",
     "arquivo": "assets/text/Exercise/exercise03.md",
     "imagem": "assets/images/bonding01.jpg"
@@ -129,14 +129,14 @@
     "id": "lazer3",
     "nome": "Jogo da memória",
     "grupo": "Lazer",
-    "arquivo": "assets/text/Leisure/leisure02.md",
+    "arquivo": "assets/text/Leisure/leisure03.md",
     "imagem": "assets/images/bonding01.jpg"
   },
   {
     "id": "lazer4",
     "nome": "Receita de Pão de Queijo",
     "grupo": "Lazer",
-    "arquivo": "assets/text/Leisure/leisure03.md",
+    "arquivo": "assets/text/Leisure/leisure04.md",
     "imagem": "assets/images/bonding01.jpg"
   },
   {
@@ -190,7 +190,7 @@
   },
   {
     "id": "sono4",
-    "nome": "Hábitos antes de dormir",
+    "nome": "Bloco de anotações",
     "grupo": "Higiene do Sono",
     "arquivo": "assets/text/Sleep/sleep04.md",
     "imagem": "assets/images/bonding01.jpg"

@@ -1,6 +1,6 @@
 Uma prática muito útil para driblar o estresse e a mente inquieta é a meditação. Com ela, aprendemos a acalmar nossos pensamentos e a mover o foco das preocupações para algo simples, como nossa própria respiração.
 
-Por isso, preparamos uma meditação guiada para ajudar você a se sentir mais relaxado(a), em qualquer momento do dia. Vamos tentar? Ver mais
+Por isso, preparamos uma meditação guiada para ajudar você a se sentir mais relaxado(a), em qualquer momento do dia. Vamos tentar?
 
 1- Encontre uma posição confortável, seja deitado(a) ou sentado(a);
 2- Ainda com os olhos abertos, faça de 3 a 5 respirações profundas para se conectar com seu corpo;
@@ -12,3 +12,5 @@ Por isso, preparamos uma meditação guiada para ajudar você a se sentir mais r
 8- Permaneça realizando o exercício o tempo que achar necessário;
 9- Quando perceber a sensação de calma, deixe que ela permaneça e continue focando na respiração;
 10- Quando estiver pronto(a), abra os olhos no seu ritmo e finalize o exercício.
+
+Se preferir, você pode colocar seus fones e ouvir a seguinte meditação guiada para praticar: https://youtu.be/VyfiBCyXAwM

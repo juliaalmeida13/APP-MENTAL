@@ -11,4 +11,3 @@ Perto de 30 minutos antes de dormir:
 - Por último, só finalize o planejamento do dia seguinte
 
 Quando estiver deitada(o) na cama e se pegar pensando no dia de amanhã, calma! Reveja se é necessário anotar novamente no seu bloco de anotações, se não for necessário, não se preocupe, já está no seu planejamento! Quando acordar, é só ler suas anotações e aproveitar o dia!
-
