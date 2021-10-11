@@ -8,8 +8,8 @@ Eles podem ser um aliado no combate da insônia, ansiedade ou convulsão; porém
 É fundamental que se evite a automedicação, pelo risco de se tomar medicamentos sem conhecimento sobre a sua ação, efeitos colaterais, possíveis eventos adversos e, inclusive, risco de intoxicação!
 
 Então, que tal refletir sobre o uso desses medicamentos e discutir com seu médico(a) sobre isso?
-Se você quiser, há algumas sugestões para te ajudar. VER MAIS
+Se você quiser, há algumas sugestões para te ajudar.
 
 Você pode conversar com seu médico sobre a retirada deste medicamento. Estudos sugerem uma retirada de 10 a 25% da dose diária a cada 2 ou 3 semanas. Por exemplo, se você toma 1 comprimido por dia, você pode dividi-lo, conforme orientação médica, em quatro pedaços e ir diminuindo 1 pedacinho a cada 2 ou 3 semanas até parar de tomar.
-Você também pode tentar a higiene do sono, caso tenha insônia (clique aqui para ser encaminhado)
-Outra dica para quem tem ansiedade e insônia é a meditação. (clique aqui para ser encaminhado)
+Você também pode tentar a higiene do sono, caso tenha insônia (clique aqui para saber mais sobre Higiene do Sono)
+Outra dica para quem tem ansiedade e insônia é a meditação. (clique aqui para saber mais sobre Meditação)

@@ -28,25 +28,25 @@
 
 
   {
-    "nome": "Consumo de álcool",
+    "nome": "Redução de danos",
     "grupo": "Controle e Redução de Danos",
     "arquivo": "assets/text/DamageControl/damage_control01.md",
     "imagem": "assets/images/bonding01.jpg"
   },
   {
-    "nome": "Redução de danos",
+    "nome": "Consumo de Álcool",
     "grupo":  "Controle e Redução de Danos",
     "arquivo": "assets/text/DamageControl/damage_control02.md",
     "imagem": "assets/images/bonding01.jpg"
   },
   {
-    "nome": "Fumantes e COVID-19",
+    "nome": "Tabagismo e COVID-19",
     "grupo":  "Controle e Redução de Danos",
     "arquivo": "assets/text/DamageControl/damage_control03.md",
     "imagem": "assets/images/bonding01.jpg"
   },
   {
-    "nome": "Calmantes",
+    "nome": "Medicamentos",
     "grupo":  "Controle e Redução de Danos",
     "arquivo": "assets/text/DamageControl/damage_control04.md",
     "imagem": "assets/images/bonding01.jpg"
@@ -67,7 +67,7 @@
     "imagem": "assets/images/bonding01.jpg"
   },
   {
-    "nome": "Exercícios e sintomas depresssivos",
+    "nome": "Sintomas depresssivos",
     "grupo": "Atividade Física",
     "arquivo": "assets/text/Exercise/exercise03.md",
     "imagem": "assets/images/bonding01.jpg"
@@ -124,13 +124,13 @@
   {
     "nome": "Jogo da memória",
     "grupo": "Lazer",
-    "arquivo": "assets/text/Leisure/leisure02.md",
+    "arquivo": "assets/text/Leisure/leisure03.md",
     "imagem": "assets/images/bonding01.jpg"
   },
   {
     "nome": "Receita de Pão de Queijo",
     "grupo": "Lazer",
-    "arquivo": "assets/text/Leisure/leisure03.md",
+    "arquivo": "assets/text/Leisure/leisure04.md",
     "imagem": "assets/images/bonding01.jpg"
   },
 
@@ -150,7 +150,7 @@
     "imagem": "assets/images/bonding01.jpg"
   },
   {
-    "nome": "Espiratualidade",
+    "nome": "Espiritualidade",
     "grupo": "PICS",
     "arquivo": "assets/text/PICS/pics03.md",
     "imagem": "assets/images/bonding01.jpg"
@@ -183,7 +183,7 @@
     "imagem": "assets/images/bonding01.jpg"
   },
   {
-    "nome": "Hábitos antes de dormir",
+    "nome": "Bloco de anotações",
     "grupo": "Higiene do Sono",
     "arquivo": "assets/text/Sleep/sleep04.md",
     "imagem": "assets/images/bonding01.jpg"

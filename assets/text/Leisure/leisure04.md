@@ -18,8 +18,6 @@ Misture todos os ingredientes até formar uma massa homogênea
 Faça bolinhas do tamanho que preferir (se não quiser comer todos, é só congelar as bolinhas e deixar para outro dia!)
 Asse por 25-30 minutos em forno pré aquecido a 180ºC
 
-
-
 DICA: Você pode polvilhar queijo ralado por cima das bolinhas antes de assar
 
 Você pode aproveitar para chamar algum amigo ou alguém da família para fazer essa receita e desfrutarem do tempo juntos.

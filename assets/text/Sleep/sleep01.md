@@ -1,3 +1,4 @@
+
 😴Você quer  dormir melhor? Sabia que isso é possível com a mudança de alguns comportamentos? Olha só essas dicas:
 
 Alguns comportamentos que podem atrapalhar seu sono:
@@ -9,6 +10,6 @@ Mesmo que você durma bem adotando esses comportamentos, seu sono pode ser ainda
 Tiver regularidade na hora de deitar e levantar da cama;
 Escurecer e tranquilizar o ambiente antes de deitar;
 Evitar refeições pesadas, principalmente antes de dormir;
-Fazer meditação e relaxamento. (clique aqui para ser encaminhado)
+Fazer meditação e relaxamento. (clique aqui para ser encaminhado à intervenção Meditação)
 
-Para  mais dicas de como dormir melhor,  clique aqui  (diários de sono e do sonho, lista de tarefas antes de dormir)
+Para  mais dicas de como dormir melhor,  clique aqui (clique aqui para acessar o diário do sono, lista de tarefas antes de dormir)

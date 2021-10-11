@@ -8,7 +8,7 @@ Você já tentou parar de fumar e não conseguiu? Pode ser difícil, mesmo! O ci
 
 Mas, olha só! Ao parar, já se notam benefícios logo no primeiro dia! Por exemplo,a pressão sanguínea e pulsação retornam para a normalidade em 20 minutos e os níveis de oxigênio no sangue, em 8 horas.
 
-Então, queremos saber: você tem vontade de parar de fumar? Se você topar, dá uma olhadinha nas dicas abaixo, quem sabe  te ajudam! (VER MAIS)
+Então, queremos saber: você tem vontade de parar de fumar? Se você topar, dá uma olhadinha nas dicas abaixo, quem sabe  te ajudam!
 
 1- Reduzir a quantidade de cigarros do dia pode ajudar!
 Por exemplo: ir adiando o primeiro cigarro, aumentando o tempo entre um cigarro e outro…

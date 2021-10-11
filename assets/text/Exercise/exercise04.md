@@ -1,4 +1,8 @@
-A prática de exercícios físicos pode trazer um bem estar que se estende por um longo período! Sabia dessa?
+Você sabia que as chances de desenvolver um sintoma depressivo podem diminuir em uma rotina com exercícios em ritmo moderado?🏃‍♀️
 
-Além disso, em casos de depressão leve, exercícios prescritos de forma correta podem prevenir o uso de medicações antidepressivas. Por esses (e outros) motivos, os exercícios físicos têm sido utilizados ultimamente como uma terapia complementar no âmbito da saúde mental.
-Quer saber mais? Clique aqui (encaminha para a sugestão da caminhada)
+Aqui vai uma sugestão: que tal começar caminhando 3 vezes na semana, durante 15 minutos? O ideal é que você esteja num ritmo que o deixe um pouco ofegante. Você acha que consegue esse tempo?!
+
+Com o tempo, você pode ir progredindo até atingir 30 minutos de caminhada. Essa é a duração mínima mais associada a benefícios para saúde física e mental.
+
+E olha só que legal: muitos estudos mostram que caminhadas em meio à natureza são ainda melhores para nossa saúde mental. 🤩 Então, que tal procurar um lugar com bastante "verde" para se exercitar? 🌳
+

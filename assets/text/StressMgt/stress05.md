@@ -1,7 +1,3 @@
-MANEJO DO ESTRESSE
-
-INTERVENÇÃO 34 Estresse (Série de sessões de autorregulação - brainspotting)
-
 É possível ter equilíbrio mesmo em tempos tão conturbados.
 
 Você já se viu invadido(a) por sentimentos de aflição ou mesmo sensações desconfortáveis no corpo? 🤔
@@ -10,7 +6,7 @@ Isso é comum quando estamos enfrentando situações muito tensas e estressantes
 
 Se você já se viu nessa situação, a próxima prática de cuidado é para você! Vamos ativar uma capacidade natural do seu cérebro de se autorregular.
 
-LEIA MAIS
+
 
 Para isso, serão disponibilizadas duas sessões guiadas:
 (1) A primeira tem a finalidade de acalmar a mente e o corpo;

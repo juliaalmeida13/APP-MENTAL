@@ -4,7 +4,6 @@ O estresse é uma reação necessária para a adaptação a uma nova situação.
 
 Para os profissionais de saúde, algumas situações podem ser estressoras: o distanciamento físico; o medo de ficar doente e de conhecidos adoecerem; a falta de EPIs; a longa duração da pandemia e o cansaço decorrente disso. Apesar de serem parte da experiência humana, é crucial aprendermos a enfrentar os estressores. Vem conferir algumas dicas:
 
-Ver mais
 
 Cada indivíduo age de forma única, mas algumas sugestões podem ajudar nesse enfrentamento:
 Não esqueça que essa situação vai passar!
