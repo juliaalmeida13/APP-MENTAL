@@ -78,9 +78,7 @@ class _SignUpState extends State<SignUp> {
 
   void CreateQuests() {
     now = DateTime.now();
-    //var firstDay = getNextSunday(now);
-    //for test purpose
-    var firstDay = now;
+    var firstDay = getNextSunday(now);
     //add promisn1 every other week, odd numbers
     for (var i = 1; i <= 11; i += 2) {
       String userEscala = 'promisN1_week$i';
@@ -89,7 +87,7 @@ class _SignUpState extends State<SignUp> {
         "questId": "pn1",
         "questName": "Escala PROMIS Nível 1 - Semana $i",
         "userEscala": userEscala,
-        "availableAt": addHours(day: firstDay, n: i - 1),
+        "availableAt": addWeeks(day: firstDay, n: i - 2),
         "answeredUntil": 0,
       };
       DatabaseMethods().createQuest(
@@ -105,7 +103,7 @@ class _SignUpState extends State<SignUp> {
           "questId": "pset",
           "questName": "Pergunta Eventos Traumáticos - Semana $i",
           "userEscala": userEscala,
-          "availableAt": addHours(day: firstDay, n: i),
+          "availableAt": addWeeks(day: firstDay, n: i - 1),
           "answeredUntil": 0,
         };
         DatabaseMethods().createQuest(
@@ -120,7 +118,7 @@ class _SignUpState extends State<SignUp> {
       "questId": "questSD1",
       "questName": "Questionário Sociodemográfico (1) - Semana 1",
       "userEscala": userEscala1,
-      "availableAt": addHours(day: firstDay, n: 0),
+      "availableAt": addWeeks(day: firstDay, n: -1),
       "answeredUntil": 0,
     };
     DatabaseMethods().createQuest(
@@ -133,7 +131,7 @@ class _SignUpState extends State<SignUp> {
       "questId": "questSD2",
       "questName": "Questionário Sociodemográfico (2) - Semana 2",
       "userEscala": userEscala2,
-      "availableAt": addHours(day: firstDay, n: 1),
+      "availableAt": addWeeks(day: firstDay, n: 0),
       "answeredUntil": 0,
     };
     DatabaseMethods().createQuest(

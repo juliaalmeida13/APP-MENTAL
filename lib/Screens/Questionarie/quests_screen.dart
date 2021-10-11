@@ -172,11 +172,10 @@ class QuestRoomTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     print("aa aa aa $availableAt");
-    //var nextSunday = getNextSunday(availableAt);
-    var nextSunday = addHours(day: availableAt, n: 1);
+    var nextSunday = getNextSunday(availableAt);
     print(nextSunday);
 
-    print('id:');
+    print(questName);
     if (_now.isAfter(availableAt) && _now.isBefore(nextSunday)) {
       return QuizCard(
           title: questName,

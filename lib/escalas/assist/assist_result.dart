@@ -33,7 +33,7 @@ class AssistResult extends StatelessWidget {
     var answerQ1 =
         await databaseMethods.getDomFromAnswers(userEmail, userEscala, "q1");
     if (answerQ1.docs[0].get("q1") == 1) {
-      String promisn2UserEscala = "$userEscala-assistN2";
+      String promisn2UserEscala = "$userEscala-assistN2-tabaco";
       List<String> week = questName.split("-");
       String promisn2QuestName =
           "ASSIST - (derivados do tabaco)" + " -" + week[1];
@@ -51,7 +51,7 @@ class AssistResult extends StatelessWidget {
     var answerQ2 =
         await databaseMethods.getDomFromAnswers(userEmail, userEscala, "q2");
     if (answerQ2.docs[0].get("q2") == 1) {
-      String promisn2UserEscala = "$userEscala-assistN2";
+      String promisn2UserEscala = "$userEscala-assistN2-alcool";
       List<String> week = questName.split("-");
       String promisn2QuestName =
           "ASSIST - (bebidas alcoólicas)" + " -" + week[1];
@@ -69,7 +69,7 @@ class AssistResult extends StatelessWidget {
     var answerQ3 =
         await databaseMethods.getDomFromAnswers(userEmail, userEscala, "q3");
     if (answerQ3.docs[0].get("q3") == 1) {
-      String promisn2UserEscala = "$userEscala-assistN2";
+      String promisn2UserEscala = "$userEscala-assistN2-maconha";
       List<String> week = questName.split("-");
       String promisn2QuestName = "ASSIST - (maconha)" + " -" + week[1];
       Map<String, dynamic> questMap = {
@@ -86,7 +86,7 @@ class AssistResult extends StatelessWidget {
     var answerQ4 =
         await databaseMethods.getDomFromAnswers(userEmail, userEscala, "q4");
     if (answerQ4.docs[0].get("q4") == 1) {
-      String promisn2UserEscala = "$userEscala-assistN2";
+      String promisn2UserEscala = "$userEscala-assistN2-crack";
       List<String> week = questName.split("-");
       String promisn2QuestName = "ASSIST - (cocaína, crack)" + " -" + week[1];
       Map<String, dynamic> questMap = {
@@ -103,7 +103,7 @@ class AssistResult extends StatelessWidget {
     var answerQ5 =
         await databaseMethods.getDomFromAnswers(userEmail, userEscala, "q5");
     if (answerQ5.docs[0].get("q5") == 1) {
-      String promisn2UserEscala = "$userEscala-assistN2";
+      String promisn2UserEscala = "$userEscala-assistN2-anf";
       List<String> week = questName.split("-");
       String promisn2QuestName =
           "ASSIST - (anfetaminas ou êxtase)" + " -" + week[1];
@@ -121,7 +121,7 @@ class AssistResult extends StatelessWidget {
     var answerQ6 =
         await databaseMethods.getDomFromAnswers(userEmail, userEscala, "q6");
     if (answerQ6.docs[0].get("q6") == 1) {
-      String promisn2UserEscala = "$userEscala-assistN2";
+      String promisn2UserEscala = "$userEscala-assistN20-inalantes";
       List<String> week = questName.split("-");
       String promisn2QuestName = "ASSIST - (inalantes)" + " -" + week[1];
       Map<String, dynamic> questMap = {
@@ -138,7 +138,7 @@ class AssistResult extends StatelessWidget {
     var answerQ7 =
         await databaseMethods.getDomFromAnswers(userEmail, userEscala, "q7");
     if (answerQ7.docs[0].get("q7") == 1) {
-      String promisn2UserEscala = "$userEscala-assistN2";
+      String promisn2UserEscala = "$userEscala-assistN2-hipno";
       List<String> week = questName.split("-");
       String promisn2QuestName =
           "ASSIST - (hipnóticos ou sedativos)" + " -" + week[1];
@@ -156,7 +156,7 @@ class AssistResult extends StatelessWidget {
     var answerQ8 =
         await databaseMethods.getDomFromAnswers(userEmail, userEscala, "q8");
     if (answerQ8.docs[0].get("q8") == 1) {
-      String promisn2UserEscala = "$userEscala-assistN2";
+      String promisn2UserEscala = "$userEscala-assistN2-aluci";
       List<String> week = questName.split("-");
       String promisn2QuestName = "ASSIST - (alucinógenos)" + " -" + week[1];
       Map<String, dynamic> questMap = {
@@ -173,7 +173,7 @@ class AssistResult extends StatelessWidget {
     var answerQ9 =
         await databaseMethods.getDomFromAnswers(userEmail, userEscala, "q9");
     if (answerQ9.docs[0].get("q9") == 1) {
-      String promisn2UserEscala = "$userEscala-assistN2";
+      String promisn2UserEscala = "$userEscala-assistN2-opio";
       List<String> week = questName.split("-");
       String promisn2QuestName = "ASSIST - (opioides)" + " -" + week[1];
       Map<String, dynamic> questMap = {
@@ -192,7 +192,7 @@ class AssistResult extends StatelessWidget {
     var answerQ10 =
         await databaseMethods.getDomFromAnswers(userEmail, userEscala, "q10");
     if (answerQ10.docs[0].get("q10") == 1) {
-      String promisn2UserEscala = "$userEscala-assistN2";
+      String promisn2UserEscala = "$userEscala-assistN2-outroas";
       List<String> week = questName.split("-");
       String promisn2QuestName =
           "ASSIST - (outras substâncias)" + " -" + week[1];
