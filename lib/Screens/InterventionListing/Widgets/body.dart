@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:app_mental/Screens/Reading/reading_screen.dart';
+import 'package:app_mental/Screens/Video/video_interv_screen.dart';
 import 'package:app_mental/Services/interventions.dart';
 import 'package:app_mental/classes/Intervention.dart';
 import 'package:app_mental/constants.dart';
@@ -9,6 +10,7 @@ import 'package:flutter/material.dart';
 
 class Body extends StatelessWidget {
   Body(this.group);
+
   final String group;
 
   @override
@@ -61,12 +63,15 @@ class IntervCard extends StatelessWidget {
             context,
             MaterialPageRoute(
               builder: (context) {
-                return ReadingScreen(
-                  intervention.nome,
-                  intervention.arquivo,
-                  intervention.imagem,
-                  intervention.nome,
-                );
+                return this.intervention.tipo != "video"
+                    ? ReadingScreen(
+                        intervention.nome,
+                        intervention.arquivo,
+                        intervention.imagem,
+                        intervention.id,
+                      )
+                    : VideoScreen(intervention.nome, intervention.arquivo,
+                        intervention.video, intervention.id);
               },
             ),
           );

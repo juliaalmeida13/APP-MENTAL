@@ -13,4 +13,4 @@ Por isso, preparamos uma meditação guiada para ajudar você a se sentir mais r
 9- Quando perceber a sensação de calma, deixe que ela permaneça e continue focando na respiração;
 10- Quando estiver pronto(a), abra os olhos no seu ritmo e finalize o exercício.
 
-Se preferir, você pode colocar seus fones e ouvir a seguinte meditação guiada para praticar: https://youtu.be/VyfiBCyXAwM
+Se preferir, você pode colocar seus fones e ouvir a seguinte meditação guiada para praticar: [Video](https://youtu.be/VyfiBCyXAwM)

@@ -27,6 +27,6 @@ Você consegue reservar pelo menos 40 minutos para esta prática? Ao final, é p
 QUER TENTAR?
 Tomara que você perceba alguns benefícios. Boa prática! 😉
 
-https://www.youtube.com/watch?v=h7j92aVoK9g
+[Video 1](https://www.youtube.com/watch?v=h7j92aVoK9g)
 
-https://www.youtube.com/watch?v=hzN1B748MR8
+[Video 2](https://www.youtube.com/watch?v=hzN1B748MR8)

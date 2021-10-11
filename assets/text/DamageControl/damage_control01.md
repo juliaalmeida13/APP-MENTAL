@@ -7,6 +7,6 @@ Além disso, a RD  valoriza a busca de estratégias concretas para reduzir os da
 Não é o oposto da abstinência. Trata-se de uma estratégia de cuidado que respeita o momento da pessoa, e o planejamento se dá com ela e para ela, respeitando as dificuldades que o processo de interrupção do uso de drogas acarreta como, por exemplo, não conseguir interromper o uso de imediato.
 
 Que tal conhecer mais? Sugerimos alguns sites:
-https://edelei.org/wp-content/uploads/2019/01/Caderno-do-Redutor-e-da-Redutora-de-Danos-E-de-Lei.pdf.
+[Site 1](https://edelei.org/wp-content/uploads/2019/01/Caderno-do-Redutor-e-da-Redutora-de-Danos-E-de-Lei.pdf)
 
-https://www.abramd.org/conteudo/view?ID_CONTEUDO=416
+[Site 2](https://www.abramd.org/conteudo/view?ID_CONTEUDO=416)

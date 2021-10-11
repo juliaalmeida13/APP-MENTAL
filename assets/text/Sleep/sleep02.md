@@ -11,5 +11,5 @@ Seu diário de sono deve ter informações sobre antes de deitar e sobre logo ao
 5) E a qualidade do seu sono em si.
 
 Vamos tentar?
-Acesse a página do diário :) (Clique no link para ser encaminhado)
+Acesse a [página do diário](/sleep-diary) :) (Clique no link para ser encaminhado)
 

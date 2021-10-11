@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class VidAndTextInfoCard extends StatelessWidget {
@@ -143,6 +144,15 @@ class InfoText extends StatelessWidget {
 
   final String markdownFile;
 
+  void onTapLink(String text, String? href, String title, context) {
+    if (text.startsWith("página") && href != null) {
+      Navigator.of(context).popUntil(ModalRoute.withName('/logged-home'));
+      Navigator.of(context).pushNamed(href);
+    } else {
+      launch(href!);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -158,6 +168,8 @@ class InfoText extends StatelessWidget {
                   children: [
                     Expanded(
                       child: Markdown(
+                          onTapLink: (text, href, title) =>
+                              onTapLink(text, href, title, context),
                           styleSheet: MrkdnTextTheme(context),
                           data: snapshot.data!),
                     ),

@@ -38,8 +38,6 @@ class ReadingScreen extends StatelessWidget {
       // encourage your user to leave a high rating?
       message:
           'Clique em uma estrela para avaliar, e adicione um comentário se quiser!',
-      // your app's logo?
-      image: const FlutterLogo(size: 100),
       submitButton: 'Enviar',
       onCancelled: () => print('cancelled'),
 

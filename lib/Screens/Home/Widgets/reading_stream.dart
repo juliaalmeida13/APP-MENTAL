@@ -1,7 +1,9 @@
 import 'package:app_mental/Screens/Reading/reading_screen.dart';
+import 'package:app_mental/Screens/Video/video_interv_screen.dart';
 import 'package:app_mental/Services/auth.dart';
 import 'package:app_mental/Services/database.dart';
 import 'package:app_mental/Services/interventions.dart';
+import 'package:app_mental/classes/Intervention.dart';
 import 'package:app_mental/constants.dart';
 import 'package:app_mental/helper/constants.dart';
 import 'package:app_mental/helper/helperfuncions.dart';
@@ -45,11 +47,7 @@ class _RecomendedReadingsStreamState extends State<RecomendedReadingsStream> {
                           margin: EdgeInsets.only(right: 10),
                           width: 300,
                           child: RecomendedReadingCard(
-                            imagePath: i.imagem,
-                            title: i.nome,
-                            readingsId:
-                                snapshot.data!.docs[index].get("readingsId"),
-                            isVideo: snapshot.data!.docs[index].get("isVideo"),
+                            intervention: i,
                             userEmail: Constants.myEmail,
                           ),
                         );
@@ -90,39 +88,34 @@ class _RecomendedReadingsStreamState extends State<RecomendedReadingsStream> {
 
 class RecomendedReadingCard extends StatelessWidget {
   const RecomendedReadingCard({
-    required this.imagePath,
-    required this.title,
-    required this.readingsId,
-    required this.isVideo,
     required this.userEmail,
+    required this.intervention,
   });
 
-  final String imagePath, title, userEmail, readingsId;
-  final bool isVideo;
-  static const Map<String, dynamic> routes = {
-    "sono1": "assets/text/Sleep/sleep01.md",
-    "sono2": "assets/text/Sleep/sleep02.md",
-    "sono3": "assets/text/Sleep/sleep03.md",
-    "sono4": "assets/text/Sleep/sleep04.md",
-    "reduce1": "assets/text/DamageControl/damage_control01.md",
-    "reduce2": "assets/text/DamageControl/damage_control02.md",
-    "reduce3": "assets/text/DamageControl/damage_control03.md",
-    "reduce4": "assets/text/DamageControl/damage_control04.md",
-  };
-
+  final String userEmail;
+  final Intervention intervention;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        if (isVideo == false) {
+        if (intervention.tipo != "video") {
           Navigator.push(
               context,
               MaterialPageRoute(
                   builder: (context) => ReadingScreen(
-                      title, routes[readingsId], imagePath, readingsId)));
+                      intervention.nome,
+                      intervention.arquivo,
+                      intervention.imagem,
+                      intervention.id)));
         } else {
-          /*Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => VideoScreen()));*/
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => VideoScreen(
+                      intervention.nome,
+                      intervention.arquivo,
+                      intervention.video,
+                      intervention.id)));
         }
       },
       child: Row(children: [
@@ -136,7 +129,7 @@ class RecomendedReadingCard extends StatelessWidget {
                       borderRadius: BorderRadius.circular(10),
                       image: DecorationImage(
                         fit: BoxFit.cover,
-                        image: AssetImage(imagePath),
+                        image: AssetImage(intervention.imagem),
                       ))),
               Container(
                 width: 300,
@@ -154,7 +147,7 @@ class RecomendedReadingCard extends StatelessWidget {
                       ),
                     ]),
                 child: Text(
-                  "$title\n",
+                  intervention.nome,
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 18,
