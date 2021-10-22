@@ -77,8 +77,7 @@ class Promisn2Result extends StatelessWidget {
                 style: TextStyle(color: Colors.black)),
             onPressed: () {
               sendPromisn2Score(userEmail);
-              if (isCritical()) {
-                showDialog<String>(
+              showDialog<String>(
                   context: context,
                   builder: (BuildContext context) => AlertDialog(
                     title: const Text('Entre em contato com alguém!'),
@@ -101,26 +100,6 @@ class Promisn2Result extends StatelessWidget {
                     ],
                   ),
                 );
-              } else {
-                showDialog<String>(
-                  context: context,
-                  builder: (BuildContext context) => AlertDialog(
-                    title: const Text('Êxito!'),
-                    content: const Text(
-                        'Suas respostas foram enviadas!\nNovas atividades serão disponibilizadas em breve.'),
-                    actions: <Widget>[
-                      TextButton(
-                        onPressed: () async {
-                          //enviarDominios(userEmail);
-                          Navigator.pop(context);
-                          Navigator.pop(context);
-                        },
-                        child: const Text('Ok'),
-                      ),
-                    ],
-                  ),
-                );
-              }
             },
           ),
         ),
