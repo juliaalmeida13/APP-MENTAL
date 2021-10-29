@@ -1,6 +1,7 @@
 import 'package:app_mental/Screens/Contacts/contacts_screen.dart';
 import 'package:app_mental/Services/database.dart';
 import 'package:app_mental/escalas/promis_answer.dart';
+import 'package:app_mental/escalas/questForm.dart';
 import 'package:app_mental/escalas/question.dart';
 import 'package:flutter/material.dart';
 
@@ -81,6 +82,8 @@ class Psqi extends StatelessWidget {
     }
   }
 
+  var hasForm = false;
+
   @override
   Widget build(BuildContext context) {
     var lastIndex = questions.length;
@@ -90,7 +93,7 @@ class Psqi extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         color: Color.fromRGBO(244, 244, 244, 1),
-      ),
+      ), 
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -98,8 +101,11 @@ class Psqi extends StatelessWidget {
             "Questão ${questionIndex + 1} de $lastIndex",
             textAlign: TextAlign.center,
           ),
-          Spacer(),
-          Question(
+          Text(""), //spacer was taking too much space 
+          hasForm ?
+            Column(
+              children: [
+                Question(
             questions[questionIndex]['questionText'] as String,
           ),
           ...(questions[questionIndex]['answers'] as List<Map<String, dynamic>>)
@@ -109,6 +115,9 @@ class Psqi extends StatelessWidget {
               answer['text']!,
             );
           }).toList(),
+            ],) :
+          QuestForm(() => answerQuestion(2),
+              "a"),
           Spacer(),
           Container(
             child: Column(

@@ -83,7 +83,6 @@ class Promisn1 extends StatelessWidget {
       child: Text("Responder mais tarde"),
       onPressed: () {
         enviarDominios(userEmail);
-        var count = 0;
         /*Navigator.popUntil(context, (route) {
           return count++ == 2;
         });*/
