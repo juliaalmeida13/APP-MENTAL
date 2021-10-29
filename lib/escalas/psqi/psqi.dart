@@ -2,6 +2,7 @@ import 'package:app_mental/Screens/Contacts/contacts_screen.dart';
 import 'package:app_mental/Services/database.dart';
 import 'package:app_mental/escalas/promis_answer.dart';
 import 'package:app_mental/escalas/questTimePicker.dart';
+import 'package:app_mental/escalas/questIntervalPicker.dart';
 import 'package:app_mental/escalas/question.dart';
 import 'package:flutter/material.dart';
 
@@ -82,7 +83,8 @@ class Psqi extends StatelessWidget {
     }
   }
 
-  var hasTimePicker = false;
+  var hasTimePicker = true;
+  var isInterval = false;
 
   @override
   Widget build(BuildContext context) {
@@ -102,7 +104,7 @@ class Psqi extends StatelessWidget {
             textAlign: TextAlign.center,
           ),
           Text(""), //spacer was taking too much space 
-          hasTimePicker ?
+          !hasTimePicker ?
             Column(
               children: [
                 Question(
@@ -116,8 +118,18 @@ class Psqi extends StatelessWidget {
             );
           }).toList(),
             ],) :
-          QuestTimePicker(() => answerQuestion(2),
-              "a"),
+          Column(
+            children: [
+              Question(
+            questions[questionIndex]['questionText'] as String,
+          ),
+              isInterval?
+              QuestIntervalPicker(() => answerQuestion(2),
+                  "a") :
+              QuestTimePicker(() => answerQuestion(2),
+                  "a"),
+            ],
+          ),
           Spacer(),
           Container(
             child: Column(
