@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 
-class QuestForm extends StatefulWidget {
+class QuestTimePicker extends StatefulWidget {
   final Function() selectHandler;
   final String answerText;
 
-  QuestForm(this.selectHandler, this.answerText);
+  QuestTimePicker(this.selectHandler, this.answerText);
 
   @override
-  State<QuestForm> createState() => _QuestFormState();
+  State<QuestTimePicker> createState() => _QuestTimePickerState();
 }
 
-class _QuestFormState extends State<QuestForm> {
+class _QuestTimePickerState extends State<QuestTimePicker> {
   TimeOfDay selectedTime = TimeOfDay.now();
   @override
   Widget build(BuildContext context) {
