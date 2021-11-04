@@ -278,7 +278,7 @@ class _PsqiScreenState extends State<PsqiScreen> {
   ];
 
   var _questionIndex = 0;
-  var _totalScoreList = List<int>.filled(25, 0);
+  var _totalScoreList = List<Object>.filled(25, 0);
 
   void _answerQuestion(int score) {
     _totalScoreList[_questionIndex] = score;

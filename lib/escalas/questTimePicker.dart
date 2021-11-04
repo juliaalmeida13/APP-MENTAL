@@ -11,8 +11,17 @@ class QuestTimePicker extends StatefulWidget {
 }
 
 class _QuestTimePickerState extends State<QuestTimePicker> {
+  Function()? selectHandler;
+  String? answerText;
   TimeOfDay selectedTime = TimeOfDay.now();
+
+  
   @override
+   void initState() {
+  selectHandler = widget.selectHandler;
+  answerText = widget.answerText;
+  super.initState();
+ }
   Widget build(BuildContext context) {
     return Center(
         child: Column(
@@ -25,6 +34,17 @@ class _QuestTimePickerState extends State<QuestTimePicker> {
               child: Text("Selecione seu horário"),
             ),
             Text("${selectedTime.hour}:${selectedTime.minute}"),
+            Spacer(),
+            OutlinedButton(
+              onPressed: selectHandler,
+              child: Text(
+                "Confirmar",
+                textAlign: TextAlign.center,
+              ),
+            style: new ButtonStyle(
+              padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+              EdgeInsets.all(12))),
+              )
           ],
         ),
       );

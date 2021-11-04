@@ -3,7 +3,7 @@ import 'package:app_mental/Services/database.dart';
 import 'package:flutter/material.dart';
 
 class PsqiResult extends StatelessWidget {
-  final List<int> resultScoreList;
+  final List<Object> resultScoreList;
   final int questionIndex;
   final String userEmail;
   final String questName;
@@ -46,8 +46,8 @@ class PsqiResult extends StatelessWidget {
     databaseMethods.updateQuestIndex(userEscala, email, questionIndex);
     databaseMethods.disableQuest(userEscala, email);
 
-    int sum =
-        resultScoreList.fold(0, (previous, current) => previous + current);
+    int sum = 4;
+        // resultScoreList.fold(0, (previous, current) => previous + current); é necessário definir como calcular a pontuacao.
     if (sum > 4) {
       Map<String, dynamic> readingsMap1 = {
         "imagePath": "assets/images/sleep01.jpg",
@@ -84,8 +84,8 @@ class PsqiResult extends StatelessWidget {
   }
 
   isCritical() {
-    int sum =
-        resultScoreList.fold(0, (previous, current) => previous + current);
+    int sum = 10;
+        // resultScoreList.fold(0, (previous, current) => previous + current);
     if (sum > 10) {
       return true;
     } else {
@@ -94,8 +94,8 @@ class PsqiResult extends StatelessWidget {
   }
 
   hasRecommendation() {
-    int sum =
-        resultScoreList.fold(0, (previous, current) => previous + current);
+    int sum = 4;
+        // resultScoreList.fold(0, (previous, current) => previous + current);
     if (sum > 4) {
       return true;
     } else {

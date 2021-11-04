@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 class Psqi extends StatelessWidget {
   final List<Map<String, Object>> questions;
   final int questionIndex;
-  final List<int> resultScoreList;
+  final List<Object> resultScoreList;
   final Function answerQuestion;
   final Function resetQuestion;
   final String userEmail;
@@ -64,8 +64,8 @@ class Psqi extends StatelessWidget {
   }
 
   isCritical() {
-    int sum =
-        resultScoreList.fold(0, (previous, current) => previous + current);
+    int sum = 10;
+        // resultScoreList.fold(0, (previous, current) => previous + current);
     if (sum > 10) {
       return true;
     } else {
@@ -74,8 +74,8 @@ class Psqi extends StatelessWidget {
   }
 
   hasRecommendation() {
-    int sum =
-        resultScoreList.fold(0, (previous, current) => previous + current);
+    int sum = 4;
+        // resultScoreList.fold(0, (previous, current) => previous + current);
     if (sum > 4) {
       return true;
     } else {
