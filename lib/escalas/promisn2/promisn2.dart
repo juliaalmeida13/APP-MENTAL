@@ -110,7 +110,6 @@ class Promisn2 extends StatelessWidget {
                         TextButton(
                           onPressed: () async {
                             sendPromisn2PartialScore(userEmail);
-                            if (isCritical()) {
                               showDialog<String>(
                                 context: context,
                                 builder: (BuildContext context) => AlertDialog(
@@ -135,10 +134,6 @@ class Promisn2 extends StatelessWidget {
                                   ],
                                 ),
                               );
-                            } else {
-                              Navigator.pop(context, 'Ok');
-                              Navigator.pop(context, "Ok");
-                            }
                           },
                           child: const Text('OK'),
                         ),
