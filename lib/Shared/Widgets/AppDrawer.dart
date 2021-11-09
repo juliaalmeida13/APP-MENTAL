@@ -6,7 +6,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:flutter_firebase_chat_core/flutter_firebase_chat_core.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class AppDrawer extends StatefulWidget {
   AppDrawer({
@@ -208,8 +207,8 @@ class _AppDrawerState extends State<AppDrawer> {
         Navigator.of(context).pushNamed("/users");
         break;
       case 5:
-        launch(
-            "https://docs.google.com/document/d/1gu6D5SvLI-PSHiLukq7VX5_cDHx2zI0O8ulrwaB341k/edit");
+        Navigator.of(context).popUntil(ModalRoute.withName('/logged-home'));
+        Navigator.of(context).pushNamed("/tutorial");
         break;
     }
   }
