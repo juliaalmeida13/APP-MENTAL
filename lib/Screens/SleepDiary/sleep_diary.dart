@@ -790,7 +790,12 @@ calculoEficienciaSono(
   int ttcInt = int.parse(ttcString[0]) * 60 + int.parse(ttcString[1]);
 
   double res = ((ttsInt / ttcInt) * 100).truncateToDouble();
-
+  // Evaluate this later, I don't really know if the calculations above are correct.
+  if (res > 100.0) {
+    res = 100.0;
+  } else if (res < 0.0) {
+    res = 0.0;
+  }
   List<String> res2 = [
     tts,
     ttc,
