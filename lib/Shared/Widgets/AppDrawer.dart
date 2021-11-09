@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:flutter_firebase_chat_core/flutter_firebase_chat_core.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 class AppDrawer extends StatefulWidget {
   AppDrawer({
@@ -18,6 +19,17 @@ class AppDrawer extends StatefulWidget {
 
 class _AppDrawerState extends State<AppDrawer> {
   final padding = EdgeInsets.symmetric(horizontal: 10);
+
+  String version = "";
+  @override
+  initState() {
+    super.initState();
+    getVersion().then((String data) {
+      setState(() {
+        version = data;
+      });
+    });
+  }
 
   String truncateWithEllipsis(int cutoff, String myString) {
     return (myString.length <= cutoff)
@@ -108,6 +120,18 @@ class _AppDrawerState extends State<AppDrawer> {
                     ],
                   ))),
         ],
+        // AsyncSnapshot<Your object type>
+        if (version != "") ...[
+          Container(
+              margin: EdgeInsets.fromLTRB(15, 0, 0, 10),
+              alignment: AlignmentDirectional.topStart,
+              child: Text(
+                "Versão: " + version,
+                style: TextStyle(
+                    fontSize: 12, color: Color.fromRGBO(0, 0, 0, 0.3)),
+                textAlign: TextAlign.justify,
+              ))
+        ]
       ]),
     ));
   }
@@ -182,6 +206,13 @@ class _AppDrawerState extends State<AppDrawer> {
         ),
       ),
     );
+  }
+
+  Future<String> getVersion() async {
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    String version = packageInfo.version;
+    String buildNumber = packageInfo.buildNumber;
+    return Future.value(version + "-" + buildNumber);
   }
 
   void selectedItem(BuildContext context, int index) {
