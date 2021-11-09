@@ -1,6 +1,7 @@
 import 'package:app_mental/Screens/Contacts/contacts_screen.dart';
 import 'package:app_mental/Screens/Questionarie/quests_screen.dart';
 import 'package:app_mental/Screens/SleepDiary/sleep_diary.dart';
+import 'package:app_mental/Screens/Tutorial/tutorial_screen.dart';
 import 'package:app_mental/escalas/assist/assist_screen.dart';
 import 'package:app_mental/escalas/assistn2/assistn2_screen.dart';
 import 'package:app_mental/escalas/mdq/mdq_screen.dart';
@@ -77,6 +78,7 @@ class _MyAppState extends State<MyApp> {
         PsqiScreen.routeName: (ctx) => PsqiScreen(),
         AssistScreen.routeName: (ctx) => AssistScreen(),
         Assistn2Screen.routeName: (ctx) => Assistn2Screen(),
+        "/tutorial": (ctx) => TutorialScreen(),
         "/reset-password": (ctx) => ResetPassword(),
         "/sign-in": (ctx) => SignIn(),
         "/logged-home": (ctx) => HomeScreen(),
