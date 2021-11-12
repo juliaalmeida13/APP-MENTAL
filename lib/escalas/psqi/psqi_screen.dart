@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:app_mental/escalas/psqi/psqi.dart';
 import 'package:app_mental/escalas/psqi/psqi_result.dart';
+import 'package:flutter/material.dart';
 
 import '../../constants.dart';
 
@@ -25,6 +25,7 @@ class _PsqiScreenState extends State<PsqiScreen> {
     {
       'questionText':
           'I. Durante o último mês, quando você geralmente foi para a cama à noite?',
+      'type': "time",
       'answers': [
         {'text': 'Antes de 20:00 h', 'score': 0},
         {'text': 'Entre 20:00 h e 20:59 h', 'score': 1},
@@ -37,6 +38,7 @@ class _PsqiScreenState extends State<PsqiScreen> {
     {
       'questionText':
           'II. Durante o último mês, quanto tempo você geralmente levou para dormir à noite?',
+      'type': "time",
       'answers': [
         {'text': 'Menos de 5 minutos', 'score': 0},
         {'text': 'Entre 6 e 15 minutos', 'score': 1},
@@ -49,6 +51,7 @@ class _PsqiScreenState extends State<PsqiScreen> {
     {
       'questionText':
           'III. Durante o último mês, quando você geralmente levantou de manhã?',
+      'type': "time",
       'answers': [
         {'text': 'Antes de 05:00 h', 'score': 0},
         {'text': 'Entre 05:00 h e 5:59 h', 'score': 1},
@@ -61,6 +64,7 @@ class _PsqiScreenState extends State<PsqiScreen> {
     {
       'questionText':
           'IV. Durante o último mês, quantas horas de sono você teve por noite? (Este pode ser diferente do número de horas que você ficou na cama).',
+      'type': "time",
       'answers': [
         {'text': 'Menos de 4 horas', 'score': 0},
         {'text': 'Entre 4 e 5 horas', 'score': 1},
@@ -278,9 +282,9 @@ class _PsqiScreenState extends State<PsqiScreen> {
   ];
 
   var _questionIndex = 0;
-  var _totalScoreList = List<int>.filled(25, 0);
+  List<dynamic> _totalScoreList = []..length = _questions.length;
 
-  void _answerQuestion(int score) {
+  void _answerQuestion(dynamic score) {
     _totalScoreList[_questionIndex] = score;
     setState(() {
       _questionIndex = _questionIndex + 1;

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-class PromisAnswer extends StatelessWidget {
+class AnswerOption extends StatelessWidget {
   final Function() selectHandler;
   final String answerText;
 
-  PromisAnswer(this.selectHandler, this.answerText);
+  AnswerOption(this.selectHandler, this.answerText);
 
   @override
   /*Widget build(BuildContext context) {

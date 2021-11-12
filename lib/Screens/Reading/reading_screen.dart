@@ -34,11 +34,11 @@ class ReadingScreen extends StatelessWidget {
 
     final _dialog = RatingDialog(
       // your app's name?
-      title: ratingTitle,
+      title: Text(ratingTitle),
       // encourage your user to leave a high rating?
-      message:
-          'Clique em uma estrela para avaliar, e adicione um comentário se quiser!',
-      submitButton: 'Enviar',
+      message: Text(
+          'Clique em uma estrela para avaliar, e adicione um comentário se quiser!'),
+      submitButtonText: 'Enviar',
       onCancelled: () => print('cancelled'),
 
       onSubmitted: (response) {

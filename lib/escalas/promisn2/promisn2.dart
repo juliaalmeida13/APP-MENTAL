@@ -78,7 +78,7 @@ class Promisn2 extends StatelessWidget {
           ),
           ...(questions[questionIndex]['answers'] as List<Map<String, dynamic>>)
               .map((answer) {
-            return PromisAnswer(
+            return AnswerOption(
               () => answerQuestion(answer['score']),
               answer['text']!,
             );
@@ -110,30 +110,30 @@ class Promisn2 extends StatelessWidget {
                         TextButton(
                           onPressed: () async {
                             sendPromisn2PartialScore(userEmail);
-                              showDialog<String>(
-                                context: context,
-                                builder: (BuildContext context) => AlertDialog(
-                                  title: const Text(
-                                      'Entre em contato com alguém!'),
-                                  content: const Text(
-                                      'Percebemos que você pode estar em um estado bastante delicado e gostaríamos de sugerir que entre em contato conosco ou com alguém próximo!'),
-                                  actions: <Widget>[
-                                    TextButton(
-                                      onPressed: () async {
-                                        Navigator.pop(context, 'Ok');
-                                        await Navigator.of(context).pushNamed(
-                                          ContactsScreen.routeName,
-                                          arguments: {},
-                                        );
-                                      },
-                                      child: const Text('Ok',
-                                          style: TextStyle(
-                                              color: Color.fromRGBO(
-                                                  104, 202, 138, 1))),
-                                    ),
-                                  ],
-                                ),
-                              );
+                            showDialog<String>(
+                              context: context,
+                              builder: (BuildContext context) => AlertDialog(
+                                title:
+                                    const Text('Entre em contato com alguém!'),
+                                content: const Text(
+                                    'Percebemos que você pode estar em um estado bastante delicado e gostaríamos de sugerir que entre em contato conosco ou com alguém próximo!'),
+                                actions: <Widget>[
+                                  TextButton(
+                                    onPressed: () async {
+                                      Navigator.pop(context, 'Ok');
+                                      await Navigator.of(context).pushNamed(
+                                        ContactsScreen.routeName,
+                                        arguments: {},
+                                      );
+                                    },
+                                    child: const Text('Ok',
+                                        style: TextStyle(
+                                            color: Color.fromRGBO(
+                                                104, 202, 138, 1))),
+                                  ),
+                                ],
+                              ),
+                            );
                           },
                           child: const Text('OK'),
                         ),

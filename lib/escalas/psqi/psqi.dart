@@ -4,10 +4,12 @@ import 'package:app_mental/escalas/promis_answer.dart';
 import 'package:app_mental/escalas/question.dart';
 import 'package:flutter/material.dart';
 
+import '../promis_answer_input.dart';
+
 class Psqi extends StatelessWidget {
   final List<Map<String, Object>> questions;
   final int questionIndex;
-  final List<int> resultScoreList;
+  final List<dynamic> resultScoreList;
   final Function answerQuestion;
   final Function resetQuestion;
   final String userEmail;
@@ -62,8 +64,8 @@ class Psqi extends StatelessWidget {
   }
 
   isCritical() {
-    int sum =
-        resultScoreList.fold(0, (previous, current) => previous + current);
+    int sum = 0;
+    //resultScoreList.fold(0, (previous, current) => previous + current);
     if (sum > 10) {
       return true;
     } else {
@@ -72,8 +74,8 @@ class Psqi extends StatelessWidget {
   }
 
   hasRecommendation() {
-    int sum =
-        resultScoreList.fold(0, (previous, current) => previous + current);
+    int sum = 0;
+    //resultScoreList.fold(0, (previous, current) => previous + current);
     if (sum > 4) {
       return true;
     } else {
@@ -102,13 +104,21 @@ class Psqi extends StatelessWidget {
           Question(
             questions[questionIndex]['questionText'] as String,
           ),
-          ...(questions[questionIndex]['answers'] as List<Map<String, dynamic>>)
-              .map((answer) {
-            return PromisAnswer(
-              () => answerQuestion(answer['score']),
-              answer['text']!,
-            );
-          }).toList(),
+          if (!questions[questionIndex].containsKey("type")) ...[
+            ...(questions[questionIndex]['answers']
+                    as List<Map<String, dynamic>>)
+                .map((answer) {
+              return AnswerOption(
+                () => answerQuestion(answer['score']),
+                answer['text']!,
+              );
+            }).toList()
+          ] else ...[
+            AnswerInput(
+              (dynamic value) => answerQuestion(value),
+              "date",
+            )
+          ],
           Spacer(),
           Container(
             child: Column(

@@ -41,7 +41,7 @@ class Pset extends StatelessWidget {
           ),
           ...(questions[questionIndex]['answers'] as List<Map<String, dynamic>>)
               .map((answer) {
-            return PromisAnswer(
+            return AnswerOption(
               () => answerQuestion(answer['score']),
               answer['text'] as String,
             );

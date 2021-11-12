@@ -46,7 +46,7 @@ class EscalaBody extends StatelessWidget {
           ),
           ...(questions[index]['answers'] as List<Map<String, dynamic>>)
               .map((answer) {
-            return PromisAnswer(
+            return AnswerOption(
               () => onSelectAnswer(answer['score']),
               answer['text']!,
             );
