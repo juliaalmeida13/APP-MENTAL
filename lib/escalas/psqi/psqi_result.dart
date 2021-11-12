@@ -1,10 +1,9 @@
 import 'package:app_mental/Screens/Contacts/contacts_screen.dart';
-import 'package:app_mental/Screens/Home/home_screen.dart';
 import 'package:app_mental/Services/database.dart';
 import 'package:flutter/material.dart';
 
 class PsqiResult extends StatelessWidget {
-  final List<int> resultScoreList;
+  final List<dynamic> resultScoreList;
   final int questionIndex;
   final String userEmail;
   final String questName;
@@ -47,8 +46,11 @@ class PsqiResult extends StatelessWidget {
     databaseMethods.updateQuestIndex(userEscala, email, questionIndex);
     databaseMethods.disableQuest(userEscala, email);
 
-    int sum =
-        resultScoreList.fold(0, (previous, current) => previous + current);
+    List<int>? listOfInts = resultScoreList
+        .where((x) => x.runtimeType == int)
+        .map((x) => x as int)
+        .toList();
+    int sum = listOfInts.fold(0, (previous, current) => previous + current);
     if (sum > 4) {
       Map<String, dynamic> readingsMap1 = {
         "imagePath": "assets/images/sleep01.jpg",
@@ -85,8 +87,11 @@ class PsqiResult extends StatelessWidget {
   }
 
   isCritical() {
-    int sum =
-        resultScoreList.fold(0, (previous, current) => previous + current);
+    List<int>? listOfInts = resultScoreList
+        .where((x) => x.runtimeType == int)
+        .map((x) => x as int)
+        .toList();
+    int sum = listOfInts.fold(0, (previous, current) => previous + current);
     if (sum > 10) {
       return true;
     } else {
@@ -95,8 +100,11 @@ class PsqiResult extends StatelessWidget {
   }
 
   hasRecommendation() {
-    int sum =
-        resultScoreList.fold(0, (previous, current) => previous + current);
+    List<int>? listOfInts = resultScoreList
+        .where((x) => x.runtimeType == int)
+        .map((x) => x as int)
+        .toList();
+    int sum = listOfInts.fold(0, (previous, current) => previous + current);
     if (sum > 4) {
       return true;
     } else {

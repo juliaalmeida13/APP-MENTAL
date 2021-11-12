@@ -69,7 +69,7 @@ class Assist extends StatelessWidget {
           ),
           ...(questions[questionIndex]['answers'] as List<Map<String, Object>>)
               .map((answer) {
-            return PromisAnswer(
+            return AnswerOption(
               () => answerQuestion(answer['score']),
               answer['text'] as String,
             );

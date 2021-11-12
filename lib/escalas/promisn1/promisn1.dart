@@ -146,7 +146,7 @@ class Promisn1 extends StatelessWidget {
           ),
           ...(questions[questionIndex]['answers'] as List<Map<String, dynamic>>)
               .map((answer) {
-            return PromisAnswer(
+            return AnswerOption(
               () => answerQuestion(answer['score'], answer['dom']),
               answer['text']!,
             );
