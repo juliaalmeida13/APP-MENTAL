@@ -164,6 +164,13 @@ class AppTextStyles {
     fontWeight: FontWeight.w500,
   );
 
+  static final TextStyle homecard = TextStyle(
+    fontFamily: "Inter",
+    color: AppColors.black,
+    fontSize: 30,
+    fontWeight: FontWeight.bold,
+  );
+
   static final TextStyle body20 = TextStyle(
     fontFamily: "Inter",
     color: AppColors.cinzamedio,
@@ -206,6 +213,7 @@ class AppColors {
   static final Color azulclaro = Color(0xFFBFD0E0);
   static final Color blue = Color(0xFF00AFB9);
   static final Color blue10 = Color(0xFF007EA7);
+  static final Color bluecard = Color(0xFF00AFB9);
 
   //Greys
   static final Color cinza = Color(0xFFE8E8E8);

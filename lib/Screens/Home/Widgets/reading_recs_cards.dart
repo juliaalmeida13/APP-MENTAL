@@ -1,5 +1,8 @@
+import 'dart:ui';
+
 import 'package:app_mental/Screens/InterventionListing/intervention_list.dart';
 import 'package:app_mental/Services/interventions.dart';
+import 'package:app_mental/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -52,17 +55,40 @@ class ReadingRecomendCard extends StatelessWidget {
     return GestureDetector(
       onTap: press,
       child: Card(
-        elevation: 1,
+        elevation: 2,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10.0),
         ),
         clipBehavior: Clip.antiAlias,
-        child: Column(
-          children: [
-            ListTile(
-              title: Text(this.title),
+
+        //personalização do card
+        child: SizedBox(
+          height: MediaQuery.of(context).size.height / 4,
+          child: ListTile(
+            tileColor: AppColors.verdeclaro,
+            title: Row(
+              children: [
+                Center(
+                  child: Container(
+                    width: MediaQuery.of(context).size.width / (2.5),
+                    child: Text(
+                      this.title,
+                      style: AppTextStyles.homecard,
+                    ),
+                  ),
+                ),
+                Spacer(),
+                Center(
+                  child: Container(
+                      width: MediaQuery.of(context).size.width / (2.3),
+                      decoration: BoxDecoration(
+                          image: DecorationImage(
+                              image:
+                                  AssetImage('assets/images/controle.png')))),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );

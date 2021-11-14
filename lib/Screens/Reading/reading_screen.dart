@@ -53,7 +53,7 @@ class ReadingScreen extends StatelessWidget {
         databaseMethods.rateReading(
             id, ratingMap, FirebaseAuth.instance.currentUser!.uid);
       },
-      commentHint: 'Nos conte o que achou!',
+      commentHint: 'Conte-nos o que achou!',
     );
 
     showDialog(

@@ -18,14 +18,40 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Inicio"),
-        backgroundColor: kTextColorGreen,
-        shadowColor: Color.fromRGBO(1, 1, 1, 0),
-      ),
-      drawer: AppDrawer(key: Key("drawer")),
-      body: Body(),
-    );
+    return DefaultTabController(
+        length: 2,
+        child: Scaffold(
+          drawer: AppDrawer(key: Key("drawer")),
+          appBar: AppBar(
+              centerTitle: true,
+              iconTheme: IconThemeData(color: kTextColorGreen),
+              backgroundColor: Colors.white,
+              title: Text(
+                'Início',
+                style: AppTextStyles.tituloatividades,
+              ),
+              bottom: new PreferredSize(
+                  preferredSize: new Size(300.0, 50.0),
+                  child: new Container(
+                      width: 300.0,
+                      child: new TabBar(
+                        indicatorColor: AppColors.verdeclaro,
+                        labelStyle: AppTextStyles.titulotab,
+                        labelColor: Colors.black,
+                        tabs: [
+                          new Container(
+                            height: 50.0,
+                            child: new Tab(text: 'Leituras'),
+                          ),
+                          new Container(
+                            height: 50.0,
+                            child: new Tab(text: 'Outros'),
+                          ),
+                        ],
+                      )))),
+          body: TabBarView(
+            children: [Cards(), Cards()],
+          ),
+        ));
   }
 }

@@ -6,12 +6,12 @@ import 'package:app_mental/Screens/Home/Widgets/section_title.dart';
 import 'package:app_mental/Services/database.dart';
 import 'package:flutter/material.dart';
 
-class Body extends StatefulWidget {
+class Cards extends StatefulWidget {
   @override
   _BodyState createState() => _BodyState();
 }
 
-class _BodyState extends State<Body> {
+class _BodyState extends State<Cards> {
   bool existingReadings = false;
   @override
   void initState() {
