@@ -49,9 +49,9 @@ class _SleepPageState extends State<SleepPage> {
     };
 
     if (dataIgual) {
-      print("Descupe, vc já respondeu hoje");
+      print("Descupe, você já respondeu hoje");
     } else {
-      print("vc n respondeu hoje");
+      print("você não respondeu hoje");
       databaseMethods.addRespostaQuestionarioSono(
           FirebaseAuth.instance.currentUser!.uid, messageMap, data);
       setState(() {
@@ -614,6 +614,8 @@ class _SleepPageState extends State<SleepPage> {
                                   _buildQuest8(),
                                   SizedBox(height: 20),
                                   ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                        primary: AppColors.verdementa),
                                     child: Text(
                                       'Enviar',
                                       style: TextStyle(

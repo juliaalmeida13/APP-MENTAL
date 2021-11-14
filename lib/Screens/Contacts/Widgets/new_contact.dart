@@ -56,7 +56,6 @@ class _NewContactState extends State<NewContact> {
                     },*/
             ),
             FlatButton(
-              color: AppColors.verdementa,
               child: Text('Adicionar contato'),
               textColor: Color(0xFF21BFBD),
               onPressed: submitData,
