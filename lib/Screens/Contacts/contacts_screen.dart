@@ -230,12 +230,18 @@ class _ContactsScreenState extends State<ContactsScreen> {
 
 _confirmDelDialog(BuildContext context, id) async {
   Widget cancelaButton = TextButton(
+    style: ButtonStyle(
+        foregroundColor: MaterialStateProperty.all(AppColors.white),
+        backgroundColor: MaterialStateProperty.all(AppColors.verdementa)),
     child: Text("Cancelar"),
     onPressed: () {
       Navigator.of(context).pop();
     },
   );
   Widget continuaButton = TextButton(
+    style: ButtonStyle(
+        foregroundColor: MaterialStateProperty.all(AppColors.white),
+        backgroundColor: MaterialStateProperty.all(AppColors.verdementa)),
     child: Text("Excluir"),
     onPressed: () {
       DatabaseMethods()
@@ -340,6 +346,8 @@ editContactDialog(BuildContext context, _formKey, name, number, id, nameContact,
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            primary: AppColors.verdementa),
                         child: Text("Alterar"),
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
@@ -408,6 +416,8 @@ addContactDialog(
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            primary: AppColors.verdementa),
                         child: Text("Adicionar"),
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {

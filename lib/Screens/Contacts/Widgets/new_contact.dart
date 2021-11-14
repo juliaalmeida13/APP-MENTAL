@@ -1,3 +1,4 @@
+import 'package:app_mental/constants.dart';
 import 'package:flutter/material.dart';
 
 class NewContact extends StatefulWidget {
@@ -55,6 +56,7 @@ class _NewContactState extends State<NewContact> {
                     },*/
             ),
             FlatButton(
+              color: AppColors.verdementa,
               child: Text('Adicionar contato'),
               textColor: Color(0xFF21BFBD),
               onPressed: submitData,
