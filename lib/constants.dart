@@ -57,6 +57,12 @@ class AppTextStyles {
       fontWeight: FontWeight.w600,
       height: 3);
 
+  static final TextStyle sleepDiaryField = TextStyle(
+      fontFamily: "Inter",
+      color: AppColors.black,
+      fontSize: 16,
+      fontWeight: FontWeight.bold);
+
   static final TextStyle tituloatividades = TextStyle(
       fontFamily: "Inter",
       color: AppColors.black,

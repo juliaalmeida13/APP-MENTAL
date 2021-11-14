@@ -87,11 +87,14 @@ class _SleepPageState extends State<SleepPage> {
 
   Widget _buildQuest1() {
     return Container(
-      height: 50,
+      height: 70,
       margin: EdgeInsets.symmetric(vertical: 10.0),
-      child: ListView(
-        scrollDirection: Axis.horizontal,
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: AppColors.verdeclaro)),
+      child: Row(
         children: [
+          Spacer(),
           Container(
             alignment: Alignment.center,
             width: 200,
@@ -102,6 +105,10 @@ class _SleepPageState extends State<SleepPage> {
           ),
           Container(
             width: 100,
+            height: 36,
+            decoration: BoxDecoration(
+                color: AppColors.cinzamedio,
+                borderRadius: BorderRadius.circular(10)),
             child: TextFormField(
               controller: resp1,
               validator: (value) {
@@ -123,16 +130,21 @@ class _SleepPageState extends State<SleepPage> {
               textAlign: TextAlign.center,
               decoration: InputDecoration(
                 hintText: _resQuest1 == null ? "00:00" : _resQuest1,
-                hintStyle: TextStyle(
-                  fontSize: 18,
-                ),
+                hintStyle: AppTextStyles.sleepDiaryField,
               ),
             ),
           ),
+          Spacer(),
           Container(
-            width: 50,
-            child: Icon(Icons.access_time_rounded),
+            decoration: BoxDecoration(
+                color: AppColors.cinzamedio,
+                borderRadius: BorderRadius.circular(10)),
+            width: 36,
+            height: 36,
+            child: Icon(Icons.access_time_filled_outlined,
+                color: AppColors.bluecard),
           ),
+          Spacer()
         ],
       ),
     );
@@ -140,11 +152,14 @@ class _SleepPageState extends State<SleepPage> {
 
   Widget _buildQuest2() {
     return Container(
-      height: 50,
+      height: 70,
       margin: EdgeInsets.symmetric(vertical: 10.0),
-      child: ListView(
-        scrollDirection: Axis.horizontal,
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: AppColors.verdeclaro)),
+      child: Row(
         children: [
+          Spacer(),
           Container(
             alignment: Alignment.center,
             width: 200,
@@ -155,6 +170,10 @@ class _SleepPageState extends State<SleepPage> {
           ),
           Container(
             width: 100,
+            height: 36,
+            decoration: BoxDecoration(
+                color: AppColors.cinzamedio,
+                borderRadius: BorderRadius.circular(10)),
             child: TextFormField(
               controller: resp2,
               validator: (value) {
@@ -176,17 +195,22 @@ class _SleepPageState extends State<SleepPage> {
               showCursor: false,
               textAlign: TextAlign.center,
               decoration: InputDecoration(
-                hintText: _resQuest2 == null ? "00:00" : _resQuest2,
-                hintStyle: TextStyle(
-                  fontSize: 18,
-                ),
-              ),
+                  enabled: false,
+                  hintText: _resQuest2 == null ? "00:00" : _resQuest2,
+                  hintStyle: AppTextStyles.sleepDiaryField),
             ),
           ),
+          Spacer(),
           Container(
-            width: 50,
-            child: Icon(Icons.access_time_rounded),
-          )
+            decoration: BoxDecoration(
+                color: AppColors.cinzamedio,
+                borderRadius: BorderRadius.circular(10)),
+            width: 36,
+            height: 36,
+            child: Icon(Icons.access_time_filled_outlined,
+                color: AppColors.bluecard),
+          ),
+          Spacer()
         ],
       ),
     );
@@ -194,11 +218,14 @@ class _SleepPageState extends State<SleepPage> {
 
   Widget _buildQuest3() {
     return Container(
-      height: 50,
+      height: 70,
       margin: EdgeInsets.symmetric(vertical: 10.0),
-      child: ListView(
-        scrollDirection: Axis.horizontal,
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: AppColors.verdeclaro)),
+      child: Row(
         children: [
+          Spacer(),
           Container(
             alignment: Alignment.center,
             width: 200,
@@ -207,8 +234,13 @@ class _SleepPageState extends State<SleepPage> {
               style: TextStyle(fontSize: 16),
             ),
           ),
+          Spacer(),
           Container(
             width: 100,
+            height: 36,
+            decoration: BoxDecoration(
+                color: AppColors.cinzamedio,
+                borderRadius: BorderRadius.circular(10)),
             child: TextFormField(
               controller: resp3,
               validator: (value) {
@@ -229,17 +261,20 @@ class _SleepPageState extends State<SleepPage> {
               showCursor: false,
               textAlign: TextAlign.center,
               decoration: InputDecoration(
-                hintText: _resQuest3,
-                hintStyle: TextStyle(
-                  fontSize: 18,
-                ),
-              ),
+                  hintText: _resQuest3,
+                  hintStyle: AppTextStyles.sleepDiaryField),
             ),
           ),
+          Spacer(),
           Container(
-            width: 50,
-            child: Icon(Icons.timer),
-          )
+            decoration: BoxDecoration(
+                color: AppColors.cinzamedio,
+                borderRadius: BorderRadius.circular(10)),
+            width: 36,
+            height: 36,
+            child: Icon(Icons.timer_outlined, color: AppColors.bluecard),
+          ),
+          Spacer(),
         ],
       ),
     );
@@ -249,54 +284,70 @@ class _SleepPageState extends State<SleepPage> {
     return Container(
       height: 75,
       margin: EdgeInsets.symmetric(vertical: 10.0),
-      child: ListView(
-        scrollDirection: Axis.horizontal,
-        children: [
-          Container(
-            alignment: Alignment.center,
-            width: 200,
-            child: Text(
-              "Quantas vezes você acordou, sem contar o seu despertar final?",
-              style: TextStyle(fontSize: 16),
-            ),
-          ),
-          SizedBox(
-            width: 10,
-          ),
-          GestureDetector(
-            onTap: () {
-              setState(() {
-                if (qtd > 0) {
-                  qtd = qtd - 1;
-                }
-              });
-            },
-            child: Container(
-              width: 50,
-              child: Icon(Icons.remove),
-            ),
-          ),
-          Container(
-            alignment: Alignment.center,
-            child: Text(
-              qtd.toString(),
-              style: TextStyle(
-                fontSize: 18,
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: AppColors.verdeclaro)),
+      child: Center(
+        child: Row(
+          children: [
+            Spacer(),
+            Container(
+              alignment: Alignment.center,
+              width: 200,
+              child: Text(
+                "Quantas vezes você acordou, sem contar o seu despertar final?",
+                style: TextStyle(fontSize: 16),
               ),
             ),
-          ),
-          GestureDetector(
-            onTap: () {
-              setState(() {
-                qtd = qtd + 1;
-              });
-            },
-            child: Container(
-              width: 50,
-              child: Icon(Icons.add),
+            Spacer(),
+            Spacer(),
+            SizedBox(
+              width: 10,
             ),
-          )
-        ],
+            GestureDetector(
+              onTap: () {
+                setState(() {
+                  if (qtd > 0) {
+                    qtd = qtd - 1;
+                  }
+                });
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                    color: AppColors.cinzamedio,
+                    borderRadius: BorderRadius.circular(10)),
+                width: 36,
+                height: 36,
+                child: Icon(Icons.remove, color: AppColors.bluecard),
+              ),
+            ),
+            Spacer(),
+            Container(
+              alignment: Alignment.center,
+              child: Text(
+                qtd.toString(),
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+            ),
+            Spacer(),
+            GestureDetector(
+              onTap: () {
+                setState(() {
+                  qtd = qtd + 1;
+                });
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                    color: AppColors.cinzamedio,
+                    borderRadius: BorderRadius.circular(10)),
+                width: 36,
+                height: 36,
+                child: Icon(Icons.add, color: AppColors.bluecard),
+              ),
+            ),
+            Spacer()
+          ],
+        ),
       ),
     );
   }
@@ -304,11 +355,14 @@ class _SleepPageState extends State<SleepPage> {
   Widget _buildQuest5() {
     if (qtd > 0) {
       return Container(
-        height: 50,
+        height: 70,
         margin: EdgeInsets.symmetric(vertical: 10.0),
-        child: ListView(
-          scrollDirection: Axis.horizontal,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(color: AppColors.verdeclaro)),
+        child: Row(
           children: [
+            Spacer(),
             Container(
               alignment: Alignment.center,
               width: 200,
@@ -319,6 +373,10 @@ class _SleepPageState extends State<SleepPage> {
             ),
             Container(
               width: 100,
+              height: 36,
+              decoration: BoxDecoration(
+                  color: AppColors.cinzamedio,
+                  borderRadius: BorderRadius.circular(10)),
               child: TextFormField(
                 controller: resp5,
                 validator: (value) {
@@ -339,17 +397,20 @@ class _SleepPageState extends State<SleepPage> {
                 showCursor: false,
                 textAlign: TextAlign.center,
                 decoration: InputDecoration(
-                  hintText: _resQuest5 == null ? "00:00" : _resQuest5,
-                  hintStyle: TextStyle(
-                    fontSize: 18,
-                  ),
-                ),
+                    hintText: _resQuest5 == null ? "00:00" : _resQuest5,
+                    hintStyle: AppTextStyles.sleepDiaryField),
               ),
             ),
+            Spacer(),
             Container(
-              width: 50,
-              child: Icon(Icons.timer),
-            )
+              decoration: BoxDecoration(
+                  color: AppColors.cinzamedio,
+                  borderRadius: BorderRadius.circular(10)),
+              width: 36,
+              height: 36,
+              child: Icon(Icons.timer, color: AppColors.bluecard),
+            ),
+            Spacer(),
           ],
         ),
       );
@@ -360,11 +421,14 @@ class _SleepPageState extends State<SleepPage> {
 
   Widget _buildQuest6() {
     return Container(
-      height: 50,
+      height: 70,
       margin: EdgeInsets.symmetric(vertical: 10.0),
-      child: ListView(
-        scrollDirection: Axis.horizontal,
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: AppColors.verdeclaro)),
+      child: Row(
         children: [
+          Spacer(),
           Container(
             alignment: Alignment.center,
             width: 200,
@@ -375,6 +439,10 @@ class _SleepPageState extends State<SleepPage> {
           ),
           Container(
             width: 100,
+            height: 36,
+            decoration: BoxDecoration(
+                color: AppColors.cinzamedio,
+                borderRadius: BorderRadius.circular(10)),
             child: TextFormField(
               controller: resp6,
               validator: (value) {
@@ -395,17 +463,21 @@ class _SleepPageState extends State<SleepPage> {
               showCursor: false,
               textAlign: TextAlign.center,
               decoration: InputDecoration(
-                hintText: _resQuest6 == null ? "00:00" : _resQuest6,
-                hintStyle: TextStyle(
-                  fontSize: 18,
-                ),
-              ),
+                  hintText: _resQuest6 == null ? "00:00" : _resQuest6,
+                  hintStyle: AppTextStyles.sleepDiaryField),
             ),
           ),
+          Spacer(),
           Container(
-            width: 50,
-            child: Icon(Icons.access_time_rounded),
-          )
+            decoration: BoxDecoration(
+                color: AppColors.cinzamedio,
+                borderRadius: BorderRadius.circular(10)),
+            width: 36,
+            height: 36,
+            child: Icon(Icons.access_time_filled_outlined,
+                color: AppColors.bluecard),
+          ),
+          Spacer()
         ],
       ),
     );
@@ -413,11 +485,14 @@ class _SleepPageState extends State<SleepPage> {
 
   Widget _buildQuest7() {
     return Container(
-      height: 60,
+      height: 70,
       margin: EdgeInsets.symmetric(vertical: 10.0),
-      child: ListView(
-        scrollDirection: Axis.horizontal,
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: AppColors.verdeclaro)),
+      child: Row(
         children: [
+          Spacer(),
           Container(
             alignment: Alignment.center,
             width: 200,
@@ -426,8 +501,13 @@ class _SleepPageState extends State<SleepPage> {
               style: TextStyle(fontSize: 16),
             ),
           ),
+          Spacer(),
           Container(
             width: 100,
+            height: 36,
+            decoration: BoxDecoration(
+                color: AppColors.cinzamedio,
+                borderRadius: BorderRadius.circular(10)),
             child: TextFormField(
               controller: resp7,
               validator: (value) {
@@ -448,17 +528,20 @@ class _SleepPageState extends State<SleepPage> {
               showCursor: false,
               textAlign: TextAlign.center,
               decoration: InputDecoration(
-                hintText: _resQuest7 == null ? "00:00" : _resQuest7,
-                hintStyle: TextStyle(
-                  fontSize: 18,
-                ),
-              ),
+                  hintText: _resQuest7 == null ? "00:00" : _resQuest7,
+                  hintStyle: AppTextStyles.sleepDiaryField),
             ),
           ),
+          Spacer(),
           Container(
-            width: 50,
-            child: Icon(Icons.timer),
-          )
+            decoration: BoxDecoration(
+                color: AppColors.cinzamedio,
+                borderRadius: BorderRadius.circular(10)),
+            width: 36,
+            height: 36,
+            child: Icon(Icons.timer, color: AppColors.bluecard),
+          ),
+          Spacer()
         ],
       ),
     );
@@ -466,11 +549,14 @@ class _SleepPageState extends State<SleepPage> {
 
   Widget _buildQuest8() {
     return Container(
-      height: 50,
+      height: 70,
       margin: EdgeInsets.symmetric(vertical: 10.0),
-      child: ListView(
-        scrollDirection: Axis.horizontal,
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: AppColors.verdeclaro)),
+      child: Row(
         children: [
+          Spacer(),
           Container(
             alignment: Alignment.center,
             width: 200,
@@ -479,8 +565,13 @@ class _SleepPageState extends State<SleepPage> {
               style: TextStyle(fontSize: 16),
             ),
           ),
+          Spacer(),
           Container(
             width: 100,
+            height: 36,
+            decoration: BoxDecoration(
+                color: AppColors.cinzamedio,
+                borderRadius: BorderRadius.circular(10)),
             child: TextFormField(
               controller: resp8,
               validator: (value) {
@@ -502,16 +593,21 @@ class _SleepPageState extends State<SleepPage> {
               textAlign: TextAlign.center,
               decoration: InputDecoration(
                 hintText: _resQuest8 == null ? "00:00" : _resQuest8,
-                hintStyle: TextStyle(
-                  fontSize: 18,
-                ),
+                hintStyle: AppTextStyles.sleepDiaryField,
               ),
             ),
           ),
+          Spacer(),
           Container(
-            width: 50,
-            child: Icon(Icons.timer),
-          )
+            decoration: BoxDecoration(
+                color: AppColors.cinzamedio,
+                borderRadius: BorderRadius.circular(10)),
+            width: 36,
+            height: 36,
+            child: Icon(Icons.access_time_filled_outlined,
+                color: AppColors.bluecard),
+          ),
+          Spacer()
         ],
       ),
     );
@@ -572,8 +668,10 @@ class _SleepPageState extends State<SleepPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Diário do sono"),
-        backgroundColor: kTextColorGreen,
+        centerTitle: true,
+        iconTheme: IconThemeData(color: Colors.black87),
+        backgroundColor: AppColors.verdeclaro,
+        title: Text('Diário do Sono', style: AppTextStyles.tituloatividades),
         shadowColor: Color.fromRGBO(1, 1, 1, 0),
         actions: [],
       ),
@@ -615,7 +713,7 @@ class _SleepPageState extends State<SleepPage> {
                                   SizedBox(height: 20),
                                   ElevatedButton(
                                     style: ElevatedButton.styleFrom(
-                                        primary: AppColors.verdementa),
+                                        primary: AppColors.bluecard),
                                     child: Text(
                                       'Enviar',
                                       style: TextStyle(

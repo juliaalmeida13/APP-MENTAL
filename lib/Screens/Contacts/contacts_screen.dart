@@ -174,9 +174,14 @@ class _ContactsScreenState extends State<ContactsScreen> {
     return Scaffold(
       drawer: AppDrawer(key: Key("drawer")),
       appBar: AppBar(
-          backgroundColor: AppColors.green,
-          shadowColor: Colors.transparent,
-          title: Text("Contatos"),
+          centerTitle: true,
+          iconTheme: IconThemeData(color: Colors.black87),
+          backgroundColor: AppColors.verdeclaro,
+          elevation: 0,
+          title: Text(
+            'Contatos',
+            style: AppTextStyles.tituloatividades,
+          ),
           actions: <Widget>[
             IconButton(
               icon: const Icon(Icons.add),
