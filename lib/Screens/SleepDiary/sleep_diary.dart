@@ -195,7 +195,6 @@ class _SleepPageState extends State<SleepPage> {
               showCursor: false,
               textAlign: TextAlign.center,
               decoration: InputDecoration(
-                  enabled: false,
                   hintText: _resQuest2 == null ? "00:00" : _resQuest2,
                   hintStyle: AppTextStyles.sleepDiaryField),
             ),
