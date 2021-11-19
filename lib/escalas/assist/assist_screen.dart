@@ -106,12 +106,6 @@ class _AssistScreenState extends State<AssistScreen> {
     setState(() {
       _questionIndex = _questionIndex + 1;
     });
-
-    if (_questionIndex < _questions.length) {
-      print("qIndex : $_questionIndex");
-    } else {
-      print("questionIndex $_questionIndex > _question.length");
-    }
   }
 
   void _resetQuestion() {
@@ -134,7 +128,6 @@ class _AssistScreenState extends State<AssistScreen> {
       _questionIndex = index;
     }
 
-    print("Assistn2_screen: " + _userEmail!);
     return Scaffold(
       appBar: AppBar(
         title: Text(titleAA!),

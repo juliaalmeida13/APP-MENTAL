@@ -37,9 +37,6 @@ class Promisn1 extends StatelessWidget {
       "questName": questName,
       "answeredUntil": questionIndex,
     };
-    print("EnviarDominios userEmail/userEscala");
-    print(userEmail);
-    print(userEscala);
     databaseMethods.addQuestAnswer(promisn1Map, userEmail, userEscala);
     databaseMethods.updateQuestIndex(userEscala, userEmail, questionIndex);
   }
@@ -84,9 +81,6 @@ class Promisn1 extends StatelessWidget {
       onPressed: () {
         enviarDominios(userEmail);
         var count = 0;
-        /*Navigator.popUntil(context, (route) {
-          return count++ == 2;
-        });*/
         Navigator.popUntil(context, ModalRoute.withName('/quests-screen'));
       },
     );

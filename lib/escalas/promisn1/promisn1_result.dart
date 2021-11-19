@@ -38,10 +38,6 @@ class Promisn1Result extends StatelessWidget {
       "questName": questName,
       "answeredUntil": questionIndex,
     };
-    print(
-        "EnviarDominios FirebaseAuth.instance.currentUser!.uid/userEscala PromisResult");
-    print(email);
-    print(userEscala);
     await databaseMethods.addQuestAnswer(promisn1Map, email, userEscala);
     var doms = await databaseMethods.getDomTotal(
       userEscala,
@@ -243,21 +239,6 @@ class Promisn1Result extends StatelessWidget {
         ),
       ],
     );
-    //Future.delayed(Duration.zero, () => showAlert(context));
-
-    /*return Container(
-        /*FlatButton(
-          child: Text('Retornar ao menu'),
-          textColor: Colors.blue,
-          onPressed: () => {
-            Navigator.of(context).pushNamed(
-              CategoriesScreen.routeName,
-              arguments: {},
-            )
-          },
-        ),*/
-
-        );*/
   }
 
   void showAlert(BuildContext context) {
@@ -265,10 +246,6 @@ class Promisn1Result extends StatelessWidget {
       child: Text("Voltar",
           style: TextStyle(color: Color.fromRGBO(0, 175, 185, 1))),
       onPressed: () async {
-        /*var count = 0;
-        Navigator.popUntil(context, (route) {
-          return count++ == 2;
-        });*/
         enviarDominios(FirebaseAuth.instance.currentUser!.uid);
         Navigator.pop(context, 'Voltar');
         await Navigator.of(context)

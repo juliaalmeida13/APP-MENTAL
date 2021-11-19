@@ -11,6 +11,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+// Constroi uma lista de intervencoes que foram recomendadas a partir das respostas de escalas/questionários do usuário
 class RecomendedReadingsStream extends StatefulWidget {
   @override
   _RecomendedReadingsStreamState createState() =>
@@ -22,10 +23,12 @@ class _RecomendedReadingsStreamState extends State<RecomendedReadingsStream> {
   DatabaseMethods databaseMethods = new DatabaseMethods();
   Stream<QuerySnapshot<Object?>>? readingsStream;
 
+  
   Widget readingsList() {
     return StreamBuilder<QuerySnapshot>(
       stream: readingsStream,
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        // Caso houver recomendacoes no banco, cria-se a lista
         return snapshot.hasData && snapshot.data!.docs.length > 0
             ? Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
