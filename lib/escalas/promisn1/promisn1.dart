@@ -14,6 +14,7 @@ class Promisn1 extends StatelessWidget {
   final String userEmail;
   final DatabaseMethods databaseMethods = new DatabaseMethods();
   final List<int> resultScoreList;
+  final List<Object> resultOptionList;
   final String userEscala;
   final String questName;
   final DateTime now = DateTime.now();
@@ -33,6 +34,30 @@ class Promisn1 extends StatelessWidget {
       "dom11": resultScoreList[11],
       "dom12": resultScoreList[12],
       "dom13": resultScoreList[13],
+      "option1": resultOptionList[1],
+      "option2": resultOptionList[2],
+      "option3": resultOptionList[3],
+      "option4": resultOptionList[4],
+      "option5": resultOptionList[5],
+      "option6": resultOptionList[6],
+      "option7": resultOptionList[7],
+      "option8": resultOptionList[8],
+      "option9": resultOptionList[9],
+      "option10": resultOptionList[10],
+      "option11": resultOptionList[11],
+      "option12": resultOptionList[12],
+      "option13": resultOptionList[13],
+      "option14": resultOptionList[14],
+      "option15": resultOptionList[15],
+      "option16": resultOptionList[16],
+      "option17": resultOptionList[17],
+      "option18": resultOptionList[18],
+      "option19": resultOptionList[19],
+      "option20": resultOptionList[20],
+      "option21": resultOptionList[21],
+      "option22": resultOptionList[22],
+      "option23": resultOptionList[23],
+      "option24": resultOptionList[24],
       "answeredAt": now,
       "questName": questName,
       "answeredUntil": questionIndex,
@@ -63,9 +88,10 @@ class Promisn1 extends StatelessWidget {
     required this.questionIndex,
     required this.userEmail,
     required this.resultScoreList,
+    required this.resultOptionList,
     required this.userEscala,
     required this.questName,
-    required this.resetLastDomain,
+    required this.resetLastDomain, 
   });
 
   @override
@@ -141,7 +167,7 @@ class Promisn1 extends StatelessWidget {
           ...(questions[questionIndex]['answers'] as List<Map<String, dynamic>>)
               .map((answer) {
             return AnswerOption(
-              () => answerQuestion(answer['score'], answer['dom']),
+              () => answerQuestion(answer['score'], answer['dom'], answer['text']),
               answer['text']!,
             );
           }).toList(),

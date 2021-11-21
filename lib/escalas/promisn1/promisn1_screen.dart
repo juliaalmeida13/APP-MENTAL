@@ -366,16 +366,14 @@ class _Promisn1ScreenState extends State<Promisn1Screen> {
 
   var _questionIndex = 0;
   var _totalScoreList = List<int>.filled(14, 0);
+  var _resultOptionList = List<Object>.filled(24,0);
 
-  void _answerQuestion(int score, int domin) {
+  void _answerQuestion(int score, int domin, Object option) {
     _totalScoreList[domin] += score;
+    _resultOptionList[_questionIndex] = option;
     setState(() {
       _questionIndex = _questionIndex + 1;
     });
-
-    if (_questionIndex < _questions.length) {
-      print("qIndex : $_questionIndex");
-    }
   }
 
   void _resetLastDomain(int dom) {
@@ -423,11 +421,13 @@ class _Promisn1ScreenState extends State<Promisn1Screen> {
                 questions: _questions,
                 userEmail: _userEmail,
                 resultScoreList: _totalScoreList,
+                resultOptionList: _resultOptionList,
                 userEscala: _userEscala!,
                 questName: titleAA,
               ) //Quiz
             : Promisn1Result(
                 resultScoreList: _totalScoreList,
+                resultOptionList: _resultOptionList,
                 questName: titleAA,
                 userEscala: _userEscala!,
                 questionIndex: _questionIndex,
