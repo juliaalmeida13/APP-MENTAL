@@ -162,9 +162,11 @@ class _MdqScreenState extends State<MdqScreen> {
 
   var _questionIndex = 0;
   var _totalScoreList = List<int>.filled(18, 0);
+  var _resultOptionList = List<Object>.filled(18,0);
 
-  void _answerQuestion(int score) {
+  void _answerQuestion(int score, Object option) {
     _totalScoreList[_questionIndex] = score;
+    _resultOptionList[_questionIndex] = option;
     setState(() {
       _questionIndex = _questionIndex + 1;
     });
@@ -212,11 +214,13 @@ class _MdqScreenState extends State<MdqScreen> {
                 questions: _questions,
                 userEmail: _userEmail,
                 resultScoreList: _totalScoreList,
+                resultOptionList: _resultOptionList,
                 userEscala: _userEscala!,
                 questName: titleAA,
               ) //Quiz
             : MdqResult(
                 resultScoreList: _totalScoreList,
+                resultOptionList: _resultOptionList,
                 questName: titleAA,
                 userEscala: _userEscala!,
                 userEmail: _userEmail,

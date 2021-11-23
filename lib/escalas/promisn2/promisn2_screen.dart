@@ -105,30 +105,17 @@ class _Promisn2ScreenState extends State<Promisn2Screen> {
     },
   ];
 
-  //(p. ex. analgésicos, estimulantes, sedativos ou tranquilizantes, ou drogas como maconha, cocaína ou crack, drogas sintéticas, alucinógenos, heroína, inalantes ou solventes ou metanfetamina?
   var _questionIndex = 0;
   var _totalScoreList = List<int>.filled(9, 0);
+  var _resultOptionList = List<Object>.filled(9, 0);
 
-  /*void _resetQuiz(BuildContext ctx) {
-    _questionIndex = 0;
-    _totalScore = 0;
-    Navigator.of(ctx).pop();
-    /*setState(() {
-      _questionIndex = 0;
-      _totalScore = 0;
-    }); */
-*/
-  void _answerQuestion(int score) {
+  void _answerQuestion(int score, Object option) {
     _totalScoreList[_questionIndex] = score;
+    _resultOptionList[_questionIndex] = option;
     setState(() {
       _questionIndex = _questionIndex + 1;
     });
 
-    if (_questionIndex < _questions.length) {
-      print("qIndex : $_questionIndex");
-    } else {
-      print("questionIndex $_questionIndex > _question.length");
-    }
   }
 
   void _resetQuestion() {
@@ -150,8 +137,6 @@ class _Promisn2ScreenState extends State<Promisn2Screen> {
     if (_questionIndex < index) {
       _questionIndex = index;
     }
-
-    print("Promisn2_screen: " + _userEmail!);
     return Scaffold(
       appBar: AppBar(
         title: Text(titleAA!),
@@ -167,11 +152,13 @@ class _Promisn2ScreenState extends State<Promisn2Screen> {
                 questions: _questions,
                 userEmail: _userEmail,
                 resultScoreList: _totalScoreList,
+                resultOptionList: _resultOptionList,
                 userEscala: _userEscala!,
                 questName: titleAA,
               ) //Quiz
             : Promisn2Result(
                 resultScoreList: _totalScoreList,
+                resultOptionList: _resultOptionList,
                 questName: titleAA,
                 userEscala: _userEscala!,
                 userEmail: _userEmail,

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 class QuestSD2Result extends StatelessWidget {
   final List<Object> resultScoreList;
+  final List<Object> resultOptionList;
   final int questionIndex;
   final String userEmail;
   final String questName;
@@ -28,6 +29,20 @@ class QuestSD2Result extends StatelessWidget {
       "q12": resultScoreList[9],
       "q13": resultScoreList[9],
       "q14": resultScoreList[9],
+      "option1": resultOptionList[1],
+      "option2": resultOptionList[2],
+      "option3": resultOptionList[3],
+      "option4": resultOptionList[4],
+      "option5": resultOptionList[5],
+      "option6": resultOptionList[6],
+      "option7": resultOptionList[7],
+      "option8": resultOptionList[8],
+      "option9": resultOptionList[9],
+      "option10": resultOptionList[10],
+      "option11": resultOptionList[11],
+      "option12": resultOptionList[12],
+      "option13": resultOptionList[13],
+      "option14": resultOptionList[14],
       "answeredAt": instantTime,
       "questName": questName,
       "answeredUntil": questionIndex,
@@ -40,6 +55,7 @@ class QuestSD2Result extends StatelessWidget {
 
   QuestSD2Result({
     required this.resultScoreList,
+    required this.resultOptionList,
     required this.questionIndex,
     required this.userEmail,
     required this.questName,

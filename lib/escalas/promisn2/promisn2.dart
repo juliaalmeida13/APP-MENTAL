@@ -8,6 +8,7 @@ class Promisn2 extends StatelessWidget {
   final List<Map<String, Object>> questions;
   final int questionIndex;
   final List<int> resultScoreList;
+  final List<Object> resultOptionList;
   final Function answerQuestion;
   final Function resetQuestion;
   final String userEmail;
@@ -21,6 +22,7 @@ class Promisn2 extends StatelessWidget {
     required this.answerQuestion,
     required this.questionIndex,
     required this.resultScoreList,
+    required this.resultOptionList,
     required this.userEmail,
     required this.userEscala,
     required this.questName,
@@ -37,6 +39,14 @@ class Promisn2 extends StatelessWidget {
       "q6": resultScoreList[6],
       "q7": resultScoreList[7],
       "q8": resultScoreList[8],
+      "option1": resultOptionList[1],
+      "option2": resultOptionList[2],
+      "option3": resultOptionList[3],
+      "option4": resultOptionList[4],
+      "option5": resultOptionList[5],
+      "option6": resultOptionList[6],
+      "option7": resultOptionList[7],
+      "option8": resultOptionList[8],
       "answeredAt": now,
       "questName": questName,
       "answeredUntil": questionIndex,
@@ -79,7 +89,7 @@ class Promisn2 extends StatelessWidget {
           ...(questions[questionIndex]['answers'] as List<Map<String, dynamic>>)
               .map((answer) {
             return AnswerOption(
-              () => answerQuestion(answer['score']),
+              () => answerQuestion(answer['score'], answer['text']),
               answer['text']!,
             );
           }).toList(),

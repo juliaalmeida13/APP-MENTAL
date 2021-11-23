@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 class PromisAnsiResult extends StatelessWidget {
   final List<int> resultScoreList;
+  final List<Object> resultOptionList;
   final int questionIndex;
   final String userEmail;
   final String questName;
@@ -21,6 +22,13 @@ class PromisAnsiResult extends StatelessWidget {
       "q5": resultScoreList[5],
       "q6": resultScoreList[6],
       "q7": resultScoreList[7],
+      "option1": resultOptionList[1],
+      "option2": resultOptionList[2],
+      "option3": resultOptionList[3],
+      "option4": resultOptionList[4],
+      "option5": resultOptionList[5],
+      "option6": resultOptionList[6],
+      "option7": resultOptionList[7],
       "answeredAt": instantTime,
       "questName": questName,
       "answeredUntil": questionIndex,
@@ -42,6 +50,7 @@ class PromisAnsiResult extends StatelessWidget {
 
   PromisAnsiResult({
     required this.resultScoreList,
+    required this.resultOptionList,
     required this.questionIndex,
     required this.userEmail,
     required this.questName,

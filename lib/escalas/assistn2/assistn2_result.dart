@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 class Assistn2Result extends StatelessWidget {
   final List<int> resultScoreList;
+  final List<Object> resultOptionList;
   final int questionIndex;
   final String userEmail;
   final String questName;
@@ -19,6 +20,12 @@ class Assistn2Result extends StatelessWidget {
       "q4": resultScoreList[4],
       "q5": resultScoreList[5],
       "q6": resultScoreList[6],
+      "option1": resultOptionList[1],
+      "option2": resultOptionList[2],
+      "option3": resultOptionList[3],
+      "option4": resultOptionList[4],
+      "option5": resultOptionList[5],
+      "option6": resultOptionList[6],
       "answeredAt": instantTime,
       "questName": questName,
       "answeredUntil": questionIndex,
@@ -86,6 +93,7 @@ class Assistn2Result extends StatelessWidget {
 
   Assistn2Result({
     required this.resultScoreList,
+    required this.resultOptionList,
     required this.questionIndex,
     required this.userEmail,
     required this.questName,

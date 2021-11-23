@@ -42,7 +42,7 @@ class Pset extends StatelessWidget {
           ...(questions[questionIndex]['answers'] as List<Map<String, dynamic>>)
               .map((answer) {
             return AnswerOption(
-              () => answerQuestion(answer['score']),
+              () => answerQuestion(answer['score'], answer['text']),
               answer['text'] as String,
             );
           }).toList(),
