@@ -377,6 +377,8 @@ class DatabaseMethods {
   }
 
 
+
+
   // Retorna o maior valor de uma reposta de uma questão especifica, de uma escala especifica
   // É esperado que apenas uma resposta tenha o valor diferente de zero para cada questão (com excecao do promisn1)
   getDomFromAnswers(String uid, String userEscala, String dom) async {
@@ -387,6 +389,19 @@ class DatabaseMethods {
         .doc(userEscala)
         .collection("answers")
         .orderBy(dom, descending: true)
+        .limit(1)
+        .get();
+  }
+
+
+  // Query para testar o envio das opcoes escolhidas
+  getOptionAnswers(String uid, String userEscala, String index) async {
+    return FirebaseFirestore.instance
+        .collection("Escala")
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection("userEscalas")
+        .doc(userEscala)
+        .collection("answers")
         .limit(1)
         .get();
   }
