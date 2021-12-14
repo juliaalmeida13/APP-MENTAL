@@ -10,6 +10,7 @@ class Psqi extends StatelessWidget {
   final List<Map<String, Object>> questions;
   final int questionIndex;
   final List<dynamic> resultScoreList;
+  final List<Object> resultOptionList;
   final Function answerQuestion;
   final Function resetQuestion;
   final String userEmail;
@@ -23,6 +24,7 @@ class Psqi extends StatelessWidget {
     required this.answerQuestion,
     required this.questionIndex,
     required this.resultScoreList,
+    required this.resultOptionList,
     required this.userEmail,
     required this.userEscala,
     required this.questName,
@@ -55,6 +57,30 @@ class Psqi extends StatelessWidget {
       "q22": resultScoreList[22],
       "q23": resultScoreList[23],
       "q24": resultScoreList[24],
+      "option1": resultOptionList[1],
+      "option2": resultOptionList[2],
+      "option3": resultOptionList[3],
+      "option4": resultOptionList[4],
+      "option5": resultOptionList[5],
+      "option6": resultOptionList[6],
+      "option7": resultOptionList[7],
+      "option8": resultOptionList[8],
+      "option9": resultOptionList[9],
+      "option10": resultOptionList[10],
+      "option11": resultOptionList[11],
+      "option12": resultOptionList[12],
+      "option13": resultOptionList[13],
+      "option14": resultOptionList[14],
+      "option15": resultOptionList[15],
+      "option16": resultOptionList[16],
+      "option17": resultOptionList[17],
+      "option18": resultOptionList[18],
+      "option19": resultOptionList[19],
+      "option20": resultOptionList[20],
+      "option21": resultOptionList[21],
+      "option22": resultOptionList[22],
+      "option23": resultOptionList[23],
+      "option24": resultOptionList[24],
       "answeredAt": now,
       "questName": questName,
       "answeredUntil": questionIndex,
@@ -109,13 +135,13 @@ class Psqi extends StatelessWidget {
                     as List<Map<String, dynamic>>)
                 .map((answer) {
               return AnswerOption(
-                () => answerQuestion(answer['score']),
+                () => answerQuestion(answer['score'], answer['text']),
                 answer['text']!,
               );
             }).toList()
           ] else ...[
             AnswerInput(
-              (dynamic value) => answerQuestion(value),
+              (dynamic value) => answerQuestion(value, "Input Value"),
               "date",
             )
           ],

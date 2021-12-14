@@ -1,6 +1,7 @@
 import 'package:app_mental/constants.dart';
 import 'package:flutter/material.dart';
 
+// Cria um card para representar as escalas/questionários do usuário
 class QuizCard extends StatelessWidget {
   final String title;
   final VoidCallback onTap;
@@ -24,6 +25,8 @@ class QuizCard extends StatelessWidget {
     var minutesToExpire = difference.inMinutes;
 
     String expirationText;
+    
+    // Calcula a constroi o texto para informar o usuário do período restante em que a escala/questionário estará disponível
     if (daysToExpire > 0) {
       expirationText = 'Expira em $daysToExpire dia(s)';
     } else if (hoursToExpire > 0) {

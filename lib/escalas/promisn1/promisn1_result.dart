@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 
 class Promisn1Result extends StatelessWidget {
   final List<int> resultScoreList;
+  final List<Object> resultOptionList;
   final String questName;
   final String userEscala;
   final int questionIndex;
@@ -20,6 +21,10 @@ class Promisn1Result extends StatelessWidget {
   final DatabaseMethods databaseMethods = new DatabaseMethods();
 
   enviarDominios(String email) async {
+    for(var i = 0; i < 10; i++){
+      print(resultOptionList[i]);
+    }
+    
     Map<String, dynamic> promisn1Map = {
       "dom1": resultScoreList[1],
       "dom2": resultScoreList[2],
@@ -34,14 +39,33 @@ class Promisn1Result extends StatelessWidget {
       "dom11": resultScoreList[11],
       "dom12": resultScoreList[12],
       "dom13": resultScoreList[13],
+      "option1": resultOptionList[1],
+      "option2": resultOptionList[2],
+      "option3": resultOptionList[3],
+      "option4": resultOptionList[4],
+      "option5": resultOptionList[5],
+      "option6": resultOptionList[6],
+      "option7": resultOptionList[7],
+      "option8": resultOptionList[8],
+      "option9": resultOptionList[9],
+      "option10": resultOptionList[10],
+      "option11": resultOptionList[11],
+      "option12": resultOptionList[12],
+      "option13": resultOptionList[13],
+      "option14": resultOptionList[14],
+      "option15": resultOptionList[15],
+      "option16": resultOptionList[16],
+      "option17": resultOptionList[17],
+      "option18": resultOptionList[18],
+      "option19": resultOptionList[19],
+      "option20": resultOptionList[20],
+      "option21": resultOptionList[21],
+      "option22": resultOptionList[22],
+      "option23": resultOptionList[23],
       "answeredAt": now,
       "questName": questName,
       "answeredUntil": questionIndex,
     };
-    print(
-        "EnviarDominios FirebaseAuth.instance.currentUser!.uid/userEscala PromisResult");
-    print(email);
-    print(userEscala);
     await databaseMethods.addQuestAnswer(promisn1Map, email, userEscala);
     var doms = await databaseMethods.getDomTotal(
       userEscala,
@@ -164,6 +188,7 @@ class Promisn1Result extends StatelessWidget {
 
   Promisn1Result({
     required this.resultScoreList,
+    required this.resultOptionList,
     required this.questName,
     required this.userEscala,
     required this.questionIndex,
@@ -243,21 +268,6 @@ class Promisn1Result extends StatelessWidget {
         ),
       ],
     );
-    //Future.delayed(Duration.zero, () => showAlert(context));
-
-    /*return Container(
-        /*FlatButton(
-          child: Text('Retornar ao menu'),
-          textColor: Colors.blue,
-          onPressed: () => {
-            Navigator.of(context).pushNamed(
-              CategoriesScreen.routeName,
-              arguments: {},
-            )
-          },
-        ),*/
-
-        );*/
   }
 
   void showAlert(BuildContext context) {
@@ -265,10 +275,6 @@ class Promisn1Result extends StatelessWidget {
       child: Text("Voltar",
           style: TextStyle(color: Color.fromRGBO(0, 175, 185, 1))),
       onPressed: () async {
-        /*var count = 0;
-        Navigator.popUntil(context, (route) {
-          return count++ == 2;
-        });*/
         enviarDominios(FirebaseAuth.instance.currentUser!.uid);
         Navigator.pop(context, 'Voltar');
         await Navigator.of(context)

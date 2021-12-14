@@ -283,9 +283,11 @@ class _PsqiScreenState extends State<PsqiScreen> {
 
   var _questionIndex = 0;
   List<dynamic> _totalScoreList = []..length = _questions.length;
+  List<Object> _resultOptionList = []..length = _questions.length;
 
-  void _answerQuestion(dynamic score) {
+  void _answerQuestion(dynamic score, Object option) {
     _totalScoreList[_questionIndex] = score;
+    _resultOptionList[_questionIndex] = option;
     setState(() {
       _questionIndex = _questionIndex + 1;
     });
@@ -333,11 +335,13 @@ class _PsqiScreenState extends State<PsqiScreen> {
                 questions: _questions,
                 userEmail: _userEmail,
                 resultScoreList: _totalScoreList,
+                resultOptionList: _resultOptionList,
                 userEscala: _userEscala!,
                 questName: titleAA,
               ) //Quiz
             : PsqiResult(
                 resultScoreList: _totalScoreList,
+                resultOptionList: _resultOptionList,
                 questName: titleAA,
                 userEscala: _userEscala!,
                 userEmail: _userEmail,

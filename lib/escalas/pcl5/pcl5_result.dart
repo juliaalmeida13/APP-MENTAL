@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 class Pcl5Result extends StatelessWidget {
   final List<int> resultScoreList;
+  final List<Object> resultOptionList;
   final String questName;
   final String userEscala;
   final String userEmail;
@@ -37,6 +38,26 @@ class Pcl5Result extends StatelessWidget {
       "q18": resultScoreList[18],
       "q19": resultScoreList[19],
       "q20": resultScoreList[20],
+      "option1": resultOptionList[1],
+      "option2": resultOptionList[2],
+      "option3": resultOptionList[3],
+      "option4": resultOptionList[4],
+      "option5": resultOptionList[5],
+      "option6": resultOptionList[6],
+      "option7": resultOptionList[7],
+      "option8": resultOptionList[8],
+      "option9": resultOptionList[9],
+      "option10": resultOptionList[10],
+      "option11": resultOptionList[11],
+      "option12": resultOptionList[12],
+      "option13": resultOptionList[13],
+      "option14": resultOptionList[14],
+      "option15": resultOptionList[15],
+      "option16": resultOptionList[16],
+      "option17": resultOptionList[17],
+      "option18": resultOptionList[18],
+      "option19": resultOptionList[19],
+      "option20": resultOptionList[20],
       "answeredAt": now,
       "questName": questName,
       "answeredUntil": questionIndex,
@@ -48,6 +69,7 @@ class Pcl5Result extends StatelessWidget {
 
   Pcl5Result({
     required this.resultScoreList,
+    required this.resultOptionList,
     required this.questName,
     required this.userEscala,
     required this.userEmail,

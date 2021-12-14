@@ -96,22 +96,27 @@ class _AssistScreenState extends State<AssistScreen> {
         {'text': 'Não', 'score': 0},
       ],
     },
+    {
+      'questionText':
+          'Alguma vez você já usou drogas por injeção? Apenas uso não médico',
+      'answers': [
+        {'text': 'Sim, nos últimos 3 meses', 'score': 2},
+        {'text': 'Sim, mas não nos últimos 3 meses', 'score': 1},
+        {'text': 'Não, nunca', 'score': 0},
+      ],
+    },
   ];
 
   var _questionIndex = 0;
-  var _totalScoreList = List<int>.filled(11, 0);
+  var _totalScoreList = List<int>.filled(12, 0);
+  var _resultOptionList = List<Object>.filled(12, 0);
 
-  void _answerQuestion(int score) {
+  void _answerQuestion(int score, Object option) {
     _totalScoreList[_questionIndex] = score;
+    _resultOptionList[_questionIndex] = option;
     setState(() {
       _questionIndex = _questionIndex + 1;
     });
-
-    if (_questionIndex < _questions.length) {
-      print("qIndex : $_questionIndex");
-    } else {
-      print("questionIndex $_questionIndex > _question.length");
-    }
   }
 
   void _resetQuestion() {
@@ -134,7 +139,6 @@ class _AssistScreenState extends State<AssistScreen> {
       _questionIndex = index;
     }
 
-    print("Assistn2_screen: " + _userEmail!);
     return Scaffold(
       appBar: AppBar(
         title: Text(titleAA!),
@@ -150,11 +154,13 @@ class _AssistScreenState extends State<AssistScreen> {
                 questions: _questions,
                 userEmail: _userEmail,
                 resultScoreList: _totalScoreList,
+                resultOptionList: _resultOptionList,
                 userEscala: _userEscala!,
                 questName: titleAA,
               ) //Quiz
             : AssistResult(
                 resultScoreList: _totalScoreList,
+                resultOptionList: _resultOptionList,
                 questName: titleAA,
                 userEscala: _userEscala!,
                 userEmail: _userEmail,

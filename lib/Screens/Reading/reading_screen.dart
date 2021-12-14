@@ -20,6 +20,7 @@ class ReadingScreen extends StatelessWidget {
   final String id;
   final DatabaseMethods databaseMethods = new DatabaseMethods();
 
+  // Cria um dialogo para a avaliacao de uma intervencaos
   void _showRatingDialog(context, String dialogTitle, String id) async {
     String formattedDate = DateFormat.yMEd().add_jms().format(DateTime.now());
     bool existingRating = false;

@@ -88,9 +88,11 @@ class _Assistn2ScreenState extends State<Assistn2Screen> {
 
   var _questionIndex = 0;
   var _totalScoreList = List<int>.filled(11, 0);
+  var _resultOptionList = List<Object>.filled(11,0);
 
-  void _answerQuestion(int score) {
+  void _answerQuestion(int score, Object option) {
     _totalScoreList[_questionIndex] = score;
+    _resultOptionList[_questionIndex] = option;
     setState(() {
       _questionIndex = _questionIndex + 1;
     });
@@ -121,8 +123,7 @@ class _Assistn2ScreenState extends State<Assistn2Screen> {
     if (_questionIndex < index) {
       _questionIndex = index;
     }
-
-    print("Assistn2_screen: " + _userEmail!);
+    
     return Scaffold(
       appBar: AppBar(
         title: Text(titleAA!),
@@ -138,11 +139,13 @@ class _Assistn2ScreenState extends State<Assistn2Screen> {
                 questions: _questions,
                 userEmail: _userEmail,
                 resultScoreList: _totalScoreList,
+                resultOptionList: _resultOptionList,
                 userEscala: _userEscala!,
                 questName: titleAA,
               ) //Quiz
             : Assistn2Result(
                 resultScoreList: _totalScoreList,
+                resultOptionList: _resultOptionList,
                 questName: titleAA,
                 userEscala: _userEscala!,
                 userEmail: _userEmail,

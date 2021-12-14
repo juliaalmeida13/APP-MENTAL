@@ -13,6 +13,7 @@ class VideoScreen extends StatelessWidget {
   final String title;
   final String videoId;
 
+  // Cria um dialogo para a avaliacao de uma intervencaos
   void _showRatingDialog(context, String dialogTitle, String id) async {
     String formattedDate = DateFormat.yMEd().add_jms().format(DateTime.now());
     bool existingRating = false;

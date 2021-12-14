@@ -76,10 +76,15 @@ class _SignUpState extends State<SignUp> {
     });
   }
 
+// Cria todas as instâncias de questionários/escalas obrigatórios no banco de dados para o usuário
+//
+// Uma mesma escala pode ter mais de uma instância, ou seja, deve ser respondida mais de uma vez.
+// Por isso, uma instância é criada para cada data em que um quest/escala é requisitada 
+// Desenho do planejamento pode ser acessado nesta pasta do drive https://docs.google.com/drawings/d/1paxQsHcI4pzZr1EUZ5WG-dhrLGg-f9emowgh9nfSbhk/edit
   void CreateQuests() {
     now = DateTime.now();
     var firstDay = getNextSunday(now);
-    //add promisn1 every other week, odd numbers
+    //Adiciona a escala PROMIS nível 1 a cada duas semanas (toda semana se número ímpar). 
     for (var i = 1; i <= 11; i += 2) {
       String userEscala = 'promisN1_week$i';
       Map<String, dynamic> questMap = {
@@ -94,7 +99,7 @@ class _SignUpState extends State<SignUp> {
           userEscala, questMap, FirebaseAuth.instance.currentUser!.uid);
     }
 
-    //add pset every other week, even numbers (except 6 and 10)
+    //Adiciona uma pergunta sobre eventos traumáticos vividos recentemente a cada duas semanas (toda semana de número par, com excecão da semana 6 e 10)
     for (var i = 1; i <= 12; i += 2) {
       if (i != 6 && i != 10) {
         String userEscala = 'pset_week$i';
@@ -111,7 +116,7 @@ class _SignUpState extends State<SignUp> {
       }
     }
 
-    //add questSD1 1st week
+    //Adiciona o questionário de dados sociodemográficos à primeira semana
     String userEscala1 = 'questSD1_week1';
     Map<String, dynamic> questMap1 = {
       "unanswered?": true,
@@ -124,7 +129,7 @@ class _SignUpState extends State<SignUp> {
     DatabaseMethods().createQuest(
         userEscala1, questMap1, FirebaseAuth.instance.currentUser!.uid);
 
-    //add questSD2 2nd week
+    //Adiciona o questionário de dados sociodemográficos à segunda semana
     String userEscala2 = 'questSD2_week2';
     Map<String, dynamic> questMap2 = {
       "unanswered?": true,
@@ -137,7 +142,7 @@ class _SignUpState extends State<SignUp> {
     DatabaseMethods().createQuest(
         userEscala2, questMap2, FirebaseAuth.instance.currentUser!.uid);
 
-    //add contact
+    //Adiciona um contato de emergência padrão para todos usuários
     Map<String, dynamic> contactMap = {
       "name": "Emergência",
       "number": 188,

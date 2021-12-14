@@ -242,16 +242,14 @@ class _Pcl5ScreenState extends State<Pcl5Screen> {
   //(p. ex. analgésicos, estimulantes, sedativos ou tranquilizantes, ou drogas como maconha, cocaína ou crack, drogas sintéticas, alucinógenos, heroína, inalantes ou solventes ou metanfetamina?
   var _questionIndex = 0;
   var _totalScoreList = List<int>.filled(21, 0);
+  var _resultOptionList = List<Object>.filled(21,0);
 
-  void _answerQuestion(int score, int index) {
+  void _answerQuestion(int score, int index, Object option) {
     _totalScoreList[index] = score;
+    _resultOptionList[index] = option;
     setState(() {
       _questionIndex = _questionIndex + 1;
     });
-
-    if (_questionIndex < _questions.length) {
-      print("qIndex : $_questionIndex");
-    }
   }
 
   void _resetQuestion() {
@@ -287,11 +285,13 @@ class _Pcl5ScreenState extends State<Pcl5Screen> {
                 questions: _questions,
                 userEmail: _userEmail!,
                 resultScoreList: _totalScoreList,
+                resultOptionList: _resultOptionList,
                 userEscala: _userEscala!,
                 questName: titleAA,
               ) //Quiz
             : Pcl5Result(
                 resultScoreList: _totalScoreList,
+                resultOptionList: _resultOptionList,
                 questName: titleAA,
                 userEscala: _userEscala!,
                 userEmail: _userEmail!,

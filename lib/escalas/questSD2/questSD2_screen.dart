@@ -136,18 +136,14 @@ class _QuestSD2ScreenState extends State<QuestSD2Screen> {
 
   var _questionIndex = 0;
   var _totalScoreList = List<Object>.filled(15, 0);
+  var _resultOptionList = List<Object>.filled(15, 0);
 
-  void _answerQuestion(Object score) {
+  void _answerQuestion(Object score, Object option) {
     _totalScoreList[_questionIndex] = score;
+    _resultOptionList[_questionIndex] = option;
     setState(() {
       _questionIndex = _questionIndex + 1;
     });
-
-    if (_questionIndex < _questions.length) {
-      print("qIndex : $_questionIndex");
-    } else {
-      print("questionIndex $_questionIndex > _question.length");
-    }
   }
 
   void _resetQuestion() {
@@ -170,7 +166,6 @@ class _QuestSD2ScreenState extends State<QuestSD2Screen> {
       _questionIndex = index;
     }
 
-    print("QuestSD2_screen: " + _userEmail!);
     return Scaffold(
       appBar: AppBar(
         title: Text(titleAA!),
@@ -186,11 +181,13 @@ class _QuestSD2ScreenState extends State<QuestSD2Screen> {
                 questions: _questions,
                 userEmail: _userEmail,
                 resultScoreList: _totalScoreList,
-                userEscala: _userEscala!,
+                resultOptionList: _resultOptionList,
+                 userEscala: _userEscala!,
                 questName: titleAA,
               ) //Quiz
             : QuestSD2Result(
                 resultScoreList: _totalScoreList,
+                resultOptionList: _resultOptionList,
                 questName: titleAA,
                 userEscala: _userEscala!,
                 userEmail: _userEmail,

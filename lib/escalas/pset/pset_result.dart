@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 class PsetResult extends StatelessWidget {
   final int resultScore;
+  final String resultOption;
   final String userEmail;
   final String questName;
   final String userEscala;
@@ -13,6 +14,7 @@ class PsetResult extends StatelessWidget {
   sendPsetResult(String email) async {
     Map<String, dynamic> psetMap = {
       "hasBeenThrough": resultScore,
+      "option": resultOption,
       "answeredAt": now,
       "questName": questName,
     };
@@ -38,17 +40,12 @@ class PsetResult extends StatelessWidget {
 
   PsetResult({
     required this.resultScore,
+    required this.resultOption,
     required this.userEmail,
     required this.questName,
     required this.userEscala,
     required this.questionIndex,
   });
-
-  /* void _returnMenu(BuildContext ctx) {
-    Navigator.of(ctx).push(
-      CategoriesScreen.routeName,
-    );
-  }*/
 
   final String resultPhrase =
       'Respondido! \n\nSua resposta será enviada e analisada anonimamente para a recomendação de novas atividades.\n\nEstá de acordo?';

@@ -24,6 +24,7 @@ import 'package:flutter/material.dart';
 
 import '../../constants.dart';
 
+// Constroi a tela da lista de cards de escalas/questionários disponíveis ao usuário
 class QuestsScreen extends StatefulWidget {
   static const routeName = '/quests-screen';
 
@@ -37,12 +38,12 @@ class _QuestsScreenState extends State<QuestsScreen> {
   Stream<QuerySnapshot<Object?>>? questsAnsweredRoomsStream;
   Stream<QuerySnapshot<Object?>>? questsUnansweredRoomsStream;
 
+  //Lista de Cards de Escalas/Questionários disponíveis
   Widget questsRoomList(Stream<QuerySnapshot<Object?>>? stream) {
-    print('(((' + Constants.myEmail + ')))');
     return StreamBuilder<QuerySnapshot>(
       stream: stream,
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-        print(snapshot.hasData && snapshot.data!.docs.length > 0);
+        // Caso houver algo, para cada escala/questionário que existir no banco de dados, irá construir um QuestRoomTile.
         return snapshot.hasData && snapshot.data!.docs.length > 0
             ? ListView.builder(
                 itemCount: snapshot.data!.docs.length,
@@ -135,6 +136,7 @@ class _QuestsScreenState extends State<QuestsScreen> {
   }
 }
 
+// Caso a escala/questionário estiver planejado para a semana atual, constroi-se um card para a lista.
 class QuestRoomTile extends StatelessWidget {
   final String questName;
   final String questId;
@@ -176,6 +178,7 @@ class QuestRoomTile extends StatelessWidget {
     print(nextSunday);
 
     print(questName);
+    // Caso a escala/questionário seja planejada para a semana atual, constroi-se um card
     if (_now.isAfter(availableAt) && _now.isBefore(nextSunday)) {
       return QuizCard(
           title: questName,

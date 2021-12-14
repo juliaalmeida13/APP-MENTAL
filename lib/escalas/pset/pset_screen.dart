@@ -27,21 +27,12 @@ class _PsetScreenState extends State<PsetScreen> {
     },
   ];
 
-  //(p. ex. analgésicos, estimulantes, sedativos ou tranquilizantes, ou drogas como maconha, cocaína ou crack, drogas sintéticas, alucinógenos, heroína, inalantes ou solventes ou metanfetamina?
   var _questionIndex = 0;
   var _totalScore = 0;
-
-  /*void _resetQuiz(BuildContext ctx) {
-    _questionIndex = 0;
-    _totalScore = 0;
-    Navigator.of(ctx).pop();
-    /*setState(() {
-      _questionIndex = 0;
-      _totalScore = 0;
-    }); */
-*/
-  void _answerQuestion(int score) {
+  var _resultOption = '';
+  void _answerQuestion(int score, String option) {
     _totalScore += score;
+    _resultOption = option;
     setState(() {
       _questionIndex = _questionIndex + 1;
     });
@@ -82,6 +73,7 @@ class _PsetScreenState extends State<PsetScreen> {
               ) //Quiz
             : PsetResult(
                 resultScore: _totalScore,
+                resultOption: _resultOption,
                 questName: titleAA,
                 userEscala: _userEscala!,
                 userEmail: _userEmail!,

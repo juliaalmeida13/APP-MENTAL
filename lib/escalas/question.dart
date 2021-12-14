@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
+// Cria o enunciado da questão, recebendo a penas o texto a ser mostrado.
 class Question extends StatelessWidget {
+  // Texto do enunciado da questão
   final String questionText;
 
   Question(this.questionText);

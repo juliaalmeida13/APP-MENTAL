@@ -364,42 +364,30 @@ class _Promisn1ScreenState extends State<Promisn1Screen> {
     },
   ];
 
-  //(p. ex. analgésicos, estimulantes, sedativos ou tranquilizantes, ou drogas como maconha, cocaína ou crack, drogas sintéticas, alucinógenos, heroína, inalantes ou solventes ou metanfetamina?
   var _questionIndex = 0;
   var _totalScoreList = List<int>.filled(14, 0);
+  var _resultOptionList = List<Object>.filled(24,0);
 
-  /*void _resetQuiz(BuildContext ctx) {
-    _questionIndex = 0;
-    _totalScore = 0;
-    Navigator.of(ctx).pop();
-    /*setState(() {
-      _questionIndex = 0;
-      _totalScore = 0;
-    }); */
-*/
-  void _answerQuestion(int score, int domin) {
+  void _answerQuestion(int score, int domin, Object option) {
     _totalScoreList[domin] += score;
+    _resultOptionList[_questionIndex] = option;
     setState(() {
       _questionIndex = _questionIndex + 1;
     });
-
-    if (_questionIndex < _questions.length) {
-      print("qIndex : $_questionIndex");
-    }
   }
 
   void _resetLastDomain(int dom) {
-    print("dooom:$dom");
     _totalScoreList[dom] = 0;
     var _resetQuestionIndex = _questionIndex;
     int beforeDomain = 0;
+
     do {
       _resetQuestionIndex -= 1;
       var beforeList = _questions[_resetQuestionIndex - 1]["answers"]
           as List<Map<String, Object>>;
       beforeDomain = beforeList[0]["dom"] as int;
-      print("resset $_resetQuestionIndex");
     } while (dom == beforeDomain);
+
     setState(() {
       _questionIndex = _resetQuestionIndex;
     });
@@ -418,7 +406,6 @@ class _Promisn1ScreenState extends State<Promisn1Screen> {
       _questionIndex = index;
     }
 
-    print("aaaa" + _userEmail!);
     return Scaffold(
       appBar: AppBar(
         title: Text(titleAA!),
@@ -434,11 +421,13 @@ class _Promisn1ScreenState extends State<Promisn1Screen> {
                 questions: _questions,
                 userEmail: _userEmail,
                 resultScoreList: _totalScoreList,
+                resultOptionList: _resultOptionList,
                 userEscala: _userEscala!,
                 questName: titleAA,
               ) //Quiz
             : Promisn1Result(
                 resultScoreList: _totalScoreList,
+                resultOptionList: _resultOptionList,
                 questName: titleAA,
                 userEscala: _userEscala!,
                 questionIndex: _questionIndex,

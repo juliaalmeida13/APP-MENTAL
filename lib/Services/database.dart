@@ -69,6 +69,7 @@ class DatabaseMethods {
     });
   }
 
+  // Adiciona uma instância de uma escala/questionário no banco de dados.
   createQuest(String questId, questMap, uid) {
     FirebaseFirestore.instance
         .collection("Escala")
@@ -81,6 +82,7 @@ class DatabaseMethods {
     });
   }
 
+  // Adiciona no banco de dados os dados da intervencao que foi recomendada ao usuário
   recomendReading(String readingsId, readingsMap, uid) {
     FirebaseFirestore.instance
         .collection("Readings")
@@ -93,6 +95,7 @@ class DatabaseMethods {
     });
   }
 
+  // Adiciona os dados da avaliacao de uma intervencao feita pelo usuário
   rateReading(String readingsId, readingsMap, uid) {
     FirebaseFirestore.instance
         .collection("Readings")
@@ -196,6 +199,7 @@ class DatabaseMethods {
     documentReference.update(contactMap);
   }
 
+  // Coleta uma Stream das recomendacoes de um usuário
   Future<Stream<QuerySnapshot<Map<String, dynamic>>>>
       getRecomendedReadings() async {
     return FirebaseFirestore.instance
@@ -205,6 +209,7 @@ class DatabaseMethods {
         .snapshots();
   }
 
+  // Retorna se um usuário tem recomendacoes
   Future<QuerySnapshot> readingsAreEmpty() async {
     print("check");
     return FirebaseFirestore.instance
@@ -215,6 +220,7 @@ class DatabaseMethods {
         .get();
   }
 
+  // Retorna se um usuario tem avaliacoes feitas
   Future<QuerySnapshot> ratingsAreEmpty(String readingId) async {
     print("check");
     print(FirebaseAuth.instance.currentUser!.uid);
@@ -230,6 +236,7 @@ class DatabaseMethods {
         .get();
   }
 
+  // Atualiza o status de uma escala/questionário caso tenha sido respondido
   disableQuest(String questId, uid) {
     Map<String, dynamic> disableMap = {
       "unanswered?": false,
@@ -246,6 +253,7 @@ class DatabaseMethods {
     });
   }
 
+  // Atualiza o index que marca a posicao da última questão respondida pelo usuário de uma escala/questionario
   updateQuestIndex(String questId, String uid, index) {
     Map<String, dynamic> disableMap = {
       "answeredUntil": index,
@@ -285,6 +293,7 @@ class DatabaseMethods {
     });
   }
 
+  // Adiciona as respostas à uma escala/questionario de um usuário
   addQuestAnswer(answerMap, uid, questName) {
     FirebaseFirestore.instance
         .collection("Escala")
@@ -335,6 +344,7 @@ class DatabaseMethods {
         .snapshots();
   }
 
+  // Retorna uma Stream dos questionários de um usuário
   Future<Stream<QuerySnapshot<Map<String, dynamic>>>> getCreatedQuests(
       String uid) async {
     return FirebaseFirestore.instance
@@ -344,6 +354,7 @@ class DatabaseMethods {
         .snapshots();
   }
 
+  // Retorna uma Stream de apenas questionários ainda não respondidos completamente de um usuário
   Future<Stream<QuerySnapshot<Map<String, dynamic>>>> getUnansweredQuests(
       String uid) async {
     return FirebaseFirestore.instance
@@ -354,6 +365,7 @@ class DatabaseMethods {
         .snapshots();
   }
 
+  // Retorna uma Stream de apenas questionários respondidos completamente de um usuário
   Future<Stream<QuerySnapshot<Map<String, dynamic>>>> getAnsweredQuests(
       String uid) async {
     return FirebaseFirestore.instance
@@ -364,6 +376,11 @@ class DatabaseMethods {
         .snapshots();
   }
 
+
+
+
+  // Retorna o maior valor de uma reposta de uma questão especifica, de uma escala especifica
+  // É esperado que apenas uma resposta tenha o valor diferente de zero para cada questão (com excecao do promisn1)
   getDomFromAnswers(String uid, String userEscala, String dom) async {
     return FirebaseFirestore.instance
         .collection("Escala")
@@ -376,6 +393,22 @@ class DatabaseMethods {
         .get();
   }
 
+
+  // Query para testar o envio das opcoes escolhidas
+  getOptionAnswers(String uid, String userEscala, String index) async {
+    return FirebaseFirestore.instance
+        .collection("Escala")
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection("userEscalas")
+        .doc(userEscala)
+        .collection("answers")
+        .limit(1)
+        .get();
+  }
+
+  // Retorna o valor total da soma de todas as respostas para cada dominio
+  // Especifico para o Promis Nivel 1, duas respostas podem ter valores diferentes de zero para um mesmo dominio
+  // dado a natureza de uma resposta parcial neste caso
   getDomTotal(
     String userEscala,
     String dom,
