@@ -293,7 +293,7 @@ editContactDialog(BuildContext context, _formKey, name, number, id, nameContact,
       builder: (BuildContext context) {
         return AlertDialog(
           content: Stack(
-            overflow: Overflow.visible,
+            // overflow: Overflow.visible,
             children: <Widget>[
               Positioned(
                 right: -40.0,
@@ -367,7 +367,7 @@ addContactDialog(
       builder: (BuildContext context) {
         return AlertDialog(
           content: Stack(
-            overflow: Overflow.visible,
+            // overflow: Overflow.visible,
             children: <Widget>[
               Form(
                 key: _formKey,
