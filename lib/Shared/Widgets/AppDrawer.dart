@@ -48,7 +48,7 @@ class _AppDrawerState extends State<AppDrawer> {
     return Drawer(
         child: Container(
       decoration: BoxDecoration(color: AppColors.verdementa),
-      child: Column(children: <Widget>[
+      child: ListView(children: <Widget>[
         Expanded(
             child: Column(children: <Widget>[
           buildHeader(
@@ -71,29 +71,35 @@ class _AppDrawerState extends State<AppDrawer> {
             ),
             const SizedBox(height: 8),
             buildMenuItem(
+              text: 'Leituras',
+              icon: Icons.book_online,
+              onClicked: () => selectedItem(context, 2),
+            ),
+            const SizedBox(height: 8),
+            buildMenuItem(
               text: 'Questionários',
               icon: Icons.list_alt,
-              onClicked: () => selectedItem(context, 2),
+              onClicked: () => selectedItem(context, 3),
             ),
             const SizedBox(height: 8),
             buildMenuItem(
               text: 'Contatos',
               icon: Icons.people,
-              onClicked: () => selectedItem(context, 3),
+              onClicked: () => selectedItem(context, 4),
             )
           ] else if (user.role == types.Role.agent) ...[
             const SizedBox(height: 8),
             buildMenuItem(
               text: 'Chat',
               icon: Icons.list_alt,
-              onClicked: () => selectedItem(context, 4),
+              onClicked: () => selectedItem(context, 5),
             ),
           ],
           const SizedBox(height: 8),
           buildMenuItem(
             text: 'Tutorial',
             icon: Icons.book,
-            onClicked: () => selectedItem(context, 5),
+            onClicked: () => selectedItem(context, 6),
           ),
           const SizedBox(height: 8),
           buildMenuItem(
@@ -227,17 +233,21 @@ class _AppDrawerState extends State<AppDrawer> {
         break;
       case 2:
         Navigator.of(context).popUntil(ModalRoute.withName('/logged-home'));
-        Navigator.of(context).pushNamed("/quests-screen");
+        Navigator.of(context).pushNamed("/readings");
         break;
       case 3:
         Navigator.of(context).popUntil(ModalRoute.withName('/logged-home'));
-        Navigator.of(context).pushNamed("/contacts-screen");
+        Navigator.of(context).pushNamed("/quests-screen");
         break;
       case 4:
         Navigator.of(context).popUntil(ModalRoute.withName('/logged-home'));
-        Navigator.of(context).pushNamed("/users");
+        Navigator.of(context).pushNamed("/contacts-screen");
         break;
       case 5:
+        Navigator.of(context).popUntil(ModalRoute.withName('/logged-home'));
+        Navigator.of(context).pushNamed("/users");
+        break;
+      case 6:
         Navigator.of(context).popUntil(ModalRoute.withName('/logged-home'));
         Navigator.of(context).pushNamed("/tutorial");
         break;

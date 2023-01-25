@@ -25,6 +25,7 @@ import 'Screens/ResetPassword/reset_password.dart';
 import 'Screens/SignIn/signin.dart';
 import 'Screens/UsersPage/UsersPage.dart';
 import 'Services/interventions.dart';
+import 'Screens/Reading/recomended_readings.dart';
 
 void main() {
   initializeDateFormatting('pt_BR', null).then((_) => runApp(MyApp()));
@@ -81,6 +82,7 @@ class _MyAppState extends State<MyApp> {
         "/tutorial": (ctx) => TutorialScreen(),
         "/reset-password": (ctx) => ResetPassword(),
         "/sign-in": (ctx) => SignIn(),
+        "/readings": (ctx) => RecomendedReadings(),
         "/logged-home": (ctx) => HomeScreen(),
         "/sleep-diary": (ctx) => SleepPage(),
         "/users": (ctx) => UsersPage(),

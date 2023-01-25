@@ -1,10 +1,6 @@
-import 'dart:ui';
-
-import 'package:app_mental/Screens/Home/Widgets/reading_recs_cards.dart';
-import 'package:app_mental/Screens/Home/Widgets/reading_stream.dart';
-import 'package:app_mental/Screens/Home/Widgets/section_title.dart';
 import 'package:app_mental/Services/database.dart';
 import 'package:flutter/material.dart';
+import './main_card_button.dart';
 
 class Body extends StatefulWidget {
   @override
@@ -31,23 +27,28 @@ class _BodyState extends State<Body> {
 
   @override
   Widget build(BuildContext context) {
-    // It will provide total height and width of our screen
-    Size size = MediaQuery.of(context).size;
-    //it enables scrolling on small devices
     return SafeArea(
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
-          //SectionTitle(key:UniqueKey(),title: "Calendário"),
-          //RowCalendar(key:UniqueKey()),
-          if (existingReadings) ...[
-            SectionTitle(key: UniqueKey(), title: "Leituras Recomendadas"),
-            RecomendedReadingsStream()
-          ],
-          SectionTitle(key: UniqueKey(), title: "Outras Leituras"),
-          RecomendsReadings(),
-          //TitleWithMoreBttn(title: "Featured Plants", press: () {}),
-          //FeaturedPlants(),
-          //SizedBox(height: kDefaultPadding),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              MainCardButton("Diário do sono", Icons.bed, "/sleep-diary"),
+              MainCardButton("Leitura", Icons.book_online, "/readings")
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              MainCardButton("Questionários", Icons.list_alt, "/quests-screen"),
+              MainCardButton("Contatos", Icons.people, "/contacts-screen")
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [MainCardButton("Tutorial", Icons.book, "/tutorial")],
+          ),
         ],
       ),
     );
