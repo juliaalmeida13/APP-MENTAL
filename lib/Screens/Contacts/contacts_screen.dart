@@ -172,7 +172,6 @@ class _ContactsScreenState extends State<ContactsScreen> {
   Widget build(BuildContext context) {
     overlay = Overlay.of(context)!.context.findRenderObject() as RenderBox;
     return Scaffold(
-      drawer: AppDrawer(key: Key("drawer")),
       appBar: AppBar(
           backgroundColor: AppColors.green,
           shadowColor: Colors.transparent,

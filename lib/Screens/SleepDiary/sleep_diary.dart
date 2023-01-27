@@ -577,7 +577,6 @@ class _SleepPageState extends State<SleepPage> {
         shadowColor: Color.fromRGBO(1, 1, 1, 0),
         actions: [],
       ),
-      drawer: AppDrawer(key: Key("drawer")),
       body: Center(
         child: SingleChildScrollView(
           child: _loading
