@@ -54,9 +54,9 @@ class _NewContactState extends State<NewContact> {
               /*onChanged: (value) => amountInput = value,  
                     },*/
             ),
-            FlatButton(
+            FloatingActionButton(
               child: Text('Adicionar contato'),
-              textColor: Color(0xFF21BFBD),
+              backgroundColor: Color(0xFF21BFBD),
               onPressed: submitData,
             ),
           ],

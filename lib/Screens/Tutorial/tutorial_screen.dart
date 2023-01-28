@@ -8,7 +8,6 @@ class TutorialScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        drawer: AppDrawer(key: Key("drawer")),
         appBar: AppBar(
             backgroundColor: AppColors.green,
             shadowColor: Colors.transparent,

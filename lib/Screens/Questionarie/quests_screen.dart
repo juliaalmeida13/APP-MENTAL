@@ -98,7 +98,6 @@ class _QuestsScreenState extends State<QuestsScreen> {
     return DefaultTabController(
         length: 2,
         child: Scaffold(
-          drawer: AppDrawer(key: Key("drawer")),
           appBar: AppBar(
               centerTitle: true,
               iconTheme: IconThemeData(color: kTextColorGreen),
