@@ -1,6 +1,7 @@
 import 'package:app_mental/Screens/ChatRoom/Widgets/calendar.dart';
 import 'package:app_mental/Services/auth.dart';
 import 'package:app_mental/Services/database.dart';
+import 'package:app_mental/Services/userService.dart';
 import 'package:app_mental/animation/FadeAnimation.dart';
 import 'package:app_mental/constants.dart';
 import 'package:app_mental/helper/helperfuncions.dart';
@@ -48,43 +49,45 @@ class _SignUpState extends State<SignUp> {
       ],
     ));
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
-
-    authMethods
-        .signupWithEmailAndPasswordAndName(userName, userEmail, userPassword)
-        .then((result) {
-      if (result != null && result.user != null) {
-        ScaffoldMessenger.of(context).hideCurrentSnackBar();
-        User? user = result.user!;
-        HelperFunctions.saveUserInfoToSharedPrefs(user);
-        DatabaseMethods().createReadingsDoc(user.uid);
-        DatabaseMethods().createContactsDoc(user.uid);
-        DatabaseMethods().createQuestDoc(user.uid);
-        DatabaseMethods()
-            .createEscalaDoc(user.uid)
-            .then((value) => CreateQuests());
-        DatabaseMethods().fetchUser().whenComplete(() => {
-              Navigator.pushNamedAndRemoveUntil(
-                  context, "/logged-home", (Route<dynamic> route) => false)
-            });
-      } else {
-        final snackBar = SnackBar(
-            content:
-                Text('Email já em uso!', style: TextStyle(color: Colors.white)),
-            backgroundColor: Colors.red);
-        ScaffoldMessenger.of(context).showSnackBar(snackBar);
-      }
-    });
+    final result = UserService()
+        .signupWithEmailAndPasswordAndName(userEmail, userName, userPassword);
+    print(result);
+    // authMethods
+    //     .signupWithEmailAndPasswordAndName(userName, userEmail, userPassword)
+    //     .then((result) {
+    //   if (result != null && result.user != null) {
+    //     ScaffoldMessenger.of(context).hideCurrentSnackBar();
+    //     User? user = result.user!;
+    //     HelperFunctions.saveUserInfoToSharedPrefs(user);
+    //     DatabaseMethods().createReadingsDoc(user.uid);
+    //     DatabaseMethods().createContactsDoc(user.uid);
+    //     DatabaseMethods().createQuestDoc(user.uid);
+    //     DatabaseMethods()
+    //         .createEscalaDoc(user.uid)
+    //         .then((value) => CreateQuests());
+    //     DatabaseMethods().fetchUser().whenComplete(() => {
+    //           Navigator.pushNamedAndRemoveUntil(
+    //               context, "/logged-home", (Route<dynamic> route) => false)
+    //         });
+    //   } else {
+    //     final snackBar = SnackBar(
+    //         content:
+    //             Text('Email já em uso!', style: TextStyle(color: Colors.white)),
+    //         backgroundColor: Colors.red);
+    //     ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    //   }
+    // });
   }
 
 // Cria todas as instâncias de questionários/escalas obrigatórios no banco de dados para o usuário
 //
 // Uma mesma escala pode ter mais de uma instância, ou seja, deve ser respondida mais de uma vez.
-// Por isso, uma instância é criada para cada data em que um quest/escala é requisitada 
+// Por isso, uma instância é criada para cada data em que um quest/escala é requisitada
 // Desenho do planejamento pode ser acessado nesta pasta do drive https://docs.google.com/drawings/d/1paxQsHcI4pzZr1EUZ5WG-dhrLGg-f9emowgh9nfSbhk/edit
   void CreateQuests() {
     now = DateTime.now();
     var firstDay = getNextSunday(now);
-    //Adiciona a escala PROMIS nível 1 a cada duas semanas (toda semana se número ímpar). 
+    //Adiciona a escala PROMIS nível 1 a cada duas semanas (toda semana se número ímpar).
     for (var i = 1; i <= 11; i += 2) {
       String userEscala = 'promisN1_week$i';
       Map<String, dynamic> questMap = {
