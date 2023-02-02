@@ -130,7 +130,7 @@ class _PromisAnsiScreenState extends State<PromisAnsiScreen> {
     print("PromisAnsi_screen: " + _userEmail!);
     return Scaffold(
       appBar: AppBar(
-        title: Text(titleAA!),
+        title: FittedBox(child: Text(titleAA!)),
         backgroundColor: kTextColorGreen,
       ),
       body: Padding(

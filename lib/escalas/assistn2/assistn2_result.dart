@@ -111,7 +111,7 @@ class Assistn2Result extends StatelessWidget {
         Text(
           resultPhrase,
           style: TextStyle(
-            fontSize: 26,
+            fontSize: MediaQuery.of(context).size.height * .03,
             fontWeight: FontWeight.bold,
             color: Colors.black87,
           ),

@@ -88,7 +88,7 @@ class _Assistn2ScreenState extends State<Assistn2Screen> {
 
   var _questionIndex = 0;
   var _totalScoreList = List<int>.filled(11, 0);
-  var _resultOptionList = List<Object>.filled(11,0);
+  var _resultOptionList = List<Object>.filled(11, 0);
 
   void _answerQuestion(int score, Object option) {
     _totalScoreList[_questionIndex] = score;
@@ -123,10 +123,10 @@ class _Assistn2ScreenState extends State<Assistn2Screen> {
     if (_questionIndex < index) {
       _questionIndex = index;
     }
-    
+
     return Scaffold(
       appBar: AppBar(
-        title: Text(titleAA!),
+        title: FittedBox(child: Text(titleAA!)),
         backgroundColor: kTextColorGreen,
       ),
       body: Padding(

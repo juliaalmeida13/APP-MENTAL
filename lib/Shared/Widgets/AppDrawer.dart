@@ -164,18 +164,28 @@ class _AppDrawerState extends State<AppDrawer> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  "Olá, $name",
-                  softWrap: false,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                      fontFamily: "Inter", fontSize: 20, color: Colors.black),
+                Container(
+                  width: MediaQuery.of(context).size.width * .50,
+                  child: FittedBox(
+                    child: Text(
+                      "Olá, $name",
+                      softWrap: false,
+                      overflow: TextOverflow.ellipsis,
+                      style:
+                          TextStyle(fontFamily: "Inter", color: Colors.black),
+                    ),
+                  ),
                 ),
                 const SizedBox(height: 4),
-                Text(
-                  email,
-                  style: TextStyle(
-                      fontFamily: "Inter", fontSize: 14, color: Colors.black),
+                Container(
+                  width: MediaQuery.of(context).size.width * .50,
+                  child: FittedBox(
+                    child: Text(
+                      email,
+                      style:
+                          TextStyle(fontFamily: "Inter", color: Colors.black),
+                    ),
+                  ),
                 ),
               ],
             )

@@ -25,7 +25,7 @@ class QuizCard extends StatelessWidget {
     var minutesToExpire = difference.inMinutes;
 
     String expirationText;
-    
+
     // Calcula a constroi o texto para informar o usuário do período restante em que a escala/questionário estará disponível
     if (daysToExpire > 0) {
       expirationText = 'Expira em $daysToExpire dia(s)';
@@ -71,9 +71,11 @@ class QuizCard extends StatelessWidget {
                 children: [
                   Expanded(
                       flex: 1,
-                      child: Text(
-                        completed,
-                        style: AppTextStyles.body11,
+                      child: FittedBox(
+                        child: Text(
+                          completed,
+                          style: AppTextStyles.body11,
+                        ),
                       )),
                   Expanded(
                       flex: 1,

@@ -56,7 +56,7 @@ class _PsetScreenState extends State<PsetScreen> {
     }
     return Scaffold(
       appBar: AppBar(
-        title: Text(titleAA!),
+        title: FittedBox(child: Text(titleAA!)),
         backgroundColor: kTextColorGreen,
       ),
       body: Container(

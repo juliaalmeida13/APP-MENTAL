@@ -115,7 +115,6 @@ class _Promisn2ScreenState extends State<Promisn2Screen> {
     setState(() {
       _questionIndex = _questionIndex + 1;
     });
-
   }
 
   void _resetQuestion() {
@@ -139,7 +138,7 @@ class _Promisn2ScreenState extends State<Promisn2Screen> {
     }
     return Scaffold(
       appBar: AppBar(
-        title: Text(titleAA!),
+        title: FittedBox(child: Text(titleAA!)),
         backgroundColor: kTextColorGreen,
       ),
       body: Padding(

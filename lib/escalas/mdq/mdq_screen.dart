@@ -162,7 +162,7 @@ class _MdqScreenState extends State<MdqScreen> {
 
   var _questionIndex = 0;
   var _totalScoreList = List<int>.filled(18, 0);
-  var _resultOptionList = List<Object>.filled(18,0);
+  var _resultOptionList = List<Object>.filled(18, 0);
 
   void _answerQuestion(int score, Object option) {
     _totalScoreList[_questionIndex] = score;
@@ -201,7 +201,7 @@ class _MdqScreenState extends State<MdqScreen> {
     print("Mdq_screen: " + _userEmail!);
     return Scaffold(
       appBar: AppBar(
-        title: Text(titleAA!),
+        title: FittedBox(child: Text(titleAA!)),
         backgroundColor: kTextColorGreen,
       ),
       body: Padding(
