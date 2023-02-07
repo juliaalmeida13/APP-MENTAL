@@ -8,7 +8,7 @@ class HelperFunctions {
   // saving data to SharedPreference
   static Future<void> saveUserInfoToSharedPrefs(user) async {
     String? userEmail = user.email;
-    String? userDisplayName = user.displayName;
+    String? userDisplayName = user.name;
 
     saveUserEmailInSharedPreference(
         userEmail == null ? "Anonymous" : userEmail);

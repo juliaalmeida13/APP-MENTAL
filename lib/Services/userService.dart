@@ -1,29 +1,26 @@
+import 'dart:convert';
+
+import 'package:app_mental/model/user.dart';
 import 'package:http/http.dart' as http;
 
 class UserService {
-  Future<http.Response?> signupWithEmailAndPasswordAndName(
+  Future<UserApp> signupWithEmailAndPasswordAndName(
       String name, String email, String password) async {
-    return http.get(Uri.parse('http://localhost:8080//sample'));
+    final response =
+        await http.post(Uri.parse('http://10.0.2.2:8080/createAppUser'),
+            headers: <String, String>{
+              'Content-Type': 'application/json; charset=UTF-8',
+            },
+            body: jsonEncode(<String, String>{
+              'email': email,
+              'name': name,
+              'password': password,
+              'imageUrl': 'https://i.pravatar.cc/300'
+            }));
 
-    // try {
-    //   UserCredential result = await _auth.createUserWithEmailAndPassword(
-    //       email: email, password: password);
-    //   if (result.user != null) {
-    //     result.user!.updateDisplayName(name);
-    //   }
-
-    //   await FirebaseChatCore.instance.createUserInFirestore(
-    //     types.User(
-    //         firstName: name,
-    //         id: result.user!.uid,
-    //         imageUrl: 'https://i.pravatar.cc/300',
-    //         lastName: 'none',
-    //         role: types.Role.user),
-    //   );
-    //   return result;
-    // } catch (e) {
-    //   print(e.toString());
-    //   return null;
-    // }
+    if (response.statusCode == 200) {
+      return UserApp.fromJson(jsonDecode(response.body));
+    }
+    throw Exception("Erro ao criar o usuário");
   }
 }

@@ -50,8 +50,11 @@ class _SignUpState extends State<SignUp> {
     ));
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
     final result = UserService()
-        .signupWithEmailAndPasswordAndName(userEmail, userName, userPassword);
-    print(result);
+        .signupWithEmailAndPasswordAndName(userEmail, userName, userPassword)
+        .then((user) {
+      print("Response");
+      print(user);
+    });
     // authMethods
     //     .signupWithEmailAndPasswordAndName(userName, userEmail, userPassword)
     //     .then((result) {
