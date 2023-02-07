@@ -56,7 +56,7 @@ class _SleepPageState extends State<SleepPage> {
       databaseMethods.addRespostaQuestionarioSono(
           FirebaseAuth.instance.currentUser!.uid, messageMap, data);
       setState(() {
-        //dataIgual = true;
+        dataIgual = true;
       });
     }
   }
@@ -76,11 +76,11 @@ class _SleepPageState extends State<SleepPage> {
       value.docs.forEach((element) {
         if (element.id == data) {
           print("${element.id} é = a ${data}");
-          //dataIgual = true;
+          dataIgual = true;
         }
       });
       setState(() {
-        //dataIgual = dataIgual;
+        dataIgual = dataIgual;
         _loading = false;
       });
     });

@@ -2,6 +2,7 @@ import 'package:app_mental/Screens/ChatPage/ChatPage.dart';
 import 'package:app_mental/Services/auth.dart';
 import 'package:app_mental/Services/database.dart';
 import 'package:app_mental/constants.dart';
+import 'package:app_mental/helper/util.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
@@ -114,6 +115,7 @@ class _AppDrawerState extends State<AppDrawer> {
         ])),
         if (user.role == types.Role.user) ...[
           Container(
+              //pode ser que seja o tamanho desse container
               child: Align(
                   alignment: FractionalOffset.bottomCenter,
                   child: Column(
@@ -165,7 +167,7 @@ class _AppDrawerState extends State<AppDrawer> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  width: MediaQuery.of(context).size.width * .50,
+                  width: MediaQuery.of(context).size.width * .47,
                   child: FittedBox(
                     child: Text(
                       "Olá, $name",
@@ -178,7 +180,7 @@ class _AppDrawerState extends State<AppDrawer> {
                 ),
                 const SizedBox(height: 4),
                 Container(
-                  width: MediaQuery.of(context).size.width * .50,
+                  width: MediaQuery.of(context).size.width * .47,
                   child: FittedBox(
                     child: Text(
                       email,
