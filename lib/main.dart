@@ -1,3 +1,4 @@
+import 'package:app_mental/Screens/AudioTextDiary/audio_text_diary.dart';
 import 'package:app_mental/Screens/Contacts/contacts_screen.dart';
 import 'package:app_mental/Screens/Questionarie/quests_screen.dart';
 import 'package:app_mental/Screens/SleepDiary/sleep_diary.dart';
@@ -92,6 +93,7 @@ class _MyAppState extends State<MyApp> {
         "/sleep-diary": (ctx) => SleepPage(),
         "/users": (ctx) => UsersPage(),
         "/quests-screen": (ctx) => QuestsScreen(),
+        "/audio-text-diary": (ctx) => AudioTextDiary(),
       },
       home: LandingPage(),
     );

@@ -1,5 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.ufscar.app_mental">
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
    <application
         android:label="App Mental"
         android:icon="@mipmap/launcher_icon">
