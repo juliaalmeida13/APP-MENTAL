@@ -20,6 +20,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'Screens/Home/home_screen.dart';
 import 'Screens/ResetPassword/reset_password.dart';
@@ -28,8 +29,9 @@ import 'Screens/UsersPage/UsersPage.dart';
 import 'Services/interventions.dart';
 import 'Screens/Reading/recomended_readings.dart';
 
-void main() {
+void main() async {
   initializeDateFormatting('pt_BR', null).then((_) => runApp(MyApp()));
+  await dotenv.load(fileName: "lib/.env");
 }
 
 class MyApp extends StatefulWidget {

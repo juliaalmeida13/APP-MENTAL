@@ -7,9 +7,9 @@ import 'package:flutter_firebase_chat_core/flutter_firebase_chat_core.dart';
 class AuthMethods {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  UserApp? _userFromFirebaseUser(User? user) {
-    return user != null ? UserApp(userId: user.uid) : null;
-  }
+  // UserApp? _userFromFirebaseUser(User? user) {
+  //   return user != null ? UserApp(userId: user.uid) : null;
+  // }
 
   Future<UserCredential?> signInWithEmailAndPassword(
       String email, String password) async {
@@ -62,16 +62,16 @@ class AuthMethods {
     }
   }
 
-  Future signUpWithEmailAndPassword(String email, String password) async {
-    try {
-      UserCredential result = await _auth.createUserWithEmailAndPassword(
-          email: email, password: password);
-      User firebaseUser = result.user as User;
-      return _userFromFirebaseUser(firebaseUser);
-    } catch (e) {
-      print(e.toString());
-    }
-  }
+  // Future signUpWithEmailAndPassword(String email, String password) async {
+  //   try {
+  //     UserCredential result = await _auth.createUserWithEmailAndPassword(
+  //         email: email, password: password);
+  //     User firebaseUser = result.user as User;
+  //     return _userFromFirebaseUser(firebaseUser);
+  //   } catch (e) {
+  //     print(e.toString());
+  //   }
+  // }
 
   Future resetPass(String email) async {
     try {
