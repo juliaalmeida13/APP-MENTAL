@@ -242,7 +242,7 @@ class _Pcl5ScreenState extends State<Pcl5Screen> {
   //(p. ex. analgésicos, estimulantes, sedativos ou tranquilizantes, ou drogas como maconha, cocaína ou crack, drogas sintéticas, alucinógenos, heroína, inalantes ou solventes ou metanfetamina?
   var _questionIndex = 0;
   var _totalScoreList = List<int>.filled(21, 0);
-  var _resultOptionList = List<Object>.filled(21,0);
+  var _resultOptionList = List<Object>.filled(21, 0);
 
   void _answerQuestion(int score, int index, Object option) {
     _totalScoreList[index] = score;
@@ -272,7 +272,7 @@ class _Pcl5ScreenState extends State<Pcl5Screen> {
     }
     return Scaffold(
       appBar: AppBar(
-        title: Text(titleAA!),
+        title: FittedBox(child: Text(titleAA!)),
         backgroundColor: kTextColorGreen,
       ),
       body: Padding(

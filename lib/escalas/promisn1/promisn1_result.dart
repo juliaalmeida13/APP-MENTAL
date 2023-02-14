@@ -21,10 +21,10 @@ class Promisn1Result extends StatelessWidget {
   final DatabaseMethods databaseMethods = new DatabaseMethods();
 
   enviarDominios(String email) async {
-    for(var i = 0; i < 10; i++){
+    for (var i = 0; i < 10; i++) {
       print(resultOptionList[i]);
     }
-    
+
     Map<String, dynamic> promisn1Map = {
       "dom1": resultScoreList[1],
       "dom2": resultScoreList[2],
@@ -202,7 +202,7 @@ class Promisn1Result extends StatelessWidget {
         Text(
           resultPhrase,
           style: TextStyle(
-            fontSize: 26,
+            fontSize: MediaQuery.of(context).size.height * .03,
             fontWeight: FontWeight.bold,
             color: Colors.black87,
           ),

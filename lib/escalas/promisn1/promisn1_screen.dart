@@ -366,7 +366,7 @@ class _Promisn1ScreenState extends State<Promisn1Screen> {
 
   var _questionIndex = 0;
   var _totalScoreList = List<int>.filled(14, 0);
-  var _resultOptionList = List<Object>.filled(24,0);
+  var _resultOptionList = List<Object>.filled(24, 0);
 
   void _answerQuestion(int score, int domin, Object option) {
     _totalScoreList[domin] += score;
@@ -408,7 +408,7 @@ class _Promisn1ScreenState extends State<Promisn1Screen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(titleAA!),
+        title: FittedBox(child: Text(titleAA!)),
         backgroundColor: kTextColorGreen,
       ),
       body: Padding(

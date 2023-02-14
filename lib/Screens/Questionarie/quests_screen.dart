@@ -117,11 +117,13 @@ class _QuestsScreenState extends State<QuestsScreen> {
                         tabs: [
                           new Container(
                             height: 50.0,
-                            child: new Tab(text: 'Nessa semana'),
+                            child:
+                                FittedBox(child: new Tab(text: 'Nessa semana')),
                           ),
                           new Container(
                             height: 50.0,
-                            child: new Tab(text: 'Respondidos'),
+                            child:
+                                FittedBox(child: new Tab(text: 'Respondidos')),
                           ),
                         ],
                       )))),

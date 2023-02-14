@@ -74,7 +74,10 @@ class ReadingScreen extends StatelessWidget {
           color: Colors.white,
           onPressed: () => {Navigator.pop(context)},
         ),
-        title: Text(title),
+        title: FittedBox(
+          fit: BoxFit.contain,
+          child: Text(title),
+        ),
         actions: [
           TextButton(
             style: TextButton.styleFrom(
