@@ -20,6 +20,7 @@ class AudioTextDiary extends StatefulWidget {
 
 class _AudioTextDiaryState extends State<AudioTextDiary> {
   final newDiaryTextController = TextEditingController();
+  final recorder = FlutterSoundRecorder();
 
   @override
   void initState() {
@@ -33,8 +34,6 @@ class _AudioTextDiaryState extends State<AudioTextDiary> {
     super.dispose();
   }
 
-  final recorder = FlutterSoundRecorder();
-
   Future initRecorder() async {
     final status = await Permission.microphone.request();
     if (status != PermissionStatus.granted) {
@@ -45,7 +44,8 @@ class _AudioTextDiaryState extends State<AudioTextDiary> {
   }
 
   Future startRecord() async {
-    await recorder.startRecorder(toFile: _getDateNow());
+    await recorder.startRecorder(
+        toFile: "${_getDateNow()}.aac", codec: Codec.aacMP4);
   }
 
   Future stopRecorder() async {
@@ -196,7 +196,7 @@ class _AudioTextDiaryState extends State<AudioTextDiary> {
 
 String _getDateNow() {
   var todayDate = new DateTime.now();
-  var formatterDate = new DateFormat('dd-MM-yy HH:mm');
+  var formatterDate = new DateFormat('dd-MM-yy HH-mm');
   String formattedDate = formatterDate.format(todayDate);
   return formattedDate;
 }

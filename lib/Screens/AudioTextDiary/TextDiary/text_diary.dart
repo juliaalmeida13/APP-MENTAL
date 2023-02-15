@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:path_provider/path_provider.dart';
 import 'dart:io';
 import 'package:pdf/widgets.dart' as pw;
 
 import 'package:app_mental/constants.dart';
 import 'package:app_mental/classes/textDatabase.dart';
 import 'package:app_mental/classes/textDiaryClass.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class TextDiary extends StatefulWidget {
   @override
@@ -86,10 +86,16 @@ class _TextDiaryState extends State<TextDiary> {
         );
       }),
     );
-    final String directory = (await getApplicationDocumentsDirectory()).path;
-    final String path = '$directory/APPMentalDiario.pdf';
-    final file = File(path);
-    await file.writeAsBytes(await pdf.save());
+    final status = await Permission.storage.status;
+    if (status != PermissionStatus.granted) {
+      await Permission.storage.request();
+    }
+    if (await Permission.storage.status.isGranted) {
+      final String downloadFolderPath =
+          '/storage/emulated/0/Download/APPMentalDiario.pdf';
+      final file = File(downloadFolderPath);
+      await file.writeAsBytes(await pdf.save());
+    }
     _openAlertSuccessCreatedPDF(context);
   }
 
@@ -131,10 +137,12 @@ class _TextDiaryState extends State<TextDiary> {
                           child: Card(
                             elevation: 10,
                             child: ListTile(
-                              title: Text("Dia: ${textDiary.createdDate}h"),
+                              title: Text(
+                                  "Dia: ${_getFormattedDayAndHourFrom(textDiary.createdDate)}"),
                               subtitle: Text(textDiary.descriptionText),
                               trailing: IconButton(
                                 icon: Icon(Icons.delete),
+                                color: Colors.red,
                                 onPressed: () {
                                   _openAlertDeleteCard(context, textDiary.id);
                                 },
@@ -156,4 +164,8 @@ class _TextDiaryState extends State<TextDiary> {
       ),
     );
   }
+}
+
+String _getFormattedDayAndHourFrom(String date) {
+  return date.replaceAll("-", "/") + "h";
 }
