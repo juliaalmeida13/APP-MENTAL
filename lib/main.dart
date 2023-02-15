@@ -1,4 +1,4 @@
-import 'package:app_mental/Screens/AudioTextDiary/audio_text_diary.dart';
+import 'package:app_mental/Screens/AudioTextDiaryPage/audio_text_diary.dart';
 import 'package:app_mental/Screens/Contacts/contacts_screen.dart';
 import 'package:app_mental/Screens/Questionarie/quests_screen.dart';
 import 'package:app_mental/Screens/SleepDiary/sleep_diary.dart';
