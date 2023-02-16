@@ -72,7 +72,7 @@ class Promisn2Result extends StatelessWidget {
         Text(
           resultPhrase,
           style: TextStyle(
-            fontSize: 26,
+            fontSize: MediaQuery.of(context).size.height * .03,
             fontWeight: FontWeight.bold,
             color: Colors.black87,
           ),
@@ -88,28 +88,28 @@ class Promisn2Result extends StatelessWidget {
             onPressed: () {
               sendPromisn2Score(userEmail);
               showDialog<String>(
-                  context: context,
-                  builder: (BuildContext context) => AlertDialog(
-                    title: const Text('Entre em contato com alguém!'),
-                    content: const Text(
-                        'Percebemos que você pode estar em um estado bastante delicado e gostaríamos de sugerir que entre em contato conosco ou com alguém próximo!'),
-                    actions: <Widget>[
-                      TextButton(
-                        onPressed: () async {
-                          Navigator.pop(context, 'Ok');
-                          await Navigator.pushReplacementNamed(
-                            context,
-                            ContactsScreen.routeName,
-                            arguments: {},
-                          );
-                        },
-                        child: const Text('Ok',
-                            style: TextStyle(
-                                color: Color.fromRGBO(104, 202, 138, 1))),
-                      ),
-                    ],
-                  ),
-                );
+                context: context,
+                builder: (BuildContext context) => AlertDialog(
+                  title: const Text('Entre em contato com alguém!'),
+                  content: const Text(
+                      'Percebemos que você pode estar em um estado bastante delicado e gostaríamos de sugerir que entre em contato conosco ou com alguém próximo!'),
+                  actions: <Widget>[
+                    TextButton(
+                      onPressed: () async {
+                        Navigator.pop(context, 'Ok');
+                        await Navigator.pushReplacementNamed(
+                          context,
+                          ContactsScreen.routeName,
+                          arguments: {},
+                        );
+                      },
+                      child: const Text('Ok',
+                          style: TextStyle(
+                              color: Color.fromRGBO(104, 202, 138, 1))),
+                    ),
+                  ],
+                ),
+              );
             },
           ),
         ),

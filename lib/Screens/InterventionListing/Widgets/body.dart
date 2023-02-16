@@ -128,8 +128,8 @@ class IntervCard extends StatelessWidget {
                   child: SizedBox(
                     height: 106,
 
-                    ///our image take 100 width, so we set our total width -100
-                    width: size.width - 100,
+                    ///our image take 116 width, so we set our total width -116
+                    width: size.width - 116,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[

@@ -322,7 +322,7 @@ class _PsqiScreenState extends State<PsqiScreen> {
     print("psqi_screen: " + _userEmail!);
     return Scaffold(
       appBar: AppBar(
-        title: Text(titleAA!),
+        title: FittedBox(child: Text(titleAA!)),
         backgroundColor: kTextColorGreen,
       ),
       body: Padding(

@@ -168,7 +168,7 @@ class _QuestSD2ScreenState extends State<QuestSD2Screen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(titleAA!),
+        title: FittedBox(child: Text(titleAA!)),
         backgroundColor: kTextColorGreen,
       ),
       body: Padding(
@@ -182,7 +182,7 @@ class _QuestSD2ScreenState extends State<QuestSD2Screen> {
                 userEmail: _userEmail,
                 resultScoreList: _totalScoreList,
                 resultOptionList: _resultOptionList,
-                 userEscala: _userEscala!,
+                userEscala: _userEscala!,
                 questName: titleAA,
               ) //Quiz
             : QuestSD2Result(

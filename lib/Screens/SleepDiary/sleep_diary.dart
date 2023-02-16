@@ -4,6 +4,7 @@ import 'package:app_mental/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 
 class SleepPage extends StatefulWidget {
   @override
@@ -87,15 +88,15 @@ class _SleepPageState extends State<SleepPage> {
 
   Widget _buildQuest1() {
     return Container(
-      height: 50,
+      height: 80,
       margin: EdgeInsets.symmetric(vertical: 10.0),
       child: ListView(
         scrollDirection: Axis.horizontal,
         children: [
           Container(
             alignment: Alignment.center,
-            width: 200,
-            child: Text(
+            width: MediaQuery.of(context).size.width * .50,
+            child: AutoSizeText(
               "Que horas você foi para a cama?",
               style: TextStyle(fontSize: 16),
             ),
@@ -140,15 +141,15 @@ class _SleepPageState extends State<SleepPage> {
 
   Widget _buildQuest2() {
     return Container(
-      height: 50,
+      height: 80,
       margin: EdgeInsets.symmetric(vertical: 10.0),
       child: ListView(
         scrollDirection: Axis.horizontal,
         children: [
           Container(
             alignment: Alignment.center,
-            width: 200,
-            child: Text(
+            width: MediaQuery.of(context).size.width * .50,
+            child: AutoSizeText(
               "A que horas você tentou dormir?",
               style: TextStyle(fontSize: 16),
             ),
@@ -194,15 +195,15 @@ class _SleepPageState extends State<SleepPage> {
 
   Widget _buildQuest3() {
     return Container(
-      height: 50,
+      height: 80,
       margin: EdgeInsets.symmetric(vertical: 10.0),
       child: ListView(
         scrollDirection: Axis.horizontal,
         children: [
           Container(
             alignment: Alignment.center,
-            width: 200,
-            child: Text(
+            width: MediaQuery.of(context).size.width * .50,
+            child: AutoSizeText(
               "Quanto tempo você demorou para adormecer?",
               style: TextStyle(fontSize: 16),
             ),
@@ -247,15 +248,14 @@ class _SleepPageState extends State<SleepPage> {
 
   Widget _buildQuest4() {
     return Container(
-      height: 75,
+      height: 80,
       margin: EdgeInsets.symmetric(vertical: 10.0),
       child: ListView(
         scrollDirection: Axis.horizontal,
         children: [
           Container(
-            alignment: Alignment.center,
-            width: 200,
-            child: Text(
+            width: MediaQuery.of(context).size.width * .50,
+            child: AutoSizeText(
               "Quantas vezes você acordou, sem contar o seu despertar final?",
               style: TextStyle(fontSize: 16),
             ),
@@ -304,15 +304,15 @@ class _SleepPageState extends State<SleepPage> {
   Widget _buildQuest5() {
     if (qtd > 0) {
       return Container(
-        height: 50,
+        height: 80,
         margin: EdgeInsets.symmetric(vertical: 10.0),
         child: ListView(
           scrollDirection: Axis.horizontal,
           children: [
             Container(
               alignment: Alignment.center,
-              width: 200,
-              child: Text(
+              width: MediaQuery.of(context).size.width * .50,
+              child: AutoSizeText(
                 "No total, quanto tempo durou esse despertar?",
                 style: TextStyle(fontSize: 16),
               ),
@@ -360,15 +360,15 @@ class _SleepPageState extends State<SleepPage> {
 
   Widget _buildQuest6() {
     return Container(
-      height: 50,
+      height: 80,
       margin: EdgeInsets.symmetric(vertical: 10.0),
       child: ListView(
         scrollDirection: Axis.horizontal,
         children: [
           Container(
             alignment: Alignment.center,
-            width: 200,
-            child: Text(
+            width: MediaQuery.of(context).size.width * .50,
+            child: AutoSizeText(
               "A que horas foi seu despertar final?",
               style: TextStyle(fontSize: 16),
             ),
@@ -413,15 +413,15 @@ class _SleepPageState extends State<SleepPage> {
 
   Widget _buildQuest7() {
     return Container(
-      height: 60,
+      height: 80,
       margin: EdgeInsets.symmetric(vertical: 10.0),
       child: ListView(
         scrollDirection: Axis.horizontal,
         children: [
           Container(
             alignment: Alignment.center,
-            width: 200,
-            child: Text(
+            width: MediaQuery.of(context).size.width * .50,
+            child: AutoSizeText(
               "Após seu despertar final, quanto tempo você passou na cama?",
               style: TextStyle(fontSize: 16),
             ),
@@ -466,15 +466,15 @@ class _SleepPageState extends State<SleepPage> {
 
   Widget _buildQuest8() {
     return Container(
-      height: 50,
+      height: 80,
       margin: EdgeInsets.symmetric(vertical: 10.0),
       child: ListView(
         scrollDirection: Axis.horizontal,
         children: [
           Container(
             alignment: Alignment.center,
-            width: 200,
-            child: Text(
+            width: MediaQuery.of(context).size.width * .50,
+            child: AutoSizeText(
               "Quanto você dormiu durante o dia?",
               style: TextStyle(fontSize: 16),
             ),
@@ -595,7 +595,7 @@ class _SleepPageState extends State<SleepPage> {
                                 height: MediaQuery.of(context).size.height,
                                 alignment: Alignment.center,
                                 child: Text(
-                                    "Você já respondeu o questionário hoje.\n Obrigado :3",
+                                    "Você já respondeu o questionário hoje.\n Obrigado!",
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                       fontSize: 28,
