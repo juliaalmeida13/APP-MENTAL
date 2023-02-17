@@ -1,17 +1,17 @@
-import 'package:app_mental/model/user.dart';
+import 'package:app_mental/helper/helperfuncions.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:flutter_firebase_chat_core/flutter_firebase_chat_core.dart';
 
 class AuthMethods {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+  //final FirebaseAuth _auth = FirebaseAuth.instance;
 
   // UserApp? _userFromFirebaseUser(User? user) {
   //   return user != null ? UserApp(userId: user.uid) : null;
   // }
 
-  Future<UserCredential?> signInWithEmailAndPassword(
+  /*Future<UserCredential?> signInWithEmailAndPassword(
       String email, String password) async {
     try {
       UserCredential result = await _auth.signInWithEmailAndPassword(
@@ -21,10 +21,10 @@ class AuthMethods {
       print(e.toString());
       return null;
     }
-  }
+  }*/
 
   /// Fetches user from Firebase and returns a promise
-  Future<Map<String, dynamic>> fetchUser(String userId) async {
+  /*Future<Map<String, dynamic>> fetchUser(String userId) async {
     final doc =
         await FirebaseFirestore.instance.collection("users").doc(userId).get();
 
@@ -60,7 +60,7 @@ class AuthMethods {
       print(e.toString());
       return null;
     }
-  }
+  }*/
 
   // Future signUpWithEmailAndPassword(String email, String password) async {
   //   try {
@@ -75,7 +75,7 @@ class AuthMethods {
 
   Future resetPass(String email) async {
     try {
-      return await _auth.sendPasswordResetEmail(email: email);
+      return false; //await _auth.sendPasswordResetEmail(email: email);
     } catch (e) {
       print(e.toString());
     }
@@ -83,7 +83,7 @@ class AuthMethods {
 
   Future signOut() async {
     try {
-      return await _auth.signOut();
+      return HelperFunctions.clearUserInSharedPreference();
     } catch (e) {
       print(e.toString());
     }

@@ -47,4 +47,9 @@ class HelperFunctions {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString(sharedPreferenceUserEmailKey) ?? "Empty";
   }
+
+  static Future<bool> clearUserInSharedPreference() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.clear();
+  }
 }

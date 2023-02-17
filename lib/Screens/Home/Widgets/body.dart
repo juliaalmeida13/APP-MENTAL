@@ -12,9 +12,10 @@ class _BodyState extends State<Body> {
   @override
   void initState() {
     super.initState();
-    getReadings().whenComplete(() {
+    //quando inicia o login ele pede esse request, mas acho que está obsoleto, não vejo utilidade em nada
+    /*getReadings().whenComplete(() {
       setState(() {});
-    });
+    });*/
   }
 
   getReadings() async {

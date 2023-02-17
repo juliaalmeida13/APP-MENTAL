@@ -14,7 +14,7 @@ import 'package:app_mental/escalas/pset/pset_screen.dart';
 import 'package:app_mental/escalas/psqi/psqi_screen.dart';
 import 'package:app_mental/escalas/questSD1/questSD1_screen.dart';
 import 'package:app_mental/escalas/questSD2/questSD2_screen.dart';
-import 'package:app_mental/helper/authenticate.dart';
+import 'package:app_mental/helper/authenticate.dart'; //talvez não será mais usado
 import 'package:app_mental/helper/helperfuncions.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -41,7 +41,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  late bool userIsLoggedIn;
+  bool? userIsLoggedIn;
 
   @override
   void initState() {
@@ -95,7 +95,7 @@ class _MyAppState extends State<MyApp> {
         "/users": (ctx) => UsersPage(),
         "/quests-screen": (ctx) => QuestsScreen(),
       },
-      home: LandingPage(),
+      home: (userIsLoggedIn ?? false) ? HomeScreen() : SignIn(),
     );
   }
 }
