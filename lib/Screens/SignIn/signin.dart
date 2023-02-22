@@ -1,40 +1,29 @@
 import 'package:app_mental/Screens/ResetPassword/reset_password.dart';
 import 'package:app_mental/Screens/SignUp/signup.dart';
-import 'package:app_mental/Services/auth.dart';
-import 'package:app_mental/Services/database.dart';
 import 'package:app_mental/Services/userService.dart';
 import 'package:app_mental/animation/FadeAnimation.dart';
 import 'package:app_mental/constants.dart';
 import 'package:app_mental/helper/helperfuncions.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class SignIn extends StatefulWidget {
-  //final Function toggle;
-
-  //SignIn(this.toggle);
-
   @override
   _SignInState createState() => _SignInState();
 }
 
 class _SignInState extends State<SignIn> {
   final formKey = GlobalKey<FormState>();
-  AuthMethods authMethods = new AuthMethods();
-  DatabaseMethods databaseMethods = new DatabaseMethods();
   TextEditingController emailTextEdittingController =
       new TextEditingController();
   TextEditingController passwordTextEdittingController =
       new TextEditingController();
 
   bool isLoading = false;
-  late QuerySnapshot snapshotUserInfo;
 
   signIn() {
     if (!formKey.currentState!.validate()) {
       return;
     }
-
     setState(() {
       isLoading = true;
     });
@@ -47,11 +36,11 @@ class _SignInState extends State<SignIn> {
     ));
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
     UserService()
-        .fazrequest(emailTextEdittingController.text,
+        .signInWithEmailAndPassword(emailTextEdittingController.text,
             passwordTextEdittingController.text)
-        .then((value) {
+        .then((user) {
       ScaffoldMessenger.of(context).hideCurrentSnackBar();
-      HelperFunctions.saveUserInfoToSharedPrefs(value);
+      HelperFunctions.saveUserInfoToSharedPrefs(user);
       Navigator.pushNamedAndRemoveUntil(
           context, "/logged-home", (Route<dynamic> route) => false);
     }).catchError((error) {

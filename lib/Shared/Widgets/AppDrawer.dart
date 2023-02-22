@@ -32,14 +32,10 @@ class _AppDrawerState extends State<AppDrawer> {
   }
 
   getUserNameAndEmail() async {
-    await HelperFunctions.getUserNameInSharedPreference().then((value) {
+    await HelperFunctions.getUserNameAndEmailInSharedPreference().then((user) {
       setState(() {
-        userName = value;
-      });
-    });
-    await HelperFunctions.getUserEmailInSharedPreference().then((value) {
-      setState(() {
-        userEmail = value;
+        userName = user["name"];
+        userEmail = user["email"];
       });
     });
   }

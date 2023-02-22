@@ -48,6 +48,15 @@ class HelperFunctions {
     return prefs.getString(sharedPreferenceUserEmailKey) ?? "Empty";
   }
 
+  static Future<Map> getUserNameAndEmailInSharedPreference() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    Map user = {
+      'name': prefs.getString(sharedPreferenceUserNameKey) ?? "Empty",
+      'email': prefs.getString(sharedPreferenceUserEmailKey) ?? "Empty"
+    };
+    return user;
+  }
+
   static Future<bool> clearUserInSharedPreference() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.clear();

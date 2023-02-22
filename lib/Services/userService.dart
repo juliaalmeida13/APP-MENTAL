@@ -30,7 +30,8 @@ class UserService {
     throw HttpException(error.message.toString());
   }
 
-  Future<UserApp> fazrequest(String email, String password) async {
+  Future<UserApp> signInWithEmailAndPassword(
+      String email, String password) async {
     final response = await http.post(Uri.parse("${url}loginApp"),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
