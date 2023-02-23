@@ -1,10 +1,9 @@
-import 'package:app_mental/Services/database.dart';
-import 'package:app_mental/Shared/Widgets/AppDrawer.dart';
 import 'package:app_mental/constants.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:app_mental/helper/helperfuncions.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:app_mental/Services/userService.dart';
 
 class SleepPage extends StatefulWidget {
   @override
@@ -13,7 +12,6 @@ class SleepPage extends StatefulWidget {
 
 class _SleepPageState extends State<SleepPage> {
   late DateTime pickedDate;
-  DatabaseMethods databaseMethods = new DatabaseMethods();
   late AnimationController controller;
   final formKey = GlobalKey<FormState>();
   TextEditingController resp1 = TextEditingController();
@@ -25,8 +23,7 @@ class _SleepPageState extends State<SleepPage> {
   TextEditingController resp8 = TextEditingController();
 
   late String data;
-  bool dataIgual = false;
-  bool _loading = true;
+  bool userAnsweredAlready = false;
   String _resQuest1 = "00:00";
   String _resQuest2 = "00:00";
   String _resQuest3 = "00:00";
@@ -35,10 +32,10 @@ class _SleepPageState extends State<SleepPage> {
   String _resQuest6 = "00:00";
   String _resQuest7 = "00:00";
   String _resQuest8 = "00:00";
-  String userEmail = "00:00";
+  String userEmail = "";
 
   enviarRespostas() {
-    Map<String, dynamic> messageMap = {
+    Map<String, dynamic> answerQuestions = {
       "resp1": _resQuest1,
       "resp2": _resQuest2,
       "resp3": _resQuest3,
@@ -48,41 +45,41 @@ class _SleepPageState extends State<SleepPage> {
       "resp7": _resQuest7,
       "resp8": _resQuest8,
     };
-
-    if (dataIgual) {
-      print("Descupe, vc já respondeu hoje");
-    } else {
-      print("vc n respondeu hoje");
-      databaseMethods.addRespostaQuestionarioSono(
-          FirebaseAuth.instance.currentUser!.uid, messageMap, data);
-      setState(() {
-        dataIgual = true;
+    print(answerQuestions);
+    if (!userAnsweredAlready) {
+      UserService().addNewSleepDiary(userEmail, answerQuestions).then((_) {
+        setState(() {
+          userAnsweredAlready = true;
+        });
       });
     }
   }
 
+  getUserEmail() async {
+    await HelperFunctions.getUserEmailInSharedPreference().then((email) {
+      setState(() {
+        userEmail = email;
+      });
+    });
+  }
+
   @override
   void initState() {
-    getUserInfo();
+    getUserEmail().then((_) {
+      getUserInfo();
+    });
     super.initState();
     pickedDate = DateTime.now();
     data = DateFormat("dd-MM-yyyy").format(pickedDate);
   }
 
   getUserInfo() async {
-    databaseMethods
-        .getDataQuestSono(FirebaseAuth.instance.currentUser!.uid)
-        .then((value) {
-      value.docs.forEach((element) {
-        if (element.id == data) {
-          print("${element.id} é = a ${data}");
-          dataIgual = true;
-        }
-      });
-      setState(() {
-        dataIgual = dataIgual;
-        _loading = false;
-      });
+    UserService().isSleepDiaryAnsweredToday(userEmail).then((answered) {
+      if (answered) {
+        setState(() {
+          userAnsweredAlready = true;
+        });
+      }
     });
   }
 
@@ -518,57 +515,6 @@ class _SleepPageState extends State<SleepPage> {
   }
 
   @override
-  /* Widget build(BuildContext context) {
-    return Scaffold(
-      body: SingleChildScrollView(
-        child: Container(
-          margin: EdgeInsets.all(24),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                _buildQuest1(),
-                _buildQuest2(),
-                _buildQuest3(),
-                _buildQuest4(),
-                _buildQuest5(),
-                _buildQuest6(),
-                _buildQuest7(),
-                _buildQuest8(),
-                SizedBox(height: 20),
-                ElevatedButton(
-                  child: Text(
-                    'Enviar',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                    ),
-                  ),
-                  onPressed: () async {
-                    print(userEmail);
-                    enviarRespostas();
-                    await showInformationDialog(
-                        context,
-                        calculoEficienciaSono(
-                            _resQuest1,
-                            _resQuest2,
-                            _resQuest3,
-                            qtd,
-                            _resQuest5,
-                            _resQuest6,
-                            _resQuest7,
-                            _resQuest8),
-                        pickedDate);
-                  },
-                )
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }*/
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -579,72 +525,67 @@ class _SleepPageState extends State<SleepPage> {
       ),
       body: Center(
         child: SingleChildScrollView(
-          child: _loading
-              ? Center(
-                  child: CircularProgressIndicator(),
-                )
-              : Container(
-                  margin: EdgeInsets.all(24),
-                  child: Form(
-                    key: formKey,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        dataIgual
-                            ? Container(
-                                height: MediaQuery.of(context).size.height,
-                                alignment: Alignment.center,
-                                child: Text(
-                                    "Você já respondeu o questionário hoje.\n Obrigado!",
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      fontSize: 28,
-                                    )),
-                              )
-                            : Column(
-                                children: [
-                                  _buildQuest1(),
-                                  _buildQuest2(),
-                                  _buildQuest3(),
-                                  _buildQuest4(),
-                                  _buildQuest5(),
-                                  _buildQuest6(),
-                                  _buildQuest7(),
-                                  _buildQuest8(),
-                                  SizedBox(height: 20),
-                                  ElevatedButton(
-                                    child: Text(
-                                      'Enviar',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 16,
-                                      ),
-                                    ),
-                                    onPressed: () async {
-                                      print(userEmail);
-                                      if (formKey.currentState!.validate()) {
-                                        enviarRespostas();
-                                        await showInformationDialog(
-                                            context,
-                                            calculoEficienciaSono(
-                                                _resQuest1,
-                                                _resQuest2,
-                                                _resQuest3,
-                                                qtd,
-                                                _resQuest5,
-                                                _resQuest6,
-                                                _resQuest7,
-                                                _resQuest8),
-                                            pickedDate);
-                                      }
-                                    },
-                                  )
-                                ],
-                              )
-                      ],
-                    ),
-                  ),
-                ),
+          child: Container(
+            margin: EdgeInsets.all(24),
+            child: Form(
+              key: formKey,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  userAnsweredAlready
+                      ? Container(
+                          height: MediaQuery.of(context).size.height,
+                          alignment: Alignment.center,
+                          child: Text(
+                              "Você já respondeu o questionário hoje.\n Obrigado!",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 28,
+                              )),
+                        )
+                      : Column(
+                          children: [
+                            _buildQuest1(),
+                            _buildQuest2(),
+                            _buildQuest3(),
+                            _buildQuest4(),
+                            _buildQuest5(),
+                            _buildQuest6(),
+                            _buildQuest7(),
+                            _buildQuest8(),
+                            SizedBox(height: 20),
+                            ElevatedButton(
+                              child: Text(
+                                'Enviar',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                ),
+                              ),
+                              onPressed: () async {
+                                if (formKey.currentState!.validate()) {
+                                  enviarRespostas();
+                                  await showInformationDialog(
+                                      context,
+                                      calculoEficienciaSono(
+                                          _resQuest1,
+                                          _resQuest2,
+                                          _resQuest3,
+                                          qtd,
+                                          _resQuest5,
+                                          _resQuest6,
+                                          _resQuest7,
+                                          _resQuest8),
+                                      pickedDate);
+                                }
+                              },
+                            )
+                          ],
+                        )
+                ],
+              ),
+            ),
+          ),
         ),
       ),
     );
