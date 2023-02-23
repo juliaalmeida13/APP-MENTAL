@@ -51,10 +51,6 @@ class _AppDrawerState extends State<AppDrawer> {
     final displayName = userName;
     final displayEmail = userEmail;
     final image = 'assets/images/woman.png';
-    final user = types.User(
-        id: "",
-        role: types.Role
-            .user); //arrumar a classe usuário e ifs abaixo talvez sejam desnecessários
     return Drawer(
       backgroundColor: AppColors.verdementa,
       child: ListView(
@@ -64,45 +60,42 @@ class _AppDrawerState extends State<AppDrawer> {
               name: truncateWithEllipsis(10, displayName),
               email: displayEmail,
               onClicked: () => selectedItem(context, 4)),
-          if (user.role == types.Role.user) ...[
-            const SizedBox(height: 8),
-            buildMenuItem(
-              text: 'Home',
-              icon: Icons.house,
-              onClicked: () => selectedItem(context, 0),
-            ),
-            const SizedBox(height: 8),
-            buildMenuItem(
-              text: 'Diário do sono',
-              icon: Icons.bed,
-              onClicked: () => selectedItem(context, 1),
-            ),
-            const SizedBox(height: 8),
-            buildMenuItem(
-              text: 'Leituras',
-              icon: Icons.book_online,
-              onClicked: () => selectedItem(context, 2),
-            ),
-            const SizedBox(height: 8),
-            buildMenuItem(
-              text: 'Questionários',
-              icon: Icons.list_alt,
-              onClicked: () => selectedItem(context, 3),
-            ),
-            const SizedBox(height: 8),
-            buildMenuItem(
-              text: 'Contatos',
-              icon: Icons.people,
-              onClicked: () => selectedItem(context, 4),
-            )
-          ] else if (user.role == types.Role.agent) ...[
-            const SizedBox(height: 8),
-            buildMenuItem(
-              text: 'Chat',
-              icon: Icons.list_alt,
-              onClicked: () => selectedItem(context, 5),
-            ),
-          ],
+          const SizedBox(height: 8),
+          buildMenuItem(
+            text: 'Home',
+            icon: Icons.house,
+            onClicked: () => selectedItem(context, 0),
+          ),
+          const SizedBox(height: 8),
+          buildMenuItem(
+            text: 'Diário do sono',
+            icon: Icons.bed,
+            onClicked: () => selectedItem(context, 1),
+          ),
+          const SizedBox(height: 8),
+          buildMenuItem(
+            text: 'Leituras',
+            icon: Icons.book_online,
+            onClicked: () => selectedItem(context, 2),
+          ),
+          const SizedBox(height: 8),
+          buildMenuItem(
+            text: 'Questionários',
+            icon: Icons.list_alt,
+            onClicked: () => selectedItem(context, 3),
+          ),
+          const SizedBox(height: 8),
+          buildMenuItem(
+            text: 'Contatos',
+            icon: Icons.people,
+            onClicked: () => selectedItem(context, 4),
+          ),
+          const SizedBox(height: 8),
+          buildMenuItem(
+            text: 'Chat',
+            icon: Icons.list_alt,
+            onClicked: () => selectedItem(context, 5),
+          ),
           const SizedBox(height: 8),
           buildMenuItem(
             text: 'Tutorial',
@@ -119,37 +112,33 @@ class _AppDrawerState extends State<AppDrawer> {
                   context, "/sign-in", (Route<dynamic> route) => false);
             },
           ),
-          if (user.role == types.Role.user) ...[
-            Container(
-              //pode ser que seja o tamanho desse container
-              child: Align(
-                alignment: FractionalOffset.bottomCenter,
-                child: Column(
-                  children: <Widget>[
-                    Divider(),
-                    ListTile(
-                      leading: Icon(Icons.chat_rounded),
-                      title: Text('Falar com pesquisador'),
-                      onTap: () => openChat(context),
-                    ),
-                  ],
-                ),
+          Container(
+            //pode ser que seja o tamanho desse container
+            child: Align(
+              alignment: FractionalOffset.bottomCenter,
+              child: Column(
+                children: <Widget>[
+                  Divider(),
+                  ListTile(
+                    leading: Icon(Icons.chat_rounded),
+                    title: Text('Falar com pesquisador'),
+                    onTap: () => openChat(context),
+                  ),
+                ],
               ),
             ),
-          ],
+          ),
           // AsyncSnapshot<Your object type>
-          if (version != "") ...[
-            Container(
-              margin: EdgeInsets.fromLTRB(15, 0, 0, 10),
-              alignment: AlignmentDirectional.topStart,
-              child: Text(
-                "Versão: " + version,
-                style: TextStyle(
-                    fontSize: 12, color: Color.fromRGBO(0, 0, 0, 0.3)),
-                textAlign: TextAlign.justify,
-              ),
+          Container(
+            margin: EdgeInsets.fromLTRB(15, 0, 0, 10),
+            alignment: AlignmentDirectional.topStart,
+            child: Text(
+              "Versão: " + version,
+              style:
+                  TextStyle(fontSize: 12, color: Color.fromRGBO(0, 0, 0, 0.3)),
+              textAlign: TextAlign.justify,
             ),
-          ],
+          ),
         ],
       ),
     );

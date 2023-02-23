@@ -8,24 +8,6 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
-  bool existingReadings = false;
-  @override
-  void initState() {
-    super.initState();
-    //quando inicia o login ele pede esse request, mas acho que está obsoleto, não vejo utilidade em nada
-    /*getReadings().whenComplete(() {
-      setState(() {});
-    });*/
-  }
-
-  getReadings() async {
-    var ds = await DatabaseMethods().readingsAreEmpty();
-
-    setState(() {
-      existingReadings = ds.docs.length != 0;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
