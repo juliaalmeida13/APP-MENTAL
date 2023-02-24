@@ -62,7 +62,10 @@ class _ReadingScreenState extends State<ReadingScreen> {
       onCancelled: () => print('cancelled'),
       onSubmitted: (response) {
         UserService().addNewReadingRating(
-            userEmail, id, response.rating.toString(), response.comment);
+            userEmail,
+            id,
+            response.rating.toString(),
+            (response.comment == "") ? commentHint : response.comment);
       },
       commentHint: commentHint,
     );
