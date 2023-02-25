@@ -45,7 +45,6 @@ class _SleepPageState extends State<SleepPage> {
       "resp7": _resQuest7,
       "resp8": _resQuest8,
     };
-    print(answerQuestions);
     if (!userAnsweredAlready) {
       UserService().addNewSleepDiary(userEmail, answerQuestions).then((_) {
         setState(() {
@@ -55,32 +54,25 @@ class _SleepPageState extends State<SleepPage> {
     }
   }
 
-  getUserEmail() async {
+  getUserEmailAndUserAnsweredAlready() async {
     await HelperFunctions.getUserEmailInSharedPreference().then((email) {
       setState(() {
         userEmail = email;
+      });
+      UserService().isSleepDiaryAnsweredToday(email).then((answered) {
+        setState(() {
+          userAnsweredAlready = answered;
+        });
       });
     });
   }
 
   @override
   void initState() {
-    getUserEmail().then((_) {
-      getUserInfo();
-    });
+    getUserEmailAndUserAnsweredAlready();
     super.initState();
     pickedDate = DateTime.now();
     data = DateFormat("dd-MM-yyyy").format(pickedDate);
-  }
-
-  getUserInfo() async {
-    UserService().isSleepDiaryAnsweredToday(userEmail).then((answered) {
-      if (answered) {
-        setState(() {
-          userAnsweredAlready = true;
-        });
-      }
-    });
   }
 
   Widget _buildQuest1() {

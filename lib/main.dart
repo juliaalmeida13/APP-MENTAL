@@ -95,7 +95,7 @@ class _MyAppState extends State<MyApp> {
         "/users": (ctx) => UsersPage(),
         "/quests-screen": (ctx) => QuestsScreen(),
       },
-      home: LandingPage(),
+      home: SleepPage(),
     );
   }
 }
