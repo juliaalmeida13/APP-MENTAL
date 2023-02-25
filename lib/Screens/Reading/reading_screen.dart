@@ -48,7 +48,7 @@ class _ReadingScreenState extends State<ReadingScreen> {
       if (readingRating.id != null) {
         ratingTitle =
             'Você já avaliou este conteúdo, deseja avaliá-lo novamente?';
-        initialRating = double.parse(readingRating.rating!);
+        initialRating = readingRating.rating!;
         commentHint = readingRating.comment!;
       }
     });
@@ -61,10 +61,7 @@ class _ReadingScreenState extends State<ReadingScreen> {
       submitButtonText: 'Enviar',
       onCancelled: () => print('cancelled'),
       onSubmitted: (response) {
-        UserService().addNewReadingRating(
-            userEmail,
-            id,
-            response.rating.toString(),
+        UserService().addNewReadingRating(userEmail, id, response.rating,
             (response.comment == "") ? commentHint : response.comment);
       },
       commentHint: commentHint,

@@ -33,31 +33,29 @@ class UserService {
     throw HttpException(error.message.toString());
   }
 
-  Future<bool> addNewReadingRating(
-      String email, String readingId, String rating, String comment) async {
-    final response = await http.post(
-        Uri.parse("${url}addOrUpdateReadingRating"),
+  addNewReadingRating(
+      String email, String readingId, double rating, String comment) async {
+    final response = await http.post(Uri.parse("${url}rateReading"),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
-        body: jsonEncode(<String, String>{
+        body: jsonEncode(<String, dynamic>{
           'email': email,
           'readingId': readingId,
           'rating': rating,
           'comment': comment
         }));
-    if (response.statusCode == 200) {
-      return true;
+    if (response.statusCode != 200) {
+      final error =
+          ApiError.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
+      throw HttpException(error.message.toString());
     }
-    final error =
-        ApiError.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
-    throw HttpException(error.message.toString());
   }
 
   Future<ReadingRating> findReadingRating(
       String email, String readingId) async {
     final response = await http.get(
-      Uri.parse("${url}searchReadingRating/$email/$readingId"),
+      Uri.parse("${url}searchReadingRating?email=$email&readingId=$readingId"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
