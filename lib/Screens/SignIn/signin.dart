@@ -36,7 +36,7 @@ class _SignInState extends State<SignIn> {
     ));
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
     UserService()
-        .signInWithEmailAndPassword(emailTextEdittingController.text,
+        .signIn(emailTextEdittingController.text,
             passwordTextEdittingController.text)
         .then((user) {
       ScaffoldMessenger.of(context).hideCurrentSnackBar();
