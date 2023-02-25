@@ -25,4 +25,56 @@ class ContactService {
         ApiError.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
     throw HttpException(error.message.toString());
   }
+
+  Future<void> saveContact(String name, String number, String email) async {
+    final response = await http.post(Uri.parse("${url}saveContact"),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(
+            <String, String>{'email': email, 'name': name, 'number': number}));
+
+    if (response.statusCode != 200) {
+      final error =
+          ApiError.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
+      throw HttpException(error.message.toString());
+    }
+  }
+
+  Future<void> deleteContact(int idContact, String email) async {
+    final response = await http.post(Uri.parse("${url}deleteContact"),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, String>{
+          'idContact': idContact.toString(),
+          'email': email
+        }));
+
+    if (response.statusCode != 200) {
+      final error =
+          ApiError.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
+      throw HttpException(error.message.toString());
+    }
+  }
+
+  Future<void> editContact(
+      int idContact, String email, String name, String number) async {
+    final response = await http.post(Uri.parse("${url}editContact"),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, String>{
+          'idContact': idContact.toString(),
+          'email': email,
+          'name': name,
+          'number': number
+        }));
+
+    if (response.statusCode != 200) {
+      final error =
+          ApiError.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
+      throw HttpException(error.message.toString());
+    }
+  }
 }

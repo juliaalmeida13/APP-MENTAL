@@ -5,7 +5,6 @@ import 'package:app_mental/constants.dart';
 import 'package:app_mental/helper/constants.dart';
 import 'package:app_mental/helper/helperfuncions.dart';
 import 'package:app_mental/model/contact.dart';
-import 'package:app_mental/Shared/Widgets/AppDrawer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -42,18 +41,91 @@ class _ContactsScreenState extends State<ContactsScreen> {
     Constants.myEmail = await HelperFunctions.getUserEmailInSharedPreference();
     Constants.myEmail = Constants.myEmail.trim();
 
+    this._searchContacts();
+  }
+
+  _searchContacts() {
     ContactService().findContactByUser(Constants.myEmail).then((contacts) => {
           setState(() {
             contactList = contacts;
           })
         });
-    // databaseMethods
-    //     .getCreatedContacts(FirebaseAuth.instance.currentUser!.uid)
-    //     .then((val) {
-    //   setState(() {
-    //     contactsRoomsStream = val;
-    //   });
-    // });
+  }
+
+  _addContact(nameContact, numberContact) async {
+    ContactService()
+        .saveContact(nameContact.text, numberContact.text, Constants.myEmail)
+        .then((_) {
+      this._searchContacts();
+    });
+  }
+
+  addContactDialog(
+      BuildContext context, _formKey, nameContact, numberContact) async {
+    return await showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            content: Stack(
+              // overflow: Overflow.visible,
+              children: <Widget>[
+                Form(
+                  key: _formKey,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: TextFormField(
+                          controller: nameContact,
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'vazio';
+                            }
+                            return null;
+                          },
+                          decoration: InputDecoration(
+                            hintText: 'Nome',
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: TextFormField(
+                          keyboardType: TextInputType.number,
+                          controller: numberContact,
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'vazio';
+                            }
+                            return null;
+                          },
+                          decoration: InputDecoration(
+                            hintText: 'Número',
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: ElevatedButton(
+                          child: Text("Adicionar"),
+                          onPressed: () async {
+                            if (_formKey.currentState!.validate()) {
+                              _addContact(nameContact, numberContact);
+                              nameContact.clear();
+                              numberContact.clear();
+                              Navigator.of(context).pop();
+                            }
+                          },
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          );
+        });
   }
 
   Widget _buildContactItem(BuildContext context, String name, String number, id,
@@ -174,6 +246,135 @@ class _ContactsScreenState extends State<ContactsScreen> {
     tapXY = detail.globalPosition;
   }
 
+  _confirmDelDialog(BuildContext context, id) async {
+    Widget cancelaButton = TextButton(
+      child: Text("Cancelar"),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+    );
+    Widget continuaButton = TextButton(
+      child: Text("Excluir"),
+      onPressed: () {
+        // DatabaseMethods()
+        //     .deleteContact(FirebaseAuth.instance.currentUser!.uid, id);
+
+        ContactService().deleteContact(id, Constants.myEmail).then((_) {
+          this._searchContacts();
+          Navigator.of(context).pop();
+        });
+      },
+    );
+    //configura o AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("Excluir Contato"),
+      content: Text("Deseja realmente excluir o contato?"),
+      actions: [
+        cancelaButton,
+        continuaButton,
+      ],
+    );
+    //exibe o diálogo
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  editContactDialog(BuildContext context, _formKey, name, number, id,
+      nameContact, numberContact) async {
+    nameContact.text = name;
+    numberContact.text = number.toString();
+    return await showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            content: Stack(
+              // overflow: Overflow.visible,
+              children: <Widget>[
+                Positioned(
+                  right: -40.0,
+                  top: -40.0,
+                  child: InkResponse(
+                    onTap: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: CircleAvatar(
+                      child: Icon(Icons.close),
+                      backgroundColor: Colors.red,
+                    ),
+                  ),
+                ),
+                Form(
+                  key: _formKey,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: TextFormField(
+                            controller: nameContact,
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'vazio';
+                              }
+                              return null;
+                            }),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: TextFormField(
+                          keyboardType: TextInputType.number,
+                          controller: numberContact,
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'vazio';
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: ElevatedButton(
+                          child: Text("Alterar"),
+                          onPressed: () async {
+                            if (_formKey.currentState!.validate()) {
+                              _updateContact(nameContact, numberContact, id);
+                              nameContact.clear();
+                              numberContact.clear();
+                              Navigator.of(context).pop();
+                            }
+                          },
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          );
+        });
+  }
+
+  _updateContact(nameContact, numberContact, id) async {
+    // Map<String, dynamic> contactMap = {
+    //   "name": nameContact.text,
+    //   "number": int.parse(numberContact.text),
+    // };
+    // DatabaseMethods()
+    //     .updateContact(FirebaseAuth.instance.currentUser!.uid, id, contactMap);
+
+    ContactService()
+        .editContact(
+            id, Constants.myEmail, nameContact.text, numberContact.text)
+        .then((_) {
+      this._searchContacts();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     overlay = Overlay.of(context)!.context.findRenderObject() as RenderBox;
@@ -226,202 +427,7 @@ class _ContactsScreenState extends State<ContactsScreen> {
   }
 }
 
-_confirmDelDialog(BuildContext context, id) async {
-  Widget cancelaButton = TextButton(
-    child: Text("Cancelar"),
-    onPressed: () {
-      Navigator.of(context).pop();
-    },
-  );
-  Widget continuaButton = TextButton(
-    child: Text("Excluir"),
-    onPressed: () {
-      DatabaseMethods()
-          .deleteContact(FirebaseAuth.instance.currentUser!.uid, id);
-      Navigator.of(context).pop();
-    },
-  );
-  //configura o AlertDialog
-  AlertDialog alert = AlertDialog(
-    title: Text("Excluir Contato"),
-    content: Text("Deseja realmente excluir o contato?"),
-    actions: [
-      cancelaButton,
-      continuaButton,
-    ],
-  );
-  //exibe o diálogo
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return alert;
-    },
-  );
-}
-
 _callNumber(String phoneNumber) async {
   String number = phoneNumber;
   launch("tel://${number}");
-}
-
-_addContact(nameContact, numberContact) async {
-  Map<String, dynamic> contactMap = {
-    "name": nameContact.text,
-    "number": int.parse(numberContact.text),
-  };
-  DatabaseMethods()
-      .createContactList(contactMap, FirebaseAuth.instance.currentUser!.uid);
-}
-
-_updateContact(nameContact, numberContact, id) async {
-  Map<String, dynamic> contactMap = {
-    "name": nameContact.text,
-    "number": int.parse(numberContact.text),
-  };
-  DatabaseMethods()
-      .updateContact(FirebaseAuth.instance.currentUser!.uid, id, contactMap);
-}
-
-editContactDialog(BuildContext context, _formKey, name, number, id, nameContact,
-    numberContact) async {
-  nameContact.text = name;
-  numberContact.text = number.toString();
-  return await showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          content: Stack(
-            // overflow: Overflow.visible,
-            children: <Widget>[
-              Positioned(
-                right: -40.0,
-                top: -40.0,
-                child: InkResponse(
-                  onTap: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: CircleAvatar(
-                    child: Icon(Icons.close),
-                    backgroundColor: Colors.red,
-                  ),
-                ),
-              ),
-              Form(
-                key: _formKey,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: TextFormField(
-                          controller: nameContact,
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return 'vazio';
-                            }
-                            return null;
-                          }),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: TextFormField(
-                        keyboardType: TextInputType.number,
-                        controller: numberContact,
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'vazio';
-                          }
-                          return null;
-                        },
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: ElevatedButton(
-                        child: Text("Alterar"),
-                        onPressed: () async {
-                          if (_formKey.currentState!.validate()) {
-                            _updateContact(nameContact, numberContact, id);
-                            nameContact.clear();
-                            numberContact.clear();
-                            Navigator.of(context).pop();
-                          }
-                        },
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            ],
-          ),
-        );
-      });
-}
-
-addContactDialog(
-    BuildContext context, _formKey, nameContact, numberContact) async {
-  return await showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          content: Stack(
-            // overflow: Overflow.visible,
-            children: <Widget>[
-              Form(
-                key: _formKey,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: TextFormField(
-                        controller: nameContact,
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'vazio';
-                          }
-                          return null;
-                        },
-                        decoration: InputDecoration(
-                          hintText: 'Nome',
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: TextFormField(
-                        keyboardType: TextInputType.number,
-                        controller: numberContact,
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'vazio';
-                          }
-                          return null;
-                        },
-                        decoration: InputDecoration(
-                          hintText: 'Número',
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: ElevatedButton(
-                        child: Text("Adicionar"),
-                        onPressed: () async {
-                          if (_formKey.currentState!.validate()) {
-                            _addContact(nameContact, numberContact);
-                            nameContact.clear();
-                            numberContact.clear();
-                            Navigator.of(context).pop();
-                          }
-                        },
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            ],
-          ),
-        );
-      });
 }
