@@ -1,10 +1,11 @@
 import 'package:app_mental/Services/auth.dart';
+import 'package:app_mental/Services/contactService.dart';
 import 'package:app_mental/Services/database.dart';
-import 'package:app_mental/Shared/Widgets/AppDrawer.dart';
 import 'package:app_mental/constants.dart';
 import 'package:app_mental/helper/constants.dart';
 import 'package:app_mental/helper/helperfuncions.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:app_mental/model/contact.dart';
+import 'package:app_mental/Shared/Widgets/AppDrawer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -19,7 +20,7 @@ class ContactsScreen extends StatefulWidget {
 class _ContactsScreenState extends State<ContactsScreen> {
   AuthMethods authMethods = new AuthMethods();
   DatabaseMethods databaseMethods = new DatabaseMethods();
-  late Stream<QuerySnapshot<Object?>> contactsRoomsStream = new Stream.empty();
+  late List<Contact> contactList = new List.empty();
 
   final _formKey = GlobalKey<FormState>();
   TextEditingController nameContact = TextEditingController();
@@ -40,17 +41,22 @@ class _ContactsScreenState extends State<ContactsScreen> {
     Constants.myName = await HelperFunctions.getUserNameInSharedPreference();
     Constants.myEmail = await HelperFunctions.getUserEmailInSharedPreference();
     Constants.myEmail = Constants.myEmail.trim();
-    print(Constants.myEmail);
-    databaseMethods
-        .getCreatedContacts(FirebaseAuth.instance.currentUser!.uid)
-        .then((val) {
-      setState(() {
-        contactsRoomsStream = val;
-      });
-    });
+
+    ContactService().findContactByUser(Constants.myEmail).then((contacts) => {
+          setState(() {
+            contactList = contacts;
+          })
+        });
+    // databaseMethods
+    //     .getCreatedContacts(FirebaseAuth.instance.currentUser!.uid)
+    //     .then((val) {
+    //   setState(() {
+    //     contactsRoomsStream = val;
+    //   });
+    // });
   }
 
-  Widget _buildContactItem(BuildContext context, String name, int number, id,
+  Widget _buildContactItem(BuildContext context, String name, String number, id,
       _formKey, nameContact, numberContact) {
     return Padding(
       padding: const EdgeInsets.only(top: 20),
@@ -195,28 +201,21 @@ class _ContactsScreenState extends State<ContactsScreen> {
                 Container(
                   height: MediaQuery.of(context).size.height - 300.0,
                   child: Container(
-                    child: StreamBuilder<QuerySnapshot>(
-                      stream: contactsRoomsStream,
-                      builder: (BuildContext context,
-                          AsyncSnapshot<QuerySnapshot> snapshot) {
-                        return snapshot.hasData
-                            ? ListView.builder(
-                                itemCount: snapshot.data!.docs.length,
-                                itemBuilder: (context, index) {
-                                  return _buildContactItem(
-                                      context,
-                                      snapshot.data!.docs[index].get("name"),
-                                      snapshot.data!.docs[index].get("number"),
-                                      snapshot.data!.docs[index].id,
-                                      _formKey,
-                                      nameContact,
-                                      numberContact);
-                                },
-                              )
-                            : Container();
-                      },
-                    ),
-                  ),
+                      child: contactList.length > 0
+                          ? ListView.builder(
+                              itemCount: contactList.length,
+                              itemBuilder: (context, index) {
+                                return _buildContactItem(
+                                    context,
+                                    contactList[index].name,
+                                    contactList[index].number,
+                                    contactList[index].id,
+                                    _formKey,
+                                    nameContact,
+                                    numberContact);
+                              },
+                            )
+                          : Container()),
                 ),
               ],
             ),
