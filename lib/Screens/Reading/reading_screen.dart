@@ -1,12 +1,11 @@
 import 'package:app_mental/Screens/Reading/Widgets/body.dart';
-import 'package:app_mental/Services/database.dart';
+import 'package:app_mental/Services/userService.dart';
 import 'package:app_mental/constants.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:app_mental/helper/helperfuncions.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:rating_dialog/rating_dialog.dart';
 
-class ReadingScreen extends StatelessWidget {
+class ReadingScreen extends StatefulWidget {
   ReadingScreen(
     this.title,
     this.file,
@@ -18,43 +17,54 @@ class ReadingScreen extends StatelessWidget {
   final String title;
   final String image;
   final String id;
-  final DatabaseMethods databaseMethods = new DatabaseMethods();
+
+  @override
+  State<ReadingScreen> createState() => _ReadingScreenState();
+}
+
+class _ReadingScreenState extends State<ReadingScreen> {
+  late String userEmail;
+  String ratingTitle = 'Avalie este conteúdo!';
+  double initialRating = 0.0;
+  String commentHint = 'Nos conte o que achou!';
+
+  @override
+  void initState() {
+    getUserEmail();
+    super.initState();
+  }
+
+  getUserEmail() async {
+    await HelperFunctions.getUserEmailInSharedPreference().then((email) {
+      setState(() {
+        userEmail = email;
+      });
+    });
+  }
 
   // Cria um dialogo para a avaliacao de uma intervencaos
   void _showRatingDialog(context, String dialogTitle, String id) async {
-    String formattedDate = DateFormat.yMEd().add_jms().format(DateTime.now());
-    bool existingRating = false;
-    var ds = await DatabaseMethods().ratingsAreEmpty(id);
-    String ratingTitle = 'Avalie este conteúdo!';
-
-    existingRating = ds.docs.length != 0;
-    if (existingRating) {
-      ratingTitle =
-          'Você já avaliou este conteúdo, deseja avaliá-lo novamente?';
-    }
+    await UserService().findReadingRating(userEmail, id).then((readingRating) {
+      if (readingRating.id != null) {
+        ratingTitle =
+            'Você já avaliou este conteúdo, deseja avaliá-lo novamente?';
+        initialRating = readingRating.rating!;
+        commentHint = readingRating.comment!;
+      }
+    });
 
     final _dialog = RatingDialog(
-      // your app's name?
+      initialRating: initialRating,
       title: Text(ratingTitle),
-      // encourage your user to leave a high rating?
       message: Text(
           'Clique em uma estrela para avaliar, e adicione um comentário se quiser!'),
       submitButtonText: 'Enviar',
       onCancelled: () => print('cancelled'),
-
       onSubmitted: (response) {
-        print(
-            'rating: ${response.rating}, comment: ${response.comment}, id: $id, email: ${FirebaseAuth.instance.currentUser!.email}, now: $formattedDate');
-        Map<String, dynamic> ratingMap = {
-          "readingsId": id,
-          "rating": response.rating,
-          "comment": response.comment,
-          "date": formattedDate,
-        };
-        databaseMethods.rateReading(
-            id, ratingMap, FirebaseAuth.instance.currentUser!.uid);
+        UserService().addNewReadingRating(userEmail, id, response.rating,
+            (response.comment == "") ? commentHint : response.comment);
       },
-      commentHint: 'Nos conte o que achou!',
+      commentHint: commentHint,
     );
 
     showDialog(
@@ -76,7 +86,7 @@ class ReadingScreen extends StatelessWidget {
         ),
         title: FittedBox(
           fit: BoxFit.contain,
-          child: Text(title),
+          child: Text(widget.title),
         ),
         actions: [
           TextButton(
@@ -86,14 +96,14 @@ class ReadingScreen extends StatelessWidget {
               primary: Colors.white,
             ),
             onPressed: () {
-              _showRatingDialog(context, title, id);
+              _showRatingDialog(context, widget.title, widget.id);
             },
             child: Text("Avaliar"),
           ),
         ],
       ),
       resizeToAvoidBottomInset: false,
-      body: Body(file, image),
+      body: Body(widget.file, widget.image),
     );
   }
 }
