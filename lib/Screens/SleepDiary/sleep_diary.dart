@@ -24,26 +24,26 @@ class _SleepPageState extends State<SleepPage> {
 
   late String data;
   bool userAnsweredAlready = false;
-  String _resQuest1 = "00:00";
-  String _resQuest2 = "00:00";
-  String _resQuest3 = "00:00";
+  TimeOfDay _resQuest1 = TimeOfDay(hour: 0, minute: 0);
+  TimeOfDay _resQuest2 = TimeOfDay(hour: 0, minute: 0);
+  TimeOfDay _resQuest3 = TimeOfDay(hour: 0, minute: 0);
   int qtd = 0;
-  String _resQuest5 = "00:00";
-  String _resQuest6 = "00:00";
-  String _resQuest7 = "00:00";
-  String _resQuest8 = "00:00";
+  TimeOfDay _resQuest5 = TimeOfDay(hour: 0, minute: 0);
+  TimeOfDay _resQuest6 = TimeOfDay(hour: 0, minute: 0);
+  TimeOfDay _resQuest7 = TimeOfDay(hour: 0, minute: 0);
+  TimeOfDay _resQuest8 = TimeOfDay(hour: 0, minute: 0);
   String userEmail = "";
 
   enviarRespostas() {
     Map<String, dynamic> answerQuestions = {
-      "resp1": _resQuest1,
-      "resp2": _resQuest2,
-      "resp3": _resQuest3,
+      "resp1": _resQuest1.format(context),
+      "resp2": _resQuest2.format(context),
+      "resp3": _resQuest3.format(context),
       "resp4": qtd.toString(),
-      "resp5": _resQuest5,
-      "resp6": _resQuest6,
-      "resp7": _resQuest7,
-      "resp8": _resQuest8,
+      "resp5": _resQuest5.format(context),
+      "resp6": _resQuest6.format(context),
+      "resp7": _resQuest7.format(context),
+      "resp8": _resQuest8.format(context),
     };
     if (!userAnsweredAlready) {
       UserService().addNewSleepDiary(userEmail, answerQuestions).then((_) {
@@ -103,7 +103,7 @@ class _SleepPageState extends State<SleepPage> {
               onTap: () async {
                 _resQuest1 =
                     await _selectTime(context, "Por favor, coloque o horário.");
-                resp1.text = _resQuest1;
+                resp1.text = _resQuest1.format(context);
                 setState(() {
                   _resQuest1 = _resQuest1;
                 });
@@ -112,7 +112,7 @@ class _SleepPageState extends State<SleepPage> {
               showCursor: false,
               textAlign: TextAlign.center,
               decoration: InputDecoration(
-                hintText: _resQuest1 == null ? "00:00" : _resQuest1,
+                hintText: _resQuest1.format(context),
                 hintStyle: TextStyle(
                   fontSize: 18,
                 ),
@@ -157,7 +157,7 @@ class _SleepPageState extends State<SleepPage> {
               onTap: () async {
                 _resQuest2 =
                     await _selectTime(context, "Por favor, coloque o horário");
-                resp2.text = _resQuest2;
+                resp2.text = _resQuest2.format(context);
                 setState(() {
                   _resQuest2 = _resQuest2;
                 });
@@ -166,7 +166,7 @@ class _SleepPageState extends State<SleepPage> {
               showCursor: false,
               textAlign: TextAlign.center,
               decoration: InputDecoration(
-                hintText: _resQuest2 == null ? "00:00" : _resQuest2,
+                hintText: _resQuest2.format(context),
                 hintStyle: TextStyle(
                   fontSize: 18,
                 ),
@@ -210,16 +210,16 @@ class _SleepPageState extends State<SleepPage> {
               onTap: () async {
                 _resQuest3 =
                     await _selectTime(context, "Por favor, coloque o tempo.");
-                resp3.text = _resQuest3;
+                resp3.text = _resQuest3.format(context);
                 setState(() {
-                  _resQuest3 = _resQuest3 == null ? "00:00" : _resQuest3;
+                  _resQuest3 = _resQuest3;
                 });
               },
               readOnly: true,
               showCursor: false,
               textAlign: TextAlign.center,
               decoration: InputDecoration(
-                hintText: _resQuest3,
+                hintText: _resQuest3.format(context),
                 hintStyle: TextStyle(
                   fontSize: 18,
                 ),
@@ -319,7 +319,7 @@ class _SleepPageState extends State<SleepPage> {
                 onTap: () async {
                   _resQuest5 = await _selectTime(
                       context, "Por favor, coloque o horário.");
-                  resp5.text = _resQuest5;
+                  resp5.text = _resQuest5.format(context);
                   setState(() {
                     _resQuest5 = _resQuest5;
                   });
@@ -328,7 +328,7 @@ class _SleepPageState extends State<SleepPage> {
                 showCursor: false,
                 textAlign: TextAlign.center,
                 decoration: InputDecoration(
-                  hintText: _resQuest5 == null ? "00:00" : _resQuest5,
+                  hintText: _resQuest5.format(context),
                   hintStyle: TextStyle(
                     fontSize: 18,
                   ),
@@ -375,7 +375,7 @@ class _SleepPageState extends State<SleepPage> {
               onTap: () async {
                 _resQuest6 =
                     await _selectTime(context, "Por favor, coloque o tempo.");
-                resp6.text = _resQuest6;
+                resp6.text = _resQuest6.format(context);
                 setState(() {
                   _resQuest6 = _resQuest6;
                 });
@@ -384,7 +384,7 @@ class _SleepPageState extends State<SleepPage> {
               showCursor: false,
               textAlign: TextAlign.center,
               decoration: InputDecoration(
-                hintText: _resQuest6 == null ? "00:00" : _resQuest6,
+                hintText: _resQuest6.format(context),
                 hintStyle: TextStyle(
                   fontSize: 18,
                 ),
@@ -428,7 +428,7 @@ class _SleepPageState extends State<SleepPage> {
               onTap: () async {
                 _resQuest7 =
                     await _selectTime(context, "Por favor, coloque o tempo.");
-                resp7.text = _resQuest7;
+                resp7.text = _resQuest7.format(context);
                 setState(() {
                   _resQuest7 = _resQuest7;
                 });
@@ -437,7 +437,7 @@ class _SleepPageState extends State<SleepPage> {
               showCursor: false,
               textAlign: TextAlign.center,
               decoration: InputDecoration(
-                hintText: _resQuest7 == null ? "00:00" : _resQuest7,
+                hintText: _resQuest7.format(context),
                 hintStyle: TextStyle(
                   fontSize: 18,
                 ),
@@ -481,7 +481,7 @@ class _SleepPageState extends State<SleepPage> {
               onTap: () async {
                 _resQuest8 =
                     await _selectTime(context, "Por favor, coloque o tempo");
-                resp8.text = _resQuest8;
+                resp8.text = _resQuest8.format(context);
                 setState(() {
                   _resQuest8 = _resQuest8;
                 });
@@ -490,7 +490,7 @@ class _SleepPageState extends State<SleepPage> {
               showCursor: false,
               textAlign: TextAlign.center,
               decoration: InputDecoration(
-                hintText: _resQuest8 == null ? "00:00" : _resQuest8,
+                hintText: _resQuest8.format(context),
                 hintStyle: TextStyle(
                   fontSize: 18,
                 ),
@@ -560,14 +560,14 @@ class _SleepPageState extends State<SleepPage> {
                                   await showInformationDialog(
                                       context,
                                       calculoEficienciaSono(
-                                          _resQuest1,
-                                          _resQuest2,
-                                          _resQuest3,
+                                          _resQuest1.format(context),
+                                          _resQuest2.format(context),
+                                          _resQuest3.format(context),
                                           qtd,
-                                          _resQuest5,
-                                          _resQuest6,
-                                          _resQuest7,
-                                          _resQuest8),
+                                          _resQuest5.format(context),
+                                          _resQuest6.format(context),
+                                          _resQuest7.format(context),
+                                          _resQuest8.format(context)),
                                       pickedDate);
                                 }
                               },
@@ -583,7 +583,7 @@ class _SleepPageState extends State<SleepPage> {
     );
   }
 
-  Future<String> _selectTime(BuildContext context, String text) async {
+  Future<TimeOfDay> _selectTime(BuildContext context, String text) async {
     final TimeOfDay? result = await showTimePicker(
       context: context,
       helpText: text,
@@ -595,9 +595,9 @@ class _SleepPageState extends State<SleepPage> {
       },
     );
     if (result != null) {
-      return "${result.hour.toString().padLeft(2, "0")}:${result.minute.toString().padLeft(2, "0")}";
+      return result;
     } else {
-      return "Vazio";
+      return TimeOfDay(hour: 0, minute: 0);
     }
   }
 }

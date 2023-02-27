@@ -30,7 +30,7 @@ class UserService {
     throw HttpException(error.message.toString());
   }
 
-  Future<bool> addNewSleepDiary(String userEmail, Map answerQuestions) async {
+  addNewSleepDiary(String userEmail, Map answerQuestions) async {
     final response =
         await http.post(Uri.parse("${url}addAnswerSleepQuestionnaire"),
             headers: <String, String>{
@@ -47,17 +47,16 @@ class UserService {
               'spendInBed': answerQuestions['resp7'],
               'sleepDuringDay': answerQuestions['resp8'],
             }));
-    if (response.statusCode == 200) {
-      return true;
+    if (response.statusCode != 200) {
+      final error =
+          ApiError.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
+      throw HttpException(error.message.toString());
     }
-    final error =
-        ApiError.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
-    throw HttpException(error.message.toString());
   }
 
   Future<bool> isSleepDiaryAnsweredToday(String userEmail) async {
     final response = await http.get(
-      Uri.parse("${url}isAnsweredSleepQuestionnaireToday/$userEmail"),
+      Uri.parse("${url}isAnsweredSleepQuestionnaireToday?email=$userEmail"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
