@@ -1,4 +1,5 @@
 import 'package:app_mental/Screens/Reading/Widgets/body.dart';
+import 'package:app_mental/Services/readingService.dart';
 import 'package:app_mental/Services/userService.dart';
 import 'package:app_mental/constants.dart';
 import 'package:app_mental/helper/helperfuncions.dart';
@@ -44,7 +45,9 @@ class _ReadingScreenState extends State<ReadingScreen> {
 
   // Cria um dialogo para a avaliacao de uma intervencaos
   void _showRatingDialog(context, String dialogTitle, String id) async {
-    await UserService().findReadingRating(userEmail, id).then((readingRating) {
+    await ReadingService()
+        .findReadingRating(userEmail, id)
+        .then((readingRating) {
       if (readingRating.id != null) {
         ratingTitle =
             'Você já avaliou este conteúdo, deseja avaliá-lo novamente?';
@@ -61,7 +64,7 @@ class _ReadingScreenState extends State<ReadingScreen> {
       submitButtonText: 'Enviar',
       onCancelled: () => print('cancelled'),
       onSubmitted: (response) {
-        UserService().addNewReadingRating(userEmail, id, response.rating,
+        ReadingService().addNewReadingRating(userEmail, id, response.rating,
             (response.comment == "") ? commentHint : response.comment);
       },
       commentHint: commentHint,
