@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ffi';
 
 import 'package:app_mental/model/exceptions/HttpException.dart';
 import 'package:app_mental/model/exceptions/apiError.dart';
@@ -43,12 +44,12 @@ class UserService {
         }));
     if (response.statusCode == 200) {
       return UserApp.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
-    }
+      }
     final error =
         ApiError.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
     throw HttpException(error.message.toString());
   }
-
+    
   Future<bool> signOut() async {
     return HelperFunctions.clearUserInSharedPreference();
   }
