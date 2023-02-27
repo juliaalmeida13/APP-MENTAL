@@ -7,6 +7,8 @@ import 'package:app_mental/model/user.dart';
 import 'package:http/http.dart' as http;
 import 'package:crypto/crypto.dart';
 
+import '../helper/helperfuncions.dart';
+
 final String url = dotenv.env['BACKEND_URL']!;
 
 class UserService {
@@ -30,8 +32,7 @@ class UserService {
     throw HttpException(error.message.toString());
   }
 
-  Future<UserApp> signInWithEmailAndPassword(
-      String email, String password) async {
+  Future<UserApp> signIn(String email, String password) async {
     final response = await http.post(Uri.parse("${url}loginApp"),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
@@ -46,5 +47,9 @@ class UserService {
     final error =
         ApiError.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
     throw HttpException(error.message.toString());
+  }
+
+  Future<bool> signOut() async {
+    return HelperFunctions.clearUserInSharedPreference();
   }
 }
