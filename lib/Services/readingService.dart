@@ -10,7 +10,7 @@ import '../model/reading_rating.dart';
 final String url = dotenv.env['BACKEND_URL']!;
 
 class ReadingService {
-  addNewReadingRating(
+  Future<void> addNewReadingRating(
       String email, String readingId, double rating, String comment) async {
     final response = await http.post(Uri.parse("${url}rateReading"),
         headers: <String, String>{

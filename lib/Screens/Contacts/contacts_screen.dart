@@ -256,9 +256,6 @@ class _ContactsScreenState extends State<ContactsScreen> {
     Widget continuaButton = TextButton(
       child: Text("Excluir"),
       onPressed: () {
-        // DatabaseMethods()
-        //     .deleteContact(FirebaseAuth.instance.currentUser!.uid, id);
-
         ContactService().deleteContact(id, Constants.myEmail).then((_) {
           this._searchContacts();
           Navigator.of(context).pop();
@@ -360,13 +357,6 @@ class _ContactsScreenState extends State<ContactsScreen> {
   }
 
   _updateContact(nameContact, numberContact, id) async {
-    // Map<String, dynamic> contactMap = {
-    //   "name": nameContact.text,
-    //   "number": int.parse(numberContact.text),
-    // };
-    // DatabaseMethods()
-    //     .updateContact(FirebaseAuth.instance.currentUser!.uid, id, contactMap);
-
     ContactService()
         .editContact(
             id, Constants.myEmail, nameContact.text, numberContact.text)
