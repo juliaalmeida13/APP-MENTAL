@@ -7,6 +7,8 @@ import 'package:app_mental/model/user.dart';
 import 'package:http/http.dart' as http;
 import 'package:crypto/crypto.dart';
 
+import '../helper/helperfuncions.dart';
+
 final String url = dotenv.env['BACKEND_URL']!;
 
 class UserService {
@@ -45,5 +47,9 @@ class UserService {
     final error =
         ApiError.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
     throw HttpException(error.message.toString());
+  }
+
+  Future<bool> signOut() async {
+    return HelperFunctions.clearUserInSharedPreference();
   }
 }

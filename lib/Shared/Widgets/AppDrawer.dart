@@ -1,9 +1,9 @@
-import 'package:app_mental/Services/auth.dart';
 import 'package:app_mental/constants.dart';
 import 'package:app_mental/helper/helperfuncions.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:package_info_plus/package_info_plus.dart';
+
+import '../../Services/userService.dart';
 
 class AppDrawer extends StatefulWidget {
   AppDrawer({
@@ -107,7 +107,7 @@ class _AppDrawerState extends State<AppDrawer> {
             text: 'Sair',
             icon: Icons.exit_to_app,
             onClicked: () {
-              AuthMethods().signOut();
+              UserService().signOut();
               Navigator.pushNamedAndRemoveUntil(
                   context, "/sign-in", (Route<dynamic> route) => false);
             },
