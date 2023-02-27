@@ -1,9 +1,9 @@
+import 'package:app_mental/Services/sleepService.dart';
 import 'package:app_mental/constants.dart';
 import 'package:app_mental/helper/helperfuncions.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:app_mental/Services/userService.dart';
 
 class SleepPage extends StatefulWidget {
   @override
@@ -46,7 +46,7 @@ class _SleepPageState extends State<SleepPage> {
       "resp8": _resQuest8.format(context),
     };
     if (!userAnsweredAlready) {
-      UserService().addNewSleepDiary(userEmail, answerQuestions).then((_) {
+      SleepService().addNewSleepDiary(userEmail, answerQuestions).then((_) {
         setState(() {
           userAnsweredAlready = true;
         });
@@ -59,7 +59,7 @@ class _SleepPageState extends State<SleepPage> {
       setState(() {
         userEmail = email;
       });
-      UserService().isSleepDiaryAnsweredToday(email).then((answered) {
+      SleepService().isSleepDiaryAnsweredToday(email).then((answered) {
         setState(() {
           userAnsweredAlready = answered;
         });
