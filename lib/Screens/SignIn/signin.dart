@@ -1,40 +1,29 @@
 import 'package:app_mental/Screens/ResetPassword/reset_password.dart';
 import 'package:app_mental/Screens/SignUp/signup.dart';
-import 'package:app_mental/Services/auth.dart';
-import 'package:app_mental/Services/database.dart';
+import 'package:app_mental/Services/userService.dart';
 import 'package:app_mental/animation/FadeAnimation.dart';
 import 'package:app_mental/constants.dart';
 import 'package:app_mental/helper/helperfuncions.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class SignIn extends StatefulWidget {
-  //final Function toggle;
-
-  //SignIn(this.toggle);
-
   @override
   _SignInState createState() => _SignInState();
 }
 
 class _SignInState extends State<SignIn> {
   final formKey = GlobalKey<FormState>();
-  AuthMethods authMethods = new AuthMethods();
-  DatabaseMethods databaseMethods = new DatabaseMethods();
   TextEditingController emailTextEdittingController =
       new TextEditingController();
   TextEditingController passwordTextEdittingController =
       new TextEditingController();
 
   bool isLoading = false;
-  late QuerySnapshot snapshotUserInfo;
 
   signIn() {
     if (!formKey.currentState!.validate()) {
       return;
     }
-
     setState(() {
       isLoading = true;
     });
@@ -46,25 +35,20 @@ class _SignInState extends State<SignIn> {
       ],
     ));
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
-    authMethods
-        .signInWithEmailAndPassword(emailTextEdittingController.text,
+    UserService()
+        .signIn(emailTextEdittingController.text,
             passwordTextEdittingController.text)
-        .then((result) {
-      if (result != null && result.user != null) {
-        ScaffoldMessenger.of(context).hideCurrentSnackBar();
-        User user = result.user as User;
-        HelperFunctions.saveUserInfoToSharedPrefs(user);
-        DatabaseMethods().fetchUser().whenComplete(() => {
-              Navigator.pushNamedAndRemoveUntil(
-                  context, "/logged-home", (Route<dynamic> route) => false)
-            });
-      } else {
-        final snackBar = SnackBar(
-            content: Text('Senha ou email inválidos',
-                style: TextStyle(color: Colors.white)),
-            backgroundColor: Colors.red);
-        ScaffoldMessenger.of(context).showSnackBar(snackBar);
-      }
+        .then((user) {
+      ScaffoldMessenger.of(context).hideCurrentSnackBar();
+      HelperFunctions.saveUserInfoToSharedPrefs(user);
+      Navigator.pushNamedAndRemoveUntil(
+          context, "/logged-home", (Route<dynamic> route) => false);
+    }).catchError((error) {
+      final snackBar = SnackBar(
+          content:
+              Text(error.toString(), style: TextStyle(color: Colors.white)),
+          backgroundColor: Colors.red);
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
     });
   }
 

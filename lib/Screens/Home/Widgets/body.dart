@@ -8,23 +8,6 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
-  bool existingReadings = false;
-  @override
-  void initState() {
-    super.initState();
-    getReadings().whenComplete(() {
-      setState(() {});
-    });
-  }
-
-  getReadings() async {
-    var ds = await DatabaseMethods().readingsAreEmpty();
-
-    setState(() {
-      existingReadings = ds.docs.length != 0;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(

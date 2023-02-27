@@ -10,11 +10,9 @@ class HelperFunctions {
     String? userEmail = user.email;
     String? userDisplayName = user.name;
 
-    saveUserEmailInSharedPreference(
-        userEmail == null ? "Anonymous" : userEmail);
+    saveUserEmailInSharedPreference(userEmail!);
     saveUserLoggedInSharedPreference(true);
-    saveUserNameInSharedPreference(
-        userDisplayName == null ? "Anonymous" : userDisplayName);
+    saveUserNameInSharedPreference(userDisplayName!);
   }
 
   static Future<bool> saveUserLoggedInSharedPreference(
@@ -33,9 +31,9 @@ class HelperFunctions {
     return await prefs.setString(sharedPreferenceUserEmailKey, userEmail);
   }
 
-  static Future<bool> getUserLoggedInSharedPreference() async {
+  static Future<bool?> getUserLoggedInSharedPreference() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getBool(sharedPreferenceUserLoggedInKey) ?? false;
+    return prefs.getBool(sharedPreferenceUserLoggedInKey);
   }
 
   static Future<String> getUserNameInSharedPreference() async {
@@ -46,5 +44,19 @@ class HelperFunctions {
   static Future<String> getUserEmailInSharedPreference() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString(sharedPreferenceUserEmailKey) ?? "Empty";
+  }
+
+  static Future<Map> getUserNameAndEmailInSharedPreference() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    Map user = {
+      'name': prefs.getString(sharedPreferenceUserNameKey),
+      'email': prefs.getString(sharedPreferenceUserEmailKey)
+    };
+    return user;
+  }
+
+  static Future<bool> clearUserInSharedPreference() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.clear();
   }
 }
