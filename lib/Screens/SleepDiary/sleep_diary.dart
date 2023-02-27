@@ -1,7 +1,6 @@
-import 'package:app_mental/Services/database.dart';
-import 'package:app_mental/Shared/Widgets/AppDrawer.dart';
+import 'package:app_mental/Services/sleepService.dart';
 import 'package:app_mental/constants.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:app_mental/helper/helperfuncions.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:auto_size_text/auto_size_text.dart';
@@ -13,7 +12,6 @@ class SleepPage extends StatefulWidget {
 
 class _SleepPageState extends State<SleepPage> {
   late DateTime pickedDate;
-  DatabaseMethods databaseMethods = new DatabaseMethods();
   late AnimationController controller;
   final formKey = GlobalKey<FormState>();
   TextEditingController resp1 = TextEditingController();
@@ -25,65 +23,56 @@ class _SleepPageState extends State<SleepPage> {
   TextEditingController resp8 = TextEditingController();
 
   late String data;
-  bool dataIgual = false;
-  bool _loading = true;
-  String _resQuest1 = "00:00";
-  String _resQuest2 = "00:00";
-  String _resQuest3 = "00:00";
+  bool userAnsweredAlready = false;
+  TimeOfDay _resQuest1 = TimeOfDay(hour: 0, minute: 0);
+  TimeOfDay _resQuest2 = TimeOfDay(hour: 0, minute: 0);
+  TimeOfDay _resQuest3 = TimeOfDay(hour: 0, minute: 0);
   int qtd = 0;
-  String _resQuest5 = "00:00";
-  String _resQuest6 = "00:00";
-  String _resQuest7 = "00:00";
-  String _resQuest8 = "00:00";
-  String userEmail = "00:00";
+  TimeOfDay _resQuest5 = TimeOfDay(hour: 0, minute: 0);
+  TimeOfDay _resQuest6 = TimeOfDay(hour: 0, minute: 0);
+  TimeOfDay _resQuest7 = TimeOfDay(hour: 0, minute: 0);
+  TimeOfDay _resQuest8 = TimeOfDay(hour: 0, minute: 0);
+  String userEmail = "";
 
   enviarRespostas() {
-    Map<String, dynamic> messageMap = {
-      "resp1": _resQuest1,
-      "resp2": _resQuest2,
-      "resp3": _resQuest3,
+    Map<String, dynamic> answerQuestions = {
+      "resp1": _resQuest1.format(context),
+      "resp2": _resQuest2.format(context),
+      "resp3": _resQuest3.format(context),
       "resp4": qtd.toString(),
-      "resp5": _resQuest5,
-      "resp6": _resQuest6,
-      "resp7": _resQuest7,
-      "resp8": _resQuest8,
+      "resp5": _resQuest5.format(context),
+      "resp6": _resQuest6.format(context),
+      "resp7": _resQuest7.format(context),
+      "resp8": _resQuest8.format(context),
     };
-
-    if (dataIgual) {
-      print("Descupe, vc já respondeu hoje");
-    } else {
-      print("vc n respondeu hoje");
-      databaseMethods.addRespostaQuestionarioSono(
-          FirebaseAuth.instance.currentUser!.uid, messageMap, data);
-      setState(() {
-        dataIgual = true;
+    if (!userAnsweredAlready) {
+      SleepService().addNewSleepDiary(userEmail, answerQuestions).then((_) {
+        setState(() {
+          userAnsweredAlready = true;
+        });
       });
     }
   }
 
+  getUserEmailAndUserAnsweredAlready() async {
+    await HelperFunctions.getUserEmailInSharedPreference().then((email) {
+      setState(() {
+        userEmail = email;
+      });
+      SleepService().isSleepDiaryAnsweredToday(email).then((answered) {
+        setState(() {
+          userAnsweredAlready = answered;
+        });
+      });
+    });
+  }
+
   @override
   void initState() {
-    getUserInfo();
+    getUserEmailAndUserAnsweredAlready();
     super.initState();
     pickedDate = DateTime.now();
     data = DateFormat("dd-MM-yyyy").format(pickedDate);
-  }
-
-  getUserInfo() async {
-    databaseMethods
-        .getDataQuestSono(FirebaseAuth.instance.currentUser!.uid)
-        .then((value) {
-      value.docs.forEach((element) {
-        if (element.id == data) {
-          print("${element.id} é = a ${data}");
-          dataIgual = true;
-        }
-      });
-      setState(() {
-        dataIgual = dataIgual;
-        _loading = false;
-      });
-    });
   }
 
   Widget _buildQuest1() {
@@ -114,7 +103,7 @@ class _SleepPageState extends State<SleepPage> {
               onTap: () async {
                 _resQuest1 =
                     await _selectTime(context, "Por favor, coloque o horário.");
-                resp1.text = _resQuest1;
+                resp1.text = _resQuest1.format(context);
                 setState(() {
                   _resQuest1 = _resQuest1;
                 });
@@ -123,7 +112,7 @@ class _SleepPageState extends State<SleepPage> {
               showCursor: false,
               textAlign: TextAlign.center,
               decoration: InputDecoration(
-                hintText: _resQuest1 == null ? "00:00" : _resQuest1,
+                hintText: _resQuest1.format(context),
                 hintStyle: TextStyle(
                   fontSize: 18,
                 ),
@@ -168,7 +157,7 @@ class _SleepPageState extends State<SleepPage> {
               onTap: () async {
                 _resQuest2 =
                     await _selectTime(context, "Por favor, coloque o horário");
-                resp2.text = _resQuest2;
+                resp2.text = _resQuest2.format(context);
                 setState(() {
                   _resQuest2 = _resQuest2;
                 });
@@ -177,7 +166,7 @@ class _SleepPageState extends State<SleepPage> {
               showCursor: false,
               textAlign: TextAlign.center,
               decoration: InputDecoration(
-                hintText: _resQuest2 == null ? "00:00" : _resQuest2,
+                hintText: _resQuest2.format(context),
                 hintStyle: TextStyle(
                   fontSize: 18,
                 ),
@@ -221,16 +210,16 @@ class _SleepPageState extends State<SleepPage> {
               onTap: () async {
                 _resQuest3 =
                     await _selectTime(context, "Por favor, coloque o tempo.");
-                resp3.text = _resQuest3;
+                resp3.text = _resQuest3.format(context);
                 setState(() {
-                  _resQuest3 = _resQuest3 == null ? "00:00" : _resQuest3;
+                  _resQuest3 = _resQuest3;
                 });
               },
               readOnly: true,
               showCursor: false,
               textAlign: TextAlign.center,
               decoration: InputDecoration(
-                hintText: _resQuest3,
+                hintText: _resQuest3.format(context),
                 hintStyle: TextStyle(
                   fontSize: 18,
                 ),
@@ -330,7 +319,7 @@ class _SleepPageState extends State<SleepPage> {
                 onTap: () async {
                   _resQuest5 = await _selectTime(
                       context, "Por favor, coloque o horário.");
-                  resp5.text = _resQuest5;
+                  resp5.text = _resQuest5.format(context);
                   setState(() {
                     _resQuest5 = _resQuest5;
                   });
@@ -339,7 +328,7 @@ class _SleepPageState extends State<SleepPage> {
                 showCursor: false,
                 textAlign: TextAlign.center,
                 decoration: InputDecoration(
-                  hintText: _resQuest5 == null ? "00:00" : _resQuest5,
+                  hintText: _resQuest5.format(context),
                   hintStyle: TextStyle(
                     fontSize: 18,
                   ),
@@ -386,7 +375,7 @@ class _SleepPageState extends State<SleepPage> {
               onTap: () async {
                 _resQuest6 =
                     await _selectTime(context, "Por favor, coloque o tempo.");
-                resp6.text = _resQuest6;
+                resp6.text = _resQuest6.format(context);
                 setState(() {
                   _resQuest6 = _resQuest6;
                 });
@@ -395,7 +384,7 @@ class _SleepPageState extends State<SleepPage> {
               showCursor: false,
               textAlign: TextAlign.center,
               decoration: InputDecoration(
-                hintText: _resQuest6 == null ? "00:00" : _resQuest6,
+                hintText: _resQuest6.format(context),
                 hintStyle: TextStyle(
                   fontSize: 18,
                 ),
@@ -439,7 +428,7 @@ class _SleepPageState extends State<SleepPage> {
               onTap: () async {
                 _resQuest7 =
                     await _selectTime(context, "Por favor, coloque o tempo.");
-                resp7.text = _resQuest7;
+                resp7.text = _resQuest7.format(context);
                 setState(() {
                   _resQuest7 = _resQuest7;
                 });
@@ -448,7 +437,7 @@ class _SleepPageState extends State<SleepPage> {
               showCursor: false,
               textAlign: TextAlign.center,
               decoration: InputDecoration(
-                hintText: _resQuest7 == null ? "00:00" : _resQuest7,
+                hintText: _resQuest7.format(context),
                 hintStyle: TextStyle(
                   fontSize: 18,
                 ),
@@ -492,7 +481,7 @@ class _SleepPageState extends State<SleepPage> {
               onTap: () async {
                 _resQuest8 =
                     await _selectTime(context, "Por favor, coloque o tempo");
-                resp8.text = _resQuest8;
+                resp8.text = _resQuest8.format(context);
                 setState(() {
                   _resQuest8 = _resQuest8;
                 });
@@ -501,7 +490,7 @@ class _SleepPageState extends State<SleepPage> {
               showCursor: false,
               textAlign: TextAlign.center,
               decoration: InputDecoration(
-                hintText: _resQuest8 == null ? "00:00" : _resQuest8,
+                hintText: _resQuest8.format(context),
                 hintStyle: TextStyle(
                   fontSize: 18,
                 ),
@@ -518,57 +507,6 @@ class _SleepPageState extends State<SleepPage> {
   }
 
   @override
-  /* Widget build(BuildContext context) {
-    return Scaffold(
-      body: SingleChildScrollView(
-        child: Container(
-          margin: EdgeInsets.all(24),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                _buildQuest1(),
-                _buildQuest2(),
-                _buildQuest3(),
-                _buildQuest4(),
-                _buildQuest5(),
-                _buildQuest6(),
-                _buildQuest7(),
-                _buildQuest8(),
-                SizedBox(height: 20),
-                ElevatedButton(
-                  child: Text(
-                    'Enviar',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                    ),
-                  ),
-                  onPressed: () async {
-                    print(userEmail);
-                    enviarRespostas();
-                    await showInformationDialog(
-                        context,
-                        calculoEficienciaSono(
-                            _resQuest1,
-                            _resQuest2,
-                            _resQuest3,
-                            qtd,
-                            _resQuest5,
-                            _resQuest6,
-                            _resQuest7,
-                            _resQuest8),
-                        pickedDate);
-                  },
-                )
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }*/
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -579,78 +517,73 @@ class _SleepPageState extends State<SleepPage> {
       ),
       body: Center(
         child: SingleChildScrollView(
-          child: _loading
-              ? Center(
-                  child: CircularProgressIndicator(),
-                )
-              : Container(
-                  margin: EdgeInsets.all(24),
-                  child: Form(
-                    key: formKey,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        dataIgual
-                            ? Container(
-                                height: MediaQuery.of(context).size.height,
-                                alignment: Alignment.center,
-                                child: Text(
-                                    "Você já respondeu o questionário hoje.\n Obrigado!",
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      fontSize: 28,
-                                    )),
-                              )
-                            : Column(
-                                children: [
-                                  _buildQuest1(),
-                                  _buildQuest2(),
-                                  _buildQuest3(),
-                                  _buildQuest4(),
-                                  _buildQuest5(),
-                                  _buildQuest6(),
-                                  _buildQuest7(),
-                                  _buildQuest8(),
-                                  SizedBox(height: 20),
-                                  ElevatedButton(
-                                    child: Text(
-                                      'Enviar',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 16,
-                                      ),
-                                    ),
-                                    onPressed: () async {
-                                      print(userEmail);
-                                      if (formKey.currentState!.validate()) {
-                                        enviarRespostas();
-                                        await showInformationDialog(
-                                            context,
-                                            calculoEficienciaSono(
-                                                _resQuest1,
-                                                _resQuest2,
-                                                _resQuest3,
-                                                qtd,
-                                                _resQuest5,
-                                                _resQuest6,
-                                                _resQuest7,
-                                                _resQuest8),
-                                            pickedDate);
-                                      }
-                                    },
-                                  )
-                                ],
-                              )
-                      ],
-                    ),
-                  ),
-                ),
+          child: Container(
+            margin: EdgeInsets.all(24),
+            child: Form(
+              key: formKey,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  userAnsweredAlready
+                      ? Container(
+                          height: MediaQuery.of(context).size.height,
+                          alignment: Alignment.center,
+                          child: Text(
+                              "Você já respondeu o questionário hoje.\n Obrigado!",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 28,
+                              )),
+                        )
+                      : Column(
+                          children: [
+                            _buildQuest1(),
+                            _buildQuest2(),
+                            _buildQuest3(),
+                            _buildQuest4(),
+                            _buildQuest5(),
+                            _buildQuest6(),
+                            _buildQuest7(),
+                            _buildQuest8(),
+                            SizedBox(height: 20),
+                            ElevatedButton(
+                              child: Text(
+                                'Enviar',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                ),
+                              ),
+                              onPressed: () async {
+                                if (formKey.currentState!.validate()) {
+                                  enviarRespostas();
+                                  await showInformationDialog(
+                                      context,
+                                      calculoEficienciaSono(
+                                          _resQuest1.format(context),
+                                          _resQuest2.format(context),
+                                          _resQuest3.format(context),
+                                          qtd,
+                                          _resQuest5.format(context),
+                                          _resQuest6.format(context),
+                                          _resQuest7.format(context),
+                                          _resQuest8.format(context)),
+                                      pickedDate);
+                                }
+                              },
+                            )
+                          ],
+                        )
+                ],
+              ),
+            ),
+          ),
         ),
       ),
     );
   }
 
-  Future<String> _selectTime(BuildContext context, String text) async {
+  Future<TimeOfDay> _selectTime(BuildContext context, String text) async {
     final TimeOfDay? result = await showTimePicker(
       context: context,
       helpText: text,
@@ -662,9 +595,9 @@ class _SleepPageState extends State<SleepPage> {
       },
     );
     if (result != null) {
-      return "${result.hour.toString().padLeft(2, "0")}:${result.minute.toString().padLeft(2, "0")}";
+      return result;
     } else {
-      return "Vazio";
+      return TimeOfDay(hour: 0, minute: 0);
     }
   }
 }
