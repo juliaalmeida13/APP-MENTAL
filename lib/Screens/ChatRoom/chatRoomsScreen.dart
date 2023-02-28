@@ -1,6 +1,5 @@
 import 'package:app_mental/Screens/ChatRoom/Widgets/conversation_screen.dart';
 import 'package:app_mental/Screens/ChatRoom/Widgets/search.dart';
-import 'package:app_mental/Services/auth.dart';
 import 'package:app_mental/Services/database.dart';
 import 'package:app_mental/Shared/Widgets/AppDrawer.dart';
 import 'package:app_mental/Shared/Widgets/MainAppBar.dart';
@@ -17,7 +16,6 @@ class ChatRoom extends StatefulWidget {
 }
 
 class _ChatRoomState extends State<ChatRoom> {
-  AuthMethods authMethods = new AuthMethods();
   DatabaseMethods databaseMethods = new DatabaseMethods();
   Stream<QuerySnapshot<Object?>>? chatRoomsStream;
 

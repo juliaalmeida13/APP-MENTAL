@@ -1,4 +1,3 @@
-import 'package:app_mental/Services/auth.dart';
 import 'package:flutter/material.dart';
 
 import 'Widgets/Body.dart';
@@ -11,7 +10,6 @@ class ExportPage extends StatefulWidget {
 }
 
 class _ExportPageState extends State<ExportPage> {
-  AuthMethods authMethods = new AuthMethods();
   PageController _pageController = PageController();
 
   @override

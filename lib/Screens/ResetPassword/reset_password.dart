@@ -1,20 +1,16 @@
-import 'package:app_mental/Services/auth.dart';
 import 'package:app_mental/animation/FadeAnimation.dart';
 import 'package:app_mental/constants.dart';
 import 'package:flutter/material.dart';
 
+import '../../Services/userService.dart';
+
 class ResetPassword extends StatefulWidget {
-  //final Function toggle;
-
-  //ResetPassword(this.toggle);
-
   @override
   _ResetPasswordState createState() => _ResetPasswordState();
 }
 
 class _ResetPasswordState extends State<ResetPassword> {
   final formKey = GlobalKey<FormState>();
-  AuthMethods authMethods = new AuthMethods();
   TextEditingController emailTextEdittingController =
       new TextEditingController();
 
@@ -23,7 +19,7 @@ class _ResetPasswordState extends State<ResetPassword> {
       return;
     }
 
-    final snackBar = SnackBar(
+    var snackBar = SnackBar(
         content: new Row(
       children: <Widget>[
         new CircularProgressIndicator(),
@@ -31,8 +27,27 @@ class _ResetPasswordState extends State<ResetPassword> {
       ],
     ));
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
-    authMethods.resetPass(emailTextEdittingController.text);
-    Navigator.pop(context);
+    UserService()
+        .resetPassword(emailTextEdittingController.text)
+        .then((response) {
+      ScaffoldMessenger.of(context).hideCurrentSnackBar();
+      snackBar = SnackBar(
+        content: Text(
+          "E-mail para recuperar a senha enviado com sucesso",
+          style: TextStyle(color: Colors.green),
+        ),
+      );
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    }).catchError((error) {
+      ScaffoldMessenger.of(context).hideCurrentSnackBar();
+      snackBar = SnackBar(
+        content: Text(
+          error.toString(),
+          style: TextStyle(color: Colors.red),
+        ),
+      );
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    }).whenComplete(() => Navigator.pop(context));
   }
 
   @override
