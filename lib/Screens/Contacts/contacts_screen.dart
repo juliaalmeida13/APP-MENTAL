@@ -1,4 +1,3 @@
-import 'package:app_mental/Services/auth.dart';
 import 'package:app_mental/Services/contactService.dart';
 import 'package:app_mental/Services/database.dart';
 import 'package:app_mental/constants.dart';
@@ -17,7 +16,6 @@ class ContactsScreen extends StatefulWidget {
 }
 
 class _ContactsScreenState extends State<ContactsScreen> {
-  AuthMethods authMethods = new AuthMethods();
   DatabaseMethods databaseMethods = new DatabaseMethods();
   late List<Contact> contactList = new List.empty();
 

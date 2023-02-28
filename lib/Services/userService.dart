@@ -52,4 +52,17 @@ class UserService {
   Future<bool> signOut() async {
     return HelperFunctions.clearUserInSharedPreference();
   }
+
+  Future<void> resetPassword(String email) async {
+    final response = await http.post(Uri.parse("${url}recoveryEmail"),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, String>{'email': email}));
+    if (response.statusCode != 200) {
+      final error =
+          ApiError.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
+      throw HttpException(error.message.toString());
+    }
+  }
 }

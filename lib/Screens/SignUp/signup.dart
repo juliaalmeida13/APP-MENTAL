@@ -1,23 +1,16 @@
-import 'package:app_mental/Screens/ChatRoom/Widgets/calendar.dart';
-import 'package:app_mental/Services/auth.dart';
 import 'package:app_mental/Services/database.dart';
 import 'package:app_mental/Services/userService.dart';
 import 'package:app_mental/animation/FadeAnimation.dart';
 import 'package:app_mental/constants.dart';
-import 'package:app_mental/helper/helperfuncions.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class SignUp extends StatefulWidget {
-  //final Function toggle;
-  //SignUp(this.toggle);
   @override
   _SignUpState createState() => _SignUpState();
 }
 
 class _SignUpState extends State<SignUp> {
   bool isLoading = false;
-  AuthMethods authMethods = new AuthMethods();
   late DateTime now;
   DatabaseMethods databaseMethods = new DatabaseMethods();
 
@@ -64,7 +57,7 @@ class _SignUpState extends State<SignUp> {
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
       Navigator.pushNamedAndRemoveUntil(
           context, "/sign-in", (Route<dynamic> route) => false);
-    }).onError((error, stackTrace) {
+    }).catchError((error) {
       showSnackbar(error.toString(), Colors.red);
     });
   }

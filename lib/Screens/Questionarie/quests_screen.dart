@@ -2,6 +2,7 @@ import 'package:app_mental/Screens/ChatRoom/Widgets/calendar.dart';
 import 'package:app_mental/Screens/Questionarie/Widgets/app_body_widget.dart';
 import 'package:app_mental/Services/auth.dart';
 import 'package:app_mental/Services/scaleService.dart';
+import 'package:app_mental/Services/database.dart';
 import 'package:app_mental/Shared/Widgets/AppDrawer.dart';
 import 'package:app_mental/escalas/assist/assist_screen.dart';
 import 'package:app_mental/escalas/assistn2/assistn2_screen.dart';
@@ -32,7 +33,6 @@ class QuestsScreen extends StatefulWidget {
 }
 
 class _QuestsScreenState extends State<QuestsScreen> {
-  AuthMethods authMethods = new AuthMethods();
   List<Scale> answeredQuests = [];
   List<Scale> unansweredQuests = [];
 
