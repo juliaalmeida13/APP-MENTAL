@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 class ReadingRating {
   int? id;
   String? readingId;

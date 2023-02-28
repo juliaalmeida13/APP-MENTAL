@@ -1,7 +1,7 @@
 import 'package:app_mental/Screens/ChatRoom/Widgets/calendar.dart';
 import 'package:app_mental/Screens/Questionarie/Widgets/app_body_widget.dart';
 import 'package:app_mental/Services/auth.dart';
-import 'package:app_mental/Services/database.dart';
+import 'package:app_mental/Services/scaleService.dart';
 import 'package:app_mental/Shared/Widgets/AppDrawer.dart';
 import 'package:app_mental/escalas/assist/assist_screen.dart';
 import 'package:app_mental/escalas/assistn2/assistn2_screen.dart';
@@ -17,12 +17,11 @@ import 'package:app_mental/escalas/questSD1/questSD1_screen.dart';
 import 'package:app_mental/escalas/questSD2/questSD2_screen.dart';
 import 'package:app_mental/helper/constants.dart';
 import 'package:app_mental/helper/helperfuncions.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../constants.dart';
+import '../../model/scale.dart';
 
 // Constroi a tela da lista de cards de escalas/questionários disponíveis ao usuário
 class QuestsScreen extends StatefulWidget {
@@ -34,32 +33,23 @@ class QuestsScreen extends StatefulWidget {
 
 class _QuestsScreenState extends State<QuestsScreen> {
   AuthMethods authMethods = new AuthMethods();
-  DatabaseMethods databaseMethods = new DatabaseMethods();
-  Stream<QuerySnapshot<Object?>>? questsAnsweredRoomsStream;
-  Stream<QuerySnapshot<Object?>>? questsUnansweredRoomsStream;
+  List<Scale> answeredQuests = [];
+  List<Scale> unansweredQuests = [];
 
   //Lista de Cards de Escalas/Questionários disponíveis
-  Widget questsRoomList(Stream<QuerySnapshot<Object?>>? stream) {
-    return StreamBuilder<QuerySnapshot>(
-      stream: stream,
-      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-        // Caso houver algo, para cada escala/questionário que existir no banco de dados, irá construir um QuestRoomTile.
-        return snapshot.hasData && snapshot.data!.docs.length > 0
-            ? ListView.builder(
-                itemCount: snapshot.data!.docs.length,
-                itemBuilder: (context, index) {
-                  return QuestRoomTile(
-                    snapshot.data!.docs[index].get("questName"),
-                    snapshot.data!.docs[index].get("questId"),
-                    snapshot.data!.docs[index].get("availableAt").toDate(),
-                    snapshot.data!.docs[index].get("userEscala"),
-                    snapshot.data!.docs[index].get("answeredUntil"),
-                    snapshot.data!.docs[index].get("unanswered?"),
-                    Constants.myEmail,
-                  );
-                },
-              )
-            : Container();
+  Widget questsRoomList(List<Scale> scaleList) {
+    return ListView.builder(
+      itemCount: scaleList.length,
+      itemBuilder: (context, index) {
+        return QuestRoomTile(
+          scaleList[index].questionnaireName!,
+          scaleList[index].questionnaireId!,
+          DateTime.parse(scaleList[index].availableAt!),
+          scaleList[index].userScale!,
+          scaleList[index].answeredUntil!,
+          scaleList[index].unanswered!,
+          Constants.myEmail,
+        );
       },
     );
   }
@@ -67,73 +57,71 @@ class _QuestsScreenState extends State<QuestsScreen> {
   @override
   void initState() {
     super.initState();
-    getUserInfo().whenComplete(() {
+    getUserInfoAndQuests().whenComplete(() {
       setState(() {});
     });
   }
 
-  getUserInfo() async {
+  getUserInfoAndQuests() async {
     Constants.myName = await HelperFunctions.getUserNameInSharedPreference();
     Constants.myEmail = await HelperFunctions.getUserEmailInSharedPreference();
-    Constants.myEmail = Constants.myEmail.trim();
-    databaseMethods
-        .getAnsweredQuests(FirebaseAuth.instance.currentUser!.uid)
-        .then((val) {
+    ScaleService()
+        .listUnansweredQuestionnaires(Constants.myEmail)
+        .then((questionnaires) {
       setState(() {
-        questsAnsweredRoomsStream = val;
+        unansweredQuests = questionnaires;
       });
     });
-    databaseMethods
-        .getUnansweredQuests(FirebaseAuth.instance.currentUser!.uid)
-        .then((val) {
+    ScaleService()
+        .listAnsweredQuestionnaires(Constants.myEmail)
+        .then((questionnaires) {
       setState(() {
-        questsUnansweredRoomsStream = val;
+        answeredQuests = questionnaires;
       });
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    print(Constants.myEmail + "a");
     return DefaultTabController(
-        length: 2,
-        child: Scaffold(
-          appBar: AppBar(
-              centerTitle: true,
-              iconTheme: IconThemeData(color: kTextColorGreen),
-              backgroundColor: Colors.white,
-              title: Text(
-                'Suas Atividades',
-                style: AppTextStyles.tituloatividades,
-              ),
-              bottom: new PreferredSize(
-                  preferredSize: new Size(300.0, 50.0),
-                  child: new Container(
-                      width: 300.0,
-                      child: new TabBar(
-                        indicatorColor: AppColors.verdeclaro,
-                        labelStyle: AppTextStyles.titulotab,
-                        labelColor: Colors.black,
-                        tabs: [
-                          new Container(
-                            height: 50.0,
-                            child:
-                                FittedBox(child: new Tab(text: 'Nessa semana')),
-                          ),
-                          new Container(
-                            height: 50.0,
-                            child:
-                                FittedBox(child: new Tab(text: 'Respondidos')),
-                          ),
-                        ],
-                      )))),
-          body: TabBarView(
-            children: [
-              questsRoomList(questsUnansweredRoomsStream),
-              questsRoomList(questsAnsweredRoomsStream),
-            ],
-          ),
-        ));
+      length: 2,
+      child: Scaffold(
+        appBar: AppBar(
+            centerTitle: true,
+            iconTheme: IconThemeData(color: kTextColorGreen),
+            backgroundColor: Colors.white,
+            title: Text(
+              'Suas Atividades',
+              style: AppTextStyles.tituloatividades,
+            ),
+            bottom: new PreferredSize(
+                preferredSize: new Size(300.0, 50.0),
+                child: new Container(
+                    width: 300.0,
+                    child: new TabBar(
+                      indicatorColor: AppColors.verdeclaro,
+                      labelStyle: AppTextStyles.titulotab,
+                      labelColor: Colors.black,
+                      tabs: [
+                        new Container(
+                          height: 50.0,
+                          child:
+                              FittedBox(child: new Tab(text: 'Nessa semana')),
+                        ),
+                        new Container(
+                          height: 50.0,
+                          child: FittedBox(child: new Tab(text: 'Respondidos')),
+                        ),
+                      ],
+                    )))),
+        body: TabBarView(
+          children: [
+            questsRoomList(unansweredQuests),
+            questsRoomList(answeredQuests),
+          ],
+        ),
+      ),
+    );
   }
 }
 
@@ -174,11 +162,8 @@ class QuestRoomTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("aa aa aa $availableAt");
     var nextSunday = getNextSunday(availableAt);
-    print(nextSunday);
 
-    print(questName);
     // Caso a escala/questionário seja planejada para a semana atual, constroi-se um card
     if (_now.isAfter(availableAt) && _now.isBefore(nextSunday)) {
       return QuizCard(
@@ -190,7 +175,6 @@ class QuestRoomTile extends StatelessWidget {
           expirationDate: nextSunday,
           onTap: () {
             if (unanswered) {
-              print('userEmail no navigator: $userEmail' + "//");
               Navigator.of(context).pushNamed(routes[questId], arguments: {
                 'title': questName,
                 'userEscala': userEscala,
