@@ -1,8 +1,10 @@
+import 'package:app_mental/Services/questsService.dart';
 import 'package:flutter/material.dart';
 import 'package:app_mental/escalas/questSD1/questSD1.dart';
 import 'package:app_mental/escalas/questSD1/questSD1_result.dart';
 
 import '../../constants.dart';
+import '../../helper/helperfuncions.dart';
 
 class QuestSD1Screen extends StatefulWidget {
   static const routeName = '/questSD1-screen';
@@ -14,16 +16,41 @@ class QuestSD1Screen extends StatefulWidget {
 }
 
 class _QuestSD1ScreenState extends State<QuestSD1Screen> {
-  static const _questions = [
+  List<dynamic> _questions = [];
+  late String userEmail;
+
+  @override
+  void initState() {
+    getQuestions();
+    getUserEmail();
+    super.initState();
+  }
+
+  getQuestions() async {
+    await QuestsService().getQuestions("questSD1_week1").then((values) {
+      values.forEach((value) {
+        _questions.add(value);
+      });
+      setState(
+          () {}); //como fazer pra pegar os valores antes de iniciar o estado?
+    });
+  }
+
+  getUserEmail() async {
+    await HelperFunctions.getUserEmailInSharedPreference().then((value) {
+      setState(() {
+        userEmail = value;
+      });
+    });
+  }
+
+  static const _answers = [
     {
-      'questionText':
-          'As questões a seguir perguntam sobre informações gerais que irão ajudar a eficácia do estudo e a criação de estratégias apropriadas',
       'answers': [
         {'text': 'Entendi e quero prosseguir', 'score': 0},
       ],
     },
     {
-      'questionText': 'I. Com que gênero você se identifica?',
       'answers': [
         {'text': 'Feminino', 'score': 'F'},
         {'text': 'Masculino', 'score': 'M'},
@@ -31,7 +58,6 @@ class _QuestSD1ScreenState extends State<QuestSD1Screen> {
       ],
     },
     {
-      'questionText': 'II. Qual sua idade?',
       'answers': [
         {'text': 'Entre 18 e 25', 'score': '18-25'},
         {'text': 'Entre 26 e 30', 'score': '26-20'},
@@ -44,7 +70,6 @@ class _QuestSD1ScreenState extends State<QuestSD1Screen> {
     },
     //TO DO marcar mais de uma opção
     {
-      'questionText': 'III. Onde você trabalha?',
       'answers': [
         {'text': 'Unidade Básica de Saúde (UBS)', 'score': 'UBS'},
         {'text': 'Unidade de Saúde da Família (USF)', 'score': 'USF'},
@@ -53,7 +78,6 @@ class _QuestSD1ScreenState extends State<QuestSD1Screen> {
       ],
     },
     {
-      'questionText': 'IV. Quantas horas por semana, em média, você trabalha?',
       'answers': [
         {'text': '20 horas/semana', 'score': '20h/semana'},
         {'text': 'Entre 21 a 40 horas/ semanas', 'score': '20-40h/semana'},
@@ -61,29 +85,24 @@ class _QuestSD1ScreenState extends State<QuestSD1Screen> {
       ],
     },
     {
-      'questionText': 'V. Você trabalha no horário da noite e/ou madrugada?',
       'answers': [
         {'text': 'Sim', 'score': 'trabalha noite/madrugada'},
         {'text': 'Não', 'score': 'não trabalha noite/madrugada'},
       ],
     },
     {
-      'questionText': 'VI. Você mora sozinho?(a)',
       'answers': [
         {'text': 'Sim', 'score': 'mora sozinho'},
         {'text': 'Não', 'score': 'não mora sozinho'},
       ],
     },
     {
-      'questionText':
-          'VII. Você tem filho ou filhos com menos de 18 anos de idade?',
       'answers': [
         {'text': 'Sim', 'score': 'tem filhos -18'},
         {'text': 'Não', 'score': 'Não tem filhos -18'},
       ],
     },
     {
-      'questionText': 'VIII. Qual a sua situação conjugal?',
       'answers': [
         {'text': 'Solteiro(a)', 'score': 'Solteiro(a)'},
         {'text': 'Casado(a)', 'score': 'Casado(a)'},
@@ -94,7 +113,6 @@ class _QuestSD1ScreenState extends State<QuestSD1Screen> {
 
     //Overflow de pixel certo
     {
-      'questionText': 'IX. Qual sua profissão?',
       'answers': [
         {
           'text': 'Agente comunitário de saúde',
@@ -116,14 +134,12 @@ class _QuestSD1ScreenState extends State<QuestSD1Screen> {
   ];
 
   var _questionIndex = 0;
-  var _totalScoreList = List<Object>.filled(24, 0);
-  var _resultOptionList = List<Object>.filled(24, 0);
 
-  void _answerQuestion(Object score, Object option) {
-    _totalScoreList[_questionIndex] = score;
-    _resultOptionList[_questionIndex] = option;
+  void _answerQuestion(Object score, Object answer) {
+    QuestsService().addQuestionnaireAnswer(
+        userEmail, answer, score, "questSD1_week1", _questionIndex);
     setState(() {
-      _questionIndex = _questionIndex + 1;
+      _questionIndex += 1;
     });
   }
 
@@ -138,7 +154,7 @@ class _QuestSD1ScreenState extends State<QuestSD1Screen> {
     final routeArgs =
         ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
     final titleAA = routeArgs['title'];
-    final _userEscala = routeArgs["userEscala"];
+    final _userEscala = routeArgs['userEscala'];
     final _answeredUntil = routeArgs['answeredUntil'];
     final _userEmail = routeArgs['email'];
     var index = _answeredUntil as int;
@@ -147,7 +163,6 @@ class _QuestSD1ScreenState extends State<QuestSD1Screen> {
       _questionIndex = index;
     }
 
-    print("QuestSD_screen: " + _userEmail!);
     return Scaffold(
       appBar: AppBar(
         title: FittedBox(child: Text(titleAA!)),
@@ -157,25 +172,15 @@ class _QuestSD1ScreenState extends State<QuestSD1Screen> {
         padding: const EdgeInsets.all(30.0),
         child: _questionIndex < _questions.length
             ? QuestSD1(
+                sizeQuestionnaire: _questions.length - 1,
                 answerQuestion: _answerQuestion,
                 resetQuestion: _resetQuestion,
                 questionIndex: _questionIndex,
-                questions: _questions,
-                userEmail: _userEmail,
-                resultScoreList: _totalScoreList,
-                resultOptionList: _resultOptionList,
-                userEscala: _userEscala!,
-                questName: titleAA,
-              ) //Quiz
-            : QuestSD1Result(
-                resultScoreList: _totalScoreList,
-                resultOptionList: _resultOptionList,
-                questName: titleAA,
-                userEscala: _userEscala!,
-                userEmail: _userEmail,
-                questionIndex: _questionIndex,
-              ),
-      ), //Padding
-    ); //Scaffold
+                question: _questions[_questionIndex],
+                answers: _answers,
+              )
+            : QuestSD1Result(),
+      ),
+    );
   }
 }

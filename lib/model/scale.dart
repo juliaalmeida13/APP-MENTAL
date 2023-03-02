@@ -1,5 +1,5 @@
 class Scale {
-  String? questionnaireId;
+  String? questionnaireCode;
   String? questionnaireName;
   String? availableAt;
   String? userScale;
@@ -7,7 +7,7 @@ class Scale {
   bool? unanswered;
 
   Scale(
-      {this.questionnaireId,
+      {this.questionnaireCode,
       this.questionnaireName,
       this.availableAt,
       this.userScale,
@@ -16,7 +16,7 @@ class Scale {
 
   factory Scale.fromJson(Map<String, dynamic> json) {
     return Scale(
-        questionnaireId: json['questionnaireId'],
+        questionnaireCode: json['questionnaireCode'],
         questionnaireName: json['questionnaireName'],
         availableAt: json['availableAt'],
         userScale: json['userScale'],

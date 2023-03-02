@@ -1,8 +1,6 @@
 import 'package:app_mental/Screens/ChatRoom/Widgets/calendar.dart';
 import 'package:app_mental/Screens/Questionarie/Widgets/app_body_widget.dart';
-import 'package:app_mental/Services/auth.dart';
 import 'package:app_mental/Services/scaleService.dart';
-import 'package:app_mental/Services/database.dart';
 import 'package:app_mental/Shared/Widgets/AppDrawer.dart';
 import 'package:app_mental/escalas/assist/assist_screen.dart';
 import 'package:app_mental/escalas/assistn2/assistn2_screen.dart';
@@ -43,7 +41,7 @@ class _QuestsScreenState extends State<QuestsScreen> {
       itemBuilder: (context, index) {
         return QuestRoomTile(
           scaleList[index].questionnaireName!,
-          scaleList[index].questionnaireId!,
+          scaleList[index].questionnaireCode!,
           DateTime.parse(scaleList[index].availableAt!),
           scaleList[index].userScale!,
           scaleList[index].answeredUntil!,
@@ -71,6 +69,8 @@ class _QuestsScreenState extends State<QuestsScreen> {
       setState(() {
         unansweredQuests = questionnaires;
       });
+    }).catchError((error) {
+      print(error);
     });
     ScaleService()
         .listAnsweredQuestionnaires(Constants.myEmail)
@@ -78,6 +78,8 @@ class _QuestsScreenState extends State<QuestsScreen> {
       setState(() {
         answeredQuests = questionnaires;
       });
+    }).catchError((error) {
+      print(error);
     });
   }
 
@@ -128,7 +130,7 @@ class _QuestsScreenState extends State<QuestsScreen> {
 // Caso a escala/questionário estiver planejado para a semana atual, constroi-se um card para a lista.
 class QuestRoomTile extends StatelessWidget {
   final String questName;
-  final String questId;
+  final String questCode;
   final DateTime availableAt;
   final String userEscala;
   final int answeredUntil;
@@ -152,7 +154,7 @@ class QuestRoomTile extends StatelessWidget {
 
   QuestRoomTile(
     this.questName,
-    this.questId,
+    this.questCode,
     this.availableAt,
     this.userEscala,
     this.answeredUntil,
@@ -175,7 +177,7 @@ class QuestRoomTile extends StatelessWidget {
           expirationDate: nextSunday,
           onTap: () {
             if (unanswered) {
-              Navigator.of(context).pushNamed(routes[questId], arguments: {
+              Navigator.of(context).pushNamed(routes[questCode], arguments: {
                 'title': questName,
                 'userEscala': userEscala,
                 'answeredUntil': answeredUntil,
