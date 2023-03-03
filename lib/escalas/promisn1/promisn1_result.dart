@@ -1,93 +1,63 @@
 import 'dart:ui';
 
 import 'package:app_mental/Screens/Contacts/contacts_screen.dart';
-import 'package:app_mental/Services/database.dart';
+import 'package:app_mental/Services/questsService.dart';
 import 'package:app_mental/main.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-// import './categories_screen.dart';
 
-class Promisn1Result extends StatelessWidget {
-  final List<int> resultScoreList;
-  final List<Object> resultOptionList;
+class Promisn1Result extends StatefulWidget {
+  final String userEmail;
   final String questName;
   final String userEscala;
-  final int questionIndex;
-  final DateTime now = DateTime.now();
-  //final Function resetHandler;
+
+  Promisn1Result(
+      {required this.questName,
+      required this.userEscala,
+      required this.userEmail});
+
+  @override
+  State<Promisn1Result> createState() => _Promisn1ResultState();
+}
+
+class _Promisn1ResultState extends State<Promisn1Result> {
   final String resultPhrase =
       'PROMIS Nível 1 concluído! \n\nSuas respostas serão enviadas, e analisadas anonimamente para a recomendação de novas atividades.\n\nEstá de acordo?';
+  List<int> scoreList = [];
 
-  final DatabaseMethods databaseMethods = new DatabaseMethods();
+  @override
+  void initState() {
+    getScore();
+    super.initState();
+  }
 
-  enviarDominios(String email) async {
-    for (var i = 0; i < 10; i++) {
-      print(resultOptionList[i]);
-    }
+  getScore() async {
+    await QuestsService()
+        .getDomAndScore(widget.userEmail, "promisN1_week1")
+        .then((values) {
+      values.forEach((value) {
+        scoreList.add(int.parse(value));
+      });
+    });
+  }
 
-    Map<String, dynamic> promisn1Map = {
-      "dom1": resultScoreList[1],
-      "dom2": resultScoreList[2],
-      "dom3": resultScoreList[3],
-      "dom4": resultScoreList[4],
-      "dom5": resultScoreList[5],
-      "dom6": resultScoreList[6],
-      "dom7": resultScoreList[7],
-      "dom8": resultScoreList[8],
-      "dom9": resultScoreList[9],
-      "dom10": resultScoreList[10],
-      "dom11": resultScoreList[11],
-      "dom12": resultScoreList[12],
-      "dom13": resultScoreList[13],
-      "option1": resultOptionList[1],
-      "option2": resultOptionList[2],
-      "option3": resultOptionList[3],
-      "option4": resultOptionList[4],
-      "option5": resultOptionList[5],
-      "option6": resultOptionList[6],
-      "option7": resultOptionList[7],
-      "option8": resultOptionList[8],
-      "option9": resultOptionList[9],
-      "option10": resultOptionList[10],
-      "option11": resultOptionList[11],
-      "option12": resultOptionList[12],
-      "option13": resultOptionList[13],
-      "option14": resultOptionList[14],
-      "option15": resultOptionList[15],
-      "option16": resultOptionList[16],
-      "option17": resultOptionList[17],
-      "option18": resultOptionList[18],
-      "option19": resultOptionList[19],
-      "option20": resultOptionList[20],
-      "option21": resultOptionList[21],
-      "option22": resultOptionList[22],
-      "option23": resultOptionList[23],
-      "answeredAt": now,
-      "questName": questName,
-      "answeredUntil": questionIndex,
-    };
-    await databaseMethods.addQuestAnswer(promisn1Map, email, userEscala);
-    var doms = await databaseMethods.getDomTotal(
-      userEscala,
-      "dom1",
-    );
-    if (doms[1] > 2) {
-      String promisn2UserEscala = "$userEscala-promisN2";
-      List<String> week = questName.split("-");
+  verifyScore() async {
+    if (scoreList[1] + scoreList[2] > 2) {
+      String promisn2UserEscala = "${widget.userEscala}-promisN2";
+      List<String> week = widget.questName.split("-");
       String promisn2QuestName = "Escala PROMIS Nível 2" + " -" + week[1];
       Map<String, dynamic> questMap = {
         "unanswered?": true,
         "questId": "pn2",
         "questName": promisn2QuestName,
-        "availableAt": now,
+        "availableAt": DateTime.now(),
         "userEscala": promisn2UserEscala,
         "answeredUntil": 0,
       };
-      databaseMethods.createQuest(
-          promisn2UserEscala, questMap, FirebaseAuth.instance.currentUser!.uid);
+      //cria questionário
+      //databaseMethods.createQuest(promisn2UserEscala, questMap, FirebaseAuth.instance.currentUser!.uid);*/
     }
 
-    if (doms[3] > 2) {
+    /*if (scoreList[4]+scoreList[5] > 2) {
       String mdqUserEscala = "$userEscala-Mdq";
       List<String> week = questName.split("-");
       String mdqQuestName =
@@ -103,7 +73,7 @@ class Promisn1Result extends StatelessWidget {
       databaseMethods.createQuest(mdqUserEscala, questMap, email);
     }
 
-    if (doms[4] > 2) {
+    if (scoreList[6]+scoreList[7]+scoreList[8] > 2) {
       String promisAnsiUserEscala = "$userEscala-PromisAnsi";
       List<String> week = questName.split("-");
       String promisAnsiQuestName =
@@ -119,7 +89,7 @@ class Promisn1Result extends StatelessWidget {
       databaseMethods.createQuest(promisAnsiUserEscala, questMap, email);
     }
 
-    if (doms[5] > 2) {
+    if (scoreList[9]+scoreList[10] > 2) {
       String phq15UserEscala = "$userEscala-Phq15";
       List<String> week = questName.split("-");
       String phq15QuestName =
@@ -135,7 +105,7 @@ class Promisn1Result extends StatelessWidget {
       databaseMethods.createQuest(phq15UserEscala, questMap, email);
     }
 
-    if (doms[8] > 2) {
+    if (scoreList[14] > 2) {
       String psqiUserEscala = "$userEscala-Psqi";
       List<String> week = questName.split("-");
       String psqiQuestName =
@@ -151,7 +121,7 @@ class Promisn1Result extends StatelessWidget {
       databaseMethods.createQuest(psqiUserEscala, questMap, email);
     }
 
-    if (doms[13] > 1) {
+    if (scoreList[21]+scoreList[22]+scoreList[23] > 1) {
       String assistUserEscala = "$userEscala-Assist";
       List<String> week = questName.split("-");
       String assistQuestName = "ASSIST OMS" + " -" + week[1];
@@ -164,35 +134,24 @@ class Promisn1Result extends StatelessWidget {
         "answeredUntil": 0,
       };
       databaseMethods.createQuest(assistUserEscala, questMap, email);
-    }
-
-    databaseMethods.updateQuestIndex(userEscala, email, questionIndex);
-    databaseMethods.disableQuest(userEscala, email);
+    }*/
   }
 
   isCritical() {
     //dom 2, 9, 10, 11, 12, leve ou maior (>2)
     //dom 6, 7 muito leve ou maior (>1)
-    if (resultScoreList[2] > 2 ||
-        resultScoreList[6] > 1 ||
-        resultScoreList[7] > 1 ||
-        resultScoreList[9] > 2 ||
-        resultScoreList[10] > 2 ||
-        resultScoreList[11] > 2 ||
-        resultScoreList[12] > 2) {
+    if (scoreList[2] > 2 ||
+        scoreList[6] > 1 ||
+        scoreList[7] > 1 ||
+        scoreList[9] > 2 ||
+        scoreList[10] > 2 ||
+        scoreList[11] > 2 ||
+        scoreList[12] > 2) {
       return true;
     } else {
       return false;
     }
   }
-
-  Promisn1Result({
-    required this.resultScoreList,
-    required this.resultOptionList,
-    required this.questName,
-    required this.userEscala,
-    required this.questionIndex,
-  });
 
   @override
   Widget build(BuildContext context) {
@@ -216,7 +175,7 @@ class Promisn1Result extends StatelessWidget {
             child: const Text('Sim, estou de acordo',
                 style: TextStyle(color: Colors.black)),
             onPressed: () {
-              enviarDominios(FirebaseAuth.instance.currentUser!.uid);
+              verifyScore();
               if (isCritical()) {
                 showDialog<String>(
                   context: context,
@@ -251,9 +210,9 @@ class Promisn1Result extends StatelessWidget {
                     actions: <Widget>[
                       TextButton(
                         onPressed: () async {
-                          //enviarDominios(FirebaseAuth.instance.currentUser!.uid);
-                          Navigator.pop(context);
-                          Navigator.pop(context);
+                          Navigator.of(context)
+                              .popUntil(ModalRoute.withName('/logged-home'));
+                          Navigator.of(context).pushNamed("/quests-screen");
                         },
                         child: const Text('Ok',
                             style: TextStyle(
@@ -275,7 +234,7 @@ class Promisn1Result extends StatelessWidget {
       child: Text("Voltar",
           style: TextStyle(color: Color.fromRGBO(0, 175, 185, 1))),
       onPressed: () async {
-        enviarDominios(FirebaseAuth.instance.currentUser!.uid);
+        verifyScore();
         Navigator.pop(context, 'Voltar');
         await Navigator.of(context)
             .push(new MaterialPageRoute(builder: (context) => MyApp()));

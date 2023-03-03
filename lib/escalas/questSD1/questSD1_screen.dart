@@ -27,7 +27,7 @@ class _QuestSD1ScreenState extends State<QuestSD1Screen> {
   }
 
   getQuestions() async {
-    await QuestsService().getQuestions("questSD1_week1").then((values) {
+    await QuestsService().getQuestions("questSD1").then((values) {
       values.forEach((value) {
         _questions.add(value);
       });
@@ -137,7 +137,7 @@ class _QuestSD1ScreenState extends State<QuestSD1Screen> {
 
   void _answerQuestion(Object score, Object answer) {
     QuestsService().addQuestionnaireAnswer(
-        userEmail, answer, score, "questSD1_week1", _questionIndex);
+        userEmail, answer, score, -1, "questSD1_week1", _questionIndex);
     setState(() {
       _questionIndex += 1;
     });

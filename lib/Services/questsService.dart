@@ -9,7 +9,7 @@ final String url = dotenv.env['BACKEND_URL']!;
 
 class QuestsService {
   Future<void> addQuestionnaireAnswer(String email, Object answer, Object score,
-      String scale, int questionIndex) async {
+      int dom, String scale, int questionIndex) async {
     final response = await http.post(Uri.parse("${url}addQuestionnaireAnswer"),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
@@ -18,6 +18,7 @@ class QuestsService {
           'email': email,
           'answer': answer,
           'score': score,
+          'dom': dom,
           'scale': scale,
           'ordination': questionIndex
         }));
@@ -28,13 +29,40 @@ class QuestsService {
     }
   }
 
-  Future<List<dynamic>> getQuestions(String scale) async {
+  Future<List<dynamic>> getQuestions(String code) async {
     final response = await http.get(
-      Uri.parse("${url}getQuestions?scale=$scale"),
+      Uri.parse("${url}getQuestions?code=$code"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
     );
+    if (response.statusCode == 200) {
+      return jsonDecode(utf8.decode(response.bodyBytes));
+    }
+    final error =
+        ApiError.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
+    throw HttpException(error.message.toString());
+  }
+
+  Future<void> discardAllAnswers(String email, String scale) async {
+    final response = await http.post(Uri.parse("${url}discardAllAnswers"),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, dynamic>{'email': email, 'scale': scale}));
+    if (response.statusCode != 200) {
+      final error =
+          ApiError.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
+      throw HttpException(error.message.toString());
+    }
+  }
+
+  Future<List<dynamic>> getDomAndScore(String email, String scale) async {
+    final response = await http.get(
+        Uri.parse("${url}getDomAndScore?email=$email&scale=$scale"),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        });
     if (response.statusCode == 200) {
       return jsonDecode(utf8.decode(response.bodyBytes));
     }

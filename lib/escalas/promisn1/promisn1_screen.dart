@@ -4,6 +4,9 @@ import 'package:app_mental/escalas/promisn1/promisn1.dart';
 import 'package:app_mental/escalas/promisn1/promisn1_result.dart';
 import 'package:flutter/material.dart';
 
+import '../../Services/questsService.dart';
+import '../../helper/helperfuncions.dart';
+
 class Promisn1Screen extends StatefulWidget {
   static const routeName = '/promisn1-screen';
 
@@ -14,16 +17,41 @@ class Promisn1Screen extends StatefulWidget {
 }
 
 class _Promisn1ScreenState extends State<Promisn1Screen> {
-  static const _questions = [
+  List<dynamic> _questions = [];
+  late String userEmail;
+
+  @override
+  void initState() {
+    getQuestions();
+    getUserEmail();
+    super.initState();
+  }
+
+  getQuestions() async {
+    await QuestsService().getQuestions("pn1").then((values) {
+      values.forEach((value) {
+        _questions.add(value);
+      });
+      setState(
+          () {}); //como fazer pra pegar os valores antes de iniciar o estado?
+    });
+  }
+
+  getUserEmail() async {
+    await HelperFunctions.getUserEmailInSharedPreference().then((value) {
+      setState(() {
+        userEmail = value;
+      });
+    });
+  }
+
+  static const _answers = [
     {
-      'questionText':
-          'As questões a seguir perguntam sobre coisas que podem tê-lo pertubado. Para cada pergunta, escolha o número que melhor descreve o quanto (ou com que frequência) você foi perturbado pelos problemas descritos a seguir.',
       'answers': [
         {'text': 'Entendi e quero prosseguir', 'score': 0, 'dom': 0},
       ],
     },
     {
-      'questionText': 'I. 1. Pouco Interesse ou prazer em fazer as coisas?',
       'answers': [
         {'text': 'Nada. De modo algum', 'score': 0, 'dom': 1},
         {
@@ -37,7 +65,6 @@ class _Promisn1ScreenState extends State<Promisn1Screen> {
       ],
     },
     {
-      'questionText': 'I. 2. Sentiu-se desanimado, deprimido ou sem esperança?',
       'answers': [
         {'text': 'Nada. De modo algum', 'score': 0, 'dom': 1},
         {
@@ -51,8 +78,6 @@ class _Promisn1ScreenState extends State<Promisn1Screen> {
       ],
     },
     {
-      'questionText':
-          ' II. 3. Sentiu-se mais irritado, mal humorado ou zangado do que o usual?',
       'answers': [
         {'text': 'Nada. De modo algum', 'score': 0, 'dom': 2},
         {
@@ -66,8 +91,6 @@ class _Promisn1ScreenState extends State<Promisn1Screen> {
       ],
     },
     {
-      'questionText':
-          'III. 4. Dormiu menos que o usual mas ainda tem muita energia?',
       'answers': [
         {'text': 'Nada. De modo algum', 'score': 0, 'dom': 3},
         {
@@ -81,8 +104,6 @@ class _Promisn1ScreenState extends State<Promisn1Screen> {
       ],
     },
     {
-      'questionText':
-          'III. 5. Iniciou muito mais projetos do que o usual ou fez coisas mais arriscadas do que o habitual?',
       'answers': [
         {'text': 'Nada. De modo algum', 'score': 0, 'dom': 3},
         {
@@ -96,8 +117,6 @@ class _Promisn1ScreenState extends State<Promisn1Screen> {
       ],
     },
     {
-      'questionText':
-          'IV. 6. Sentiu-se nervoso, ansioso, assustado, preocupado ou tenso?',
       'answers': [
         {'text': 'Nada. De modo algum', 'score': 0, 'dom': 4},
         {
@@ -111,7 +130,6 @@ class _Promisn1ScreenState extends State<Promisn1Screen> {
       ],
     },
     {
-      'questionText': 'IV. 7. Sentiu pânico ou se sentiu amedrontado?',
       'answers': [
         {'text': 'Nada. De modo algum', 'score': 0, 'dom': 4},
         {
@@ -125,7 +143,6 @@ class _Promisn1ScreenState extends State<Promisn1Screen> {
       ],
     },
     {
-      'questionText': 'IV. 8. Evitou situações que o deixam ansioso?',
       'answers': [
         {'text': 'Nada. De modo algum', 'score': 0, 'dom': 4},
         {
@@ -139,8 +156,6 @@ class _Promisn1ScreenState extends State<Promisn1Screen> {
       ],
     },
     {
-      'questionText':
-          'V. 9. Dores e sentimentos sem explicação? (p. ex. cabeça, costas, articulações, abdome, pernas)?',
       'answers': [
         {'text': 'Nada. De modo algum', 'score': 0, 'dom': 5},
         {
@@ -154,8 +169,6 @@ class _Promisn1ScreenState extends State<Promisn1Screen> {
       ],
     },
     {
-      'questionText':
-          'V. 10. Sentimento de que suas doenças não estão sendo levadas suficientemente a sério?',
       'answers': [
         {'text': 'Nada. De modo algum', 'score': 0, 'dom': 5},
         {
@@ -169,7 +182,6 @@ class _Promisn1ScreenState extends State<Promisn1Screen> {
       ],
     },
     {
-      'questionText': 'VI. 11. Pensamento de ferir a si mesmo?',
       'answers': [
         {'text': 'Nada. De modo algum', 'score': 0, 'dom': 6},
         {
@@ -183,8 +195,6 @@ class _Promisn1ScreenState extends State<Promisn1Screen> {
       ],
     },
     {
-      'questionText':
-          'VII. 12. Ouviu coisas que outras pessoas não ouviam, como vozes, mesmo quando não havia ninguém por perto?',
       'answers': [
         {'text': 'Nada. De modo algum', 'score': 0, 'dom': 7},
         {
@@ -198,8 +208,6 @@ class _Promisn1ScreenState extends State<Promisn1Screen> {
       ],
     },
     {
-      'questionText':
-          'VII. 13. Sentiu que alguém podia ouvir seus pensamentos ou que você podia ouvir o que outra pessoa estava pensando?',
       'answers': [
         {'text': 'Nada. De modo algum', 'score': 0, 'dom': 7},
         {
@@ -213,8 +221,6 @@ class _Promisn1ScreenState extends State<Promisn1Screen> {
       ],
     },
     {
-      'questionText':
-          'VIII. 14. Problemas com sono que afetaram a qualidade do seu sono em geral?',
       'answers': [
         {'text': 'Nada. De modo algum', 'score': 0, 'dom': 8},
         {
@@ -228,8 +234,6 @@ class _Promisn1ScreenState extends State<Promisn1Screen> {
       ],
     },
     {
-      'questionText':
-          'IX. 15. Problemas com memória (p. ex. aprender informações novas) ou com localização (p. ex. encontrar o caminho para casa)?',
       'answers': [
         {'text': 'Nada. De modo algum', 'score': 0, 'dom': 9},
         {
@@ -243,8 +247,6 @@ class _Promisn1ScreenState extends State<Promisn1Screen> {
       ],
     },
     {
-      'questionText':
-          'X. 16. Pensamentos impulsos ou imagens desagradáveis que entram repetidamente na sua cabeça?',
       'answers': [
         {'text': 'Nada. De modo algum', 'score': 0, 'dom': 10},
         {
@@ -258,8 +260,6 @@ class _Promisn1ScreenState extends State<Promisn1Screen> {
       ],
     },
     {
-      'questionText':
-          'X. 17. Sentiu-se compelido a realizar certos comportamentos ou atos mentais repetidamente?',
       'answers': [
         {'text': 'Nada. De modo algum', 'score': 0, 'dom': 10},
         {
@@ -273,8 +273,6 @@ class _Promisn1ScreenState extends State<Promisn1Screen> {
       ],
     },
     {
-      'questionText':
-          'XI. 18. Sentiu-se desligado ou distante de si mesmo, do seu corpo, do ambiente físico ao seu redor ou de suas lembranças?',
       'answers': [
         {'text': 'Nada. De modo algum', 'score': 0, 'dom': 11},
         {
@@ -288,8 +286,6 @@ class _Promisn1ScreenState extends State<Promisn1Screen> {
       ],
     },
     {
-      'questionText':
-          'XII. 19. Sem saber quem você realmente é ou o que você quer da vida?',
       'answers': [
         {'text': 'Nada. De modo algum', 'score': 0, 'dom': 12},
         {
@@ -303,8 +299,6 @@ class _Promisn1ScreenState extends State<Promisn1Screen> {
       ],
     },
     {
-      'questionText':
-          'XII. 20. Não se sentiu próximo a outras pessoas ou desfrutou de suas relações com elas?',
       'answers': [
         {'text': 'Nada. De modo algum', 'score': 0, 'dom': 12},
         {
@@ -318,8 +312,6 @@ class _Promisn1ScreenState extends State<Promisn1Screen> {
       ],
     },
     {
-      'questionText':
-          'XIII. 21. Bebeu no mínimo 4 drinques de qualquer tipo de bebida alcoólica em um único dia?',
       'answers': [
         {'text': 'Nada. De modo algum', 'score': 0, 'dom': 13},
         {
@@ -333,8 +325,6 @@ class _Promisn1ScreenState extends State<Promisn1Screen> {
       ],
     },
     {
-      'questionText':
-          'XIII. 22. Fumou cigarros, charutos ou cachimbo ou usou rapé ou tabaco de mascar?',
       'answers': [
         {'text': 'Nada. De modo algum', 'score': 0, 'dom': 13},
         {
@@ -348,8 +338,6 @@ class _Promisn1ScreenState extends State<Promisn1Screen> {
       ],
     },
     {
-      'questionText':
-          'XIII. 23. Usou algum dos seguintes medicamento POR CONTA PRÓPRIA, isto é, sem prescrição médica, em quantidades maiores ou por mais tempo do que prescrito?',
       'answers': [
         {'text': 'Nada. De modo algum', 'score': 0, 'dom': 13},
         {
@@ -365,31 +353,18 @@ class _Promisn1ScreenState extends State<Promisn1Screen> {
   ];
 
   var _questionIndex = 0;
-  var _totalScoreList = List<int>.filled(14, 0);
-  var _resultOptionList = List<Object>.filled(24, 0);
 
-  void _answerQuestion(int score, int domin, Object option) {
-    _totalScoreList[domin] += score;
-    _resultOptionList[_questionIndex] = option;
+  void _answerQuestion(Object score, int dom, Object answer) {
+    QuestsService().addQuestionnaireAnswer(
+        userEmail, answer, score, dom, "promisN1_week1", _questionIndex);
     setState(() {
-      _questionIndex = _questionIndex + 1;
+      _questionIndex += 1;
     });
   }
 
-  void _resetLastDomain(int dom) {
-    _totalScoreList[dom] = 0;
-    var _resetQuestionIndex = _questionIndex;
-    int beforeDomain = 0;
-
-    do {
-      _resetQuestionIndex -= 1;
-      var beforeList = _questions[_resetQuestionIndex - 1]["answers"]
-          as List<Map<String, Object>>;
-      beforeDomain = beforeList[0]["dom"] as int;
-    } while (dom == beforeDomain);
-
+  void _resetLastDomain() {
     setState(() {
-      _questionIndex = _resetQuestionIndex;
+      _questionIndex -= 1;
     });
   }
 
@@ -415,25 +390,19 @@ class _Promisn1ScreenState extends State<Promisn1Screen> {
         padding: const EdgeInsets.all(20.0),
         child: _questionIndex < _questions.length
             ? Promisn1(
+                sizeQuestionnaire: _questions.length - 1,
                 answerQuestion: _answerQuestion,
                 resetLastDomain: _resetLastDomain,
                 questionIndex: _questionIndex,
-                questions: _questions,
-                userEmail: _userEmail,
-                resultScoreList: _totalScoreList,
-                resultOptionList: _resultOptionList,
-                userEscala: _userEscala!,
-                questName: titleAA,
-              ) //Quiz
+                question: _questions[_questionIndex],
+                answers: _answers,
+                userEmail: _userEmail)
             : Promisn1Result(
-                resultScoreList: _totalScoreList,
-                resultOptionList: _resultOptionList,
+                userEmail: _userEmail,
                 questName: titleAA,
                 userEscala: _userEscala!,
-                questionIndex: _questionIndex,
               ),
-      ), //Padding
-    ); //Scaffold
-    // debugShowCheckedModeBanner: false,;
+      ),
+    );
   }
 }
