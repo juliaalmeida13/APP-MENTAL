@@ -1,6 +1,5 @@
 import 'dart:ui';
 
-import 'package:app_mental/Screens/Contacts/contacts_screen.dart';
 import 'package:app_mental/Services/questionnaireService.dart';
 import 'package:app_mental/main.dart';
 import 'package:flutter/material.dart';
@@ -32,7 +31,7 @@ class _Promisn1ResultState extends State<Promisn1Result> {
 
   getScore() async {
     await QuestionnaireService()
-        .getDomAndScore(widget.userEmail, "promisN1_week1")
+        .getScore(widget.userEmail, "promisN1_week1")
         .then((values) {
       values.forEach((value) {
         scoreList.add(int.parse(value));
@@ -186,12 +185,9 @@ class _Promisn1ResultState extends State<Promisn1Result> {
                     actions: <Widget>[
                       TextButton(
                         onPressed: () async {
-                          Navigator.pop(context, 'Ok');
-                          await Navigator.pushReplacementNamed(
-                            context,
-                            ContactsScreen.routeName,
-                            arguments: {},
-                          );
+                          Navigator.of(context)
+                              .popUntil(ModalRoute.withName('/logged-home'));
+                          Navigator.of(context).pushNamed("/contacts-screen");
                         },
                         child: const Text('Ok',
                             style: TextStyle(

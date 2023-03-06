@@ -1,8 +1,10 @@
 import 'package:app_mental/constants.dart';
 import 'package:flutter/material.dart';
-//import 'fancy_button.dart'
 import 'package:app_mental/escalas/promisn2/promisn2.dart';
 import 'package:app_mental/escalas/promisn2/promisn2_result.dart';
+
+import '../../Services/questionnaireService.dart';
+import '../../helper/helperfuncions.dart';
 
 class Promisn2Screen extends StatefulWidget {
   static const routeName = '/promisn2-screen';
@@ -14,17 +16,41 @@ class Promisn2Screen extends StatefulWidget {
 }
 
 class _Promisn2ScreenState extends State<Promisn2Screen> {
-  static const _questions = [
+  List<dynamic> _questions = [];
+  late String userEmail;
+
+  @override
+  void initState() {
+    getQuestions();
+    getUserEmail();
+    super.initState();
+  }
+
+  getQuestions() async {
+    await QuestionnaireService().getQuestions("pn2").then((values) {
+      values.forEach((value) {
+        _questions.add(value);
+      });
+      setState(
+          () {}); //como fazer pra pegar os valores antes de iniciar o estado?
+    });
+  }
+
+  getUserEmail() async {
+    await HelperFunctions.getUserEmailInSharedPreference().then((value) {
+      setState(() {
+        userEmail = value;
+      });
+    });
+  }
+
+  static const _answers = [
     {
-      'questionText':
-          'As questões a seguir perguntam sobre coisas que podem tê-lo pertubado nestes últimos sete (7) dias. Para cada pergunta, escolha o número que melhor descreve o quanto (ou com que frequência) você foi perturbado pelos problemas descritos a seguir.',
       'answers': [
         {'text': 'Entendi e quero prosseguir', 'score': 0},
       ],
     },
     {
-      'questionText':
-          'I. Senti-me sem valor e sem importância (inútil para as pessoas)',
       'answers': [
         {'text': 'Nunca', 'score': 0},
         {'text': 'Raramente', 'score': 1},
@@ -34,7 +60,6 @@ class _Promisn2ScreenState extends State<Promisn2Screen> {
       ],
     },
     {
-      'questionText': 'II. Senti que eu não tinha expectativas para o futuro',
       'answers': [
         {'text': 'Nunca', 'score': 0},
         {'text': 'Raramente', 'score': 1},
@@ -44,7 +69,6 @@ class _Promisn2ScreenState extends State<Promisn2Screen> {
       ],
     },
     {
-      'questionText': 'III. Senti-me incapaz',
       'answers': [
         {'text': 'Nunca', 'score': 0},
         {'text': 'Raramente', 'score': 1},
@@ -54,7 +78,6 @@ class _Promisn2ScreenState extends State<Promisn2Screen> {
       ],
     },
     {
-      'questionText': 'IV. Senti-me triste',
       'answers': [
         {'text': 'Nunca', 'score': 0},
         {'text': 'Raramente', 'score': 1},
@@ -64,7 +87,6 @@ class _Promisn2ScreenState extends State<Promisn2Screen> {
       ],
     },
     {
-      'questionText': 'V. Senti-me um fracassado(a)',
       'answers': [
         {'text': 'Nunca', 'score': 0},
         {'text': 'Raramente', 'score': 1},
@@ -74,7 +96,6 @@ class _Promisn2ScreenState extends State<Promisn2Screen> {
       ],
     },
     {
-      'questionText': 'VI. Senti-me deprimido(a)',
       'answers': [
         {'text': 'Nunca', 'score': 0},
         {'text': 'Raramente', 'score': 1},
@@ -84,7 +105,6 @@ class _Promisn2ScreenState extends State<Promisn2Screen> {
       ],
     },
     {
-      'questionText': 'VII. Senti-me infeliz',
       'answers': [
         {'text': 'Nunca', 'score': 0},
         {'text': 'Raramente', 'score': 1},
@@ -94,7 +114,6 @@ class _Promisn2ScreenState extends State<Promisn2Screen> {
       ],
     },
     {
-      'questionText': 'VIII. Senti-me sem esperança',
       'answers': [
         {'text': 'Nunca', 'score': 0},
         {'text': 'Raramente', 'score': 1},
@@ -106,14 +125,12 @@ class _Promisn2ScreenState extends State<Promisn2Screen> {
   ];
 
   var _questionIndex = 0;
-  var _totalScoreList = List<int>.filled(9, 0);
-  var _resultOptionList = List<Object>.filled(9, 0);
 
-  void _answerQuestion(int score, Object option) {
-    _totalScoreList[_questionIndex] = score;
-    _resultOptionList[_questionIndex] = option;
+  void _answerQuestion(Object score, Object answer) {
+    QuestionnaireService().addQuestionnaireAnswer(
+        userEmail, answer, score, -1, "promisN2_week1", _questionIndex);
     setState(() {
-      _questionIndex = _questionIndex + 1;
+      _questionIndex += 1;
     });
   }
 
@@ -136,6 +153,7 @@ class _Promisn2ScreenState extends State<Promisn2Screen> {
     if (_questionIndex < index) {
       _questionIndex = index;
     }
+
     return Scaffold(
       appBar: AppBar(
         title: FittedBox(child: Text(titleAA!)),
@@ -145,26 +163,18 @@ class _Promisn2ScreenState extends State<Promisn2Screen> {
         padding: const EdgeInsets.all(30.0),
         child: _questionIndex < _questions.length
             ? Promisn2(
+                sizeQuestionnaire: _questions.length - 1,
                 answerQuestion: _answerQuestion,
                 resetQuestion: _resetQuestion,
                 questionIndex: _questionIndex,
-                questions: _questions,
-                userEmail: _userEmail,
-                resultScoreList: _totalScoreList,
-                resultOptionList: _resultOptionList,
-                userEscala: _userEscala!,
-                questName: titleAA,
-              ) //Quiz
+                question: _questions[_questionIndex],
+                answers: _answers,
+                userEmail: _userEmail)
             : Promisn2Result(
-                resultScoreList: _totalScoreList,
-                resultOptionList: _resultOptionList,
                 questName: titleAA,
                 userEscala: _userEscala!,
-                userEmail: _userEmail,
-                questionIndex: _questionIndex,
-              ),
-      ), //Padding
-    ); //Scaffold
-    // debugShowCheckedModeBanner: false,;
+                userEmail: _userEmail),
+      ),
+    );
   }
 }

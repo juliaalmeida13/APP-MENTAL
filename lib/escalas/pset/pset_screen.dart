@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-
-//import 'fancy_button.dart'
 import 'package:app_mental/escalas/pset/pset.dart';
 import 'package:app_mental/escalas/pset/pset_result.dart';
 
+import '../../Services/questionnaireService.dart';
 import '../../constants.dart';
+import '../../helper/helperfuncions.dart';
 
 class PsetScreen extends StatefulWidget {
   static const routeName = '/pset-screen';
@@ -16,10 +16,36 @@ class PsetScreen extends StatefulWidget {
 }
 
 class _PsetScreenState extends State<PsetScreen> {
-  static const _questions = [
+  List<dynamic> _questions = [];
+  late String userEmail;
+
+  @override
+  void initState() {
+    getQuestions();
+    getUserEmail();
+    super.initState();
+  }
+
+  getQuestions() async {
+    await QuestionnaireService().getQuestions("pset").then((values) {
+      values.forEach((value) {
+        _questions.add(value);
+      });
+      setState(
+          () {}); //como fazer pra pegar os valores antes de iniciar o estado?
+    });
+  }
+
+  getUserEmail() async {
+    await HelperFunctions.getUserEmailInSharedPreference().then((value) {
+      setState(() {
+        userEmail = value;
+      });
+    });
+  }
+
+  static const _answers = [
     {
-      'questionText':
-          'Neste último mês você passou por uma experiência muito estressante envolvendo morte ou ameaça de morte, ferimentos graves ou violência sexual que aconteceu diretamente com você, ou que você testemunhou, ou que você ficou sabendo ter acontecido com um familiar próximo ou amigo próximo?',
       'answers': [
         {'text': 'Não', 'score': 0},
         {'text': 'Sim', 'score': 1},
@@ -28,18 +54,13 @@ class _PsetScreenState extends State<PsetScreen> {
   ];
 
   var _questionIndex = 0;
-  var _totalScore = 0;
-  var _resultOption = '';
-  void _answerQuestion(int score, String option) {
-    _totalScore += score;
-    _resultOption = option;
-    setState(() {
-      _questionIndex = _questionIndex + 1;
-    });
 
-    if (_questionIndex < _questions.length) {
-      print("qIndex : $_questionIndex");
-    }
+  void _answerQuestion(Object score, Object answer) {
+    QuestionnaireService().addQuestionnaireAnswer(
+        userEmail, answer, score, -1, "pset_week1", _questionIndex);
+    setState(() {
+      _questionIndex += 1;
+    });
   }
 
   @override
@@ -51,9 +72,11 @@ class _PsetScreenState extends State<PsetScreen> {
     final _answeredUntil = routeArgs['answeredUntil'];
     final _userEmail = routeArgs['email'];
     var index = _answeredUntil as int;
+
     if (_questionIndex < index) {
       _questionIndex = index;
     }
+
     return Scaffold(
       appBar: AppBar(
         title: FittedBox(child: Text(titleAA!)),
@@ -65,22 +88,14 @@ class _PsetScreenState extends State<PsetScreen> {
             ? Pset(
                 answerQuestion: _answerQuestion,
                 questionIndex: _questionIndex,
-                questions: _questions,
-                userEmail: _userEmail!,
-                resultScore: _totalScore,
-                userEscala: _userEscala!,
-                questName: titleAA,
-              ) //Quiz
+                question: _questions[_questionIndex],
+                answers: _answers,
+                userEmail: _userEmail!)
             : PsetResult(
-                resultScore: _totalScore,
-                resultOption: _resultOption,
                 questName: titleAA,
                 userEscala: _userEscala!,
-                userEmail: _userEmail!,
-                questionIndex: _questionIndex,
-              ),
-      ), //Padding
-    ); //Scaffold
-    // debugShowCheckedModeBanner: false,;
+                userEmail: _userEmail!),
+      ),
+    );
   }
 }

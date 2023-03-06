@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:app_mental/escalas/phq15/phq15.dart';
 import 'package:app_mental/escalas/phq15/phq15_result.dart';
 
+import '../../Services/questionnaireService.dart';
 import '../../constants.dart';
+import '../../helper/helperfuncions.dart';
 
 class Phq15Screen extends StatefulWidget {
   static const routeName = '/phq15-screen';
@@ -14,16 +16,41 @@ class Phq15Screen extends StatefulWidget {
 }
 
 class _Phq15ScreenState extends State<Phq15Screen> {
-  static const _questions = [
+  List<dynamic> _questions = [];
+  late String userEmail;
+
+  @override
+  void initState() {
+    getQuestions();
+    getUserEmail();
+    super.initState();
+  }
+
+  getQuestions() async {
+    await QuestionnaireService().getQuestions("phq15").then((values) {
+      values.forEach((value) {
+        _questions.add(value);
+      });
+      setState(
+          () {}); //como fazer pra pegar os valores antes de iniciar o estado?
+    });
+  }
+
+  getUserEmail() async {
+    await HelperFunctions.getUserEmailInSharedPreference().then((value) {
+      setState(() {
+        userEmail = value;
+      });
+    });
+  }
+
+  static const _answers = [
     {
-      'questionText':
-          'As questões a seguir perguntam sobre problemas que podem tê-lo incomodado nas últimas 4 semanas. Para cada pergunta, escolha o número que melhor descreve o quanto (ou com que frequência) você sentiu-se incomodado por qualquer um dos seguintes problemas.',
       'answers': [
         {'text': 'Entendi e quero prosseguir', 'score': 0},
       ],
     },
     {
-      'questionText': 'I. Dor de estômago',
       'answers': [
         {'text': 'Quase não incomoda', 'score': 0},
         {'text': 'Incomoda um pouco', 'score': 1},
@@ -31,7 +58,6 @@ class _Phq15ScreenState extends State<Phq15Screen> {
       ],
     },
     {
-      'questionText': 'II. Dor nas costas',
       'answers': [
         {'text': 'Quase não incomoda', 'score': 0},
         {'text': 'Incomoda um pouco', 'score': 1},
@@ -39,7 +65,6 @@ class _Phq15ScreenState extends State<Phq15Screen> {
       ],
     },
     {
-      'questionText': 'III. Dor nos braços, pernas ou articulações',
       'answers': [
         {'text': 'Quase não incomoda', 'score': 0},
         {'text': 'Incomoda um pouco', 'score': 1},
@@ -47,8 +72,6 @@ class _Phq15ScreenState extends State<Phq15Screen> {
       ],
     },
     {
-      'questionText':
-          'IV. Cólicas menstruais ou outros problemas durante o período menstrual',
       'answers': [
         {'text': 'Quase não incomoda', 'score': 0},
         {'text': 'Incomoda um pouco', 'score': 1},
@@ -56,7 +79,6 @@ class _Phq15ScreenState extends State<Phq15Screen> {
       ],
     },
     {
-      'questionText': 'V. Dor de cabeça',
       'answers': [
         {'text': 'Quase não incomoda', 'score': 0},
         {'text': 'Incomoda um pouco', 'score': 1},
@@ -64,7 +86,6 @@ class _Phq15ScreenState extends State<Phq15Screen> {
       ],
     },
     {
-      'questionText': 'VI. Dor no peito',
       'answers': [
         {'text': 'Quase não incomoda', 'score': 0},
         {'text': 'Incomoda um pouco', 'score': 1},
@@ -72,7 +93,6 @@ class _Phq15ScreenState extends State<Phq15Screen> {
       ],
     },
     {
-      'questionText': 'VII. Tontura',
       'answers': [
         {'text': 'Quase não incomoda', 'score': 0},
         {'text': 'Incomoda um pouco', 'score': 1},
@@ -80,7 +100,6 @@ class _Phq15ScreenState extends State<Phq15Screen> {
       ],
     },
     {
-      'questionText': 'VIII. Desmaios',
       'answers': [
         {'text': 'Quase não incomoda', 'score': 0},
         {'text': 'Incomoda um pouco', 'score': 1},
@@ -88,7 +107,6 @@ class _Phq15ScreenState extends State<Phq15Screen> {
       ],
     },
     {
-      'questionText': 'IX. Sentir o coração batendo ou acelerado',
       'answers': [
         {'text': 'Quase não incomoda', 'score': 0},
         {'text': 'Incomoda um pouco', 'score': 1},
@@ -96,7 +114,6 @@ class _Phq15ScreenState extends State<Phq15Screen> {
       ],
     },
     {
-      'questionText': 'X. Respiração curta',
       'answers': [
         {'text': 'Quase não incomoda', 'score': 0},
         {'text': 'Incomoda um pouco', 'score': 1},
@@ -104,7 +121,6 @@ class _Phq15ScreenState extends State<Phq15Screen> {
       ],
     },
     {
-      'questionText': 'XI. Dor ou problema durante a relação sexual',
       'answers': [
         {'text': 'Quase não incomoda', 'score': 0},
         {'text': 'Incomoda um pouco', 'score': 1},
@@ -112,7 +128,6 @@ class _Phq15ScreenState extends State<Phq15Screen> {
       ],
     },
     {
-      'questionText': 'XII. Constipação, intestino solto ou diarréia',
       'answers': [
         {'text': 'Quase não incomoda', 'score': 0},
         {'text': 'Incomoda um pouco', 'score': 1},
@@ -120,7 +135,6 @@ class _Phq15ScreenState extends State<Phq15Screen> {
       ],
     },
     {
-      'questionText': 'XIII. Náusea, gases ou indigestão.',
       'answers': [
         {'text': 'Quase não incomoda', 'score': 0},
         {'text': 'Incomoda um pouco', 'score': 1},
@@ -128,7 +142,6 @@ class _Phq15ScreenState extends State<Phq15Screen> {
       ],
     },
     {
-      'questionText': 'XIV. Sentindo-se cansado ou com pouco energia',
       'answers': [
         {'text': 'Quase não incomoda', 'score': 0},
         {'text': 'Incomoda um pouco', 'score': 1},
@@ -136,7 +149,6 @@ class _Phq15ScreenState extends State<Phq15Screen> {
       ],
     },
     {
-      'questionText': 'XV. Problemas de sono',
       'answers': [
         {'text': 'Quase não incomoda', 'score': 0},
         {'text': 'Incomoda um pouco', 'score': 1},
@@ -146,21 +158,13 @@ class _Phq15ScreenState extends State<Phq15Screen> {
   ];
 
   var _questionIndex = 0;
-  var _totalScoreList = List<int>.filled(16, 0);
-  var _resultOptionList = List<Object>.filled(16, 0);
 
-  void _answerQuestion(int score, Object option) {
-    _totalScoreList[_questionIndex] = score;
-    _resultOptionList[_questionIndex] = option;
+  void _answerQuestion(Object score, Object answer) {
+    QuestionnaireService().addQuestionnaireAnswer(
+        userEmail, answer, score, -1, "phq15_week1", _questionIndex);
     setState(() {
-      _questionIndex = _questionIndex + 1;
+      _questionIndex += 1;
     });
-
-    if (_questionIndex < _questions.length) {
-      print("qIndex : $_questionIndex");
-    } else {
-      print("questionIndex $_questionIndex > _question.length");
-    }
   }
 
   void _resetQuestion() {
@@ -183,7 +187,6 @@ class _Phq15ScreenState extends State<Phq15Screen> {
       _questionIndex = index;
     }
 
-    print("phq15_screen: " + _userEmail!);
     return Scaffold(
       appBar: AppBar(
         title: FittedBox(child: Text(titleAA!)),
@@ -193,25 +196,18 @@ class _Phq15ScreenState extends State<Phq15Screen> {
         padding: const EdgeInsets.all(30.0),
         child: _questionIndex < _questions.length
             ? Phq15(
+                sizeQuestionnaire: _questions.length - 1,
                 answerQuestion: _answerQuestion,
                 resetQuestion: _resetQuestion,
                 questionIndex: _questionIndex,
-                questions: _questions,
-                userEmail: _userEmail,
-                resultScoreList: _totalScoreList,
-                resultOptionList: _resultOptionList,
-                userEscala: _userEscala!,
-                questName: titleAA,
-              ) //Quiz
+                question: _questions[_questionIndex],
+                answers: _answers,
+                userEmail: _userEmail)
             : Phq15Result(
-                resultScoreList: _totalScoreList,
-                resultOptionList: _resultOptionList,
                 questName: titleAA,
                 userEscala: _userEscala!,
-                userEmail: _userEmail,
-                questionIndex: _questionIndex,
-              ),
-      ), //Padding
-    ); //Scaffold
+                userEmail: _userEmail),
+      ),
+    );
   }
 }

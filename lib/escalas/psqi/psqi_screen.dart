@@ -2,7 +2,9 @@ import 'package:app_mental/escalas/psqi/psqi.dart';
 import 'package:app_mental/escalas/psqi/psqi_result.dart';
 import 'package:flutter/material.dart';
 
+import '../../Services/questionnaireService.dart';
 import '../../constants.dart';
+import '../../helper/helperfuncions.dart';
 
 class PsqiScreen extends StatefulWidget {
   static const routeName = '/psqi-screen';
@@ -14,17 +16,41 @@ class PsqiScreen extends StatefulWidget {
 }
 
 class _PsqiScreenState extends State<PsqiScreen> {
-  static const _questions = [
+  List<dynamic> _questions = [];
+  late String userEmail;
+
+  @override
+  void initState() {
+    getQuestions();
+    getUserEmail();
+    super.initState();
+  }
+
+  getQuestions() async {
+    await QuestionnaireService().getQuestions("psqi").then((values) {
+      values.forEach((value) {
+        _questions.add(value);
+      });
+      setState(
+          () {}); //como fazer pra pegar os valores antes de iniciar o estado?
+    });
+  }
+
+  getUserEmail() async {
+    await HelperFunctions.getUserEmailInSharedPreference().then((value) {
+      setState(() {
+        userEmail = value;
+      });
+    });
+  }
+
+  static const _answers = [
     {
-      'questionText':
-          'As seguintes perguntas são relativas aos seus hábitos de sono durante o último mês somente. Suas respostas devem indicar a lembrança mais exata da maioria dos dias e noites do último mês. Por favor, responda a todas as perguntas.',
       'answers': [
         {'text': 'Entendi e quero prosseguir', 'score': 0},
       ],
     },
     {
-      'questionText':
-          'I. Durante o último mês, quando você geralmente foi para a cama à noite?',
       'type': "time",
       'answers': [
         {'text': 'Antes de 20:00 h', 'score': 0},
@@ -36,8 +62,6 @@ class _PsqiScreenState extends State<PsqiScreen> {
       ],
     },
     {
-      'questionText':
-          'II. Durante o último mês, quanto tempo você geralmente levou para dormir à noite?',
       'type': "time",
       'answers': [
         {'text': 'Menos de 5 minutos', 'score': 0},
@@ -49,8 +73,6 @@ class _PsqiScreenState extends State<PsqiScreen> {
       ],
     },
     {
-      'questionText':
-          'III. Durante o último mês, quando você geralmente levantou de manhã?',
       'type': "time",
       'answers': [
         {'text': 'Antes de 05:00 h', 'score': 0},
@@ -62,8 +84,6 @@ class _PsqiScreenState extends State<PsqiScreen> {
       ],
     },
     {
-      'questionText':
-          'IV. Durante o último mês, quantas horas de sono você teve por noite? (Este pode ser diferente do número de horas que você ficou na cama).',
       'type': "time",
       'answers': [
         {'text': 'Menos de 4 horas', 'score': 0},
@@ -75,8 +95,6 @@ class _PsqiScreenState extends State<PsqiScreen> {
       ],
     },
     {
-      'questionText':
-          'V. Durante o último mês, com que freqüência você teve dificuldade de dormir porque você não conseguiu adormecer em até 30 minutos?',
       'answers': [
         {'text': 'Nenhuma no último mês', 'score': 0},
         {'text': 'Menos de 1 vez/semana', 'score': 1},
@@ -85,8 +103,6 @@ class _PsqiScreenState extends State<PsqiScreen> {
       ],
     },
     {
-      'questionText':
-          'VI. Durante o último mês, com que freqüência você teve dificuldade de dormir porque você acordou no meio da noite ou de manhã cedo?',
       'answers': [
         {'text': 'Nenhuma no último mês', 'score': 0},
         {'text': 'Menos de 1 vez/semana', 'score': 1},
@@ -95,8 +111,6 @@ class _PsqiScreenState extends State<PsqiScreen> {
       ],
     },
     {
-      'questionText':
-          'VII. Durante o último mês, com que freqüência você teve dificuldade de dormir porque você precisou levantar para ir ao banheiro?',
       'answers': [
         {'text': 'Nenhuma no último mês', 'score': 0},
         {'text': 'Menos de 1 vez/semana', 'score': 1},
@@ -105,8 +119,6 @@ class _PsqiScreenState extends State<PsqiScreen> {
       ],
     },
     {
-      'questionText':
-          'VIII. Durante o último mês, com que freqüência você teve dificuldade de dormir porque você não conseguiu respirar confortavelmente?',
       'answers': [
         {'text': 'Nenhuma no último mês', 'score': 0},
         {'text': 'Menos de 1 vez/semana', 'score': 1},
@@ -115,8 +127,6 @@ class _PsqiScreenState extends State<PsqiScreen> {
       ],
     },
     {
-      'questionText':
-          'IX. Durante o último mês, com que freqüência você teve dificuldade de dormir porque você tossiu ou roncou forte?',
       'answers': [
         {'text': 'Nenhuma no último mês', 'score': 0},
         {'text': 'Menos de 1 vez/semana', 'score': 1},
@@ -125,8 +135,6 @@ class _PsqiScreenState extends State<PsqiScreen> {
       ],
     },
     {
-      'questionText':
-          'X. Durante o último mês, com que freqüência você teve dificuldade de dormir porque você sentiu muito frio?',
       'answers': [
         {'text': 'Nenhuma no último mês', 'score': 0},
         {'text': 'Menos de 1 vez/semana', 'score': 1},
@@ -135,8 +143,6 @@ class _PsqiScreenState extends State<PsqiScreen> {
       ],
     },
     {
-      'questionText':
-          'XI. Durante o último mês, com que freqüência você teve dificuldade de dormir porque você sentiu muito calor?',
       'answers': [
         {'text': 'Nenhuma no último mês', 'score': 0},
         {'text': 'Menos de 1 vez/semana', 'score': 1},
@@ -145,8 +151,6 @@ class _PsqiScreenState extends State<PsqiScreen> {
       ],
     },
     {
-      'questionText':
-          'XII. Durante o último mês, com que freqüência você teve dificuldade de dormir porque você teve sonhos ruins?',
       'answers': [
         {'text': 'Nenhuma no último mês', 'score': 0},
         {'text': 'Menos de 1 vez/semana', 'score': 1},
@@ -155,8 +159,6 @@ class _PsqiScreenState extends State<PsqiScreen> {
       ],
     },
     {
-      'questionText':
-          'XIII. Durante o último mês, com que freqüência você teve dificuldade de dormir porque você teve dor?',
       'answers': [
         {'text': 'Nenhuma no último mês', 'score': 0},
         {'text': 'Menos de 1 vez/semana', 'score': 1},
@@ -165,8 +167,6 @@ class _PsqiScreenState extends State<PsqiScreen> {
       ],
     },
     {
-      'questionText':
-          'XIV. Durante o último mês, com que freqüência você teve dificuldade de dormir por outras razões?',
       'answers': [
         {'text': 'Nenhuma no último mês', 'score': 0},
         {'text': 'Menos de 1 vez/semana', 'score': 1},
@@ -175,8 +175,6 @@ class _PsqiScreenState extends State<PsqiScreen> {
       ],
     },
     {
-      'questionText':
-          'XV. Durante o último mês, como você classificaria a qualidade do seu sono de uma maneira geral?',
       'answers': [
         {'text': 'Muito boa', 'score': 0},
         {'text': 'Boa', 'score': 1},
@@ -185,8 +183,6 @@ class _PsqiScreenState extends State<PsqiScreen> {
       ],
     },
     {
-      'questionText':
-          'XVI. Durante o último mês, com que freqüência você tomou medicamento (prescrito ou “por conta própria”) para lhe ajudar a dormir?',
       'answers': [
         {'text': 'Nenhuma no último mês', 'score': 0},
         {'text': 'Menos de 1 vez/semana', 'score': 1},
@@ -195,8 +191,6 @@ class _PsqiScreenState extends State<PsqiScreen> {
       ],
     },
     {
-      'questionText':
-          'XVII. No último mês, com que freqüência você teve dificuldade de ficar acordado enquanto dirigia, comia ou participava de uma atividade social (festa, reunião de amigos, trabalho, estudo)?',
       'answers': [
         {'text': 'Nenhuma no último mês', 'score': 0},
         {'text': 'Menos de 1 vez/semana', 'score': 1},
@@ -205,8 +199,6 @@ class _PsqiScreenState extends State<PsqiScreen> {
       ],
     },
     {
-      'questionText':
-          'XVIII. Durante o último mês, quão problemático foi para você manter o entusiasmo (ânimo) para fazer as coisas (suas atividades habituais)?',
       'answers': [
         {'text': 'Nenhuma dificuldade', 'score': 0},
         {'text': 'Um problema leve', 'score': 1},
@@ -215,8 +207,6 @@ class _PsqiScreenState extends State<PsqiScreen> {
       ],
     },
     {
-      'questionText':
-          'XIX. Você tem um(a) parceiro [esposo(a)] ou colega de quarto?',
       'answers': [
         {'text': 'Não', 'score': 0},
         {'text': 'Parceiro ou colega', 'score': 1},
@@ -225,8 +215,6 @@ class _PsqiScreenState extends State<PsqiScreen> {
       ],
     },
     {
-      'questionText':
-          'XX. Se você tem um parceiro ou colega de quarto, pergunte a ele/ela com que freqüência, no último mês, você teve ronco forte',
       'answers': [
         {'text': 'Não tenho parceiro/colega de quarto', 'score': 0},
         {'text': 'Nenhuma no último mês', 'score': 0},
@@ -236,8 +224,6 @@ class _PsqiScreenState extends State<PsqiScreen> {
       ],
     },
     {
-      'questionText':
-          'XXI. Se você tem um parceiro ou colega de quarto, pergunte a ele/ela com que freqüência, no último mês, você teve longas paradas na respiração enquanto dormia',
       'answers': [
         {'text': 'Não tenho parceiro/colega de quarto', 'score': 0},
         {'text': 'Nenhuma no último mês', 'score': 0},
@@ -247,8 +233,6 @@ class _PsqiScreenState extends State<PsqiScreen> {
       ],
     },
     {
-      'questionText':
-          'XXII. Se você tem um parceiro ou colega de quarto, pergunte a ele/ela com que freqüência, no último mês, você teve contrações ou puxões nas pernas enquanto você dormia',
       'answers': [
         {'text': 'Não tenho parceiro/colega de quarto', 'score': 0},
         {'text': 'Nenhuma no último mês', 'score': 0},
@@ -258,8 +242,6 @@ class _PsqiScreenState extends State<PsqiScreen> {
       ],
     },
     {
-      'questionText':
-          'XXIII. Se você tem um parceiro ou colega de quarto, pergunte a ele/ela com que freqüência, no último mês, você teve episódios de desorientação ou confusão durante o sono',
       'answers': [
         {'text': 'Não tenho parceiro/colega de quarto', 'score': 0},
         {'text': 'Nenhuma no último mês', 'score': 0},
@@ -269,8 +251,6 @@ class _PsqiScreenState extends State<PsqiScreen> {
       ],
     },
     {
-      'questionText':
-          'XXIV. Se você tem um parceiro ou colega de quarto, pergunte a ele/ela com que freqüência, no último mês, você teve outras alterações (inquietações) enquanto você dorme;',
       'answers': [
         {'text': 'Não tenho parceiro/colega de quarto', 'score': 0},
         {'text': 'Nenhuma no último mês', 'score': 0},
@@ -282,21 +262,13 @@ class _PsqiScreenState extends State<PsqiScreen> {
   ];
 
   var _questionIndex = 0;
-  List<dynamic> _totalScoreList = []..length = _questions.length;
-  List<Object> _resultOptionList = []..length = _questions.length;
 
-  void _answerQuestion(dynamic score, Object option) {
-    _totalScoreList[_questionIndex] = score;
-    _resultOptionList[_questionIndex] = option;
+  void _answerQuestion(Object score, Object answer) {
+    QuestionnaireService().addQuestionnaireAnswer(
+        userEmail, answer, score, -1, "psqi_week1", _questionIndex);
     setState(() {
-      _questionIndex = _questionIndex + 1;
+      _questionIndex += 1;
     });
-
-    if (_questionIndex < _questions.length) {
-      print("qIndex : $_questionIndex");
-    } else {
-      print("questionIndex $_questionIndex > _question.length");
-    }
   }
 
   void _resetQuestion() {
@@ -319,7 +291,6 @@ class _PsqiScreenState extends State<PsqiScreen> {
       _questionIndex = index;
     }
 
-    print("psqi_screen: " + _userEmail!);
     return Scaffold(
       appBar: AppBar(
         title: FittedBox(child: Text(titleAA!)),
@@ -329,25 +300,19 @@ class _PsqiScreenState extends State<PsqiScreen> {
         padding: const EdgeInsets.all(30.0),
         child: _questionIndex < _questions.length
             ? Psqi(
+                sizeQuestionnaire: _questions.length - 1,
                 answerQuestion: _answerQuestion,
                 resetQuestion: _resetQuestion,
                 questionIndex: _questionIndex,
-                questions: _questions,
+                question: _questions[_questionIndex],
+                answers: _answers,
                 userEmail: _userEmail,
-                resultScoreList: _totalScoreList,
-                resultOptionList: _resultOptionList,
-                userEscala: _userEscala!,
-                questName: titleAA,
-              ) //Quiz
+              )
             : PsqiResult(
-                resultScoreList: _totalScoreList,
-                resultOptionList: _resultOptionList,
                 questName: titleAA,
                 userEscala: _userEscala!,
-                userEmail: _userEmail,
-                questionIndex: _questionIndex,
-              ),
-      ), //Padding
-    ); //Scaffold
+                userEmail: _userEmail),
+      ),
+    );
   }
 }

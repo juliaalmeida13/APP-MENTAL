@@ -1,28 +1,20 @@
-import 'package:app_mental/Services/database.dart';
 import 'package:app_mental/escalas/promis_answer.dart';
 import 'package:app_mental/escalas/question.dart';
 import 'package:flutter/material.dart';
 
 class Pset extends StatelessWidget {
-  final List<Map<String, Object>> questions;
+  final String question;
+  final List<Map<String, Object>> answers;
   final int questionIndex;
   final Function answerQuestion;
   final String userEmail;
-  final DatabaseMethods databaseMethods = new DatabaseMethods();
-  final int resultScore;
-  final String userEscala;
-  final String questName;
-  final DateTime now = DateTime.now();
 
-  Pset({
-    required this.questions,
-    required this.answerQuestion,
-    required this.questionIndex,
-    required this.userEmail,
-    required this.resultScore,
-    required this.userEscala,
-    required this.questName,
-  });
+  Pset(
+      {required this.answers,
+      required this.question,
+      required this.answerQuestion,
+      required this.questionIndex,
+      required this.userEmail});
 
   @override
   Widget build(BuildContext context) {
@@ -36,10 +28,8 @@ class Pset extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Question(
-            questions[questionIndex]['questionText'] as String,
-          ),
-          ...(questions[questionIndex]['answers'] as List<Map<String, dynamic>>)
+          Question(question),
+          ...(answers[questionIndex]['answers'] as List<Map<String, dynamic>>)
               .map((answer) {
             return AnswerOption(
               () => answerQuestion(answer['score'], answer['text']),

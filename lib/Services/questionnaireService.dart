@@ -57,9 +57,9 @@ class QuestionnaireService {
     }
   }
 
-  Future<List<dynamic>> getDomAndScore(String email, String scale) async {
+  Future<List<dynamic>> getScore(String email, String scale) async {
     final response = await http.get(
-        Uri.parse("${url}getDomAndScore?email=$email&scale=$scale"),
+        Uri.parse("${url}getScore?email=$email&scale=$scale"),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         });

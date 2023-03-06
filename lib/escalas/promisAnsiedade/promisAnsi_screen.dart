@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:app_mental/escalas/promisAnsiedade/promisAnsi.dart';
 import 'package:app_mental/escalas/promisAnsiedade/promisAnsi_result.dart';
 
+import '../../Services/questionnaireService.dart';
 import '../../constants.dart';
+import '../../helper/helperfuncions.dart';
 
 class PromisAnsiScreen extends StatefulWidget {
   static const routeName = '/promisAnsi-screen';
@@ -14,16 +16,41 @@ class PromisAnsiScreen extends StatefulWidget {
 }
 
 class _PromisAnsiScreenState extends State<PromisAnsiScreen> {
-  static const _questions = [
+  List<dynamic> _questions = [];
+  late String userEmail;
+
+  @override
+  void initState() {
+    getQuestions();
+    getUserEmail();
+    super.initState();
+  }
+
+  getQuestions() async {
+    await QuestionnaireService().getQuestions("pn2A").then((values) {
+      values.forEach((value) {
+        _questions.add(value);
+      });
+      setState(
+          () {}); //como fazer pra pegar os valores antes de iniciar o estado?
+    });
+  }
+
+  getUserEmail() async {
+    await HelperFunctions.getUserEmailInSharedPreference().then((value) {
+      setState(() {
+        userEmail = value;
+      });
+    });
+  }
+
+  static const _answers = [
     {
-      'questionText':
-          'As questões a seguir visam obter informações sobre a freqüência que você tem sido incomodado por uma lista de \“sentimentos negativos\” durante a última semana. Para cada pergunta, escolha o número que melhor descreve o quanto (ou com que frequência) você tem sido incomodado pelos "sentimentos negativos" descritos a seguir.',
       'answers': [
         {'text': 'Entendi e quero prosseguir', 'score': 0},
       ],
     },
     {
-      'questionText': 'I. Eu me senti apreensivo (a).',
       'answers': [
         {'text': 'Nunca', 'score': 0},
         {'text': 'Raramente', 'score': 1},
@@ -33,7 +60,6 @@ class _PromisAnsiScreenState extends State<PromisAnsiScreen> {
       ],
     },
     {
-      'questionText': 'II. Eu me senti ansioso (a).',
       'answers': [
         {'text': 'Nunca', 'score': 0},
         {'text': 'Raramente', 'score': 1},
@@ -43,7 +69,6 @@ class _PromisAnsiScreenState extends State<PromisAnsiScreen> {
       ],
     },
     {
-      'questionText': 'III. Eu me senti preocupado (a).',
       'answers': [
         {'text': 'Nunca', 'score': 0},
         {'text': 'Raramente', 'score': 1},
@@ -53,8 +78,6 @@ class _PromisAnsiScreenState extends State<PromisAnsiScreen> {
       ],
     },
     {
-      'questionText':
-          'IV. Achei difícil me concentrar em qualquer coisa a não ser na minha ansiedade.',
       'answers': [
         {'text': 'Nunca', 'score': 0},
         {'text': 'Raramente', 'score': 1},
@@ -64,7 +87,6 @@ class _PromisAnsiScreenState extends State<PromisAnsiScreen> {
       ],
     },
     {
-      'questionText': 'V. Eu me senti nervoso (a).',
       'answers': [
         {'text': 'Nunca', 'score': 0},
         {'text': 'Raramente', 'score': 1},
@@ -74,7 +96,6 @@ class _PromisAnsiScreenState extends State<PromisAnsiScreen> {
       ],
     },
     {
-      'questionText': 'VI. Eu me senti inquieto (a).',
       'answers': [
         {'text': 'Nunca', 'score': 0},
         {'text': 'Raramente', 'score': 1},
@@ -84,7 +105,6 @@ class _PromisAnsiScreenState extends State<PromisAnsiScreen> {
       ],
     },
     {
-      'questionText': 'VII. Eu me senti tenso (a).',
       'answers': [
         {'text': 'Nunca', 'score': 0},
         {'text': 'Raramente', 'score': 1},
@@ -96,14 +116,12 @@ class _PromisAnsiScreenState extends State<PromisAnsiScreen> {
   ];
 
   var _questionIndex = 0;
-  var _totalScoreList = List<int>.filled(8, 0);
-  var _resultOptionList = List<Object>.filled(8, 0);
 
-  void _answerQuestion(int score, Object option) {
-    _totalScoreList[_questionIndex] = score;
-    _resultOptionList[_questionIndex] = option;
+  void _answerQuestion(Object score, Object answer) {
+    QuestionnaireService().addQuestionnaireAnswer(
+        userEmail, answer, score, -1, "promisN2Ansi_week1", _questionIndex);
     setState(() {
-      _questionIndex = _questionIndex + 1;
+      _questionIndex += 1;
     });
   }
 
@@ -127,7 +145,6 @@ class _PromisAnsiScreenState extends State<PromisAnsiScreen> {
       _questionIndex = index;
     }
 
-    print("PromisAnsi_screen: " + _userEmail!);
     return Scaffold(
       appBar: AppBar(
         title: FittedBox(child: Text(titleAA!)),
@@ -137,25 +154,18 @@ class _PromisAnsiScreenState extends State<PromisAnsiScreen> {
         padding: const EdgeInsets.all(30.0),
         child: _questionIndex < _questions.length
             ? PromisAnsi(
+                sizeQuestionnaire: _questions.length - 1,
                 answerQuestion: _answerQuestion,
                 resetQuestion: _resetQuestion,
                 questionIndex: _questionIndex,
-                questions: _questions,
-                userEmail: _userEmail,
-                resultScoreList: _totalScoreList,
-                resultOptionList: _resultOptionList,
-                userEscala: _userEscala!,
-                questName: titleAA,
-              ) //Quiz
+                question: _questions[_questionIndex],
+                answers: _answers,
+                userEmail: _userEmail)
             : PromisAnsiResult(
-                resultScoreList: _totalScoreList,
-                resultOptionList: _resultOptionList,
                 questName: titleAA,
                 userEscala: _userEscala!,
-                userEmail: _userEmail,
-                questionIndex: _questionIndex,
-              ),
-      ), //Padding
-    ); //Scaffold
+                userEmail: _userEmail),
+      ),
+    );
   }
 }

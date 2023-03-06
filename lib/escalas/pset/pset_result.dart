@@ -1,51 +1,57 @@
-import 'package:app_mental/Services/database.dart';
 import 'package:flutter/material.dart';
 
-class PsetResult extends StatelessWidget {
-  final int resultScore;
-  final String resultOption;
+import '../../Services/questionnaireService.dart';
+
+class PsetResult extends StatefulWidget {
   final String userEmail;
   final String questName;
   final String userEscala;
-  final int questionIndex;
-  final DateTime now = DateTime.now();
-  final DatabaseMethods databaseMethods = new DatabaseMethods();
 
-  sendPsetResult(String email) async {
-    Map<String, dynamic> psetMap = {
-      "hasBeenThrough": resultScore,
-      "option": resultOption,
-      "answeredAt": now,
-      "questName": questName,
-    };
-    databaseMethods.addQuestAnswer(psetMap, userEmail, userEscala);
+  PsetResult(
+      {required this.userEmail,
+      required this.questName,
+      required this.userEscala});
 
-    if (resultScore == 1) {
-      String pcl5UserEscala = "$userEscala-pcl5";
-      List<String> week = questName.split("-");
+  @override
+  State<PsetResult> createState() => _PsetResultState();
+}
+
+class _PsetResultState extends State<PsetResult> {
+  List<int> scoreList = [];
+
+  @override
+  void initState() {
+    getScore();
+    super.initState();
+  }
+
+  getScore() async {
+    await QuestionnaireService()
+        .getScore(widget.userEmail, "pset_week1")
+        .then((values) {
+      values.forEach((value) {
+        scoreList.add(int.parse(value));
+      });
+    });
+  }
+
+  verifyScore() async {
+    if (scoreList[0] == 1) {
+      String pcl5UserEscala = "${widget.userEscala}-pcl5";
+      List<String> week = widget.questName.split("-");
       String pcl5QuestName = "PCL-5" + " -" + week[1];
       Map<String, dynamic> questMap = {
         "unanswered?": true,
         "questId": "pcl5",
         "questName": pcl5QuestName,
-        "availableAt": now,
+        "availableAt": DateTime.now(),
         "userEscala": pcl5UserEscala,
         "answeredUntil": 0,
       };
-      DatabaseMethods().createQuest(pcl5UserEscala, questMap, email);
+      //criar questionario para esse usuario
+      //DatabaseMethods().createQuest(pcl5UserEscala, questMap, email);
     }
-
-    databaseMethods.disableQuest(userEscala, email);
   }
-
-  PsetResult({
-    required this.resultScore,
-    required this.resultOption,
-    required this.userEmail,
-    required this.questName,
-    required this.userEscala,
-    required this.questionIndex,
-  });
 
   final String resultPhrase =
       'Respondido! \n\nSua resposta será enviada e analisada anonimamente para a recomendação de novas atividades.\n\nEstá de acordo?';
@@ -72,7 +78,7 @@ class PsetResult extends StatelessWidget {
             child: const Text('Sim, estou de acordo',
                 style: TextStyle(color: Colors.black)),
             onPressed: () {
-              sendPsetResult(userEmail);
+              verifyScore();
               showDialog<String>(
                 context: context,
                 builder: (BuildContext context) => AlertDialog(
@@ -82,9 +88,9 @@ class PsetResult extends StatelessWidget {
                   actions: <Widget>[
                     TextButton(
                       onPressed: () async {
-                        //enviarDominios(userEmail);
-                        Navigator.pop(context);
-                        Navigator.pop(context);
+                        Navigator.of(context)
+                            .popUntil(ModalRoute.withName('/logged-home'));
+                        Navigator.of(context).pushNamed("/quests-screen");
                       },
                       child: const Text('Ok'),
                     ),
