@@ -1,4 +1,4 @@
-import 'package:app_mental/Services/questsService.dart';
+import 'package:app_mental/Services/questionnaireService.dart';
 import 'package:app_mental/escalas/promis_answer.dart';
 import 'package:app_mental/escalas/question.dart';
 import 'package:flutter/material.dart';
@@ -73,7 +73,7 @@ class Promisn1 extends StatelessWidget {
                         ),
                         TextButton(
                           onPressed: () async {
-                            QuestsService()
+                            QuestionnaireService()
                                 .discardAllAnswers(userEmail, "promisN1_week1")
                                 .then((_) {
                               Navigator.of(context).popUntil(

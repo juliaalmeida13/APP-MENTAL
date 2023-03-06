@@ -1,7 +1,7 @@
 import 'dart:ui';
 
 import 'package:app_mental/Screens/Contacts/contacts_screen.dart';
-import 'package:app_mental/Services/questsService.dart';
+import 'package:app_mental/Services/questionnaireService.dart';
 import 'package:app_mental/main.dart';
 import 'package:flutter/material.dart';
 
@@ -31,7 +31,7 @@ class _Promisn1ResultState extends State<Promisn1Result> {
   }
 
   getScore() async {
-    await QuestsService()
+    await QuestionnaireService()
         .getDomAndScore(widget.userEmail, "promisN1_week1")
         .then((values) {
       values.forEach((value) {

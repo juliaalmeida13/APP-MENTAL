@@ -4,7 +4,7 @@ import 'package:app_mental/escalas/promisn1/promisn1.dart';
 import 'package:app_mental/escalas/promisn1/promisn1_result.dart';
 import 'package:flutter/material.dart';
 
-import '../../Services/questsService.dart';
+import '../../Services/questionnaireService.dart';
 import '../../helper/helperfuncions.dart';
 
 class Promisn1Screen extends StatefulWidget {
@@ -28,7 +28,7 @@ class _Promisn1ScreenState extends State<Promisn1Screen> {
   }
 
   getQuestions() async {
-    await QuestsService().getQuestions("pn1").then((values) {
+    await QuestionnaireService().getQuestions("pn1").then((values) {
       values.forEach((value) {
         _questions.add(value);
       });
@@ -355,7 +355,7 @@ class _Promisn1ScreenState extends State<Promisn1Screen> {
   var _questionIndex = 0;
 
   void _answerQuestion(Object score, int dom, Object answer) {
-    QuestsService().addQuestionnaireAnswer(
+    QuestionnaireService().addQuestionnaireAnswer(
         userEmail, answer, score, dom, "promisN1_week1", _questionIndex);
     setState(() {
       _questionIndex += 1;

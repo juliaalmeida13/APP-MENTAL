@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:app_mental/escalas/questSD2/questSD2.dart';
 import 'package:app_mental/escalas/questSD2/questSD2_result.dart';
 
-import '../../Services/questsService.dart';
+import '../../Services/questionnaireService.dart';
 import '../../constants.dart';
 import '../../helper/helperfuncions.dart';
 
@@ -27,7 +27,7 @@ class _QuestSD2ScreenState extends State<QuestSD2Screen> {
   }
 
   getQuestions() async {
-    await QuestsService().getQuestions("questSD2").then((values) {
+    await QuestionnaireService().getQuestions("questSD2").then((values) {
       values.forEach((value) {
         _questions.add(value);
       });
@@ -139,7 +139,7 @@ class _QuestSD2ScreenState extends State<QuestSD2Screen> {
   var _questionIndex = 0;
 
   void _answerQuestion(Object score, Object answer) {
-    QuestsService().addQuestionnaireAnswer(
+    QuestionnaireService().addQuestionnaireAnswer(
         userEmail, answer, score, -1, "questSD2_week2", _questionIndex);
     setState(() {
       _questionIndex += 1;

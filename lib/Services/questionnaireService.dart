@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http;
 
 final String url = dotenv.env['BACKEND_URL']!;
 
-class QuestsService {
+class QuestionnaireService {
   Future<void> addQuestionnaireAnswer(String email, Object answer, Object score,
       int dom, String scale, int questionIndex) async {
     final response = await http.post(Uri.parse("${url}addQuestionnaireAnswer"),

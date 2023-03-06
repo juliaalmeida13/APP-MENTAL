@@ -1,4 +1,4 @@
-import 'package:app_mental/Services/questsService.dart';
+import 'package:app_mental/Services/questionnaireService.dart';
 import 'package:flutter/material.dart';
 import 'package:app_mental/escalas/questSD1/questSD1.dart';
 import 'package:app_mental/escalas/questSD1/questSD1_result.dart';
@@ -27,7 +27,7 @@ class _QuestSD1ScreenState extends State<QuestSD1Screen> {
   }
 
   getQuestions() async {
-    await QuestsService().getQuestions("questSD1").then((values) {
+    await QuestionnaireService().getQuestions("questSD1").then((values) {
       values.forEach((value) {
         _questions.add(value);
       });
@@ -136,7 +136,7 @@ class _QuestSD1ScreenState extends State<QuestSD1Screen> {
   var _questionIndex = 0;
 
   void _answerQuestion(Object score, Object answer) {
-    QuestsService().addQuestionnaireAnswer(
+    QuestionnaireService().addQuestionnaireAnswer(
         userEmail, answer, score, -1, "questSD1_week1", _questionIndex);
     setState(() {
       _questionIndex += 1;
