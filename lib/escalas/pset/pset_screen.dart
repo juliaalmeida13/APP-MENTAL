@@ -55,9 +55,9 @@ class _PsetScreenState extends State<PsetScreen> {
 
   var _questionIndex = 0;
 
-  void _answerQuestion(Object score, Object answer) {
+  void _answerQuestion(Object score, Object answer, String scale) {
     QuestionnaireService().addQuestionnaireAnswer(
-        userEmail, answer, score, -1, "pset_week1", _questionIndex);
+        userEmail, answer, score, -1, "pset", _questionIndex, scale);
     setState(() {
       _questionIndex += 1;
     });
@@ -90,7 +90,8 @@ class _PsetScreenState extends State<PsetScreen> {
                 questionIndex: _questionIndex,
                 question: _questions[_questionIndex],
                 answers: _answers,
-                userEmail: _userEmail!)
+                userEmail: _userEmail!,
+                scale: _userEscala)
             : PsetResult(
                 questName: titleAA,
                 userEscala: _userEscala!,

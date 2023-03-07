@@ -1,4 +1,3 @@
-import 'package:app_mental/Services/database.dart';
 import 'package:app_mental/escalas/promis_answer.dart';
 import 'package:app_mental/escalas/question.dart';
 import 'package:flutter/material.dart';
@@ -10,15 +9,16 @@ class QuestSD2 extends StatelessWidget {
   final int questionIndex;
   final Function answerQuestion;
   final Function resetQuestion;
+  final String scale;
 
-  QuestSD2({
-    required this.answers,
-    required this.sizeQuestionnaire,
-    required this.question,
-    required this.answerQuestion,
-    required this.questionIndex,
-    required this.resetQuestion,
-  });
+  QuestSD2(
+      {required this.answers,
+      required this.sizeQuestionnaire,
+      required this.question,
+      required this.answerQuestion,
+      required this.questionIndex,
+      required this.resetQuestion,
+      required this.scale});
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +41,7 @@ class QuestSD2 extends StatelessWidget {
           ...(answers[questionIndex]['answers'] as List<Map<String, dynamic>>)
               .map((answer) {
             return AnswerOption(
-              () => answerQuestion(answer['score'], answer['text']),
+              () => answerQuestion(answer['score'], answer['text'], scale),
               answer['text']!,
             );
           }).toList(),

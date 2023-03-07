@@ -354,9 +354,9 @@ class _Promisn1ScreenState extends State<Promisn1Screen> {
 
   var _questionIndex = 0;
 
-  void _answerQuestion(Object score, int dom, Object answer) {
+  void _answerQuestion(Object score, int dom, Object answer, String scale) {
     QuestionnaireService().addQuestionnaireAnswer(
-        userEmail, answer, score, dom, "promisN1_week1", _questionIndex);
+        userEmail, answer, score, dom, "pn1", _questionIndex, scale);
     setState(() {
       _questionIndex += 1;
     });
@@ -396,7 +396,8 @@ class _Promisn1ScreenState extends State<Promisn1Screen> {
                 questionIndex: _questionIndex,
                 question: _questions[_questionIndex],
                 answers: _answers,
-                userEmail: _userEmail)
+                userEmail: _userEmail,
+                scale: _userEscala)
             : Promisn1Result(
                 userEmail: _userEmail,
                 questName: titleAA,

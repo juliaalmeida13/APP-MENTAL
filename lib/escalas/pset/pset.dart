@@ -8,13 +8,15 @@ class Pset extends StatelessWidget {
   final int questionIndex;
   final Function answerQuestion;
   final String userEmail;
+  final String scale;
 
   Pset(
       {required this.answers,
       required this.question,
       required this.answerQuestion,
       required this.questionIndex,
-      required this.userEmail});
+      required this.userEmail,
+      required this.scale});
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +34,7 @@ class Pset extends StatelessWidget {
           ...(answers[questionIndex]['answers'] as List<Map<String, dynamic>>)
               .map((answer) {
             return AnswerOption(
-              () => answerQuestion(answer['score'], answer['text']),
+              () => answerQuestion(answer['score'], answer['text'], scale),
               answer['text'] as String,
             );
           }).toList(),

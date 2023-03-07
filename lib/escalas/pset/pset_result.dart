@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../Services/questionnaireService.dart';
+import '../../Services/scaleService.dart';
 
 class PsetResult extends StatefulWidget {
   final String userEmail;
@@ -19,15 +20,9 @@ class PsetResult extends StatefulWidget {
 class _PsetResultState extends State<PsetResult> {
   List<int> scoreList = [];
 
-  @override
-  void initState() {
-    getScore();
-    super.initState();
-  }
-
   getScore() async {
     await QuestionnaireService()
-        .getScore(widget.userEmail, "pset_week1")
+        .getScore(widget.userEmail, "pset")
         .then((values) {
       values.forEach((value) {
         scoreList.add(int.parse(value));
@@ -35,22 +30,18 @@ class _PsetResultState extends State<PsetResult> {
     });
   }
 
+  String getWeek() {
+    List<String> week = widget.questName.split("- ");
+    return week[1];
+  }
+
   verifyScore() async {
-    if (scoreList[0] == 1) {
-      String pcl5UserEscala = "${widget.userEscala}-pcl5";
-      List<String> week = widget.questName.split("-");
-      String pcl5QuestName = "PCL-5" + " -" + week[1];
-      Map<String, dynamic> questMap = {
-        "unanswered?": true,
-        "questId": "pcl5",
-        "questName": pcl5QuestName,
-        "availableAt": DateTime.now(),
-        "userEscala": pcl5UserEscala,
-        "answeredUntil": 0,
-      };
-      //criar questionario para esse usuario
-      //DatabaseMethods().createQuest(pcl5UserEscala, questMap, email);
-    }
+    getScore().then((_) {
+      if (scoreList[0] == 1) {
+        ScaleService().createScale(
+            widget.userEmail, getWeek(), "${widget.userEscala}-Pcl5", "pcl5");
+      }
+    });
   }
 
   final String resultPhrase =

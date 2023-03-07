@@ -10,6 +10,7 @@ class Pcl5 extends StatelessWidget {
   final Function answerQuestion;
   final Function resetQuestion;
   final String userEmail;
+  final String scale;
 
   Pcl5(
       {required this.sizeQuestionnaire,
@@ -18,7 +19,8 @@ class Pcl5 extends StatelessWidget {
       required this.userEmail,
       required this.resetQuestion,
       required this.answers,
-      required this.question});
+      required this.question,
+      required this.scale});
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +44,7 @@ class Pcl5 extends StatelessWidget {
               .map((answer) {
             return AnswerOption(
               () => answerQuestion(
-                  answer['score'], answer['dom'], answer['text']),
+                  answer['score'], answer['dom'], answer['text'], scale),
               answer['text']!,
             );
           }).toList(),

@@ -1,4 +1,3 @@
-import 'package:app_mental/Screens/Contacts/contacts_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../../Services/questionnaireService.dart';
@@ -21,16 +20,10 @@ class _Assistn2ResultState extends State<Assistn2Result> {
   bool hasRecommendation = false;
   int score = 0;
 
-  @override
-  void initState() {
-    getScore();
-    super.initState();
-  }
-
   getScore() async {
     int sum = 0;
     await QuestionnaireService()
-        .getScore(widget.userEmail, "assistn2_week1")
+        .getScore(widget.userEmail, "assistn2")
         .then((values) {
       for (var i = 5; i < values.length; i++) {
         sum = sum + int.parse(values[i]);
@@ -111,72 +104,74 @@ class _Assistn2ResultState extends State<Assistn2Result> {
             child: const Text('Sim, estou de acordo',
                 style: TextStyle(color: Colors.black)),
             onPressed: () {
-              verifyScore();
-              if (isCritical()) {
-                showDialog<String>(
-                  context: context,
-                  builder: (BuildContext context) => AlertDialog(
-                    title: const Text('Entre em contato com alguém!'),
-                    content: const Text(
-                        'Percebemos que você pode estar em um estado bastante delicado e gostaríamos de sugerir que entre em contato conosco ou com alguém próximo!'),
-                    actions: <Widget>[
-                      TextButton(
-                        onPressed: () async {
-                          Navigator.of(context)
-                              .popUntil(ModalRoute.withName('/logged-home'));
-                          Navigator.of(context).pushNamed("/contacts-screen");
-                        },
-                        child: const Text('Ok',
-                            style: TextStyle(
-                                color: Color.fromRGBO(104, 202, 138, 1))),
-                      ),
-                    ],
-                  ),
-                );
-              } else if (hasRecommendation) {
-                showDialog<String>(
-                  context: context,
-                  builder: (BuildContext context) => AlertDialog(
-                    title: const Text('Recomendações para você!'),
-                    content: const Text(
-                        'Seguindo uma análise rápida das suas respostas, algumas leituras ou vídeos foram recomendadas para você, e estarão disponíveis em sua tela inicial!'),
-                    actions: <Widget>[
-                      TextButton(
-                        onPressed: () async {
-                          Navigator.pop(context, 'Ok');
-                          await Navigator.pushReplacementNamed(
-                            context,
-                            "/logged-home",
-                            arguments: {},
-                          );
-                        },
-                        child: const Text('Ok',
-                            style: TextStyle(
-                                color: Color.fromRGBO(104, 202, 138, 1))),
-                      ),
-                    ],
-                  ),
-                );
-              } else {
-                showDialog<String>(
-                  context: context,
-                  builder: (BuildContext context) => AlertDialog(
-                    title: const Text('Êxito!'),
-                    content: const Text(
-                        'Suas respostas foram enviadas!\nNovas atividades serão disponibilizadas em breve.'),
-                    actions: <Widget>[
-                      TextButton(
-                        onPressed: () async {
-                          Navigator.of(context)
-                              .popUntil(ModalRoute.withName('/logged-home'));
-                          Navigator.of(context).pushNamed("/quests-screen");
-                        },
-                        child: const Text('Ok'),
-                      ),
-                    ],
-                  ),
-                );
-              }
+              getScore().then((_) {
+                verifyScore();
+                if (isCritical()) {
+                  showDialog<String>(
+                    context: context,
+                    builder: (BuildContext context) => AlertDialog(
+                      title: const Text('Entre em contato com alguém!'),
+                      content: const Text(
+                          'Percebemos que você pode estar em um estado bastante delicado e gostaríamos de sugerir que entre em contato conosco ou com alguém próximo!'),
+                      actions: <Widget>[
+                        TextButton(
+                          onPressed: () async {
+                            Navigator.of(context)
+                                .popUntil(ModalRoute.withName('/logged-home'));
+                            Navigator.of(context).pushNamed("/contacts-screen");
+                          },
+                          child: const Text('Ok',
+                              style: TextStyle(
+                                  color: Color.fromRGBO(104, 202, 138, 1))),
+                        ),
+                      ],
+                    ),
+                  );
+                } else if (hasRecommendation) {
+                  showDialog<String>(
+                    context: context,
+                    builder: (BuildContext context) => AlertDialog(
+                      title: const Text('Recomendações para você!'),
+                      content: const Text(
+                          'Seguindo uma análise rápida das suas respostas, algumas leituras ou vídeos foram recomendadas para você, e estarão disponíveis em sua tela inicial!'),
+                      actions: <Widget>[
+                        TextButton(
+                          onPressed: () async {
+                            Navigator.pop(context, 'Ok');
+                            await Navigator.pushReplacementNamed(
+                              context,
+                              "/logged-home",
+                              arguments: {},
+                            );
+                          },
+                          child: const Text('Ok',
+                              style: TextStyle(
+                                  color: Color.fromRGBO(104, 202, 138, 1))),
+                        ),
+                      ],
+                    ),
+                  );
+                } else {
+                  showDialog<String>(
+                    context: context,
+                    builder: (BuildContext context) => AlertDialog(
+                      title: const Text('Êxito!'),
+                      content: const Text(
+                          'Suas respostas foram enviadas!\nNovas atividades serão disponibilizadas em breve.'),
+                      actions: <Widget>[
+                        TextButton(
+                          onPressed: () async {
+                            Navigator.of(context)
+                                .popUntil(ModalRoute.withName('/logged-home'));
+                            Navigator.of(context).pushNamed("/quests-screen");
+                          },
+                          child: const Text('Ok'),
+                        ),
+                      ],
+                    ),
+                  );
+                }
+              });
             },
           ),
         ),

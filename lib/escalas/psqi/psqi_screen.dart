@@ -263,9 +263,9 @@ class _PsqiScreenState extends State<PsqiScreen> {
 
   var _questionIndex = 0;
 
-  void _answerQuestion(Object score, Object answer) {
+  void _answerQuestion(Object score, Object answer, String scale) {
     QuestionnaireService().addQuestionnaireAnswer(
-        userEmail, answer, score, -1, "psqi_week1", _questionIndex);
+        userEmail, answer, score, -1, "psqi", _questionIndex, scale);
     setState(() {
       _questionIndex += 1;
     });
@@ -307,7 +307,7 @@ class _PsqiScreenState extends State<PsqiScreen> {
                 question: _questions[_questionIndex],
                 answers: _answers,
                 userEmail: _userEmail,
-              )
+                scale: _userEscala)
             : PsqiResult(
                 questName: titleAA,
                 userEscala: _userEscala!,

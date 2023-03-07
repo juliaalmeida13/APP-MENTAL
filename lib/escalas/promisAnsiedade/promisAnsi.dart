@@ -10,6 +10,7 @@ class PromisAnsi extends StatelessWidget {
   final Function answerQuestion;
   final Function resetQuestion;
   final String userEmail;
+  final String scale;
 
   PromisAnsi(
       {required this.sizeQuestionnaire,
@@ -18,7 +19,8 @@ class PromisAnsi extends StatelessWidget {
       required this.userEmail,
       required this.resetQuestion,
       required this.answers,
-      required this.question});
+      required this.question,
+      required this.scale});
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +43,7 @@ class PromisAnsi extends StatelessWidget {
           ...(answers[questionIndex]['answers'] as List<Map<String, dynamic>>)
               .map((answer) {
             return AnswerOption(
-              () => answerQuestion(answer['score'], answer['text']),
+              () => answerQuestion(answer['score'], answer['text'], scale),
               answer['text']!,
             );
           }).toList(),

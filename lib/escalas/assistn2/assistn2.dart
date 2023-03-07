@@ -11,6 +11,7 @@ class Assistn2 extends StatelessWidget {
   final Function resetQuestion;
   final String userEmail;
   final String questName;
+  final String scale;
 
   Assistn2(
       {required this.sizeQuestionnaire,
@@ -20,7 +21,8 @@ class Assistn2 extends StatelessWidget {
       required this.resetQuestion,
       required this.answers,
       required this.question,
-      required this.questName});
+      required this.questName,
+      required this.scale});
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +55,7 @@ class Assistn2 extends StatelessWidget {
           ...(answers[questionIndex]['answers'] as List<Map<String, Object>>)
               .map((answer) {
             return AnswerOption(
-              () => answerQuestion(answer['score'], answer['text']),
+              () => answerQuestion(answer['score'], answer['text'], scale),
               answer['text'] as String,
             );
           }).toList(),

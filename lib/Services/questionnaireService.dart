@@ -9,7 +9,7 @@ final String url = dotenv.env['BACKEND_URL']!;
 
 class QuestionnaireService {
   Future<void> addQuestionnaireAnswer(String email, Object answer, Object score,
-      int dom, String scale, int questionIndex) async {
+      int dom, String code, int questionIndex, String scale) async {
     final response = await http.post(Uri.parse("${url}addQuestionnaireAnswer"),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
@@ -19,8 +19,9 @@ class QuestionnaireService {
           'answer': answer,
           'score': score,
           'dom': dom,
-          'scale': scale,
-          'ordination': questionIndex
+          'code': code,
+          'ordination': questionIndex,
+          'scale': scale
         }));
     if (response.statusCode != 200) {
       final error =
@@ -44,12 +45,12 @@ class QuestionnaireService {
     throw HttpException(error.message.toString());
   }
 
-  Future<void> discardAllAnswers(String email, String scale) async {
+  Future<void> discardAllAnswers(String email, String code) async {
     final response = await http.post(Uri.parse("${url}discardAllAnswers"),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
-        body: jsonEncode(<String, dynamic>{'email': email, 'scale': scale}));
+        body: jsonEncode(<String, dynamic>{'email': email, 'code': code}));
     if (response.statusCode != 200) {
       final error =
           ApiError.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
@@ -57,9 +58,9 @@ class QuestionnaireService {
     }
   }
 
-  Future<List<dynamic>> getScore(String email, String scale) async {
+  Future<List<dynamic>> getScore(String email, String code) async {
     final response = await http.get(
-        Uri.parse("${url}getScore?email=$email&scale=$scale"),
+        Uri.parse("${url}getScore?email=$email&code=$code"),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         });

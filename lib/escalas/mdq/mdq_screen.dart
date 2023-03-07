@@ -156,9 +156,9 @@ class _MdqScreenState extends State<MdqScreen> {
 
   var _questionIndex = 0;
 
-  void _answerQuestion(Object score, Object answer) {
+  void _answerQuestion(Object score, Object answer, String scale) {
     QuestionnaireService().addQuestionnaireAnswer(
-        userEmail, answer, score, -1, "mdq_week1", _questionIndex);
+        userEmail, answer, score, -1, "mdq", _questionIndex, scale);
     setState(() {
       _questionIndex += 1;
     });
@@ -199,7 +199,8 @@ class _MdqScreenState extends State<MdqScreen> {
                 questionIndex: _questionIndex,
                 question: _questions[_questionIndex],
                 answers: _answers,
-                userEmail: _userEmail)
+                userEmail: _userEmail,
+                scale: _userEscala)
             : MdqResult(
                 questName: titleAA,
                 userEscala: _userEscala!,

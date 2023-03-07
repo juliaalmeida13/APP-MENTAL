@@ -12,6 +12,7 @@ class Psqi extends StatelessWidget {
   final Function answerQuestion;
   final Function resetQuestion;
   final String userEmail;
+  final String scale;
 
   Psqi(
       {required this.sizeQuestionnaire,
@@ -20,7 +21,8 @@ class Psqi extends StatelessWidget {
       required this.userEmail,
       required this.resetQuestion,
       required this.answers,
-      required this.question});
+      required this.question,
+      required this.scale});
 
   @override
   Widget build(BuildContext context) {

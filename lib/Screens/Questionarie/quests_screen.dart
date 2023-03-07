@@ -40,14 +40,14 @@ class _QuestsScreenState extends State<QuestsScreen> {
       itemCount: scaleList.length,
       itemBuilder: (context, index) {
         return QuestRoomTile(
-          scaleList[index].questionnaireName!,
-          scaleList[index].questionnaireCode!,
-          DateTime.parse(scaleList[index].availableAt!),
-          scaleList[index].userScale!,
-          scaleList[index].answeredUntil!,
-          scaleList[index].unanswered!,
-          Constants.myEmail,
-        );
+            scaleList[index].questionnaireName!,
+            scaleList[index].questionnaireCode!,
+            DateTime.parse(scaleList[index].availableAt!),
+            scaleList[index].userScale!,
+            scaleList[index].answeredUntil!,
+            scaleList[index].unanswered!,
+            scaleList[index].week!,
+            Constants.myEmail);
       },
     );
   }
@@ -135,6 +135,7 @@ class QuestRoomTile extends StatelessWidget {
   final String userEscala;
   final int answeredUntil;
   final bool unanswered;
+  final String week;
   final String userEmail;
   final DateTime _now = DateTime.now();
   final Map<String, dynamic> routes = {
@@ -153,14 +154,14 @@ class QuestRoomTile extends StatelessWidget {
   };
 
   QuestRoomTile(
-    this.questName,
-    this.questCode,
-    this.availableAt,
-    this.userEscala,
-    this.answeredUntil,
-    this.unanswered,
-    this.userEmail,
-  );
+      this.questName,
+      this.questCode,
+      this.availableAt,
+      this.userEscala,
+      this.answeredUntil,
+      this.unanswered,
+      this.week,
+      this.userEmail);
 
   @override
   Widget build(BuildContext context) {
@@ -169,7 +170,7 @@ class QuestRoomTile extends StatelessWidget {
     // Caso a escala/questionário seja planejada para a semana atual, constroi-se um card
     if (_now.isAfter(availableAt) && _now.isBefore(nextSunday)) {
       return QuizCard(
-          title: questName,
+          title: "$questName - $week",
           completed: unanswered
               ? "Questões respondidas: $answeredUntil"
               : "Completado!",
@@ -178,7 +179,7 @@ class QuestRoomTile extends StatelessWidget {
           onTap: () {
             if (unanswered) {
               Navigator.of(context).pushNamed(routes[questCode], arguments: {
-                'title': questName,
+                'title': "$questName - $week",
                 'userEscala': userEscala,
                 'answeredUntil': answeredUntil,
                 'email': userEmail,

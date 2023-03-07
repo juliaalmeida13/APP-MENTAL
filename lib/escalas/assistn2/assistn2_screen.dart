@@ -104,9 +104,9 @@ class _Assistn2ScreenState extends State<Assistn2Screen> {
 
   var _questionIndex = 0;
 
-  void _answerQuestion(Object score, Object answer) {
+  void _answerQuestion(Object score, Object answer, String scale) {
     QuestionnaireService().addQuestionnaireAnswer(
-        userEmail, answer, score, -1, "assistn2_week1", _questionIndex);
+        userEmail, answer, score, -1, "assistn2", _questionIndex, scale);
     setState(() {
       _questionIndex += 1;
     });
@@ -148,7 +148,8 @@ class _Assistn2ScreenState extends State<Assistn2Screen> {
                 question: _questions[_questionIndex],
                 answers: _answers,
                 userEmail: _userEmail,
-                questName: titleAA)
+                questName: titleAA,
+                scale: _userEscala)
             : Assistn2Result(
                 questName: titleAA,
                 userEscala: _userEscala!,

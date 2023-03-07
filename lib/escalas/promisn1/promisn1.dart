@@ -11,6 +11,7 @@ class Promisn1 extends StatelessWidget {
   final Function answerQuestion;
   final Function resetLastDomain;
   final String userEmail;
+  final String scale;
 
   Promisn1(
       {required this.answers,
@@ -19,7 +20,8 @@ class Promisn1 extends StatelessWidget {
       required this.answerQuestion,
       required this.questionIndex,
       required this.resetLastDomain,
-      required this.userEmail});
+      required this.userEmail,
+      required this.scale});
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +45,7 @@ class Promisn1 extends StatelessWidget {
               .map((answer) {
             return AnswerOption(
               () => answerQuestion(
-                  answer['score'], answer['dom'], answer['text']),
+                  answer['score'], answer['dom'], answer['text'], scale),
               answer['text']!,
             );
           }).toList(),
@@ -74,7 +76,7 @@ class Promisn1 extends StatelessWidget {
                         TextButton(
                           onPressed: () async {
                             QuestionnaireService()
-                                .discardAllAnswers(userEmail, "promisN1_week1")
+                                .discardAllAnswers(userEmail, "pn1")
                                 .then((_) {
                               Navigator.of(context).popUntil(
                                   ModalRoute.withName('/logged-home'));

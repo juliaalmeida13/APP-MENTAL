@@ -9,15 +9,16 @@ class QuestSD1 extends StatelessWidget {
   final int questionIndex;
   final Function answerQuestion;
   final Function resetQuestion;
+  final String scale;
 
-  QuestSD1({
-    required this.answers,
-    required this.sizeQuestionnaire,
-    required this.question,
-    required this.answerQuestion,
-    required this.questionIndex,
-    required this.resetQuestion,
-  });
+  QuestSD1(
+      {required this.answers,
+      required this.sizeQuestionnaire,
+      required this.question,
+      required this.answerQuestion,
+      required this.questionIndex,
+      required this.resetQuestion,
+      required this.scale});
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +55,8 @@ class QuestSD1 extends StatelessWidget {
                         as List<Map<String, dynamic>>)
                     .map((answer) {
                   return AnswerOption(
-                    () => answerQuestion(answer['score'], answer['text']),
+                    () =>
+                        answerQuestion(answer['score'], answer['text'], scale),
                     answer['text']!,
                   );
                 }).toList(),

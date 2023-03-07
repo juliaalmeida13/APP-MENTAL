@@ -235,9 +235,9 @@ class _Pcl5ScreenState extends State<Pcl5Screen> {
   //(p. ex. analgésicos, estimulantes, sedativos ou tranquilizantes, ou drogas como maconha, cocaína ou crack, drogas sintéticas, alucinógenos, heroína, inalantes ou solventes ou metanfetamina?
   var _questionIndex = 0;
 
-  void _answerQuestion(Object score, int dom, Object answer) {
+  void _answerQuestion(Object score, int dom, Object answer, String scale) {
     QuestionnaireService().addQuestionnaireAnswer(
-        userEmail, answer, score, dom, "pcl5_week1", _questionIndex);
+        userEmail, answer, score, dom, "pcl5", _questionIndex, scale);
     setState(() {
       _questionIndex += 1;
     });
@@ -278,7 +278,8 @@ class _Pcl5ScreenState extends State<Pcl5Screen> {
                 questionIndex: _questionIndex,
                 question: _questions[_questionIndex],
                 answers: _answers,
-                userEmail: _userEmail)
+                userEmail: _userEmail,
+                scale: _userEscala)
             : Pcl5Result(
                 questName: titleAA,
                 userEscala: _userEscala!,
