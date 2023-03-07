@@ -42,11 +42,7 @@ class _Phq15ResultState extends State<Phq15Result> {
   }
 
   isCritical() {
-    if (score > 9) {
-      return true;
-    } else {
-      return false;
-    }
+    return score > 9;
   }
 
   final String resultPhrase =

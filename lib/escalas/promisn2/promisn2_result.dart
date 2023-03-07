@@ -43,11 +43,7 @@ class _Promisn2ResultState extends State<Promisn2Result> {
   }
 
   isCritical() {
-    if (score > 16) {
-      return true;
-    } else {
-      return false;
-    }
+    return score > 16;
   }
 
   final String resultPhrase =

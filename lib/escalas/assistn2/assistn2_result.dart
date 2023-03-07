@@ -1,43 +1,51 @@
 import 'package:app_mental/Screens/Contacts/contacts_screen.dart';
-import 'package:app_mental/Services/database.dart';
 import 'package:flutter/material.dart';
 
-class Assistn2Result extends StatelessWidget {
-  final List<int> resultScoreList;
-  final List<Object> resultOptionList;
-  final int questionIndex;
+import '../../Services/questionnaireService.dart';
+
+class Assistn2Result extends StatefulWidget {
   final String userEmail;
   final String questName;
   final String userEscala;
-  final DateTime instantTime = DateTime.now();
-  final DatabaseMethods databaseMethods = new DatabaseMethods();
 
-  sendAssistn2Score(String email) {
-    Map<String, dynamic> answerMap = {
-      "q1": resultScoreList[1],
-      "q2": resultScoreList[2],
-      "q3": resultScoreList[3],
-      "q4": resultScoreList[4],
-      "q5": resultScoreList[5],
-      "q6": resultScoreList[6],
-      "option1": resultOptionList[1],
-      "option2": resultOptionList[2],
-      "option3": resultOptionList[3],
-      "option4": resultOptionList[4],
-      "option5": resultOptionList[5],
-      "option6": resultOptionList[6],
-      "answeredAt": instantTime,
-      "questName": questName,
-      "answeredUntil": questionIndex,
-    };
-    databaseMethods.addQuestAnswer(answerMap, email, userEscala);
-    databaseMethods.updateQuestIndex(userEscala, email, questionIndex);
-    databaseMethods.disableQuest(userEscala, email);
+  Assistn2Result(
+      {required this.userEmail,
+      required this.questName,
+      required this.userEscala});
 
-    int sum =
-        resultScoreList.fold(0, (previous, current) => previous + current);
-    if (sum > 3) {
-      Map<String, dynamic> readingsMap1 = {
+  @override
+  State<Assistn2Result> createState() => _Assistn2ResultState();
+}
+
+class _Assistn2ResultState extends State<Assistn2Result> {
+  bool hasRecommendation = false;
+  int score = 0;
+
+  @override
+  void initState() {
+    getScore();
+    super.initState();
+  }
+
+  getScore() async {
+    int sum = 0;
+    await QuestionnaireService()
+        .getScore(widget.userEmail, "assistn2_week1")
+        .then((values) {
+      for (var i = 5; i < values.length; i++) {
+        sum = sum + int.parse(values[i]);
+      }
+    });
+    if (sum != 0) {
+      setState(() {
+        score = sum;
+      });
+    }
+  }
+
+  verifyScore() {
+    if (score > 3) {
+      /*Map<String, dynamic> readingsMap1 = {
         "imagePath": "assets/images/care01.jpg",
         "title": "Redução de Danos",
         "readingsId": "reduce1",
@@ -67,38 +75,16 @@ class Assistn2Result extends StatelessWidget {
         "readingsId": "reduce4",
         "isVideo": false,
       };
-      databaseMethods.recomendReading("reduce4", readingsMap4, email);
+      databaseMethods.recomendReading("reduce4", readingsMap4, email);*/
+      setState(() {
+        hasRecommendation = true;
+      });
     }
   }
 
   isCritical() {
-    int sum =
-        resultScoreList.fold(0, (previous, current) => previous + current);
-    if (sum > 11) {
-      return true;
-    } else {
-      return false;
-    }
+    return score > 11;
   }
-
-  hasRecommendation() {
-    int sum =
-        resultScoreList.fold(0, (previous, current) => previous + current);
-    if (sum > 3) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  Assistn2Result({
-    required this.resultScoreList,
-    required this.resultOptionList,
-    required this.questionIndex,
-    required this.userEmail,
-    required this.questName,
-    required this.userEscala,
-  });
 
   final String resultPhrase =
       'Questionário concluído! \n\nSuas respostas serão enviadas, e analisadas anonimamente para a recomendação de novas atividades.\n\nEstá de acordo?';
@@ -125,7 +111,7 @@ class Assistn2Result extends StatelessWidget {
             child: const Text('Sim, estou de acordo',
                 style: TextStyle(color: Colors.black)),
             onPressed: () {
-              sendAssistn2Score(userEmail);
+              verifyScore();
               if (isCritical()) {
                 showDialog<String>(
                   context: context,
@@ -136,12 +122,9 @@ class Assistn2Result extends StatelessWidget {
                     actions: <Widget>[
                       TextButton(
                         onPressed: () async {
-                          Navigator.pop(context, 'Ok');
-                          await Navigator.pushReplacementNamed(
-                            context,
-                            ContactsScreen.routeName,
-                            arguments: {},
-                          );
+                          Navigator.of(context)
+                              .popUntil(ModalRoute.withName('/logged-home'));
+                          Navigator.of(context).pushNamed("/contacts-screen");
                         },
                         child: const Text('Ok',
                             style: TextStyle(
@@ -150,7 +133,7 @@ class Assistn2Result extends StatelessWidget {
                     ],
                   ),
                 );
-              } else if (hasRecommendation()) {
+              } else if (hasRecommendation) {
                 showDialog<String>(
                   context: context,
                   builder: (BuildContext context) => AlertDialog(
@@ -184,9 +167,9 @@ class Assistn2Result extends StatelessWidget {
                     actions: <Widget>[
                       TextButton(
                         onPressed: () async {
-                          //enviarDominios(userEmail);
-                          Navigator.pop(context, "Ok");
-                          Navigator.pop(context);
+                          Navigator.of(context)
+                              .popUntil(ModalRoute.withName('/logged-home'));
+                          Navigator.of(context).pushNamed("/quests-screen");
                         },
                         child: const Text('Ok'),
                       ),

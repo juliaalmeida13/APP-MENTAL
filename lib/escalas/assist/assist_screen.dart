@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:app_mental/escalas/assist/assist.dart';
 import 'package:app_mental/escalas/assist/assist_result.dart';
+import '../../Services/questionnaireService.dart';
 import '../../constants.dart';
+import '../../helper/helperfuncions.dart';
 
 class AssistScreen extends StatefulWidget {
   static const routeName = '/assist-screen';
@@ -13,92 +15,101 @@ class AssistScreen extends StatefulWidget {
 }
 
 class _AssistScreenState extends State<AssistScreen> {
-  static const _questions = [
+  List<dynamic> _questions = [];
+  late String userEmail;
+
+  @override
+  void initState() {
+    getQuestions();
+    getUserEmail();
+    super.initState();
+  }
+
+  getQuestions() async {
+    await QuestionnaireService().getQuestions("assist").then((values) {
+      values.forEach((value) {
+        _questions.add(value);
+      });
+      setState(
+          () {}); //como fazer pra pegar os valores antes de iniciar o estado?
+    });
+  }
+
+  getUserEmail() async {
+    await HelperFunctions.getUserEmailInSharedPreference().then((value) {
+      setState(() {
+        userEmail = value;
+      });
+    });
+  }
+
+  static const _answers = [
     {
-      'questionText':
-          'As questões a seguir perguntam sobre substâncias que você possa ter usado sem prescrição médica durante sua vida. Por favor, responda a cada questão da melhor maneira possível',
       'answers': [
         {'text': 'Entendi e quero prosseguir', 'score': 0},
       ],
     },
     {
-      'questionText': 'Na sua vida você já usou derivados de tabaco?',
       'answers': [
         {'text': 'Sim', 'score': 1},
         {'text': 'Não', 'score': 0},
       ],
     },
     {
-      'questionText': 'Na sua vida você já bebeu bebidas alcoólicas?',
       'answers': [
         {'text': 'Sim', 'score': 1},
         {'text': 'Não', 'score': 0},
       ],
     },
     {
-      'questionText': 'Na sua vida você já usou maconha sem prescrição médica?',
       'answers': [
         {'text': 'Sim', 'score': 1},
         {'text': 'Não', 'score': 0},
       ],
     },
     {
-      'questionText': 'Na sua vida você já usou cocaína, crack?',
       'answers': [
         {'text': 'Sim', 'score': 1},
         {'text': 'Não', 'score': 0},
       ],
     },
     {
-      'questionText':
-          'Na sua vida você já usou anfetamina ou êxtase sem precrição médica?',
       'answers': [
         {'text': 'Sim', 'score': 1},
         {'text': 'Não', 'score': 0},
       ],
     },
     {
-      'questionText': 'Na sua vida você já usou inalantes?',
       'answers': [
         {'text': 'Sim', 'score': 1},
         {'text': 'Não', 'score': 0},
       ],
     },
     {
-      'questionText':
-          'Na sua vida você já usou hipnóticos ou sedativos sem prescrição médica?',
       'answers': [
         {'text': 'Sim', 'score': 1},
         {'text': 'Não', 'score': 0},
       ],
     },
     {
-      'questionText':
-          'Na sua vida você já usou alucinógenos sem prescrição médica?',
       'answers': [
         {'text': 'Sim', 'score': 1},
         {'text': 'Não', 'score': 0},
       ],
     },
     {
-      'questionText':
-          'Na sua vida você já usou opioides sem prescrição médica?',
       'answers': [
         {'text': 'Sim', 'score': 1},
         {'text': 'Não', 'score': 0},
       ],
     },
     {
-      'questionText':
-          'Na sua vida você já usou outras substâncias sem prescrição médica?',
       'answers': [
         {'text': 'Sim', 'score': 1},
         {'text': 'Não', 'score': 0},
       ],
     },
     {
-      'questionText':
-          'Alguma vez você já usou drogas por injeção? Apenas uso não médico',
       'answers': [
         {'text': 'Sim, nos últimos 3 meses', 'score': 2},
         {'text': 'Sim, mas não nos últimos 3 meses', 'score': 1},
@@ -108,14 +119,12 @@ class _AssistScreenState extends State<AssistScreen> {
   ];
 
   var _questionIndex = 0;
-  var _totalScoreList = List<int>.filled(12, 0);
-  var _resultOptionList = List<Object>.filled(12, 0);
 
-  void _answerQuestion(int score, Object option) {
-    _totalScoreList[_questionIndex] = score;
-    _resultOptionList[_questionIndex] = option;
+  void _answerQuestion(Object score, Object answer) {
+    QuestionnaireService().addQuestionnaireAnswer(
+        userEmail, answer, score, -1, "assist_week1", _questionIndex);
     setState(() {
-      _questionIndex = _questionIndex + 1;
+      _questionIndex += 1;
     });
   }
 
@@ -148,25 +157,18 @@ class _AssistScreenState extends State<AssistScreen> {
         padding: const EdgeInsets.all(30.0),
         child: _questionIndex < _questions.length
             ? Assist(
+                sizeQuestionnaire: _questions.length - 1,
                 answerQuestion: _answerQuestion,
                 resetQuestion: _resetQuestion,
                 questionIndex: _questionIndex,
-                questions: _questions,
-                userEmail: _userEmail,
-                resultScoreList: _totalScoreList,
-                resultOptionList: _resultOptionList,
-                userEscala: _userEscala!,
-                questName: titleAA,
-              ) //Quiz
+                question: _questions[_questionIndex],
+                answers: _answers,
+                userEmail: _userEmail)
             : AssistResult(
-                resultScoreList: _totalScoreList,
-                resultOptionList: _resultOptionList,
                 questName: titleAA,
                 userEscala: _userEscala!,
-                userEmail: _userEmail,
-                questionIndex: _questionIndex,
-              ),
-      ), //Padding
-    ); //Scaffold
+                userEmail: _userEmail),
+      ),
+    );
   }
 }

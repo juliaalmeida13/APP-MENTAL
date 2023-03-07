@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:app_mental/escalas/assistn2/assistn2.dart';
 import 'package:app_mental/escalas/assistn2/assistn2_result.dart';
 
+import '../../Services/questionnaireService.dart';
 import '../../constants.dart';
+import '../../helper/helperfuncions.dart';
 
 class Assistn2Screen extends StatefulWidget {
   static const routeName = '/assistn2-screen';
@@ -14,17 +16,41 @@ class Assistn2Screen extends StatefulWidget {
 }
 
 class _Assistn2ScreenState extends State<Assistn2Screen> {
-  static const _questions = [
+  List<dynamic> _questions = [];
+  late String userEmail;
+
+  @override
+  void initState() {
+    getQuestions();
+    getUserEmail();
+    super.initState();
+  }
+
+  getQuestions() async {
+    await QuestionnaireService().getQuestions("assistn2").then((values) {
+      values.forEach((value) {
+        _questions.add(value);
+      });
+      setState(
+          () {}); //como fazer pra pegar os valores antes de iniciar o estado?
+    });
+  }
+
+  getUserEmail() async {
+    await HelperFunctions.getUserEmailInSharedPreference().then((value) {
+      setState(() {
+        userEmail = value;
+      });
+    });
+  }
+
+  static const _answers = [
     {
-      'questionText':
-          'Por favor, responda a cada questão da melhor maneira possível. As questões a seguir perguntam sobre o seu uso de',
       'answers': [
         {'text': 'Entendi e quero prosseguir', 'score': 0},
       ],
     },
     {
-      'questionText':
-          'Durante os três últimos meses, com que freqüência você utilizou',
       'answers': [
         {'text': 'Nunca', 'score': 0},
         {'text': '1 ou 2 vezes', 'score': 2},
@@ -34,8 +60,6 @@ class _Assistn2ScreenState extends State<Assistn2Screen> {
       ],
     },
     {
-      'questionText':
-          'Durante os três últimos meses, com que freqüência você teve forte desejo ou urgência em consumir',
       'answers': [
         {'text': 'Nunca', 'score': 0},
         {'text': '1 ou 2 vezes', 'score': 3},
@@ -45,8 +69,6 @@ class _Assistn2ScreenState extends State<Assistn2Screen> {
       ],
     },
     {
-      'questionText':
-          'Durante os três últimos meses, com que freqüência você enfrentou problema de saúde, legal ou financeiro, resultante do seu consumo de',
       'answers': [
         {'text': 'Nunca', 'score': 0},
         {'text': '1 ou 2 vezes', 'score': 4},
@@ -56,8 +78,6 @@ class _Assistn2ScreenState extends State<Assistn2Screen> {
       ],
     },
     {
-      'questionText':
-          'Durante os três últimos meses, com que freqüência você deixou de fazer coisas que eram normalmente esperadas de você por causa do seu uso de',
       'answers': [
         {'text': 'Nunca', 'score': 0},
         {'text': '1 ou 2 vezes', 'score': 5},
@@ -67,8 +87,6 @@ class _Assistn2ScreenState extends State<Assistn2Screen> {
       ],
     },
     {
-      'questionText':
-          'Há amigos, parentes ou outra pessoa que tenha demonstrado preocupação com seu uso de',
       'answers': [
         {'text': 'Não, nunca', 'score': 0},
         {'text': 'Sim, nos últimos 3 meses', 'score': 6},
@@ -76,8 +94,6 @@ class _Assistn2ScreenState extends State<Assistn2Screen> {
       ],
     },
     {
-      'questionText':
-          'Alguma vez você já tentou controlar, diminuir ou parar sem êxito o uso de',
       'answers': [
         {'text': 'Não, nunca', 'score': 0},
         {'text': 'Sim, nos últimos 3 meses', 'score': 6},
@@ -87,21 +103,13 @@ class _Assistn2ScreenState extends State<Assistn2Screen> {
   ];
 
   var _questionIndex = 0;
-  var _totalScoreList = List<int>.filled(11, 0);
-  var _resultOptionList = List<Object>.filled(11, 0);
 
-  void _answerQuestion(int score, Object option) {
-    _totalScoreList[_questionIndex] = score;
-    _resultOptionList[_questionIndex] = option;
+  void _answerQuestion(Object score, Object answer) {
+    QuestionnaireService().addQuestionnaireAnswer(
+        userEmail, answer, score, -1, "assistn2_week1", _questionIndex);
     setState(() {
-      _questionIndex = _questionIndex + 1;
+      _questionIndex += 1;
     });
-
-    if (_questionIndex < _questions.length) {
-      print("qIndex : $_questionIndex");
-    } else {
-      print("questionIndex $_questionIndex > _question.length");
-    }
   }
 
   void _resetQuestion() {
@@ -133,25 +141,19 @@ class _Assistn2ScreenState extends State<Assistn2Screen> {
         padding: const EdgeInsets.all(30.0),
         child: _questionIndex < _questions.length
             ? Assistn2(
+                sizeQuestionnaire: _questions.length - 1,
                 answerQuestion: _answerQuestion,
                 resetQuestion: _resetQuestion,
                 questionIndex: _questionIndex,
-                questions: _questions,
+                question: _questions[_questionIndex],
+                answers: _answers,
                 userEmail: _userEmail,
-                resultScoreList: _totalScoreList,
-                resultOptionList: _resultOptionList,
-                userEscala: _userEscala!,
-                questName: titleAA,
-              ) //Quiz
+                questName: titleAA)
             : Assistn2Result(
-                resultScoreList: _totalScoreList,
-                resultOptionList: _resultOptionList,
                 questName: titleAA,
                 userEscala: _userEscala!,
-                userEmail: _userEmail,
-                questionIndex: _questionIndex,
-              ),
-      ), //Padding
-    ); //Scaffold
+                userEmail: _userEmail),
+      ),
+    );
   }
 }

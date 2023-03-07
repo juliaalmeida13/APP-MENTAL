@@ -139,17 +139,13 @@ class _Promisn1ResultState extends State<Promisn1Result> {
   isCritical() {
     //dom 2, 9, 10, 11, 12, leve ou maior (>2)
     //dom 6, 7 muito leve ou maior (>1)
-    if (scoreList[2] > 2 ||
+    return (scoreList[2] > 2 ||
         scoreList[6] > 1 ||
         scoreList[7] > 1 ||
         scoreList[9] > 2 ||
         scoreList[10] > 2 ||
         scoreList[11] > 2 ||
-        scoreList[12] > 2) {
-      return true;
-    } else {
-      return false;
-    }
+        scoreList[12] > 2);
   }
 
   @override

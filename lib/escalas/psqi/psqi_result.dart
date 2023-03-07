@@ -86,11 +86,7 @@ class _PsqiResultState extends State<PsqiResult> {
   }
 
   isCritical() {
-    if (score > 10) {
-      return true;
-    } else {
-      return false;
-    }
+    return score > 10;
   }
 
   final String resultPhrase =

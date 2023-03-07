@@ -42,11 +42,7 @@ class _PromisAnsiResultState extends State<PromisAnsiResult> {
   }
 
   isCritical() {
-    if (score > 19) {
-      return true;
-    } else {
-      return false;
-    }
+    return score > 19;
   }
 
   final String resultPhrase =
