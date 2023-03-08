@@ -22,7 +22,7 @@ class _PsetResultState extends State<PsetResult> {
 
   getScore() async {
     await QuestionnaireService()
-        .getScore(widget.userEmail, "pset")
+        .getScore(widget.userEmail, "pset", widget.userEscala)
         .then((values) {
       values.forEach((value) {
         scoreList.add(int.parse(value));

@@ -25,7 +25,7 @@ class _PsqiResultState extends State<PsqiResult> {
   getScore() async {
     int sum = 0;
     await QuestionnaireService()
-        .getScore(widget.userEmail, "psqi")
+        .getScore(widget.userEmail, "psqi", widget.userEscala)
         .then((values) {
       for (var i = 5; i < values.length; i++) {
         sum = sum + int.parse(values[i]);

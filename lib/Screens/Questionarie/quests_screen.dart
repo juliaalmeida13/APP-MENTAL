@@ -19,6 +19,7 @@ import 'package:app_mental/helper/helperfuncions.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../../Services/questionnaireService.dart';
 import '../../constants.dart';
 import '../../model/scale.dart';
 
@@ -176,14 +177,23 @@ class QuestRoomTile extends StatelessWidget {
               : "Completado!",
           now: _now,
           expirationDate: nextSunday,
-          onTap: () {
+          onTap: () async {
             if (unanswered) {
-              Navigator.of(context).pushNamed(routes[questCode], arguments: {
-                'title': "$questName - $week",
-                'userEscala': userEscala,
-                'answeredUntil': answeredUntil,
-                'email': userEmail,
-              });
+              List<dynamic> _questions = [];
+              await QuestionnaireService()
+                  .getQuestions(questCode)
+                  .then((values) {
+                values.forEach((value) {
+                  _questions.add(value);
+                });
+              }).whenComplete(() => Navigator.of(context)
+                          .pushNamed(routes[questCode], arguments: {
+                        'title': "$questName - $week",
+                        'userEscala': userEscala,
+                        'answeredUntil': answeredUntil,
+                        'email': userEmail,
+                        'questions': _questions
+                      }));
             }
           });
     } else {

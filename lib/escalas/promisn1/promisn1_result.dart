@@ -30,7 +30,7 @@ class _Promisn1ResultState extends State<Promisn1Result> {
 
   getScore() async {
     await QuestionnaireService()
-        .getScore(widget.userEmail, "pn1")
+        .getScore(widget.userEmail, "pn1", widget.userEscala)
         .then((values) {
       values.forEach((value) {
         scoreList.add(int.parse(value));

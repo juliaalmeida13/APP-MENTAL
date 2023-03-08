@@ -15,24 +15,12 @@ class AssistScreen extends StatefulWidget {
 }
 
 class _AssistScreenState extends State<AssistScreen> {
-  List<dynamic> _questions = [];
   late String userEmail;
 
   @override
   void initState() {
-    getQuestions();
     getUserEmail();
     super.initState();
-  }
-
-  getQuestions() async {
-    await QuestionnaireService().getQuestions("assist").then((values) {
-      values.forEach((value) {
-        _questions.add(value);
-      });
-      setState(
-          () {}); //como fazer pra pegar os valores antes de iniciar o estado?
-    });
   }
 
   getUserEmail() async {
@@ -142,6 +130,7 @@ class _AssistScreenState extends State<AssistScreen> {
     final _userEscala = routeArgs["userEscala"];
     final _answeredUntil = routeArgs['answeredUntil'];
     final _userEmail = routeArgs['email'];
+    final _questions = routeArgs['questions'];
     var index = _answeredUntil as int;
 
     if (_questionIndex < index) {

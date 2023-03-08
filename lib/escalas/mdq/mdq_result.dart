@@ -23,9 +23,9 @@ class _MdqResultState extends State<MdqResult> {
   getScore() async {
     int sum = 0;
     await QuestionnaireService()
-        .getScore(widget.userEmail, "mdq")
+        .getScore(widget.userEmail, "mdq", widget.userEscala)
         .then((values) {
-      for (var i = 5; i < values.length; i++) {
+      for (var i = 0; i < values.length; i++) {
         sum = sum + int.parse(values[i]);
       }
     });

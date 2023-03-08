@@ -16,24 +16,12 @@ class QuestSD2Screen extends StatefulWidget {
 }
 
 class _QuestSD2ScreenState extends State<QuestSD2Screen> {
-  List<dynamic> _questions = [];
   late String userEmail;
 
   @override
   void initState() {
-    getQuestions();
     getUserEmail();
     super.initState();
-  }
-
-  getQuestions() async {
-    await QuestionnaireService().getQuestions("questSD2").then((values) {
-      values.forEach((value) {
-        _questions.add(value);
-      });
-      setState(
-          () {}); //como fazer pra pegar os valores antes de iniciar o estado?
-    });
   }
 
   getUserEmail() async {
@@ -160,6 +148,7 @@ class _QuestSD2ScreenState extends State<QuestSD2Screen> {
     final _userEscala = routeArgs["userEscala"];
     final _answeredUntil = routeArgs['answeredUntil'];
     final _userEmail = routeArgs['email'];
+    final _questions = routeArgs['questions'];
     var index = _answeredUntil as int;
 
     if (_questionIndex < index) {

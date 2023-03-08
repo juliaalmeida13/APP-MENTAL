@@ -23,9 +23,9 @@ class _Assistn2ResultState extends State<Assistn2Result> {
   getScore() async {
     int sum = 0;
     await QuestionnaireService()
-        .getScore(widget.userEmail, "assistn2")
+        .getScore(widget.userEmail, "assistn2", widget.userEscala)
         .then((values) {
-      for (var i = 5; i < values.length; i++) {
+      for (var i = 0; i < values.length; i++) {
         sum = sum + int.parse(values[i]);
       }
     });

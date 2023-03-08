@@ -22,9 +22,9 @@ class _Phq15ResultState extends State<Phq15Result> {
   getScore() async {
     int sum = 0;
     await QuestionnaireService()
-        .getScore(widget.userEmail, "phq15")
+        .getScore(widget.userEmail, "phq15", widget.userEscala)
         .then((values) {
-      for (var i = 5; i < values.length; i++) {
+      for (var i = 0; i < values.length; i++) {
         sum = sum + int.parse(values[i]);
       }
     });

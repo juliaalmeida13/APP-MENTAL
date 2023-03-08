@@ -29,7 +29,7 @@ class _AssistResultState extends State<AssistResult> {
 
   getScore() async {
     await QuestionnaireService()
-        .getScore(widget.userEmail, "assist")
+        .getScore(widget.userEmail, "assist", widget.userEscala)
         .then((values) {
       values.forEach((value) {
         scoreList.add(int.parse(value));
