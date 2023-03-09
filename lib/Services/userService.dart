@@ -8,6 +8,7 @@ import 'package:http/http.dart' as http;
 import 'package:crypto/crypto.dart';
 
 import '../helper/helperfuncions.dart';
+import '../model/user_profile.dart';
 
 final String url = dotenv.env['BACKEND_URL']!;
 
@@ -64,5 +65,54 @@ class UserService {
           ApiError.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
       throw HttpException(error.message.toString());
     }
+  }
+
+  Future<void> saveUserProfile(
+      String email,
+      String name,
+      String gender,
+      String age,
+      String workplace,
+      String maritalStatus,
+      String occupation,
+      String phone) async {
+    final response = await http.post(Uri.parse("${url}saveUserProfile"),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, String>{
+          'email': email,
+          'name': name,
+          'gender': gender,
+          'age': age,
+          'workplace': workplace,
+          'maritalStatus': maritalStatus,
+          'occupation': occupation,
+          'phone': phone
+        }));
+    if (response.statusCode != 200) {
+      final error =
+          ApiError.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
+      throw HttpException(error.message.toString());
+    }
+  }
+
+  Future<UserProfile> getUserProfile(String email) async {
+    final response = await http.get(
+        Uri.parse("${url}getUserProfile?email=$email"),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        });
+    if (response.statusCode == 200) {
+      if (utf8.decode(response.bodyBytes) != "") {
+        return UserProfile.fromJson(
+            jsonDecode(utf8.decode(response.bodyBytes)));
+      } else {
+        return UserProfile();
+      }
+    }
+    final error =
+        ApiError.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
+    throw HttpException(error.message.toString());
   }
 }

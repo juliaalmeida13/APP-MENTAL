@@ -1,3 +1,4 @@
+import 'package:app_mental/Screens/EditProfile/edit_profile_screen.dart';
 import 'package:app_mental/Screens/Contacts/contacts_screen.dart';
 import 'package:app_mental/Screens/Questionarie/quests_screen.dart';
 import 'package:app_mental/Screens/SleepDiary/sleep_diary.dart';
@@ -93,6 +94,7 @@ class _MyAppState extends State<MyApp> {
         "/sleep-diary": (ctx) => SleepPage(),
         "/users": (ctx) => UsersPage(),
         "/quests-screen": (ctx) => QuestsScreen(),
+        "/edit-profile-screen": (ctx) => EditProfileScreen(),
       },
       home: (userIsLoggedIn ?? false) ? HomeScreen() : SignIn(),
     );
