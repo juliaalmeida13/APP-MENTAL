@@ -8,7 +8,6 @@ import 'package:http/http.dart' as http;
 import 'package:crypto/crypto.dart';
 
 import '../helper/helperfuncions.dart';
-import '../model/user_profile.dart';
 
 final String url = dotenv.env['BACKEND_URL']!;
 
@@ -76,7 +75,7 @@ class UserService {
       String maritalStatus,
       String occupation,
       String phone) async {
-    final response = await http.post(Uri.parse("${url}saveUserProfile"),
+    final response = await http.post(Uri.parse("${url}saveUserApp"),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
@@ -97,18 +96,16 @@ class UserService {
     }
   }
 
-  Future<UserProfile> getUserProfile(String email) async {
-    final response = await http.get(
-        Uri.parse("${url}getUserProfile?email=$email"),
+  Future<UserApp> getUserApp(String email) async {
+    final response = await http.get(Uri.parse("${url}getUserApp?email=$email"),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         });
     if (response.statusCode == 200) {
       if (utf8.decode(response.bodyBytes) != "") {
-        return UserProfile.fromJson(
-            jsonDecode(utf8.decode(response.bodyBytes)));
+        return UserApp.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
       } else {
-        return UserProfile();
+        return UserApp();
       }
     }
     final error =

@@ -1,6 +1,5 @@
 import 'package:app_mental/Screens/ChatRoom/Widgets/calendar.dart';
 import 'package:app_mental/Screens/Questionarie/Widgets/app_body_widget.dart';
-//import 'package:app_mental/Services/auth.dart';
 import 'package:app_mental/Services/scaleService.dart';
 import 'package:app_mental/Services/database.dart';
 import 'package:app_mental/Shared/Widgets/AppDrawer.dart';

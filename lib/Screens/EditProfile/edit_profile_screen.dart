@@ -41,15 +41,15 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         nameController.text = user["name"];
         userEmail = user["email"];
       });
-      UserService().getUserProfile(user["email"]).then((userProfile) {
-        if (userProfile.id != null) {
-          ageController.text = userProfile.age!;
-          phoneController.text = userProfile.phone!;
-          occupationController.text = userProfile.occupation!;
-          workController.text = userProfile.workplace!;
+      UserService().getUserApp(user["email"]).then((userApp) {
+        if (userApp.email != null) {
+          ageController.text = userApp.age!;
+          phoneController.text = userApp.phone!;
+          occupationController.text = userApp.occupation!;
+          workController.text = userApp.workplace!;
           setState(() {
-            genderDropDown = userProfile.gender!;
-            civilDropDown = userProfile.maritalStatus!;
+            genderDropDown = userApp.gender!;
+            civilDropDown = userApp.maritalStatus!;
           });
         }
       });
