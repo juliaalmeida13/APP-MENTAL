@@ -92,7 +92,7 @@ class _Assistn2ScreenState extends State<Assistn2Screen> {
 
   var _questionIndex = 0;
 
-  void _answerQuestion(Object score, Object answer, String scale) {
+  void _answerQuestion(int score, String answer, String scale) {
     QuestionnaireService().addQuestionnaireAnswer(
         userEmail, answer, score, -1, "assistn2", _questionIndex, scale);
     setState(() {

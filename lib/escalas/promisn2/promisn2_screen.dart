@@ -114,7 +114,7 @@ class _Promisn2ScreenState extends State<Promisn2Screen> {
 
   var _questionIndex = 0;
 
-  void _answerQuestion(Object score, Object answer, String scale) {
+  void _answerQuestion(int score, String answer, String scale) {
     QuestionnaireService().addQuestionnaireAnswer(
         userEmail, answer, score, -1, "pn2", _questionIndex, scale);
     setState(() {

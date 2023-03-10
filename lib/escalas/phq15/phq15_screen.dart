@@ -147,7 +147,7 @@ class _Phq15ScreenState extends State<Phq15Screen> {
 
   var _questionIndex = 0;
 
-  void _answerQuestion(Object score, Object answer, String scale) {
+  void _answerQuestion(int score, String answer, String scale) {
     QuestionnaireService().addQuestionnaireAnswer(
         userEmail, answer, score, -1, "phq15", _questionIndex, scale);
     setState(() {

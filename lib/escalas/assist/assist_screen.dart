@@ -108,7 +108,7 @@ class _AssistScreenState extends State<AssistScreen> {
 
   var _questionIndex = 0;
 
-  void _answerQuestion(Object score, Object answer, String scale) {
+  void _answerQuestion(int score, String answer, String scale) {
     QuestionnaireService().addQuestionnaireAnswer(
         userEmail, answer, score, -1, "assist", _questionIndex, scale);
     setState(() {

@@ -126,7 +126,7 @@ class _QuestSD2ScreenState extends State<QuestSD2Screen> {
 
   var _questionIndex = 0;
 
-  void _answerQuestion(Object score, Object answer, String scale) {
+  void _answerQuestion(Object score, String answer, String scale) {
     QuestionnaireService().addQuestionnaireAnswer(
         userEmail, answer, score, -1, "questSD2", _questionIndex, scale);
     setState(() {

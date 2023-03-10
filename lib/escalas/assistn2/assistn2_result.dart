@@ -1,3 +1,6 @@
+import 'package:app_mental/escalas/critical_dialog.dart';
+import 'package:app_mental/escalas/recommendation_dialog.dart';
+import 'package:app_mental/escalas/success_dialog.dart';
 import 'package:flutter/material.dart';
 
 import '../../Services/questionnaireService.dart';
@@ -26,7 +29,7 @@ class _Assistn2ResultState extends State<Assistn2Result> {
         .getScore(widget.userEmail, "assistn2", widget.userEscala)
         .then((values) {
       for (var i = 0; i < values.length; i++) {
-        sum = sum + int.parse(values[i]);
+        sum += int.parse(values[i]);
       }
     });
     if (sum != 0) {
@@ -108,68 +111,17 @@ class _Assistn2ResultState extends State<Assistn2Result> {
                 verifyScore();
                 if (isCritical()) {
                   showDialog<String>(
-                    context: context,
-                    builder: (BuildContext context) => AlertDialog(
-                      title: const Text('Entre em contato com alguém!'),
-                      content: const Text(
-                          'Percebemos que você pode estar em um estado bastante delicado e gostaríamos de sugerir que entre em contato conosco ou com alguém próximo!'),
-                      actions: <Widget>[
-                        TextButton(
-                          onPressed: () async {
-                            Navigator.of(context)
-                                .popUntil(ModalRoute.withName('/logged-home'));
-                            Navigator.of(context).pushNamed("/contacts-screen");
-                          },
-                          child: const Text('Ok',
-                              style: TextStyle(
-                                  color: Color.fromRGBO(104, 202, 138, 1))),
-                        ),
-                      ],
-                    ),
-                  );
+                      context: context,
+                      builder: (BuildContext context) => CriticalDialog());
                 } else if (hasRecommendation) {
                   showDialog<String>(
-                    context: context,
-                    builder: (BuildContext context) => AlertDialog(
-                      title: const Text('Recomendações para você!'),
-                      content: const Text(
-                          'Seguindo uma análise rápida das suas respostas, algumas leituras ou vídeos foram recomendadas para você, e estarão disponíveis em sua tela inicial!'),
-                      actions: <Widget>[
-                        TextButton(
-                          onPressed: () async {
-                            Navigator.pop(context, 'Ok');
-                            await Navigator.pushReplacementNamed(
-                              context,
-                              "/logged-home",
-                              arguments: {},
-                            );
-                          },
-                          child: const Text('Ok',
-                              style: TextStyle(
-                                  color: Color.fromRGBO(104, 202, 138, 1))),
-                        ),
-                      ],
-                    ),
-                  );
+                      context: context,
+                      builder: (BuildContext context) =>
+                          RecommendationDialog());
                 } else {
                   showDialog<String>(
-                    context: context,
-                    builder: (BuildContext context) => AlertDialog(
-                      title: const Text('Êxito!'),
-                      content: const Text(
-                          'Suas respostas foram enviadas!\nNovas atividades serão disponibilizadas em breve.'),
-                      actions: <Widget>[
-                        TextButton(
-                          onPressed: () async {
-                            Navigator.of(context)
-                                .popUntil(ModalRoute.withName('/logged-home'));
-                            Navigator.of(context).pushNamed("/quests-screen");
-                          },
-                          child: const Text('Ok'),
-                        ),
-                      ],
-                    ),
-                  );
+                      context: context,
+                      builder: (BuildContext context) => SuccessDialog());
                 }
               });
             },

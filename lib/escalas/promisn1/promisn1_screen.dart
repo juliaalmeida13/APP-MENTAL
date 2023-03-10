@@ -342,7 +342,7 @@ class _Promisn1ScreenState extends State<Promisn1Screen> {
 
   var _questionIndex = 0;
 
-  void _answerQuestion(Object score, int dom, Object answer, String scale) {
+  void _answerQuestion(int score, int dom, String answer, String scale) {
     QuestionnaireService().addQuestionnaireAnswer(
         userEmail, answer, score, dom, "pn1", _questionIndex, scale);
     setState(() {

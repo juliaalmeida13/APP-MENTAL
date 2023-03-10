@@ -105,7 +105,7 @@ class _PromisAnsiScreenState extends State<PromisAnsiScreen> {
 
   var _questionIndex = 0;
 
-  void _answerQuestion(Object score, Object answer, String scale) {
+  void _answerQuestion(int score, String answer, String scale) {
     QuestionnaireService().addQuestionnaireAnswer(
         userEmail, answer, score, -1, "pn2A", _questionIndex, scale);
     setState(() {

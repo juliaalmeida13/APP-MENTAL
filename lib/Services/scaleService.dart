@@ -46,23 +46,4 @@ class ScaleService {
         ApiError.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
     throw HttpException(error.message.toString());
   }
-
-  Future<void> createScale(
-      String email, String week, String scale, String code) async {
-    final response = await http.post(Uri.parse("${url}createScale"),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-        body: jsonEncode(<String, dynamic>{
-          'email': email,
-          'week': week,
-          'scale': scale,
-          'code': code
-        }));
-    if (response.statusCode != 200) {
-      final error =
-          ApiError.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
-      throw HttpException(error.message.toString());
-    }
-  }
 }

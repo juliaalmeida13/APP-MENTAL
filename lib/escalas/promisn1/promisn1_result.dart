@@ -1,5 +1,6 @@
 import 'package:app_mental/Services/questionnaireService.dart';
-import 'package:app_mental/Services/scaleService.dart';
+import 'package:app_mental/escalas/critical_dialog.dart';
+import 'package:app_mental/escalas/success_dialog.dart';
 import 'package:flutter/material.dart';
 
 class Promisn1Result extends StatefulWidget {
@@ -20,13 +21,6 @@ class _Promisn1ResultState extends State<Promisn1Result> {
   final String resultPhrase =
       'PROMIS Nível 1 concluído! \n\nSuas respostas serão enviadas, e analisadas anonimamente para a recomendação de novas atividades.\n\nEstá de acordo?';
   List<int> scoreList = [];
-  String week = "";
-
-  @override
-  void initState() {
-    getWeek();
-    super.initState();
-  }
 
   getScore() async {
     await QuestionnaireService()
@@ -36,40 +30,6 @@ class _Promisn1ResultState extends State<Promisn1Result> {
         scoreList.add(int.parse(value));
       });
     });
-  }
-
-  getWeek() {
-    List<String> monthWeek = widget.questName.split("- ");
-    setState(() {
-      week = monthWeek[1];
-    });
-  }
-
-  verifyScore() async {
-    if (scoreList[1] + scoreList[2] >= 2) {
-      ScaleService().createScale(
-          widget.userEmail, week, "${widget.userEscala}-PromisN2", "pn2");
-    }
-    if (scoreList[4] + scoreList[5] >= 2) {
-      ScaleService().createScale(
-          widget.userEmail, week, "${widget.userEscala}-Mdq", "mdq");
-    }
-    if (scoreList[6] + scoreList[7] + scoreList[8] >= 2) {
-      ScaleService().createScale(
-          widget.userEmail, week, "${widget.userEscala}-PromisAnsi", "pn2A");
-    }
-    if (scoreList[9] + scoreList[10] >= 2) {
-      ScaleService().createScale(
-          widget.userEmail, week, "${widget.userEscala}-Phq15", "phq15");
-    }
-    if (scoreList[14] >= 2) {
-      ScaleService().createScale(
-          widget.userEmail, week, "${widget.userEscala}-Psqi", "psqi");
-    }
-    if (scoreList[21] + scoreList[22] + scoreList[23] >= 1) {
-      ScaleService().createScale(
-          widget.userEmail, week, "${widget.userEscala}-Assist", "assist");
-    }
   }
 
   isCritical() {
@@ -107,49 +67,14 @@ class _Promisn1ResultState extends State<Promisn1Result> {
                 style: TextStyle(color: Colors.black)),
             onPressed: () {
               getScore().then((_) {
-                verifyScore();
                 if (isCritical()) {
                   showDialog<String>(
-                    context: context,
-                    builder: (BuildContext context) => AlertDialog(
-                      title: const Text('Entre em contato com alguém!'),
-                      content: const Text(
-                          'Percebemos que você pode estar em um estado bastante delicado e gostaríamos de sugerir que entre em contato conosco ou com alguém próximo!'),
-                      actions: <Widget>[
-                        TextButton(
-                          onPressed: () async {
-                            Navigator.of(context)
-                                .popUntil(ModalRoute.withName('/logged-home'));
-                            Navigator.of(context).pushNamed("/contacts-screen");
-                          },
-                          child: const Text('Ok',
-                              style: TextStyle(
-                                  color: Color.fromRGBO(104, 202, 138, 1))),
-                        ),
-                      ],
-                    ),
-                  );
+                      context: context,
+                      builder: (BuildContext context) => CriticalDialog());
                 } else {
                   showDialog<String>(
-                    context: context,
-                    builder: (BuildContext context) => AlertDialog(
-                      title: const Text('Êxito!'),
-                      content: const Text(
-                          'Suas respostas foram enviadas!\nNovas atividades serão disponibilizadas em breve.'),
-                      actions: <Widget>[
-                        TextButton(
-                          onPressed: () async {
-                            Navigator.of(context)
-                                .popUntil(ModalRoute.withName('/logged-home'));
-                            Navigator.of(context).pushNamed("/quests-screen");
-                          },
-                          child: const Text('Ok',
-                              style: TextStyle(
-                                  color: Color.fromRGBO(104, 202, 138, 1))),
-                        ),
-                      ],
-                    ),
-                  );
+                      context: context,
+                      builder: (BuildContext context) => SuccessDialog());
                 }
               });
             },

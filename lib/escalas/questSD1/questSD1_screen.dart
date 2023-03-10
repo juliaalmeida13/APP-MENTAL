@@ -123,7 +123,7 @@ class _QuestSD1ScreenState extends State<QuestSD1Screen> {
 
   var _questionIndex = 0;
 
-  void _answerQuestion(Object score, Object answer, String scale) {
+  void _answerQuestion(Object score, String answer, String scale) {
     QuestionnaireService().addQuestionnaireAnswer(
         userEmail, answer, score, -1, "questSD1", _questionIndex, scale);
     setState(() {

@@ -8,8 +8,8 @@ import 'package:http/http.dart' as http;
 final String url = dotenv.env['BACKEND_URL']!;
 
 class QuestionnaireService {
-  Future<void> addQuestionnaireAnswer(String email, Object answer, Object score,
-      int dom, String code, int questionIndex, String scale) async {
+  Future<void> addQuestionnaireAnswer(String email, String answer, Object score,
+      int domain, String code, int questionIndex, String scale) async {
     final response = await http.post(Uri.parse("${url}addQuestionnaireAnswer"),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
@@ -18,9 +18,9 @@ class QuestionnaireService {
           'email': email,
           'answer': answer,
           'score': score,
-          'dom': dom,
+          'domain': domain,
           'code': code,
-          'ordination': questionIndex,
+          'order': questionIndex,
           'scale': scale
         }));
     if (response.statusCode != 200) {

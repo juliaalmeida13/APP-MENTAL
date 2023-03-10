@@ -1,3 +1,4 @@
+import 'package:app_mental/escalas/success_dialog.dart';
 import 'package:flutter/material.dart';
 
 class Pcl5Result extends StatelessWidget {
@@ -36,23 +37,8 @@ class Pcl5Result extends StatelessWidget {
                 style: TextStyle(color: Colors.black)),
             onPressed: () {
               showDialog<String>(
-                context: context,
-                builder: (BuildContext context) => AlertDialog(
-                  title: const Text('Êxito!'),
-                  content: const Text(
-                      'Suas respostas foram enviadas!\n Novas atividades serão disponibilizadas em breve.'),
-                  actions: <Widget>[
-                    TextButton(
-                      onPressed: () async {
-                        Navigator.of(context)
-                            .popUntil(ModalRoute.withName('/logged-home'));
-                        Navigator.of(context).pushNamed("/quests-screen");
-                      },
-                      child: const Text('Ok'),
-                    ),
-                  ],
-                ),
-              );
+                  context: context,
+                  builder: (BuildContext context) => SuccessDialog());
             },
           ),
         ),
