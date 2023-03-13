@@ -42,14 +42,26 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         userEmail = user["email"];
       });
       UserService().getUserApp(user["email"]).then((userApp) {
-        if (userApp.email != null) {
+        if (userApp.age != null) {
           ageController.text = userApp.age!;
+        }
+        if (userApp.phone != null) {
           phoneController.text = userApp.phone!;
+        }
+        if (userApp.occupation != null) {
           occupationController.text = userApp.occupation!;
+        }
+        if (userApp.workplace != null) {
           workController.text = userApp.workplace!;
+        }
+        if (userApp.gender != null && userApp.gender != "") {
           setState(() {
-            genderDropDown = userApp.gender!;
-            civilDropDown = userApp.maritalStatus!;
+            genderDropDown = userApp.gender;
+          });
+        }
+        if (userApp.maritalStatus != null && userApp.maritalStatus != "") {
+          setState(() {
+            civilDropDown = userApp.maritalStatus;
           });
         }
       });
@@ -57,6 +69,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   }
 
   saveUserProfile(BuildContext context) async {
+    if (genderDropDown == null) {
+      genderDropDown = "";
+    }
+    if (civilDropDown == null) {
+      civilDropDown = "";
+    }
     await UserService()
         .saveUserProfile(
             userEmail,
