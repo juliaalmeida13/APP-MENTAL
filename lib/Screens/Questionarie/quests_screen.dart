@@ -1,6 +1,5 @@
 import 'package:app_mental/Screens/ChatRoom/Widgets/calendar.dart';
 import 'package:app_mental/Screens/Questionarie/Widgets/app_body_widget.dart';
-import 'package:app_mental/Services/auth.dart';
 import 'package:app_mental/Services/scaleService.dart';
 import 'package:app_mental/Services/database.dart';
 import 'package:app_mental/Shared/Widgets/AppDrawer.dart';
@@ -48,6 +47,7 @@ class _QuestsScreenState extends State<QuestsScreen> {
           scaleList[index].userScale!,
           scaleList[index].answeredUntil!,
           scaleList[index].unanswered!,
+          scaleList[index].notificationStatus!,
           Constants.myEmail,
         );
       },
@@ -71,6 +71,8 @@ class _QuestsScreenState extends State<QuestsScreen> {
       setState(() {
         unansweredQuests = questionnaires;
       });
+    }).catchError((error) {
+      print(error);
     });
     ScaleService()
         .listAnsweredQuestionnaires(Constants.myEmail)
@@ -78,6 +80,8 @@ class _QuestsScreenState extends State<QuestsScreen> {
       setState(() {
         answeredQuests = questionnaires;
       });
+    }).catchError((error) {
+      print(error);
     });
   }
 
@@ -133,6 +137,7 @@ class QuestRoomTile extends StatelessWidget {
   final String userEscala;
   final int answeredUntil;
   final bool unanswered;
+  final bool notificationStatus;
   final String userEmail;
   final DateTime _now = DateTime.now();
   final Map<String, dynamic> routes = {
@@ -157,6 +162,7 @@ class QuestRoomTile extends StatelessWidget {
     this.userEscala,
     this.answeredUntil,
     this.unanswered,
+    this.notificationStatus,
     this.userEmail,
   );
 
@@ -167,6 +173,7 @@ class QuestRoomTile extends StatelessWidget {
     // Caso a escala/questionário seja planejada para a semana atual, constroi-se um card
     if (_now.isAfter(availableAt) && _now.isBefore(nextSunday)) {
       return QuizCard(
+          notificationStatus: notificationStatus,
           title: questName,
           completed: unanswered
               ? "Questões respondidas: $answeredUntil"

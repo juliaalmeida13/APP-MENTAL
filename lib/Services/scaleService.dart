@@ -46,4 +46,32 @@ class ScaleService {
         ApiError.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
     throw HttpException(error.message.toString());
   }
+
+  Future<int> getQuestionnaireNotificationStatus(String email) async {
+    final response = await http.get(
+        Uri.parse("${url}getQuestionnaireNotificationStatus?email=$email"),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        });
+    if (response.statusCode == 200) {
+      return jsonDecode(utf8.decode(response.bodyBytes));
+    }
+    final error =
+        ApiError.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
+    throw HttpException(error.message.toString());
+  }
+
+  Future<List<dynamic>> getQuestionnaireDateNotification(String email) async {
+    final response = await http.get(
+        Uri.parse("${url}getQuestionnaireDateNotification?email=$email"),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        });
+    if (response.statusCode == 200) {
+      return jsonDecode(utf8.decode(response.bodyBytes));
+    }
+    final error =
+        ApiError.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
+    throw HttpException(error.message.toString());
+  }
 }

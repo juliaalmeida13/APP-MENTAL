@@ -1,8 +1,13 @@
 import 'package:app_mental/Screens/Home/Widgets/body.dart';
 import 'package:app_mental/Shared/Widgets/AppDrawer.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
+import '../../Services/notificationService.dart';
+import '../../Services/scaleService.dart';
 import '../../constants.dart';
+import '../../helper/helperfuncions.dart';
+import '../Questionarie/quests_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   static const routeName = '/home-screen';
@@ -12,7 +17,64 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  PageController _pageController = PageController();
+  String? userEmail;
+
+  @override
+  void initState() {
+    getUserEmail().then((_) {
+      NotificationService.init(initSchedule: true).then(
+        (value) {
+          scheduleQuestionnaireNotifications();
+        },
+      );
+    });
+    listenNotifications();
+    super.initState();
+  }
+
+  listenNotifications() =>
+      NotificationService.onNotifications.stream.listen(onClickedNotification);
+
+  onClickedNotification(String? payload) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => QuestsScreen(),
+      ),
+    );
+  }
+
+  scheduleQuestionnaireNotifications() async {
+    final List<PendingNotificationRequest> pendingNotificationRequests =
+        await FlutterLocalNotificationsPlugin().pendingNotificationRequests();
+    if (userEmail != null && pendingNotificationRequests.length == 0) {
+      ScaleService().getQuestionnaireDateNotification(userEmail!).then((dates) {
+        var i = 1;
+        dates.forEach((date) {
+          NotificationService.showScheduleWeekNotification(
+            id: i,
+            title: "AppMental",
+            body: "Novo Questionário disponível!",
+            payload: "/quests-screen",
+            scheduleDate: DateTime.parse(date),
+          );
+        });
+      });
+    }
+    NotificationService.showScheduleDayNotification(
+      id: 0,
+      title: "AppMental",
+      body: "Bom dia, entre no aplicativo para responder o diário do sono!",
+      payload: "/sleep-diary",
+    );
+  }
+
+  getUserEmail() async {
+    await HelperFunctions.getUserEmailInSharedPreference().then((value) {
+      setState(() {
+        userEmail = value;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

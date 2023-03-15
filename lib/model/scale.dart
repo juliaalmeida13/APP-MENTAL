@@ -5,6 +5,7 @@ class Scale {
   String? userScale;
   int? answeredUntil;
   bool? unanswered;
+  bool? notificationStatus;
 
   Scale(
       {this.questionnaireId,
@@ -12,7 +13,8 @@ class Scale {
       this.availableAt,
       this.userScale,
       this.answeredUntil,
-      this.unanswered});
+      this.unanswered,
+      this.notificationStatus});
 
   factory Scale.fromJson(Map<String, dynamic> json) {
     return Scale(
@@ -21,6 +23,7 @@ class Scale {
         availableAt: json['availableAt'],
         userScale: json['userScale'],
         answeredUntil: json['answeredUntil'],
-        unanswered: json['unanswered']);
+        unanswered: json['unanswered'],
+        notificationStatus: json['notificationStatus']);
   }
 }

@@ -29,7 +29,12 @@ import 'Services/interventions.dart';
 import 'Screens/Reading/recomended_readings.dart';
 
 void main() async {
-  initializeDateFormatting('pt_BR', null).then((_) => runApp(MyApp()));
+  WidgetsFlutterBinding.ensureInitialized();
+  initializeDateFormatting('pt_BR', null).then(
+    (_) => runApp(
+      MyApp(),
+    ),
+  );
   await dotenv.load(fileName: "lib/.env");
 }
 

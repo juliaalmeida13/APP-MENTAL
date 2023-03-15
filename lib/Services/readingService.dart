@@ -49,4 +49,34 @@ class ReadingService {
         ApiError.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
     throw HttpException(error.message.toString());
   }
+
+  Future<int> getReadingNotificationStatus(String email) async {
+    final response = await http.get(
+        Uri.parse("${url}getReadingNotificationStatus?email=$email"),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        });
+    if (response.statusCode == 200) {
+      return jsonDecode(utf8.decode(response.bodyBytes));
+    }
+    final error =
+        ApiError.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
+    throw HttpException(error.message.toString());
+  }
+
+  Future<void> changeNotificationStatus(
+      String email, String name, String group) async {
+    final response = await http.post(
+        Uri.parse("${url}changeNotificationStatus"),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(
+            <String, dynamic>{'email': email, 'name': name, 'group': group}));
+    if (response.statusCode != 200) {
+      final error =
+          ApiError.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
+      throw HttpException(error.message.toString());
+    }
+  }
 }
