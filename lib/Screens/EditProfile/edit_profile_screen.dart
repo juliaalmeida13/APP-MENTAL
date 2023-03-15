@@ -2,6 +2,7 @@ import 'package:app_mental/Services/userService.dart';
 import 'package:flutter/material.dart';
 
 import '../../constants.dart';
+import '../../helper/constants.dart';
 import '../../helper/helperfuncions.dart';
 
 class EditProfileScreen extends StatefulWidget {
@@ -21,12 +22,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   var genderDropDown;
   List<String> gender = ["Feminino", "Masculino", "Outro"];
   var civilDropDown;
-  List<String> civil = [
-    "Solteiro(a)",
-    "Casado(a)",
-    "União Estável",
-    "Viúvo(a)"
-  ];
   String userEmail = "";
 
   @override
@@ -318,7 +313,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       ),
                       DropdownButton(
                         isExpanded: true,
-                        items: civil.map((String items) {
+                        items: Constants.civil.map((String items) {
                           return DropdownMenuItem(
                             value: items,
                             child: Center(
