@@ -28,43 +28,8 @@ class _ResultQuestionsState extends State<ResultQuestions> {
   int score = 0;
   List<int> scoreList = [];
 
-  final String questSD1ResultPhrase =
-      'Primeira parte do Questionário Sociodemográfico concluída! \n\nSuas respostas serão enviadas, e analisadas anonimamente para a recomendação de novas atividades.\n\nEstá de acordo?';
-
-  final String questSD2ResultPhrase =
-      'Segunda e última parte do Questionário Sociodemográfico concluída! \n\nSuas respostas serão enviadas, e analisadas anonimamente para a recomendação de novas atividades.\n\nEstá de acordo?';
-
   final String resultPhrase =
       'Questionário concluído! \n\nSuas respostas serão enviadas, e analisadas anonimamente para a recomendação de novas atividades.\n\nEstá de acordo?';
-
-  final String promisN2ResultPhrase =
-      'PROMIS Nível 2 concluído! \n\nSuas respostas serão enviadas, e analisadas anonimamente para a recomendação de novas atividades.\n\nEstá de acordo?';
-
-  final String promisN1ResultPhrase =
-      'PROMIS Nível 1 concluído! \n\nSuas respostas serão enviadas, e analisadas anonimamente para a recomendação de novas atividades.\n\nEstá de acordo?';
-
-  final String promisAnsiResultPhrase =
-      'PROMIS Nível 2 (Ansiedade) concluído! \n\nSuas respostas serão enviadas, e analisadas anonimamente para a recomendação de novas atividades.\n\nEstá de acordo?';
-
-  final String pcl5ResultPhrase =
-      'PCL-5 concluído! \n\nSuas respostas serão enviadas, e analisadas anonimamente para a recomendação de novas atividades.\n\nEstá de acordo?';
-
-  String getResultPhrase() {
-    if (widget.questionnaireCode == QuestionnaireCode.questSD1.name) {
-      return questSD1ResultPhrase;
-    } else if (widget.questionnaireCode == QuestionnaireCode.questSD2.name) {
-      return questSD2ResultPhrase;
-    } else if (widget.questionnaireCode == QuestionnaireCode.pn2.name) {
-      return promisN2ResultPhrase;
-    } else if (widget.questionnaireCode == QuestionnaireCode.pn1.name) {
-      return promisN1ResultPhrase;
-    } else if (widget.questionnaireCode == QuestionnaireCode.pn2A.name) {
-      return promisAnsiResultPhrase;
-    } else if (widget.questionnaireCode == QuestionnaireCode.pcl5.name) {
-      return pcl5ResultPhrase;
-    }
-    return resultPhrase;
-  }
 
   getScore() async {
     int sum = 0;
@@ -202,7 +167,7 @@ class _ResultQuestionsState extends State<ResultQuestions> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
-          getResultPhrase(),
+          resultPhrase,
           style: TextStyle(
             fontSize: MediaQuery.of(context).size.height * .03,
             fontWeight: FontWeight.bold,
