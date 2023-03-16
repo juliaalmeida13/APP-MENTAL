@@ -19,9 +19,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   TextEditingController phoneController = new TextEditingController();
   TextEditingController occupationController = new TextEditingController();
   TextEditingController workController = new TextEditingController();
-  var genderDropDown;
-  List<String> gender = ["Feminino", "Masculino", "Outro"];
-  var civilDropDown;
+  var genderDropDown = null;
+  var civilDropDown = null;
   String userEmail = "";
 
   @override
@@ -202,7 +201,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       ),
                       DropdownButton(
                         isExpanded: true,
-                        items: gender.map((String items) {
+                        items: Constants.gender.map((String items) {
                           return DropdownMenuItem(
                             value: items,
                             child: Center(

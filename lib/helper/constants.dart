@@ -8,4 +8,5 @@ class Constants {
     "União Estável",
     "Viúvo(a)"
   ];
+  static List<String> gender = ["Feminino", "Masculino", "Outro"];
 }
