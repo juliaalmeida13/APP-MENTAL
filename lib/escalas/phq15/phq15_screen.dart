@@ -1,9 +1,10 @@
+import 'package:app_mental/escalas/answer_questions.dart';
+import 'package:app_mental/escalas/result_questions.dart';
 import 'package:flutter/material.dart';
-import 'package:app_mental/escalas/phq15/phq15.dart';
-import 'package:app_mental/escalas/phq15/phq15_result.dart';
 
 import '../../Services/questionnaireService.dart';
 import '../../constants.dart';
+import '../../helper/constants.dart';
 import '../../helper/helperfuncions.dart';
 
 class Phq15Screen extends StatefulWidget {
@@ -148,8 +149,8 @@ class _Phq15ScreenState extends State<Phq15Screen> {
   var _questionIndex = 0;
 
   void _answerQuestion(int score, String answer, String scale) {
-    QuestionnaireService().addQuestionnaireAnswer(
-        userEmail, answer, score, -1, "phq15", _questionIndex, scale);
+    QuestionnaireService().addQuestionnaireAnswer(userEmail, answer, score, -1,
+        QuestionnaireCode.phq15.name, _questionIndex, scale);
     setState(() {
       _questionIndex += 1;
     });
@@ -184,7 +185,8 @@ class _Phq15ScreenState extends State<Phq15Screen> {
       body: Padding(
         padding: const EdgeInsets.all(30.0),
         child: _questionIndex < _questions.length
-            ? Phq15(
+            ? AnswerQuestions(
+                questName: titleAA,
                 sizeQuestionnaire: _questions.length - 1,
                 answerQuestion: _answerQuestion,
                 resetQuestion: _resetQuestion,
@@ -192,8 +194,11 @@ class _Phq15ScreenState extends State<Phq15Screen> {
                 question: _questions[_questionIndex],
                 answers: _answers,
                 userEmail: _userEmail,
-                scale: _userEscala)
-            : Phq15Result(
+                scale: _userEscala,
+                questionnaireCode: QuestionnaireCode.phq15.name,
+              )
+            : ResultQuestions(
+                questionnaireCode: QuestionnaireCode.phq15.name,
                 questName: titleAA,
                 userEscala: _userEscala!,
                 userEmail: _userEmail),

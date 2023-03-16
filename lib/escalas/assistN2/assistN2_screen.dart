@@ -1,21 +1,22 @@
+import 'package:app_mental/escalas/answer_questions.dart';
+import 'package:app_mental/escalas/result_questions.dart';
 import 'package:flutter/material.dart';
-import 'package:app_mental/escalas/assistn2/assistn2.dart';
-import 'package:app_mental/escalas/assistn2/assistn2_result.dart';
 
 import '../../Services/questionnaireService.dart';
 import '../../constants.dart';
+import '../../helper/constants.dart';
 import '../../helper/helperfuncions.dart';
 
-class Assistn2Screen extends StatefulWidget {
+class AssistN2Screen extends StatefulWidget {
   static const routeName = '/assistn2-screen';
 
   @override
-  _Assistn2ScreenState createState() {
-    return _Assistn2ScreenState();
+  _AssistN2ScreenState createState() {
+    return _AssistN2ScreenState();
   }
 }
 
-class _Assistn2ScreenState extends State<Assistn2Screen> {
+class _AssistN2ScreenState extends State<AssistN2Screen> {
   late String userEmail;
 
   @override
@@ -93,8 +94,8 @@ class _Assistn2ScreenState extends State<Assistn2Screen> {
   var _questionIndex = 0;
 
   void _answerQuestion(int score, String answer, String scale) {
-    QuestionnaireService().addQuestionnaireAnswer(
-        userEmail, answer, score, -1, "assistn2", _questionIndex, scale);
+    QuestionnaireService().addQuestionnaireAnswer(userEmail, answer, score, -1,
+        QuestionnaireCode.assistn2.name, _questionIndex, scale);
     setState(() {
       _questionIndex += 1;
     });
@@ -129,7 +130,7 @@ class _Assistn2ScreenState extends State<Assistn2Screen> {
       body: Padding(
         padding: const EdgeInsets.all(30.0),
         child: _questionIndex < _questions.length
-            ? Assistn2(
+            ? AnswerQuestions(
                 sizeQuestionnaire: _questions.length - 1,
                 answerQuestion: _answerQuestion,
                 resetQuestion: _resetQuestion,
@@ -138,8 +139,11 @@ class _Assistn2ScreenState extends State<Assistn2Screen> {
                 answers: _answers,
                 userEmail: _userEmail,
                 questName: titleAA,
-                scale: _userEscala)
-            : Assistn2Result(
+                scale: _userEscala,
+                questionnaireCode: QuestionnaireCode.assistn2.name,
+              )
+            : ResultQuestions(
+                questionnaireCode: QuestionnaireCode.assistn2.name,
                 questName: titleAA,
                 userEscala: _userEscala!,
                 userEmail: _userEmail),

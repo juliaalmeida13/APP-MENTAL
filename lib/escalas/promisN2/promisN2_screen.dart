@@ -1,21 +1,22 @@
 import 'package:app_mental/constants.dart';
+import 'package:app_mental/escalas/answer_questions.dart';
+import 'package:app_mental/escalas/result_questions.dart';
 import 'package:flutter/material.dart';
-import 'package:app_mental/escalas/promisn2/promisn2.dart';
-import 'package:app_mental/escalas/promisn2/promisn2_result.dart';
 
 import '../../Services/questionnaireService.dart';
+import '../../helper/constants.dart';
 import '../../helper/helperfuncions.dart';
 
-class Promisn2Screen extends StatefulWidget {
+class PromisN2Screen extends StatefulWidget {
   static const routeName = '/promisn2-screen';
 
   @override
-  _Promisn2ScreenState createState() {
-    return _Promisn2ScreenState();
+  _PromisN2ScreenState createState() {
+    return _PromisN2ScreenState();
   }
 }
 
-class _Promisn2ScreenState extends State<Promisn2Screen> {
+class _PromisN2ScreenState extends State<PromisN2Screen> {
   late String userEmail;
 
   @override
@@ -115,8 +116,8 @@ class _Promisn2ScreenState extends State<Promisn2Screen> {
   var _questionIndex = 0;
 
   void _answerQuestion(int score, String answer, String scale) {
-    QuestionnaireService().addQuestionnaireAnswer(
-        userEmail, answer, score, -1, "pn2", _questionIndex, scale);
+    QuestionnaireService().addQuestionnaireAnswer(userEmail, answer, score, -1,
+        QuestionnaireCode.pn2.name, _questionIndex, scale);
     setState(() {
       _questionIndex += 1;
     });
@@ -151,7 +152,8 @@ class _Promisn2ScreenState extends State<Promisn2Screen> {
       body: Padding(
         padding: const EdgeInsets.all(30.0),
         child: _questionIndex < _questions.length
-            ? Promisn2(
+            ? AnswerQuestions(
+                questName: titleAA,
                 sizeQuestionnaire: _questions.length - 1,
                 answerQuestion: _answerQuestion,
                 resetQuestion: _resetQuestion,
@@ -159,8 +161,10 @@ class _Promisn2ScreenState extends State<Promisn2Screen> {
                 question: _questions[_questionIndex],
                 answers: _answers,
                 userEmail: _userEmail,
-                scale: _userEscala)
-            : Promisn2Result(
+                scale: _userEscala,
+                questionnaireCode: QuestionnaireCode.pn2.name)
+            : ResultQuestions(
+                questionnaireCode: QuestionnaireCode.pn2.name,
                 questName: titleAA,
                 userEscala: _userEscala!,
                 userEmail: _userEmail),

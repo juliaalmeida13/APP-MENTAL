@@ -1,9 +1,10 @@
+import 'package:app_mental/escalas/answer_questions.dart';
+import 'package:app_mental/escalas/result_questions.dart';
 import 'package:flutter/material.dart';
-import 'package:app_mental/escalas/pset/pset.dart';
-import 'package:app_mental/escalas/pset/pset_result.dart';
 
 import '../../Services/questionnaireService.dart';
 import '../../constants.dart';
+import '../../helper/constants.dart';
 import '../../helper/helperfuncions.dart';
 
 class PsetScreen extends StatefulWidget {
@@ -44,12 +45,14 @@ class _PsetScreenState extends State<PsetScreen> {
   var _questionIndex = 0;
 
   void _answerQuestion(int score, String answer, String scale) {
-    QuestionnaireService().addQuestionnaireAnswer(
-        userEmail, answer, score, -1, "pset", _questionIndex, scale);
+    QuestionnaireService().addQuestionnaireAnswer(userEmail, answer, score, -1,
+        QuestionnaireCode.pset.name, _questionIndex, scale);
     setState(() {
       _questionIndex += 1;
     });
   }
+
+  void _resetQuestion() {}
 
   @override
   Widget build(BuildContext context) {
@@ -74,14 +77,20 @@ class _PsetScreenState extends State<PsetScreen> {
       body: Container(
         padding: const EdgeInsets.all(50.0),
         child: _questionIndex < _questions.length
-            ? Pset(
+            ? AnswerQuestions(
+                questName: titleAA,
+                sizeQuestionnaire: _questions.length - 1,
+                resetQuestion: _resetQuestion,
                 answerQuestion: _answerQuestion,
                 questionIndex: _questionIndex,
                 question: _questions[_questionIndex],
                 answers: _answers,
                 userEmail: _userEmail!,
-                scale: _userEscala)
-            : PsetResult(
+                scale: _userEscala,
+                questionnaireCode: QuestionnaireCode.pset.name,
+              )
+            : ResultQuestions(
+                questionnaireCode: QuestionnaireCode.pset.name,
                 questName: titleAA,
                 userEscala: _userEscala!,
                 userEmail: _userEmail!),

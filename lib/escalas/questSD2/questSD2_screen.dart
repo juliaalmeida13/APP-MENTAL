@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:app_mental/escalas/questSD2/questSD2.dart';
-import 'package:app_mental/escalas/questSD2/questSD2_result.dart';
 
 import '../../Services/questionnaireService.dart';
 import '../../constants.dart';
+import '../../helper/constants.dart';
 import '../../helper/helperfuncions.dart';
+import '../answer_questions.dart';
+import '../result_questions.dart';
 
 class QuestSD2Screen extends StatefulWidget {
   static const routeName = '/questSD2-screen';
@@ -127,8 +128,8 @@ class _QuestSD2ScreenState extends State<QuestSD2Screen> {
   var _questionIndex = 0;
 
   void _answerQuestion(Object score, String answer, String scale) {
-    QuestionnaireService().addQuestionnaireAnswer(
-        userEmail, answer, score, -1, "questSD2", _questionIndex, scale);
+    QuestionnaireService().addQuestionnaireAnswer(userEmail, answer, score, -1,
+        QuestionnaireCode.questSD2.name, _questionIndex, scale);
     setState(() {
       _questionIndex += 1;
     });
@@ -163,15 +164,22 @@ class _QuestSD2ScreenState extends State<QuestSD2Screen> {
       body: Padding(
         padding: const EdgeInsets.all(30.0),
         child: _questionIndex < _questions.length
-            ? QuestSD2(
+            ? AnswerQuestions(
+                questName: titleAA,
                 sizeQuestionnaire: _questions.length - 1,
                 answerQuestion: _answerQuestion,
                 resetQuestion: _resetQuestion,
                 questionIndex: _questionIndex,
                 question: _questions[_questionIndex],
                 answers: _answers,
-                scale: _userEscala)
-            : QuestSD2Result(),
+                userEmail: _userEmail,
+                scale: _userEscala,
+                questionnaireCode: QuestionnaireCode.questSD2.name)
+            : ResultQuestions(
+                questionnaireCode: QuestionnaireCode.questSD2.name,
+                questName: titleAA,
+                userEscala: _userEscala!,
+                userEmail: _userEmail),
       ),
     );
   }

@@ -1,10 +1,11 @@
 import 'package:app_mental/Services/questionnaireService.dart';
+import 'package:app_mental/helper/constants.dart';
 import 'package:flutter/material.dart';
-import 'package:app_mental/escalas/questSD1/questSD1.dart';
-import 'package:app_mental/escalas/questSD1/questSD1_result.dart';
 
 import '../../constants.dart';
 import '../../helper/helperfuncions.dart';
+import '../answer_questions.dart';
+import '../result_questions.dart';
 
 class QuestSD1Screen extends StatefulWidget {
   static const routeName = '/questSD1-screen';
@@ -124,8 +125,8 @@ class _QuestSD1ScreenState extends State<QuestSD1Screen> {
   var _questionIndex = 0;
 
   void _answerQuestion(Object score, String answer, String scale) {
-    QuestionnaireService().addQuestionnaireAnswer(
-        userEmail, answer, score, -1, "questSD1", _questionIndex, scale);
+    QuestionnaireService().addQuestionnaireAnswer(userEmail, answer, score, -1,
+        QuestionnaireCode.questSD1.name, _questionIndex, scale);
     setState(() {
       _questionIndex += 1;
     });
@@ -160,15 +161,23 @@ class _QuestSD1ScreenState extends State<QuestSD1Screen> {
       body: Padding(
         padding: const EdgeInsets.all(30.0),
         child: _questionIndex < _questions.length
-            ? QuestSD1(
+            ? AnswerQuestions(
+                questName: titleAA,
                 sizeQuestionnaire: _questions.length - 1,
                 answerQuestion: _answerQuestion,
                 resetQuestion: _resetQuestion,
                 questionIndex: _questionIndex,
                 question: _questions[_questionIndex],
                 answers: _answers,
-                scale: _userEscala)
-            : QuestSD1Result(),
+                userEmail: _userEmail,
+                scale: _userEscala,
+                questionnaireCode: QuestionnaireCode.questSD1.name,
+              )
+            : ResultQuestions(
+                questionnaireCode: QuestionnaireCode.questSD1.name,
+                questName: titleAA,
+                userEscala: _userEscala!,
+                userEmail: _userEmail),
       ),
     );
   }

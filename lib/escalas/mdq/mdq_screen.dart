@@ -1,9 +1,10 @@
+import 'package:app_mental/escalas/answer_questions.dart';
+import 'package:app_mental/escalas/result_questions.dart';
 import 'package:flutter/material.dart';
-import 'package:app_mental/escalas/mdq/mdq.dart';
-import 'package:app_mental/escalas/mdq/mdq_result.dart';
 
 import '../../Services/questionnaireService.dart';
 import '../../constants.dart';
+import '../../helper/constants.dart';
 import '../../helper/helperfuncions.dart';
 
 class MdqScreen extends StatefulWidget {
@@ -145,8 +146,8 @@ class _MdqScreenState extends State<MdqScreen> {
   var _questionIndex = 0;
 
   void _answerQuestion(int score, String answer, String scale) {
-    QuestionnaireService().addQuestionnaireAnswer(
-        userEmail, answer, score, -1, "mdq", _questionIndex, scale);
+    QuestionnaireService().addQuestionnaireAnswer(userEmail, answer, score, -1,
+        QuestionnaireCode.mdq.name, _questionIndex, scale);
     setState(() {
       _questionIndex += 1;
     });
@@ -181,7 +182,8 @@ class _MdqScreenState extends State<MdqScreen> {
       body: Padding(
         padding: const EdgeInsets.all(30.0),
         child: _questionIndex < _questions.length
-            ? Mdq(
+            ? AnswerQuestions(
+                questName: titleAA,
                 sizeQuestionnaire: _questions.length - 1,
                 answerQuestion: _answerQuestion,
                 resetQuestion: _resetQuestion,
@@ -189,8 +191,10 @@ class _MdqScreenState extends State<MdqScreen> {
                 question: _questions[_questionIndex],
                 answers: _answers,
                 userEmail: _userEmail,
-                scale: _userEscala)
-            : MdqResult(
+                scale: _userEscala,
+                questionnaireCode: QuestionnaireCode.mdq.name)
+            : ResultQuestions(
+                questionnaireCode: QuestionnaireCode.mdq.name,
                 questName: titleAA,
                 userEscala: _userEscala!,
                 userEmail: _userEmail),

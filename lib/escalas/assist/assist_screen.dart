@@ -1,8 +1,9 @@
+import 'package:app_mental/escalas/answer_questions.dart';
+import 'package:app_mental/escalas/result_questions.dart';
 import 'package:flutter/material.dart';
-import 'package:app_mental/escalas/assist/assist.dart';
-import 'package:app_mental/escalas/assist/assist_result.dart';
 import '../../Services/questionnaireService.dart';
 import '../../constants.dart';
+import '../../helper/constants.dart';
 import '../../helper/helperfuncions.dart';
 
 class AssistScreen extends StatefulWidget {
@@ -109,8 +110,8 @@ class _AssistScreenState extends State<AssistScreen> {
   var _questionIndex = 0;
 
   void _answerQuestion(int score, String answer, String scale) {
-    QuestionnaireService().addQuestionnaireAnswer(
-        userEmail, answer, score, -1, "assist", _questionIndex, scale);
+    QuestionnaireService().addQuestionnaireAnswer(userEmail, answer, score, -1,
+        QuestionnaireCode.assist.name, _questionIndex, scale);
     setState(() {
       _questionIndex += 1;
     });
@@ -145,7 +146,7 @@ class _AssistScreenState extends State<AssistScreen> {
       body: Padding(
         padding: const EdgeInsets.all(30.0),
         child: _questionIndex < _questions.length
-            ? Assist(
+            ? AnswerQuestions(
                 sizeQuestionnaire: _questions.length - 1,
                 answerQuestion: _answerQuestion,
                 resetQuestion: _resetQuestion,
@@ -153,8 +154,12 @@ class _AssistScreenState extends State<AssistScreen> {
                 question: _questions[_questionIndex],
                 answers: _answers,
                 userEmail: _userEmail,
-                scale: _userEscala)
-            : AssistResult(
+                scale: _userEscala,
+                questionnaireCode: QuestionnaireCode.assist.name,
+                questName: titleAA,
+              )
+            : ResultQuestions(
+                questionnaireCode: QuestionnaireCode.assist.name,
                 questName: titleAA,
                 userEscala: _userEscala!,
                 userEmail: _userEmail),

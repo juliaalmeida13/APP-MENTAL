@@ -1,9 +1,10 @@
-import 'package:app_mental/escalas/psqi/psqi.dart';
-import 'package:app_mental/escalas/psqi/psqi_result.dart';
+import 'package:app_mental/escalas/answer_questions.dart';
+import 'package:app_mental/escalas/result_questions.dart';
 import 'package:flutter/material.dart';
 
 import '../../Services/questionnaireService.dart';
 import '../../constants.dart';
+import '../../helper/constants.dart';
 import '../../helper/helperfuncions.dart';
 
 class PsqiScreen extends StatefulWidget {
@@ -252,8 +253,8 @@ class _PsqiScreenState extends State<PsqiScreen> {
   var _questionIndex = 0;
 
   void _answerQuestion(int score, String answer, String scale) {
-    QuestionnaireService().addQuestionnaireAnswer(
-        userEmail, answer, score, -1, "psqi", _questionIndex, scale);
+    QuestionnaireService().addQuestionnaireAnswer(userEmail, answer, score, -1,
+        QuestionnaireCode.psqi.name, _questionIndex, scale);
     setState(() {
       _questionIndex += 1;
     });
@@ -288,7 +289,8 @@ class _PsqiScreenState extends State<PsqiScreen> {
       body: Padding(
         padding: const EdgeInsets.all(30.0),
         child: _questionIndex < _questions.length
-            ? Psqi(
+            ? AnswerQuestions(
+                questName: titleAA,
                 sizeQuestionnaire: _questions.length - 1,
                 answerQuestion: _answerQuestion,
                 resetQuestion: _resetQuestion,
@@ -296,8 +298,11 @@ class _PsqiScreenState extends State<PsqiScreen> {
                 question: _questions[_questionIndex],
                 answers: _answers,
                 userEmail: _userEmail,
-                scale: _userEscala)
-            : PsqiResult(
+                scale: _userEscala,
+                questionnaireCode: QuestionnaireCode.psqi.name,
+              )
+            : ResultQuestions(
+                questionnaireCode: QuestionnaireCode.psqi.name,
                 questName: titleAA,
                 userEscala: _userEscala!,
                 userEmail: _userEmail),

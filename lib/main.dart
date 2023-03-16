@@ -3,13 +3,13 @@ import 'package:app_mental/Screens/Questionarie/quests_screen.dart';
 import 'package:app_mental/Screens/SleepDiary/sleep_diary.dart';
 import 'package:app_mental/Screens/Tutorial/tutorial_screen.dart';
 import 'package:app_mental/escalas/assist/assist_screen.dart';
-import 'package:app_mental/escalas/assistn2/assistn2_screen.dart';
+import 'package:app_mental/escalas/assistN2/assistN2_screen.dart';
 import 'package:app_mental/escalas/mdq/mdq_screen.dart';
 import 'package:app_mental/escalas/pcl5/pcl5_screen.dart';
 import 'package:app_mental/escalas/phq15/phq15_screen.dart';
 import 'package:app_mental/escalas/promisAnsiedade/promisAnsi_screen.dart';
-import 'package:app_mental/escalas/promisn1/promisn1_screen.dart';
-import 'package:app_mental/escalas/promisn2/promisn2_screen.dart';
+import 'package:app_mental/escalas/promisN1/promisN1_screen.dart';
+import 'package:app_mental/escalas/promisN2/promisN2_screen.dart';
 import 'package:app_mental/escalas/pset/pset_screen.dart';
 import 'package:app_mental/escalas/psqi/psqi_screen.dart';
 import 'package:app_mental/escalas/questSD1/questSD1_screen.dart';
@@ -72,9 +72,9 @@ class _MyAppState extends State<MyApp> {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       routes: {
-        Promisn1Screen.routeName: (ctx) => Promisn1Screen(),
+        PromisN1Screen.routeName: (ctx) => PromisN1Screen(),
         ContactsScreen.routeName: (ctx) => ContactsScreen(),
-        Promisn2Screen.routeName: (ctx) => Promisn2Screen(),
+        PromisN2Screen.routeName: (ctx) => PromisN2Screen(),
         Pcl5Screen.routeName: (ctx) => Pcl5Screen(),
         PsetScreen.routeName: (ctx) => PsetScreen(),
         QuestSD1Screen.routeName: (ctx) => QuestSD1Screen(),
@@ -84,7 +84,7 @@ class _MyAppState extends State<MyApp> {
         Phq15Screen.routeName: (ctx) => Phq15Screen(),
         PsqiScreen.routeName: (ctx) => PsqiScreen(),
         AssistScreen.routeName: (ctx) => AssistScreen(),
-        Assistn2Screen.routeName: (ctx) => Assistn2Screen(),
+        AssistN2Screen.routeName: (ctx) => AssistN2Screen(),
         "/tutorial": (ctx) => TutorialScreen(),
         "/reset-password": (ctx) => ResetPassword(),
         "/sign-in": (ctx) => SignIn(),
