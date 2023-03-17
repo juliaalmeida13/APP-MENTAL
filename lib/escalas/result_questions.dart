@@ -37,7 +37,6 @@ class _ResultQuestionsState extends State<ResultQuestions> {
         .getScore(widget.userEmail, widget.questionnaireCode, widget.userEscala)
         .then((values) {
       if (widget.questionnaireCode == "psqi") {
-        print("oi");
         for (var index = 5; index < values.length; index++) {
           sum += int.parse(values[index]);
         }
