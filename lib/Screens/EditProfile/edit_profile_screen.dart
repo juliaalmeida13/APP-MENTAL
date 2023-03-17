@@ -62,6 +62,19 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     });
   }
 
+  goBackToHome(BuildContext context) {
+    Navigator.of(context).popUntil(ModalRoute.withName('/logged-home'));
+    navigateToHome(context);
+  }
+
+  navigateToHome(BuildContext context) {
+    Navigator.of(context).pushNamed("/logged-home");
+  }
+
+  popContext(BuildContext context) {
+    Navigator.pop(context);
+  }
+
   saveUserProfile(BuildContext context) async {
     if (genderDropDown == null) {
       genderDropDown = "";
@@ -89,9 +102,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           actions: <Widget>[
             TextButton(
               onPressed: () async {
-                Navigator.of(context)
-                    .popUntil(ModalRoute.withName('/logged-home'));
-                Navigator.of(context).pushNamed("/logged-home");
+                goBackToHome(context);
               },
               child: const Text('Ok'),
             ),
@@ -107,7 +118,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           actions: <Widget>[
             TextButton(
               onPressed: () async {
-                Navigator.pop(context);
+                popContext(context);
               },
               child: const Text('Ok'),
             ),
@@ -127,7 +138,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
-            Navigator.of(context).pushNamed("/logged-home");
+            navigateToHome(context);
           },
         ),
       ),
