@@ -2,26 +2,27 @@ import 'dart:convert';
 
 import 'package:app_mental/model/exceptions/HttpException.dart';
 import 'package:app_mental/model/exceptions/apiError.dart';
+import 'package:app_mental/model/questionnaire_answer.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 
 final String url = dotenv.env['BACKEND_URL']!;
 
 class QuestionnaireService {
-  Future<void> addQuestionnaireAnswer(String email, String answer, Object score,
-      int domain, String code, int questionIndex, String scale) async {
+  Future<void> addQuestionnaireAnswer(
+      QuestionnaireAnswer questionnaireAnswer) async {
     final response = await http.post(Uri.parse("${url}addQuestionnaireAnswer"),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
         body: jsonEncode(<String, dynamic>{
-          'email': email,
-          'answer': answer,
-          'score': score,
-          'domain': domain,
-          'code': code,
-          'order': questionIndex,
-          'scale': scale
+          'email': questionnaireAnswer.email,
+          'answer': questionnaireAnswer.answer,
+          'score': questionnaireAnswer.score,
+          'domain': questionnaireAnswer.domain,
+          'code': questionnaireAnswer.code,
+          'order': questionnaireAnswer.questionIndex,
+          'scale': questionnaireAnswer.scale
         }));
     if (response.statusCode != 200) {
       final error =

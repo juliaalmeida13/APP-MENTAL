@@ -36,8 +36,15 @@ class _ResultQuestionsState extends State<ResultQuestions> {
     await QuestionnaireService()
         .getScore(widget.userEmail, widget.questionnaireCode, widget.userEscala)
         .then((values) {
-      for (var index = 5; index < values.length; index++) {
-        sum += int.parse(values[index]);
+      if (widget.questionnaireCode == "psqi") {
+        print("oi");
+        for (var index = 5; index < values.length; index++) {
+          sum += int.parse(values[index]);
+        }
+      } else {
+        for (var index = 0; index < values.length; index++) {
+          sum += int.parse(values[index]);
+        }
       }
     });
     setState(() {

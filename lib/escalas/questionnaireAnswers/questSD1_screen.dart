@@ -1,39 +1,5 @@
-import 'package:app_mental/Services/questionnaireService.dart';
-import 'package:app_mental/helper/constants.dart';
-import 'package:flutter/material.dart';
-
-import '../../constants.dart';
-import '../../helper/helperfuncions.dart';
-import '../answer_questions.dart';
-import '../result_questions.dart';
-
-class QuestSD1Screen extends StatefulWidget {
-  static const routeName = '/questSD1-screen';
-
-  @override
-  _QuestSD1ScreenState createState() {
-    return _QuestSD1ScreenState();
-  }
-}
-
-class _QuestSD1ScreenState extends State<QuestSD1Screen> {
-  late String userEmail;
-
-  @override
-  void initState() {
-    getUserEmail();
-    super.initState();
-  }
-
-  getUserEmail() async {
-    await HelperFunctions.getUserEmailInSharedPreference().then((value) {
-      setState(() {
-        userEmail = value;
-      });
-    });
-  }
-
-  static const _answers = [
+class QuestSD1Screen {
+  static const answers = [
     {
       'answers': [
         {'text': 'Entendi e quero prosseguir', 'score': 0},
@@ -121,64 +87,4 @@ class _QuestSD1ScreenState extends State<QuestSD1Screen> {
       ],
     },
   ];
-
-  var _questionIndex = 0;
-
-  void _answerQuestion(Object score, String answer, String scale) {
-    QuestionnaireService().addQuestionnaireAnswer(userEmail, answer, score, -1,
-        QuestionnaireCode.questSD1.name, _questionIndex, scale);
-    setState(() {
-      _questionIndex += 1;
-    });
-  }
-
-  void _resetQuestion() {
-    setState(() {
-      _questionIndex -= 1;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final routeArgs =
-        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
-    final titleAA = routeArgs['title'];
-    final _userEscala = routeArgs['userEscala'];
-    final _answeredUntil = routeArgs['answeredUntil'];
-    final _userEmail = routeArgs['email'];
-    final _questions = routeArgs['questions'];
-    var index = _answeredUntil as int;
-
-    if (_questionIndex < index) {
-      _questionIndex = index;
-    }
-
-    return Scaffold(
-      appBar: AppBar(
-        title: FittedBox(child: Text(titleAA!)),
-        backgroundColor: kTextColorGreen,
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(30.0),
-        child: _questionIndex < _questions.length
-            ? AnswerQuestions(
-                questName: titleAA,
-                sizeQuestionnaire: _questions.length - 1,
-                answerQuestion: _answerQuestion,
-                resetQuestion: _resetQuestion,
-                questionIndex: _questionIndex,
-                question: _questions[_questionIndex],
-                answers: _answers,
-                userEmail: _userEmail,
-                scale: _userEscala,
-                questionnaireCode: QuestionnaireCode.questSD1.name,
-              )
-            : ResultQuestions(
-                questionnaireCode: QuestionnaireCode.questSD1.name,
-                questName: titleAA,
-                userEscala: _userEscala!,
-                userEmail: _userEmail),
-      ),
-    );
-  }
 }

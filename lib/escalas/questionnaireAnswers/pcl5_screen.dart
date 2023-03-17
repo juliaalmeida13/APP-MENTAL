@@ -1,39 +1,5 @@
-import 'package:app_mental/constants.dart';
-import 'package:app_mental/escalas/answer_questions.dart';
-import 'package:app_mental/escalas/result_questions.dart';
-import 'package:flutter/material.dart';
-
-import '../../Services/questionnaireService.dart';
-import '../../helper/constants.dart';
-import '../../helper/helperfuncions.dart';
-
-class Pcl5Screen extends StatefulWidget {
-  static const routeName = '/pcl5-screen';
-
-  @override
-  _Pcl5ScreenState createState() {
-    return _Pcl5ScreenState();
-  }
-}
-
-class _Pcl5ScreenState extends State<Pcl5Screen> {
-  late String userEmail;
-
-  @override
-  void initState() {
-    getUserEmail();
-    super.initState();
-  }
-
-  getUserEmail() async {
-    await HelperFunctions.getUserEmailInSharedPreference().then((value) {
-      setState(() {
-        userEmail = value;
-      });
-    });
-  }
-
-  static const _answers = [
+class Pcl5Screen {
+  static const answers = [
     {
       'answers': [
         {'text': 'Entendi e quero prosseguir', 'score': 0, 'domain': 0},
@@ -220,65 +186,5 @@ class _Pcl5ScreenState extends State<Pcl5Screen> {
       ],
     },
   ];
-
   //(p. ex. analgésicos, estimulantes, sedativos ou tranquilizantes, ou drogas como maconha, cocaína ou crack, drogas sintéticas, alucinógenos, heroína, inalantes ou solventes ou metanfetamina?
-  var _questionIndex = 0;
-
-  void _answerQuestion(int score, int domain, String answer, String scale) {
-    QuestionnaireService().addQuestionnaireAnswer(userEmail, answer, score,
-        domain, QuestionnaireCode.pcl5.name, _questionIndex, scale);
-    setState(() {
-      _questionIndex += 1;
-    });
-  }
-
-  void _resetQuestion() {
-    setState(() {
-      _questionIndex -= 1;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final routeArgs =
-        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
-    final titleAA = routeArgs['title'];
-    final _userEscala = routeArgs['userEscala'];
-    final _answeredUntil = routeArgs['answeredUntil'];
-    final _userEmail = routeArgs['email'];
-    final _questions = routeArgs['questions'];
-    var index = _answeredUntil as int;
-
-    if (_questionIndex < index) {
-      _questionIndex = index;
-    }
-
-    return Scaffold(
-      appBar: AppBar(
-        title: FittedBox(child: Text(titleAA!)),
-        backgroundColor: kTextColorGreen,
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(30.0),
-        child: _questionIndex < _questions.length
-            ? AnswerQuestions(
-                questName: titleAA,
-                sizeQuestionnaire: _questions.length - 1,
-                answerQuestion: _answerQuestion,
-                resetQuestion: _resetQuestion,
-                questionIndex: _questionIndex,
-                question: _questions[_questionIndex],
-                answers: _answers,
-                userEmail: _userEmail,
-                scale: _userEscala,
-                questionnaireCode: QuestionnaireCode.pcl5.name,
-              )
-            : ResultQuestions(
-                questionnaireCode: QuestionnaireCode.pcl5.name,
-                questName: titleAA,
-                userEscala: _userEscala!,
-                userEmail: _userEmail!),
-      ),
-    );
-  }
 }

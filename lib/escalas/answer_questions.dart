@@ -30,17 +30,15 @@ class AnswerQuestions extends StatelessWidget {
       required this.questionnaireCode,
       required this.questName});
 
+  String getQuestionText() {
+    final startSubstance = questName.split("(");
+    final substance = startSubstance[1].split(")");
+    final questionText = question + " " + substance[0];
+    return questionText;
+  }
+
   @override
   Widget build(BuildContext context) {
-    const start = "(";
-    const end = ")";
-
-    final startIndex = questName.indexOf(start);
-    final endIndex = questName.indexOf(end, startIndex + start.length);
-    final substance = questName.substring(startIndex + start.length, endIndex);
-    final questionTextBeginning = question;
-    final questionText = questionTextBeginning + " " + substance;
-
     return Container(
       height: double.infinity,
       padding: EdgeInsets.only(top: 15, left: 15, right: 15, bottom: 15),
@@ -57,12 +55,10 @@ class AnswerQuestions extends StatelessWidget {
           ),
           Spacer(),
           (questionnaireCode == QuestionnaireCode.assistn2.name)
-              ? Question(
-                  questionText,
-                )
+              ? Question(getQuestionText())
               : Question(question),
           Container(
-            height: MediaQuery.of(context).size.height * .50,
+            height: MediaQuery.of(context).size.height * .45,
             child: SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -74,13 +70,14 @@ class AnswerQuestions extends StatelessWidget {
                         .map((answer) {
                       return AnswerOption(
                         () => answerQuestion(answer['score'], answer['domain'],
-                            answer['text'], scale),
+                            answer['text'], scale, questionnaireCode),
                         answer['text']!,
                       );
                     }).toList()
                   ] else if (answers[questionIndex].containsKey("type")) ...[
                     AnswerInput(
-                      (dynamic value) => answerQuestion(value, "Input Value"),
+                      (dynamic value) => answerQuestion(
+                          value, -1, "Input Value", scale, questionnaireCode),
                       "date",
                     )
                   ] else ...[
@@ -88,8 +85,8 @@ class AnswerQuestions extends StatelessWidget {
                             as List<Map<String, dynamic>>)
                         .map((answer) {
                       return AnswerOption(
-                        () => answerQuestion(
-                            answer['score'], answer['text'], scale),
+                        () => answerQuestion(answer['score'], -1,
+                            answer['text'], scale, questionnaireCode),
                         answer['text']!,
                       );
                     }).toList()
@@ -98,68 +95,72 @@ class AnswerQuestions extends StatelessWidget {
               ),
             ),
           ),
-          Spacer(),
           (questionnaireCode == QuestionnaireCode.pset.name)
-              ? SizedBox.shrink()
-              : (Container(
-                  child: Column(
-                    children: [
-                      TextButton(
-                        onPressed: () {
-                          resetQuestion();
-                        },
-                        child: const Text("Voltar para a questão anterior"),
-                      ),
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            primary: Color.fromRGBO(104, 202, 138, 1)),
-                        onPressed: () => showDialog<String>(
-                          context: context,
-                          builder: (BuildContext context) => AlertDialog(
-                            title: const Text('Responder depois'),
-                            content: const Text(
-                                'Deseja salvar suas respostas e terminar de responder mais tarde?'),
-                            actions: <Widget>[
-                              TextButton(
-                                onPressed: () =>
-                                    Navigator.pop(context, 'Cancel'),
-                                child: const Text('Cancelar'),
-                              ),
-                              (questionnaireCode == QuestionnaireCode.pn1.name)
-                                  ? (TextButton(
-                                      onPressed: () async {
-                                        QuestionnaireService()
-                                            .discardAllAnswers(userEmail,
-                                                QuestionnaireCode.pn1.name)
-                                            .then((_) {
-                                          Navigator.of(context).popUntil(
-                                              ModalRoute.withName(
-                                                  '/logged-home'));
-                                          Navigator.of(context)
-                                              .pushNamed("/quests-screen");
-                                        });
-                                      },
-                                      child: const Text('Descartar'),
-                                    ))
-                                  : Container(),
-                              TextButton(
-                                onPressed: () async {
-                                  Navigator.of(context).popUntil(
-                                      ModalRoute.withName('/logged-home'));
-                                  Navigator.of(context)
-                                      .pushNamed("/quests-screen");
-                                },
-                                child: const Text('OK'),
-                              ),
-                            ],
-                          ),
+              ? Container()
+              : Spacer(),
+          Container(
+            child: Column(
+              children: [
+                TextButton(
+                  onPressed: () {
+                    resetQuestion();
+                  },
+                  child: const Text("Voltar para a questão anterior"),
+                ),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      primary: Color.fromRGBO(104, 202, 138, 1)),
+                  onPressed: () => showDialog<String>(
+                    context: context,
+                    builder: (BuildContext context) => AlertDialog(
+                      title: const Text('Responder depois'),
+                      content: const Text(
+                          'Deseja salvar suas respostas e terminar de responder mais tarde?'),
+                      actions: <Widget>[
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            TextButton(
+                              onPressed: () => Navigator.pop(context, 'Cancel'),
+                              child: const Text('Cancelar'),
+                            ),
+                            (questionnaireCode == QuestionnaireCode.pn1.name)
+                                ? TextButton(
+                                    onPressed: () async {
+                                      QuestionnaireService()
+                                          .discardAllAnswers(userEmail,
+                                              QuestionnaireCode.pn1.name)
+                                          .then((_) {
+                                        Navigator.of(context).popUntil(
+                                            ModalRoute.withName(
+                                                '/logged-home'));
+                                        Navigator.of(context)
+                                            .pushNamed("/quests-screen");
+                                      });
+                                    },
+                                    child: const Text('Descartar'),
+                                  )
+                                : Container(),
+                            TextButton(
+                              onPressed: () async {
+                                Navigator.of(context).popUntil(
+                                    ModalRoute.withName('/logged-home'));
+                                Navigator.of(context)
+                                    .pushNamed("/quests-screen");
+                              },
+                              child: const Text('OK'),
+                            ),
+                          ],
                         ),
-                        child: const Text('Responder depois',
-                            style: TextStyle(color: Colors.black)),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                )),
+                  child: const Text('Responder depois',
+                      style: TextStyle(color: Colors.black)),
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );
