@@ -31,12 +31,11 @@ class _BodyState extends State<Body> {
         });
       });
       SleepService().isSleepDiaryAnsweredToday(email).then((answered) {
-        print(answered);
         setState(() {
           if (answered) {
-            sleepNotification = 1;
-          } else {
             sleepNotification = 0;
+          } else {
+            sleepNotification = 1;
           }
         });
       });

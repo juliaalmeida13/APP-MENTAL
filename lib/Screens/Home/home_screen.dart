@@ -36,11 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
       NotificationService.onNotifications.stream.listen(onClickedNotification);
 
   onClickedNotification(String? payload) {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => QuestsScreen(),
-      ),
-    );
+    Navigator.of(context).pushNamed("$payload");
   }
 
   scheduleQuestionnaireNotifications() async {
@@ -63,7 +59,7 @@ class _HomeScreenState extends State<HomeScreen> {
     NotificationService.showScheduleDayNotification(
       id: 0,
       title: "AppMental",
-      body: "Bom dia, entre no aplicativo para responder o diário do sono!",
+      body: "Bom dia! Entre no aplicativo para responder o diário do sono!",
       payload: "/sleep-diary",
     );
   }
