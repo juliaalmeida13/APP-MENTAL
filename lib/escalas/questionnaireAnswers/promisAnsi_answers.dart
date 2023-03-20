@@ -1,4 +1,4 @@
-class PromisAnsiScreen {
+class PromisAnsiAnswers {
   static const answers = [
     {
       'answers': [

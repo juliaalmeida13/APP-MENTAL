@@ -1,4 +1,4 @@
-class Phq15Screen {
+class Phq15Answers {
   static const answers = [
     {
       'answers': [

@@ -1,4 +1,4 @@
-class QuestSD1Screen {
+class QuestSD1Answers {
   static const answers = [
     {
       'answers': [

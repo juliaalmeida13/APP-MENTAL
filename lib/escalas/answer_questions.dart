@@ -37,6 +37,49 @@ class AnswerQuestions extends StatelessWidget {
     return questionText;
   }
 
+  goBackToQuestionnaireScreen(BuildContext context) {
+    Navigator.of(context).popUntil(ModalRoute.withName('/logged-home'));
+    Navigator.of(context).pushNamed("/quests-screen");
+  }
+
+  discartChanges(BuildContext context) async {
+    QuestionnaireService()
+        .discardAllAnswers(userEmail, QuestionnaireCode.pn1.name)
+        .then((_) {
+      Navigator.of(context).popUntil(ModalRoute.withName('/logged-home'));
+      Navigator.of(context).pushNamed("/quests-screen");
+    });
+  }
+
+  answerLater(BuildContext context) {
+    return AlertDialog(
+      title: const Text('Responder depois'),
+      content: const Text(
+          'Deseja salvar suas respostas e terminar de responder mais tarde?'),
+      actions: <Widget>[
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            TextButton(
+              onPressed: () => Navigator.pop(context, 'Cancel'),
+              child: const Text('Cancelar'),
+            ),
+            (questionnaireCode == QuestionnaireCode.pn1.name)
+                ? TextButton(
+                    onPressed: () => discartChanges(context),
+                    child: const Text('Descartar'),
+                  )
+                : Container(),
+            TextButton(
+              onPressed: () => goBackToQuestionnaireScreen(context),
+              child: const Text('OK'),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -77,7 +120,11 @@ class AnswerQuestions extends StatelessWidget {
                   ] else if (answers[questionIndex].containsKey("type")) ...[
                     AnswerInput(
                       (dynamic value) => answerQuestion(
-                          value, -1, "Input Value", scale, questionnaireCode),
+                          value,
+                          Constants.unimportantValue,
+                          "Input Value",
+                          scale,
+                          questionnaireCode),
                       "date",
                     )
                   ] else ...[
@@ -85,8 +132,12 @@ class AnswerQuestions extends StatelessWidget {
                             as List<Map<String, dynamic>>)
                         .map((answer) {
                       return AnswerOption(
-                        () => answerQuestion(answer['score'], -1,
-                            answer['text'], scale, questionnaireCode),
+                        () => answerQuestion(
+                            answer['score'],
+                            Constants.unimportantValue,
+                            answer['text'],
+                            scale,
+                            questionnaireCode),
                         answer['text']!,
                       );
                     }).toList()
@@ -110,51 +161,12 @@ class AnswerQuestions extends StatelessWidget {
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
                       primary: Color.fromRGBO(104, 202, 138, 1)),
-                  onPressed: () => showDialog<String>(
-                    context: context,
-                    builder: (BuildContext context) => AlertDialog(
-                      title: const Text('Responder depois'),
-                      content: const Text(
-                          'Deseja salvar suas respostas e terminar de responder mais tarde?'),
-                      actions: <Widget>[
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            TextButton(
-                              onPressed: () => Navigator.pop(context, 'Cancel'),
-                              child: const Text('Cancelar'),
-                            ),
-                            (questionnaireCode == QuestionnaireCode.pn1.name)
-                                ? TextButton(
-                                    onPressed: () async {
-                                      QuestionnaireService()
-                                          .discardAllAnswers(userEmail,
-                                              QuestionnaireCode.pn1.name)
-                                          .then((_) {
-                                        Navigator.of(context).popUntil(
-                                            ModalRoute.withName(
-                                                '/logged-home'));
-                                        Navigator.of(context)
-                                            .pushNamed("/quests-screen");
-                                      });
-                                    },
-                                    child: const Text('Descartar'),
-                                  )
-                                : Container(),
-                            TextButton(
-                              onPressed: () async {
-                                Navigator.of(context).popUntil(
-                                    ModalRoute.withName('/logged-home'));
-                                Navigator.of(context)
-                                    .pushNamed("/quests-screen");
-                              },
-                              child: const Text('OK'),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
+                  onPressed: () {
+                    showDialog<String>(
+                      context: context,
+                      builder: (BuildContext context) => answerLater(context),
+                    );
+                  },
                   child: const Text('Responder depois',
                       style: TextStyle(color: Colors.black)),
                 ),

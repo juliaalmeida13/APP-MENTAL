@@ -2,6 +2,7 @@ class Constants {
   static String myName = "";
   static String myEmail = "";
   static String uid = "";
+  static int unimportantValue = -1;
   static int criticalValueAssistN2 = 11;
   static int recommendationValueAssistN2 = 3;
   static int criticalValueMdq = 6;

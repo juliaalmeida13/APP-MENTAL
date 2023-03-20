@@ -1,4 +1,4 @@
-class PromisN2Screen {
+class PromisN2Answers {
   static const answers = [
     {
       'answers': [

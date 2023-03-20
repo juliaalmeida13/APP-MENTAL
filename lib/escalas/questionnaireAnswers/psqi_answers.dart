@@ -1,4 +1,4 @@
-class PsqiScreen {
+class PsqiAnswers {
   static const answers = [
     {
       'answers': [

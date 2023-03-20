@@ -1,4 +1,4 @@
-class AssistScreen {
+class AssistAnswers {
   static const answers = [
     {
       'answers': [

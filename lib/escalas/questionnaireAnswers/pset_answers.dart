@@ -1,4 +1,4 @@
-class PsetScreen {
+class PsetAnswers {
   static const answers = [
     {
       'answers': [

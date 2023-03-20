@@ -1,4 +1,4 @@
-class AssistN2Screen {
+class AssistN2Answers {
   static const answers = [
     {
       'answers': [

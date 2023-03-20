@@ -1,15 +1,15 @@
-import 'package:app_mental/escalas/questionnaireAnswers/promisN1_screen.dart';
-import 'package:app_mental/escalas/questionnaireAnswers/promisN2_screen.dart';
-import 'package:app_mental/escalas/questionnaireAnswers/pset_screen.dart';
-import 'package:app_mental/escalas/questionnaireAnswers/questSD2_screen.dart';
-import 'package:app_mental/escalas/questionnaireAnswers/assist_screen.dart';
-import 'package:app_mental/escalas/questionnaireAnswers/assistN2_screen.dart';
-import 'package:app_mental/escalas/questionnaireAnswers/mdq_screen.dart';
-import 'package:app_mental/escalas/questionnaireAnswers/pcl5_screen.dart';
-import 'package:app_mental/escalas/questionnaireAnswers/phq15_screen.dart';
-import 'package:app_mental/escalas/questionnaireAnswers/promisAnsi_screen.dart';
-import 'package:app_mental/escalas/questionnaireAnswers/psqi_screen.dart';
-import 'package:app_mental/escalas/questionnaireAnswers/questSD1_screen.dart';
+import 'package:app_mental/escalas/questionnaireAnswers/promisN1_answers.dart';
+import 'package:app_mental/escalas/questionnaireAnswers/promisN2_answers.dart';
+import 'package:app_mental/escalas/questionnaireAnswers/pset_answers.dart';
+import 'package:app_mental/escalas/questionnaireAnswers/questSD2_answers.dart';
+import 'package:app_mental/escalas/questionnaireAnswers/assist_answers.dart';
+import 'package:app_mental/escalas/questionnaireAnswers/assistN2_answers.dart';
+import 'package:app_mental/escalas/questionnaireAnswers/mdq_answers.dart';
+import 'package:app_mental/escalas/questionnaireAnswers/pcl5_answers.dart';
+import 'package:app_mental/escalas/questionnaireAnswers/phq15_answers.dart';
+import 'package:app_mental/escalas/questionnaireAnswers/promisAnsi_answers.dart';
+import 'package:app_mental/escalas/questionnaireAnswers/psqi_answers.dart';
+import 'package:app_mental/escalas/questionnaireAnswers/questSD1_answers.dart';
 import 'package:flutter/material.dart';
 
 import '../../Services/questionnaireService.dart';
@@ -72,29 +72,29 @@ class _QuestionScreenState extends State<QuestionScreen> {
   getAnswers(questionnaireCode) {
     switch (questionnaireCode) {
       case ("questSD2"):
-        return QuestSD2Screen.answers;
+        return QuestSD2Answers.answers;
       case ("pn1"):
-        return PromisN1Screen.answers;
+        return PromisN1Answers.answers;
       case ("pn2"):
-        return PromisN2Screen.answers;
+        return PromisN2Answers.answers;
       case ("pset"):
-        return PsetScreen.answers;
+        return PsetAnswers.answers;
       case ("pcl5"):
-        return Pcl5Screen.answers;
+        return Pcl5Answers.answers;
       case ("questSD1"):
-        return QuestSD1Screen.answers;
+        return QuestSD1Answers.answers;
       case ("mdq"):
-        return MdqScreen.answers;
+        return MdqAnswers.answers;
       case ("pn2A"):
-        return PromisAnsiScreen.answers;
+        return PromisAnsiAnswers.answers;
       case ("phq15"):
-        return Phq15Screen.answers;
+        return Phq15Answers.answers;
       case ("psqi"):
-        return PsqiScreen.answers;
+        return PsqiAnswers.answers;
       case ("assist"):
-        return AssistScreen.answers;
+        return AssistAnswers.answers;
       case ("assistn2"):
-        return AssistN2Screen.answers;
+        return AssistN2Answers.answers;
     }
   }
 

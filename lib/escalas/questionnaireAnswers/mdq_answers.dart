@@ -1,4 +1,4 @@
-class MdqScreen {
+class MdqAnswers {
   static const answers = [
     {
       'answers': [

@@ -1,4 +1,4 @@
-class Pcl5Screen {
+class Pcl5Answers {
   static const answers = [
     {
       'answers': [
