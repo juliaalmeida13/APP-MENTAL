@@ -50,9 +50,9 @@ class ReadingService {
     throw HttpException(error.message.toString());
   }
 
-  Future<int> getReadingNotificationStatus(String email) async {
+  Future<int> getReadingNotificationStatusCount(String email) async {
     final response = await http.get(
-        Uri.parse("${url}getReadingNotificationStatus?email=$email"),
+        Uri.parse("${url}getReadingNotificationStatusCount?email=$email"),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         });

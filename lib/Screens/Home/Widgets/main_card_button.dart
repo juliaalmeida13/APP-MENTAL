@@ -14,7 +14,7 @@ class MainCardButton extends StatelessWidget {
   }
 
   Widget _notification() {
-    return notification != 0
+    return notification > 0
         ? Container(
             width: 20,
             height: 20,

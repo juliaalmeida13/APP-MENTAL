@@ -18,13 +18,13 @@ class _BodyState extends State<Body> {
   @override
   void initState() {
     super.initState();
-    getQuestionnaireNotificationStatus();
+    getQuestionnaireNotification();
   }
 
-  getQuestionnaireNotificationStatus() async {
+  getQuestionnaireNotification() async {
     await HelperFunctions.getUserEmailInSharedPreference().then((email) {
       ScaleService()
-          .getQuestionnaireNotificationStatus(email)
+          .getQuestionnaireNotificationStatusCount(email)
           .then((notification) {
         setState(() {
           questionnaireNotification = notification;
@@ -39,7 +39,9 @@ class _BodyState extends State<Body> {
           }
         });
       });
-      ReadingService().getReadingNotificationStatus(email).then((notification) {
+      ReadingService()
+          .getReadingNotificationStatusCount(email)
+          .then((notification) {
         setState(() {
           readingNotification = notification;
         });

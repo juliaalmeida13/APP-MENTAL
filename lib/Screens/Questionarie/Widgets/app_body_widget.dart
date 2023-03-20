@@ -105,14 +105,6 @@ class QuizCard extends StatelessWidget {
                             textAlign: TextAlign.right,
                             style: AppTextStyles.body11,
                           )),
-                      /*Expanded(
-                        flex: 2,
-                        child: LinearProgressIndicator(
-                            value: 0.75,
-                            backgroundColor: AppColors.verdeclaro,
-                            valueColor: AlwaysStoppedAnimation<Color>(
-                                AppColors.verdementa)),
-                      )*/
                     ],
                   )
                 ],

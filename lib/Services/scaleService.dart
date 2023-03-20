@@ -47,9 +47,9 @@ class ScaleService {
     throw HttpException(error.message.toString());
   }
 
-  Future<int> getQuestionnaireNotificationStatus(String email) async {
+  Future<int> getQuestionnaireNotificationStatusCount(String email) async {
     final response = await http.get(
-        Uri.parse("${url}getQuestionnaireNotificationStatus?email=$email"),
+        Uri.parse("${url}getQuestionnaireNotificationStatusCount?email=$email"),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         });
