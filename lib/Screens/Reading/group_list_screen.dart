@@ -1,14 +1,14 @@
-import 'package:app_mental/Screens/InterventionListing/Widgets/body.dart';
+import 'package:app_mental/Screens/Reading/Widgets/group_body.dart';
 import 'package:app_mental/constants.dart';
 import 'package:flutter/material.dart';
 
 class GroupListScreen extends StatelessWidget {
+  final String group;
+
   GroupListScreen(this.group);
 
-  final String group;
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: kPrimaryGreen,
       appBar: AppBar(
@@ -19,7 +19,7 @@ class GroupListScreen extends StatelessWidget {
             onPressed: () => {Navigator.pop(context)},
           ),
           title: FittedBox(child: Text(group))),
-      body: Body(group),
+      body: GroupBody(group),
     );
   }
 }

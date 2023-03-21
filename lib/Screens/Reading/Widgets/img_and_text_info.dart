@@ -1,18 +1,15 @@
 import 'package:app_mental/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ImgAndTextInfoCard extends StatelessWidget {
   const ImgAndTextInfoCard({
-    required Key key,
     required this.interventionImage,
     required this.size,
     required this.interventionText,
-  }) : super(key: key);
+  });
 
   final Size size;
   final String interventionImage;
@@ -28,9 +25,8 @@ class ImgAndTextInfoCard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            ImageCard(key: UniqueKey(), size: size, image: interventionImage),
-            InfoTextCard(
-                key: UniqueKey(), size: size, textFile: interventionText)
+            ImageCard(size: size, image: interventionImage),
+            InfoTextCard(size: size, text: interventionText)
           ],
         ),
       ),
@@ -38,64 +34,65 @@ class ImgAndTextInfoCard extends StatelessWidget {
   }
 }
 
-///imagem ilustrativa
 class ImageCard extends StatelessWidget {
   const ImageCard({
-    required Key key,
     required this.image,
     required this.size,
-  }) : super(key: key);
+  });
 
   final Size size;
   final String image;
+
   @override
   Widget build(BuildContext context) {
     return Container(
-        margin: EdgeInsets.only(top: 20),
-        width: size.width * 0.9,
-        height: 200,
-        child: Stack(
-          children: [
-            Align(
-              alignment: Alignment(0, 1),
-              child: Container(
-                width: size.width,
-                height: 100,
-                decoration: BoxDecoration(
-                  color: Color(0xFFEEEEEE),
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(0),
-                    bottomRight: Radius.circular(0),
-                    topLeft: Radius.circular(10),
-                    topRight: Radius.circular(10),
-                  ),
+      margin: EdgeInsets.only(top: 20),
+      width: size.width * 0.9,
+      height: 200,
+      child: Stack(
+        children: [
+          Align(
+            alignment: Alignment(0, 1),
+            child: Container(
+              width: size.width,
+              height: 100,
+              decoration: BoxDecoration(
+                color: Color(0xFFEEEEEE),
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(0),
+                  bottomRight: Radius.circular(0),
+                  topLeft: Radius.circular(10),
+                  topRight: Radius.circular(10),
                 ),
               ),
             ),
-            Align(
-                alignment: Alignment(0, 0),
-                child: ClipRRect(
-                    borderRadius: BorderRadius.circular(20),
-                    child: Image(
-                        image: AssetImage(image),
-                        width: size.width,
-                        height: 250,
-                        fit: BoxFit.cover))),
-          ],
-        ));
+          ),
+          Align(
+            alignment: Alignment(0, 0),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(20),
+              child: Image(
+                  image: AssetImage(image),
+                  width: size.width,
+                  height: 250,
+                  fit: BoxFit.cover),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
 
-///Texto da intervencao
 class InfoTextCard extends StatelessWidget {
   const InfoTextCard({
-    required Key key,
     required this.size,
-    required this.textFile,
-  }) : super(key: key);
+    required this.text,
+  });
 
   final Size size;
-  final String textFile;
+  final String text;
+
   @override
   Widget build(BuildContext context) {
     return Align(
@@ -117,55 +114,44 @@ class InfoTextCard extends StatelessWidget {
         ),
         alignment: Alignment(-1, -1),
         child: Padding(
-            padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
-            child: InfoText(key: UniqueKey(), markdownFile: textFile)),
+          padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+          child: InfoText(markdownFile: text),
+        ),
       ),
     );
   }
 }
 
-/// Markdown Text Widget
 class InfoText extends StatelessWidget {
   const InfoText({
-    required Key key,
     required this.markdownFile,
-  }) : super(key: key);
+  });
 
   final String markdownFile;
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return FutureBuilder(
-        future: rootBundle.loadString(markdownFile),
-        builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-          if (snapshot.hasData) {
-            return Container(
-              margin: EdgeInsets.only(bottom: kDefaultPadding),
-              child: SizedBox(
-                height: size.height * 0.53,
-                child: Column(
-                  children: [
-                    Expanded(
-                      child: Markdown(
-                          onTapLink: (text, href, title) =>
-                              onTapLink(text, href, title, context),
-                          styleSheet: MrkdnTextTheme(context),
-                          data: snapshot.data!),
-                    ),
-                  ],
-                ),
-              ),
-            );
-          }
-          return Center(
-            child: CircularProgressIndicator(),
-          );
-        });
+    return Container(
+      margin: EdgeInsets.only(bottom: kDefaultPadding),
+      child: SizedBox(
+        height: size.height * 0.53,
+        child: Column(
+          children: [
+            Expanded(
+              child: Markdown(
+                  onTapLink: (text, href, title) =>
+                      onTapLink(text, href, title, context),
+                  styleSheet: mrkdnTextTheme(context),
+                  data: markdownFile),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
-  /// Markdown Text Style
-  MarkdownStyleSheet MrkdnTextTheme(BuildContext context) {
+  MarkdownStyleSheet mrkdnTextTheme(BuildContext context) {
     return MarkdownStyleSheet.fromTheme(Theme.of(context)).copyWith(
         textScaleFactor: 1.5,
         p: TextStyle(color: Color.fromRGBO(0, 0, 0, 0.66)));

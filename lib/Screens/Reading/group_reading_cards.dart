@@ -1,31 +1,35 @@
-import 'package:app_mental/Screens/InterventionListing/intervention_list.dart';
-import 'package:app_mental/Services/interventions.dart';
+import 'package:app_mental/Screens/Reading/group_list_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class RecomendsReadings extends StatelessWidget {
-  const RecomendsReadings();
+class GroupReadingCards extends StatefulWidget {
+  final List<String> groupList;
+
+  GroupReadingCards({required this.groupList});
 
   @override
+  State<GroupReadingCards> createState() => _GroupReadingCardsState();
+}
+
+class _GroupReadingCardsState extends State<GroupReadingCards> {
+  @override
   Widget build(BuildContext context) {
-    print(Interventions().getInterventions());
     return Expanded(
       child: ListView.builder(
         padding: EdgeInsets.all(10.0),
         scrollDirection: Axis.vertical,
-        itemCount: Interventions().getCategories().length,
+        itemCount: widget.groupList.length,
         itemBuilder: (BuildContext context, int index) {
-          final item = Interventions().getCategories()[index];
-
-          return ReadingRecomendCard(
+          var group = widget.groupList.elementAt(index);
+          return GroupReadingCard(
             image: "assets/images/reading01.jpg",
-            title: item.nome,
+            title: group,
             press: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(
                   builder: (context) {
-                    return GroupListScreen(item.nome);
+                    return GroupListScreen(group);
                   },
                 ),
               );
@@ -37,8 +41,8 @@ class RecomendsReadings extends StatelessWidget {
   }
 }
 
-class ReadingRecomendCard extends StatelessWidget {
-  const ReadingRecomendCard({
+class GroupReadingCard extends StatelessWidget {
+  const GroupReadingCard({
     required this.image,
     required this.title,
     required this.press,

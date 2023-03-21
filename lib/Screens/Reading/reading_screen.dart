@@ -1,6 +1,5 @@
-import 'package:app_mental/Screens/Reading/Widgets/body.dart';
+import 'package:app_mental/Screens/Reading/Widgets/reading_body.dart';
 import 'package:app_mental/Services/readingService.dart';
-import 'package:app_mental/Services/userService.dart';
 import 'package:app_mental/constants.dart';
 import 'package:app_mental/helper/helperfuncions.dart';
 import 'package:flutter/material.dart';
@@ -9,15 +8,15 @@ import 'package:rating_dialog/rating_dialog.dart';
 class ReadingScreen extends StatefulWidget {
   ReadingScreen(
     this.title,
-    this.file,
+    this.text,
     this.image,
     this.id,
   );
 
-  final String file;
+  final String text;
   final String title;
   final String image;
-  final String id;
+  final int? id;
 
   @override
   State<ReadingScreen> createState() => _ReadingScreenState();
@@ -43,8 +42,7 @@ class _ReadingScreenState extends State<ReadingScreen> {
     });
   }
 
-  // Cria um dialogo para a avaliacao de uma intervencaos
-  void _showRatingDialog(context, String dialogTitle, String id) async {
+  void _showRatingDialog(context, String dialogTitle, int id) async {
     await ReadingService()
         .findReadingRating(userEmail, id)
         .then((readingRating) {
@@ -80,7 +78,6 @@ class _ReadingScreenState extends State<ReadingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: UniqueKey(),
       appBar: AppBar(
         backgroundColor: kTextColorGreen,
         leading: BackButton(
@@ -99,14 +96,14 @@ class _ReadingScreenState extends State<ReadingScreen> {
               primary: Colors.white,
             ),
             onPressed: () {
-              _showRatingDialog(context, widget.title, widget.id);
+              _showRatingDialog(context, widget.title, widget.id!);
             },
             child: Text("Avaliar"),
           ),
         ],
       ),
       resizeToAvoidBottomInset: false,
-      body: Body(widget.file, widget.image),
+      body: ReadingBody(widget.text, widget.image),
     );
   }
 }

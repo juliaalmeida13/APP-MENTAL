@@ -8,14 +8,15 @@ import 'package:rating_dialog/rating_dialog.dart';
 
 class VideoScreen extends StatelessWidget {
   VideoScreen(this.title, this.file, this.videoId, this.id);
-  final String id;
+  final int? id;
   final String file;
   final String title;
-  final String videoId;
+  final String? videoId;
 
   // Cria um dialogo para a avaliacao de uma intervencaos
-  void _showRatingDialog(context, String dialogTitle, String id) async {
-    String formattedDate = DateFormat.yMEd().add_jms().format(DateTime.now());
+  void _showRatingDialog(context, String dialogTitle, int id) async {
+    //////////////
+    /*String formattedDate = DateFormat.yMEd().add_jms().format(DateTime.now());
     bool existingRating = false;
     var ds = await DatabaseMethods().ratingsAreEmpty(id);
     String ratingTitle = 'Avalie este conteúdo!';
@@ -54,7 +55,7 @@ class VideoScreen extends StatelessWidget {
       context: context,
       barrierDismissible: true, // set to false if you want to force a rating
       builder: (context) => _dialog,
-    );
+    );*/
   }
 
   @override
@@ -74,15 +75,14 @@ class VideoScreen extends StatelessWidget {
                 primary: Colors.white,
               ),
               onPressed: () {
-                _showRatingDialog(context, title, id);
+                _showRatingDialog(context, title, id!);
               },
               child: Text("Avaliar"),
             ),
           ],
           title: Text(title)),
       resizeToAvoidBottomInset: false,
-      key: UniqueKey(),
-      body: Body(file, videoId),
+      body: Body(file, videoId!),
     );
   }
 }
