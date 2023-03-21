@@ -50,9 +50,9 @@ class ReadingService {
     throw HttpException(error.message.toString());
   }
 
-  Future<int> getReadingNotificationStatusCount(String email) async {
+  Future<int> getReadingIsReadCount(String email) async {
     final response = await http.get(
-        Uri.parse("${url}getReadingNotificationStatusCount?email=$email"),
+        Uri.parse("${url}getReadingIsReadCount?email=$email"),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         });
@@ -64,10 +64,8 @@ class ReadingService {
     throw HttpException(error.message.toString());
   }
 
-  Future<void> changeNotificationStatus(
-      String email, String name, String group) async {
-    final response = await http.post(
-        Uri.parse("${url}changeNotificationStatus"),
+  Future<void> changeIsRead(String email, String name, String group) async {
+    final response = await http.post(Uri.parse("${url}changeIsRead"),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },

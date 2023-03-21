@@ -47,9 +47,9 @@ class ScaleService {
     throw HttpException(error.message.toString());
   }
 
-  Future<int> getQuestionnaireNotificationStatusCount(String email) async {
+  Future<int> getQuestionnaireIsReadCount(String email) async {
     final response = await http.get(
-        Uri.parse("${url}getQuestionnaireNotificationStatusCount?email=$email"),
+        Uri.parse("${url}getQuestionnaireIsReadCount?email=$email"),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         });
@@ -61,9 +61,9 @@ class ScaleService {
     throw HttpException(error.message.toString());
   }
 
-  Future<List<dynamic>> getQuestionnaireDateNotification(String email) async {
+  Future<List<dynamic>> getQuestionnaireIsReadDate(String email) async {
     final response = await http.get(
-        Uri.parse("${url}getQuestionnaireDateNotification?email=$email"),
+        Uri.parse("${url}getQuestionnaireIsReadDate?email=$email"),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         });

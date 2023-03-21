@@ -11,9 +11,9 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
-  int questionnaireNotification = 0;
-  int sleepNotification = 0;
-  int readingNotification = 0;
+  int questionnaireNotificationQuantity = 0;
+  int isSleepDiaryAnsweredToday = 0;
+  int readingNotificationQuantity = 0;
 
   @override
   void initState() {
@@ -24,26 +24,26 @@ class _BodyState extends State<Body> {
   getQuestionnaireNotification() async {
     await HelperFunctions.getUserEmailInSharedPreference().then((email) {
       ScaleService()
-          .getQuestionnaireNotificationStatusCount(email)
-          .then((notification) {
+          .getQuestionnaireIsReadCount(email)
+          .then((notificationQuantity) {
         setState(() {
-          questionnaireNotification = notification;
+          questionnaireNotificationQuantity = notificationQuantity;
         });
       });
       SleepService().isSleepDiaryAnsweredToday(email).then((answered) {
         setState(() {
           if (answered) {
-            sleepNotification = 0;
+            isSleepDiaryAnsweredToday = 0;
           } else {
-            sleepNotification = 1;
+            isSleepDiaryAnsweredToday = 1;
           }
         });
       });
       ReadingService()
-          .getReadingNotificationStatusCount(email)
-          .then((notification) {
+          .getReadingIsReadCount(email)
+          .then((notificationQuantity) {
         setState(() {
-          readingNotification = notification;
+          readingNotificationQuantity = notificationQuantity;
         });
       });
     });
@@ -59,16 +59,16 @@ class _BodyState extends State<Body> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               MainCardButton("Diário do sono", Icons.bed, "/sleep-diary",
-                  sleepNotification),
+                  isSleepDiaryAnsweredToday),
               MainCardButton("Leitura", Icons.book_online, "/readings",
-                  readingNotification)
+                  readingNotificationQuantity)
             ],
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               MainCardButton("Questionários", Icons.list_alt, "/quests-screen",
-                  questionnaireNotification),
+                  questionnaireNotificationQuantity),
               MainCardButton("Contatos", Icons.people, "/contacts-screen", 0)
             ],
           ),

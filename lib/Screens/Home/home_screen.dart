@@ -7,7 +7,6 @@ import '../../Services/notificationService.dart';
 import '../../Services/scaleService.dart';
 import '../../constants.dart';
 import '../../helper/helperfuncions.dart';
-import '../Questionarie/quests_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   static const routeName = '/home-screen';
@@ -43,7 +42,7 @@ class _HomeScreenState extends State<HomeScreen> {
     final List<PendingNotificationRequest> pendingNotificationRequests =
         await FlutterLocalNotificationsPlugin().pendingNotificationRequests();
     if (userEmail != null && pendingNotificationRequests.length == 0) {
-      ScaleService().getQuestionnaireDateNotification(userEmail!).then((dates) {
+      ScaleService().getQuestionnaireIsReadDate(userEmail!).then((dates) {
         var i = 1;
         dates.forEach((date) {
           NotificationService.showScheduleWeekNotification(
