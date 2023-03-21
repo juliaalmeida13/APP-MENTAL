@@ -11,6 +11,7 @@ class Constants {
   static int criticalValuePromisN2 = 16;
   static int criticalValuePsqi = 10;
   static int recommendationValuePsqi = 4;
+  static int startingPsqiValue = 5;
 }
 
 enum QuestionnaireCode {
