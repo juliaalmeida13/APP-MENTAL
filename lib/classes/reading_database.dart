@@ -79,8 +79,8 @@ class ReadingDatabase {
     return await db.insert('readings', reading.toMap());
   }
 
-  Future<int> remove(int id) async {
+  dropAllRows() async {
     Database db = await instance.database;
-    return await db.delete('readings', where: 'id = ?', whereArgs: [id]);
+    await db.rawQuery('DELETE FROM readings');
   }
 }

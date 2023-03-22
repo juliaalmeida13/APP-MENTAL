@@ -70,7 +70,7 @@ class _ReadingScreenState extends State<ReadingScreen> {
 
     showDialog(
       context: context,
-      barrierDismissible: true, // set to false if you want to force a rating
+      barrierDismissible: true,
       builder: (context) => _dialog,
     );
   }

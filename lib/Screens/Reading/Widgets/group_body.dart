@@ -85,7 +85,7 @@ class IntervCard extends StatelessWidget {
           context,
           MaterialPageRoute(
             builder: (context) {
-              return this.reading.type != "video"
+              return this.reading.type != "V"
                   ? ReadingScreen(
                       reading.name,
                       reading.text,

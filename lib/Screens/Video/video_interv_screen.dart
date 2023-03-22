@@ -1,61 +1,74 @@
 import 'package:app_mental/Screens/Video/Widgets/body.dart';
-import 'package:app_mental/Services/database.dart';
 import 'package:app_mental/constants.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:rating_dialog/rating_dialog.dart';
 
-class VideoScreen extends StatelessWidget {
-  VideoScreen(this.title, this.file, this.videoId, this.id);
+import '../../Services/readingService.dart';
+import '../../helper/helperfuncions.dart';
+
+class VideoScreen extends StatefulWidget {
   final int? id;
-  final String file;
+  final String text;
   final String title;
-  final String? videoId;
+  final String? videoUrl;
 
-  // Cria um dialogo para a avaliacao de uma intervencaos
+  VideoScreen(this.title, this.text, this.videoUrl, this.id);
+
+  @override
+  State<VideoScreen> createState() => _VideoScreenState();
+}
+
+class _VideoScreenState extends State<VideoScreen> {
+  late String userEmail;
+  String ratingTitle = 'Avalie este conteúdo!';
+  double initialRating = 0.0;
+  String commentHint = 'Nos conte o que achou!';
+
+  @override
+  void initState() {
+    getUserEmail();
+    super.initState();
+  }
+
+  getUserEmail() async {
+    await HelperFunctions.getUserEmailInSharedPreference().then((email) {
+      setState(() {
+        userEmail = email;
+      });
+    });
+  }
+
   void _showRatingDialog(context, String dialogTitle, int id) async {
-    //////////////
-    /*String formattedDate = DateFormat.yMEd().add_jms().format(DateTime.now());
-    bool existingRating = false;
-    var ds = await DatabaseMethods().ratingsAreEmpty(id);
-    String ratingTitle = 'Avalie este conteúdo!';
-
-    existingRating = ds.docs.length != 0;
-    if (existingRating) {
-      ratingTitle =
-          'Você já avaliou este conteúdo, deseja avaliá-lo novamente?';
-    }
+    await ReadingService()
+        .findReadingRating(userEmail, id)
+        .then((readingRating) {
+      if (readingRating.id != null) {
+        ratingTitle =
+            'Você já avaliou este conteúdo, deseja avaliá-lo novamente?';
+        initialRating = readingRating.rating!;
+        commentHint = readingRating.comment!;
+      }
+    });
 
     final _dialog = RatingDialog(
-      // your app's name?
+      initialRating: initialRating,
       title: Text(ratingTitle),
-      // encourage your user to leave a high rating?
       message: Text(
           'Clique em uma estrela para avaliar, e adicione um comentário se quiser!'),
       submitButtonText: 'Enviar',
       onCancelled: () => print('cancelled'),
-
       onSubmitted: (response) {
-        print(
-            'rating: ${response.rating}, comment: ${response.comment}, id: $id, email: ${FirebaseAuth.instance.currentUser!.email}, now: $formattedDate');
-        Map<String, dynamic> ratingMap = {
-          "readingsId": id,
-          "rating": response.rating,
-          "comment": response.comment,
-          "date": formattedDate,
-        };
-        DatabaseMethods()
-            .rateReading(id, ratingMap, FirebaseAuth.instance.currentUser!.uid);
+        ReadingService().addNewReadingRating(userEmail, id, response.rating,
+            (response.comment == "") ? commentHint : response.comment);
       },
-      commentHint: 'Nos conte o que achou!',
+      commentHint: commentHint,
     );
 
     showDialog(
       context: context,
-      barrierDismissible: true, // set to false if you want to force a rating
+      barrierDismissible: true,
       builder: (context) => _dialog,
-    );*/
+    );
   }
 
   @override
@@ -75,14 +88,14 @@ class VideoScreen extends StatelessWidget {
                 primary: Colors.white,
               ),
               onPressed: () {
-                _showRatingDialog(context, title, id!);
+                _showRatingDialog(context, widget.title, widget.id!);
               },
               child: Text("Avaliar"),
             ),
           ],
-          title: Text(title)),
+          title: Text(widget.title)),
       resizeToAvoidBottomInset: false,
-      body: Body(file, videoId!),
+      body: Body(widget.text, widget.videoUrl!),
     );
   }
 }

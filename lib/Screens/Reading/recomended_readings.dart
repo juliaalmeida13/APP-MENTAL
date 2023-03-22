@@ -18,44 +18,92 @@ class _RecomendedReadingsState extends State<RecomendedReadings> {
 
   @override
   void initState() {
-    getReadingDatabase().then((_) {
-      getReadingGroupList();
-    });
+    verifyReadingDatabase().then((_) => getReadingGroupList());
     super.initState();
   }
 
   getReadingGroupList() async {
     await ReadingDatabase.instance.getReadingGroups().then((groups) {
+      List<String> newGroupList = [];
       groups.forEach((element) {
-        groupList.add(element['group'].toString());
+        newGroupList.add(element['group'].toString());
       });
-      setState(() {});
+      setState(() {
+        groupList = newGroupList;
+      });
     });
   }
 
-  getReadingDatabase() async {
+  getReadingFromRemote() async {
+    await ReadingService().getReadings().then((remoteReadings) {
+      remoteReadings.forEach((remoteReading) {
+        ReadingDatabase.instance.add(remoteReading);
+      });
+      getReadingGroupList();
+    });
+  }
+
+  verifyReadingDatabase() async {
     await ReadingDatabase.instance.getReadings().then((localReadings) {
       if (localReadings.isEmpty) {
-        ReadingService().getReadings().then((remoteReadings) {
-          remoteReadings.forEach((remoteReading) {
-            ReadingDatabase.instance.add(remoteReading);
-          });
-        });
+        getReadingFromRemote();
       } else {
         ReadingDatabase.instance.getReadingVersion().then((localVersion) {
           ReadingService().getReadingVersion().then((remoteVersion) {
             if (localVersion < remoteVersion) {
-              //get the diferences
-              /*ReadingService().getReadings().then((readings) {
-                setState(() {
-                  readingList = readings;
-                });
-              });*/
+              updateDatabase(context);
             }
           });
         });
       }
     });
+  }
+
+  updateDatabase(BuildContext context) {
+    showDialog<String>(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        title: const Text('Leituras recomendadas desatualizadas!'),
+        content: const Text(
+            'As leituras recomendadas estão desatualizadas.\nVocê deseja atualiza-las agora?'),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () async {
+              Navigator.pop(context);
+            },
+            child: const Text('Não'),
+          ),
+          TextButton(
+            onPressed: () async {
+              ReadingDatabase.instance.dropAllRows().then((_) {
+                getReadingFromRemote();
+              });
+              Navigator.pop(context, "Ok");
+              shorDialogOnSuccess(context);
+            },
+            child: const Text('Sim'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  shorDialogOnSuccess(BuildContext context) {
+    showDialog<String>(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        title: const Text('Êxito!'),
+        content: const Text('Leituras recomendadas atualizadas!'),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () async {
+              Navigator.pop(context, "Ok");
+            },
+            child: const Text('Ok'),
+          ),
+        ],
+      ),
+    );
   }
 
   @override
