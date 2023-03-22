@@ -104,6 +104,12 @@ class _AppDrawerState extends State<AppDrawer> {
           ),
           const SizedBox(height: 8),
           buildMenuItem(
+            text: 'Editar perfil',
+            icon: Icons.edit,
+            onClicked: () => selectedItem(context, 7),
+          ),
+          const SizedBox(height: 8),
+          buildMenuItem(
             text: 'Sair',
             icon: Icons.exit_to_app,
             onClicked: () {
@@ -262,6 +268,10 @@ class _AppDrawerState extends State<AppDrawer> {
       case 6:
         Navigator.of(context).popUntil(ModalRoute.withName('/logged-home'));
         Navigator.of(context).pushNamed("/tutorial");
+        break;
+      case 7:
+        Navigator.of(context).popUntil(ModalRoute.withName('/logged-home'));
+        Navigator.of(context).pushNamed("/edit-profile-screen");
         break;
     }
   }
