@@ -1,78 +1,13 @@
-import 'package:app_mental/Screens/Reading/reading_screen.dart';
-import 'package:app_mental/Screens/Video/video_interv_screen.dart';
+import 'package:app_mental/Screens/Reading/TextOrVideo/text_or_video_screen.dart';
 import 'package:app_mental/constants.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../../../classes/reading_database.dart';
 import '../../../model/reading.dart';
 
-class GroupBody extends StatefulWidget {
-  final String group;
-
-  GroupBody(this.group);
-
-  @override
-  State<GroupBody> createState() => _GroupBodyState();
-}
-
-class _GroupBodyState extends State<GroupBody> {
-  List<Reading> readingList = [];
-
-  @override
-  void initState() {
-    getReadingDatabase();
-    super.initState();
-  }
-
-  getReadingDatabase() async {
-    await ReadingDatabase.instance
-        .getReadingsByGroup(widget.group)
-        .then((reading) {
-      setState(() {
-        readingList = reading;
-      });
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return SafeArea(
-      child: Column(
-        children: <Widget>[
-          Expanded(
-            child: Stack(
-              children: <Widget>[
-                Container(
-                  margin: EdgeInsets.only(top: 70),
-                  decoration: BoxDecoration(
-                    color: AppColors.cinzamedio,
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(40),
-                      topRight: Radius.circular(40),
-                    ),
-                  ),
-                ),
-                ListView.builder(
-                  itemCount: readingList.length,
-                  itemBuilder: (context, index) {
-                    var reading = readingList.elementAt(index);
-                    return IntervCard(reading: reading);
-                  },
-                ),
-              ],
-            ),
-          )
-        ],
-      ),
-    );
-  }
-}
-
-class IntervCard extends StatelessWidget {
+class InterventionCard extends StatelessWidget {
   final Reading reading;
 
-  const IntervCard({
+  const InterventionCard({
     required this.reading,
   });
 
@@ -85,15 +20,18 @@ class IntervCard extends StatelessWidget {
           context,
           MaterialPageRoute(
             builder: (context) {
-              return this.reading.type != "V"
-                  ? ReadingScreen(
-                      reading.name,
-                      reading.text,
-                      reading.image,
-                      reading.id,
-                    )
-                  : VideoScreen(
-                      reading.name, reading.text, reading.video, reading.id);
+              var videoUrl = "";
+              print("reading.video ${reading.video}");
+              if (reading.video != null) {
+                videoUrl = reading.video!;
+              }
+              return TextOrVideoScreen(
+                title: reading.name,
+                text: reading.text,
+                image: reading.image,
+                id: reading.id,
+                videoUrl: videoUrl,
+              );
             },
           ),
         );

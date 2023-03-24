@@ -1,11 +1,11 @@
-import 'package:app_mental/Screens/Reading/Widgets/group_body.dart';
+import 'package:app_mental/Screens/Reading/intervention_list.dart';
 import 'package:app_mental/constants.dart';
 import 'package:flutter/material.dart';
 
-class GroupListScreen extends StatelessWidget {
-  final String group;
+class InterventionScreen extends StatelessWidget {
+  final String readingGroup;
 
-  GroupListScreen(this.group);
+  InterventionScreen(this.readingGroup);
 
   @override
   Widget build(BuildContext context) {
@@ -18,8 +18,8 @@ class GroupListScreen extends StatelessWidget {
             color: Colors.white,
             onPressed: () => {Navigator.pop(context)},
           ),
-          title: FittedBox(child: Text(group))),
-      body: GroupBody(group),
+          title: FittedBox(child: Text(readingGroup))),
+      body: InterventionList(readingGroup),
     );
   }
 }

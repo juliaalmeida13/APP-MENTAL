@@ -1,24 +1,30 @@
-import 'package:app_mental/Screens/Video/Widgets/body.dart';
+import 'package:app_mental/Screens/Reading/TextOrVideo/Widgets/text_or_video_body.dart';
+import 'package:app_mental/Services/readingService.dart';
 import 'package:app_mental/constants.dart';
+import 'package:app_mental/helper/helperfuncions.dart';
 import 'package:flutter/material.dart';
 import 'package:rating_dialog/rating_dialog.dart';
 
-import '../../Services/readingService.dart';
-import '../../helper/helperfuncions.dart';
+class TextOrVideoScreen extends StatefulWidget {
+  TextOrVideoScreen({
+    required this.title,
+    required this.text,
+    required this.image,
+    required this.id,
+    required this.videoUrl,
+  });
 
-class VideoScreen extends StatefulWidget {
-  final int? id;
   final String text;
   final String title;
+  final String image;
+  final int? id;
   final String? videoUrl;
 
-  VideoScreen(this.title, this.text, this.videoUrl, this.id);
-
   @override
-  State<VideoScreen> createState() => _VideoScreenState();
+  State<TextOrVideoScreen> createState() => _TextOrVideoScreenState();
 }
 
-class _VideoScreenState extends State<VideoScreen> {
+class _TextOrVideoScreenState extends State<TextOrVideoScreen> {
   late String userEmail;
   String ratingTitle = 'Avalie este conteúdo!';
   double initialRating = 0.0;
@@ -71,31 +77,39 @@ class _VideoScreenState extends State<VideoScreen> {
     );
   }
 
+  goBackPage(BuildContext context) {
+    Navigator.pop(context);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          backgroundColor: kTextColorGreen,
-          leading: BackButton(
-            color: Colors.white,
-            onPressed: () => {Navigator.pop(context)},
-          ),
-          actions: [
-            TextButton(
-              style: TextButton.styleFrom(
-                textStyle:
-                    const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                primary: Colors.white,
-              ),
-              onPressed: () {
-                _showRatingDialog(context, widget.title, widget.id!);
-              },
-              child: Text("Avaliar"),
+        backgroundColor: kTextColorGreen,
+        leading: BackButton(
+          color: Colors.white,
+          onPressed: () => goBackPage(context),
+        ),
+        title: FittedBox(
+          fit: BoxFit.contain,
+          child: Text(widget.title),
+        ),
+        actions: [
+          TextButton(
+            style: TextButton.styleFrom(
+              textStyle:
+                  const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              primary: Colors.white,
             ),
-          ],
-          title: Text(widget.title)),
+            onPressed: () {
+              _showRatingDialog(context, widget.title, widget.id!);
+            },
+            child: Text("Avaliar"),
+          ),
+        ],
+      ),
       resizeToAvoidBottomInset: false,
-      body: Body(widget.text, widget.videoUrl!),
+      body: TextOrVideoBody(widget.text, widget.image, widget.videoUrl!),
     );
   }
 }

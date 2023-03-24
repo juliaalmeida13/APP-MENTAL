@@ -14,7 +14,7 @@ class RecomendedReadings extends StatefulWidget {
 }
 
 class _RecomendedReadingsState extends State<RecomendedReadings> {
-  List<String> groupList = [];
+  List<String> readingGroupList = [];
 
   @override
   void initState() {
@@ -29,7 +29,7 @@ class _RecomendedReadingsState extends State<RecomendedReadings> {
         newGroupList.add(element['group'].toString());
       });
       setState(() {
-        groupList = newGroupList;
+        readingGroupList = newGroupList;
       });
     });
   }
@@ -59,6 +59,18 @@ class _RecomendedReadingsState extends State<RecomendedReadings> {
     });
   }
 
+  closeAlertDialog(BuildContext context) {
+    Navigator.pop(context);
+  }
+
+  updateReadings(BuildContext context) async {
+    ReadingDatabase.instance.dropAllRows().then((_) {
+      getReadingFromRemote();
+    });
+    closeAlertDialog(context);
+    shorDialogOnSuccess(context);
+  }
+
   updateDatabase(BuildContext context) {
     showDialog<String>(
       context: context,
@@ -68,19 +80,11 @@ class _RecomendedReadingsState extends State<RecomendedReadings> {
             'As leituras recomendadas estão desatualizadas.\nVocê deseja atualiza-las agora?'),
         actions: <Widget>[
           TextButton(
-            onPressed: () async {
-              Navigator.pop(context);
-            },
+            onPressed: () => closeAlertDialog(context),
             child: const Text('Não'),
           ),
           TextButton(
-            onPressed: () async {
-              ReadingDatabase.instance.dropAllRows().then((_) {
-                getReadingFromRemote();
-              });
-              Navigator.pop(context, "Ok");
-              shorDialogOnSuccess(context);
-            },
+            onPressed: () => updateReadings(context),
             child: const Text('Sim'),
           ),
         ],
@@ -96,9 +100,7 @@ class _RecomendedReadingsState extends State<RecomendedReadings> {
         content: const Text('Leituras recomendadas atualizadas!'),
         actions: <Widget>[
           TextButton(
-            onPressed: () async {
-              Navigator.pop(context, "Ok");
-            },
+            onPressed: () => closeAlertDialog(context),
             child: const Text('Ok'),
           ),
         ],
@@ -116,7 +118,7 @@ class _RecomendedReadingsState extends State<RecomendedReadings> {
         ),
         body: SafeArea(
             child: Column(
-          children: [GroupReadingCards(groupList: groupList)],
+          children: [GroupReadingCardsList(readingGroupList: readingGroupList)],
         )));
   }
 }
