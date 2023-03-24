@@ -12,7 +12,7 @@ class Body extends StatefulWidget {
 
 class _BodyState extends State<Body> {
   int questionnaireNotificationQuantity = 0;
-  int isSleepDiaryAnsweredToday = 0;
+  int sleepDiaryNotificationQuantity = 0;
   int readingNotificationQuantity = 0;
 
   @override
@@ -33,9 +33,9 @@ class _BodyState extends State<Body> {
       SleepService().isSleepDiaryAnsweredToday(email).then((answered) {
         setState(() {
           if (answered) {
-            isSleepDiaryAnsweredToday = 0;
+            sleepDiaryNotificationQuantity = 0;
           } else {
-            isSleepDiaryAnsweredToday = 1;
+            sleepDiaryNotificationQuantity = 1;
           }
         });
       });
@@ -59,7 +59,7 @@ class _BodyState extends State<Body> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               MainCardButton("Diário do sono", Icons.bed, "/sleep-diary",
-                  isSleepDiaryAnsweredToday),
+                  sleepDiaryNotificationQuantity),
               MainCardButton("Leitura", Icons.book_online, "/readings",
                   readingNotificationQuantity)
             ],
