@@ -18,7 +18,7 @@ class GroupListScreen extends StatelessWidget {
             color: Colors.white,
             onPressed: () => {Navigator.pop(context)},
           ),
-          title: Text(group)),
+          title: FittedBox(child: Text(group))),
       body: Body(group),
     );
   }

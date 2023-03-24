@@ -1,5 +1,4 @@
 import 'package:app_mental/Screens/Home/Widgets/body.dart';
-import 'package:app_mental/Services/auth.dart';
 import 'package:app_mental/Shared/Widgets/AppDrawer.dart';
 import 'package:flutter/material.dart';
 
@@ -13,7 +12,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  AuthMethods authMethods = new AuthMethods();
   PageController _pageController = PageController();
 
   @override

@@ -1,12 +1,9 @@
-import 'package:app_mental/Screens/ChatPage/ChatPage.dart';
-import 'package:app_mental/Services/auth.dart';
-import 'package:app_mental/Services/database.dart';
 import 'package:app_mental/constants.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:app_mental/helper/helperfuncions.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
-import 'package:flutter_firebase_chat_core/flutter_firebase_chat_core.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+
+import '../../Services/userService.dart';
 
 class AppDrawer extends StatefulWidget {
   AppDrawer({
@@ -19,14 +16,26 @@ class AppDrawer extends StatefulWidget {
 
 class _AppDrawerState extends State<AppDrawer> {
   final padding = EdgeInsets.symmetric(horizontal: 10);
-
   String version = "";
+  String userName = "a";
+  String userEmail = "a";
+
   @override
   initState() {
-    super.initState();
     getVersion().then((String data) {
       setState(() {
         version = data;
+      });
+    });
+    getUserNameAndEmail();
+    super.initState();
+  }
+
+  getUserNameAndEmail() async {
+    await HelperFunctions.getUserNameAndEmailInSharedPreference().then((user) {
+      setState(() {
+        userName = user["name"];
+        userEmail = user["email"];
       });
     });
   }
@@ -39,62 +48,54 @@ class _AppDrawerState extends State<AppDrawer> {
 
   @override
   Widget build(BuildContext context) {
-    final name = FirebaseAuth.instance.currentUser!.displayName ?? "Sem Email";
-    final email = FirebaseAuth.instance.currentUser!.email ?? "Sem Nome";
+    final displayName = userName;
+    final displayEmail = userEmail;
     final image = 'assets/images/woman.png';
-    final user =
-        DatabaseMethods.chatUser ?? types.User(id: "", role: types.Role.user);
-    print(user);
     return Drawer(
-        child: Container(
-      decoration: BoxDecoration(color: AppColors.verdementa),
-      child: ListView(children: <Widget>[
-        Expanded(
-            child: Column(children: <Widget>[
+      backgroundColor: AppColors.verdementa,
+      child: ListView(
+        children: <Widget>[
           buildHeader(
               image: image,
-              name: truncateWithEllipsis(10, name),
-              email: email,
+              name: truncateWithEllipsis(10, displayName),
+              email: displayEmail,
               onClicked: () => selectedItem(context, 4)),
-          if (user.role == types.Role.user) ...[
-            const SizedBox(height: 8),
-            buildMenuItem(
-              text: 'Home',
-              icon: Icons.house,
-              onClicked: () => selectedItem(context, 0),
-            ),
-            const SizedBox(height: 8),
-            buildMenuItem(
-              text: 'Diário do sono',
-              icon: Icons.bed,
-              onClicked: () => selectedItem(context, 1),
-            ),
-            const SizedBox(height: 8),
-            buildMenuItem(
-              text: 'Leituras',
-              icon: Icons.book_online,
-              onClicked: () => selectedItem(context, 2),
-            ),
-            const SizedBox(height: 8),
-            buildMenuItem(
-              text: 'Questionários',
-              icon: Icons.list_alt,
-              onClicked: () => selectedItem(context, 3),
-            ),
-            const SizedBox(height: 8),
-            buildMenuItem(
-              text: 'Contatos',
-              icon: Icons.people,
-              onClicked: () => selectedItem(context, 4),
-            )
-          ] else if (user.role == types.Role.agent) ...[
-            const SizedBox(height: 8),
-            buildMenuItem(
-              text: 'Chat',
-              icon: Icons.list_alt,
-              onClicked: () => selectedItem(context, 5),
-            ),
-          ],
+          const SizedBox(height: 8),
+          buildMenuItem(
+            text: 'Home',
+            icon: Icons.house,
+            onClicked: () => selectedItem(context, 0),
+          ),
+          const SizedBox(height: 8),
+          buildMenuItem(
+            text: 'Diário do sono',
+            icon: Icons.bed,
+            onClicked: () => selectedItem(context, 1),
+          ),
+          const SizedBox(height: 8),
+          buildMenuItem(
+            text: 'Leituras',
+            icon: Icons.book_online,
+            onClicked: () => selectedItem(context, 2),
+          ),
+          const SizedBox(height: 8),
+          buildMenuItem(
+            text: 'Questionários',
+            icon: Icons.list_alt,
+            onClicked: () => selectedItem(context, 3),
+          ),
+          const SizedBox(height: 8),
+          buildMenuItem(
+            text: 'Contatos',
+            icon: Icons.people,
+            onClicked: () => selectedItem(context, 4),
+          ),
+          const SizedBox(height: 8),
+          buildMenuItem(
+            text: 'Chat',
+            icon: Icons.list_alt,
+            onClicked: () => selectedItem(context, 5),
+          ),
           const SizedBox(height: 8),
           buildMenuItem(
             text: 'Tutorial',
@@ -103,43 +104,50 @@ class _AppDrawerState extends State<AppDrawer> {
           ),
           const SizedBox(height: 8),
           buildMenuItem(
+            text: 'Editar perfil',
+            icon: Icons.edit,
+            onClicked: () => selectedItem(context, 7),
+          ),
+          const SizedBox(height: 8),
+          buildMenuItem(
             text: 'Sair',
             icon: Icons.exit_to_app,
             onClicked: () {
-              AuthMethods().signOut();
+              UserService().signOut();
               Navigator.pushNamedAndRemoveUntil(
                   context, "/sign-in", (Route<dynamic> route) => false);
             },
           ),
-        ])),
-        if (user.role == types.Role.user) ...[
           Container(
-              child: Align(
-                  alignment: FractionalOffset.bottomCenter,
-                  child: Column(
-                    children: <Widget>[
-                      Divider(),
-                      ListTile(
-                          leading: Icon(Icons.chat_rounded),
-                          title: Text('Falar com pesquisador'),
-                          onTap: () => openChat(context))
-                    ],
-                  ))),
+            //pode ser que seja o tamanho desse container
+            child: Align(
+              alignment: FractionalOffset.bottomCenter,
+              child: Column(
+                children: <Widget>[
+                  Divider(),
+                  ListTile(
+                    leading: Icon(Icons.chat_rounded),
+                    title: Text('Falar com pesquisador'),
+                    onTap: () => openChat(context),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          // AsyncSnapshot<Your object type>
+          Container(
+            margin: EdgeInsets.fromLTRB(15, 0, 0, 10),
+            alignment: AlignmentDirectional.topStart,
+            child: Text(
+              "Versão: " + version,
+              style:
+                  TextStyle(fontSize: 12, color: Color.fromRGBO(0, 0, 0, 0.3)),
+              textAlign: TextAlign.justify,
+            ),
+          ),
         ],
-        // AsyncSnapshot<Your object type>
-        if (version != "") ...[
-          Container(
-              margin: EdgeInsets.fromLTRB(15, 0, 0, 10),
-              alignment: AlignmentDirectional.topStart,
-              child: Text(
-                "Versão: " + version,
-                style: TextStyle(
-                    fontSize: 12, color: Color.fromRGBO(0, 0, 0, 0.3)),
-                textAlign: TextAlign.justify,
-              ))
-        ]
-      ]),
-    ));
+      ),
+    );
   }
 
   Widget buildHeader({
@@ -164,18 +172,28 @@ class _AppDrawerState extends State<AppDrawer> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  "Olá, $name",
-                  softWrap: false,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                      fontFamily: "Inter", fontSize: 20, color: Colors.black),
+                Container(
+                  width: MediaQuery.of(context).size.width * .47,
+                  child: FittedBox(
+                    child: Text(
+                      "Olá, $name",
+                      softWrap: false,
+                      overflow: TextOverflow.ellipsis,
+                      style:
+                          TextStyle(fontFamily: "Inter", color: Colors.black),
+                    ),
+                  ),
                 ),
                 const SizedBox(height: 4),
-                Text(
-                  email,
-                  style: TextStyle(
-                      fontFamily: "Inter", fontSize: 14, color: Colors.black),
+                Container(
+                  width: MediaQuery.of(context).size.width * .47,
+                  child: FittedBox(
+                    child: Text(
+                      email,
+                      style:
+                          TextStyle(fontFamily: "Inter", color: Colors.black),
+                    ),
+                  ),
                 ),
               ],
             )
@@ -198,7 +216,7 @@ class _AppDrawerState extends State<AppDrawer> {
   }
 
   void openChat(BuildContext context) async {
-    var user = await DatabaseMethods()
+    /*var user = await DatabaseMethods()
         .getFirstContact()
         .catchError((error, stackTrace) {
       print(error);
@@ -211,7 +229,7 @@ class _AppDrawerState extends State<AppDrawer> {
           room: room,
         ),
       ),
-    );
+    );*/
   }
 
   Future<String> getVersion() async {
@@ -250,6 +268,10 @@ class _AppDrawerState extends State<AppDrawer> {
       case 6:
         Navigator.of(context).popUntil(ModalRoute.withName('/logged-home'));
         Navigator.of(context).pushNamed("/tutorial");
+        break;
+      case 7:
+        Navigator.of(context).popUntil(ModalRoute.withName('/logged-home'));
+        Navigator.of(context).pushNamed("/edit-profile-screen");
         break;
     }
   }

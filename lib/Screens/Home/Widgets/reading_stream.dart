@@ -1,6 +1,5 @@
 import 'package:app_mental/Screens/Reading/reading_screen.dart';
 import 'package:app_mental/Screens/Video/video_interv_screen.dart';
-import 'package:app_mental/Services/auth.dart';
 import 'package:app_mental/Services/database.dart';
 import 'package:app_mental/Services/interventions.dart';
 import 'package:app_mental/classes/Intervention.dart';
@@ -19,11 +18,9 @@ class RecomendedReadingsStream extends StatefulWidget {
 }
 
 class _RecomendedReadingsStreamState extends State<RecomendedReadingsStream> {
-  AuthMethods authMethods = new AuthMethods();
   DatabaseMethods databaseMethods = new DatabaseMethods();
   Stream<QuerySnapshot<Object?>>? readingsStream;
 
-  
   Widget readingsList() {
     return StreamBuilder<QuerySnapshot>(
       stream: readingsStream,

@@ -4,7 +4,7 @@ import 'package:app_mental/Screens/Home/home_screen.dart';
 import 'package:app_mental/Screens/Perfil/perfil.dart';
 import 'package:app_mental/Screens/Questionarie/quests_screen.dart';
 import 'package:app_mental/Screens/SleepDiary/sleep_diary.dart';
-import 'package:app_mental/Services/auth.dart';
+import 'package:app_mental/Services/userService.dart';
 import 'package:app_mental/Shared/Widgets/AppDrawer.dart';
 import 'package:flutter/material.dart';
 
@@ -17,7 +17,6 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   PageController _pageController = PageController();
-  AuthMethods authMethods = new AuthMethods();
 
   List<Widget> _screens = [
     HomeScreen(),
@@ -49,7 +48,7 @@ class _HomePageState extends State<HomePage> {
         actions: [
           GestureDetector(
             onTap: () {
-              authMethods.signOut();
+              UserService().signOut();
               Navigator.pushNamedAndRemoveUntil(
                   context, "/sign-in", (Route<dynamic> route) => false);
             },
