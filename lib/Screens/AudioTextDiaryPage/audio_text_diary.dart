@@ -42,22 +42,22 @@ class _AudioTextDiaryState extends State<AudioTextDiary> {
               icon: Icon(Icons.add_circle_outline),
             )
           ],
-          bottom: new PreferredSize(
-            preferredSize: new Size(300.0, 50.0),
-            child: new Container(
+          bottom: PreferredSize(
+            preferredSize: Size(300.0, 50.0),
+            child: Container(
               width: 300.0,
-              child: new TabBar(
+              child: TabBar(
                 indicatorColor: AppColors.verdeclaro,
                 labelStyle: AppTextStyles.titulotab,
                 labelColor: Colors.black,
                 tabs: [
-                  new Container(
+                  Container(
                     height: 50.0,
-                    child: new Tab(text: 'Diário em texto'),
+                    child: Tab(text: 'Diário em texto'),
                   ),
-                  new Container(
+                  Container(
                     height: 50.0,
-                    child: new Tab(text: 'Diário em áudio'),
+                    child: Tab(text: 'Diário em áudio'),
                   ),
                 ],
               ),

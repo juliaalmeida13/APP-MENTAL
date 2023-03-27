@@ -1,14 +1,16 @@
+import 'package:app_mental/helper/date_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sound/flutter_sound.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'dart:io';
 import 'package:app_mental/classes/audioDiaryClass.dart';
-import 'package:intl/intl.dart';
 
 import 'package:app_mental/classes/textDatabase.dart';
 import 'package:app_mental/classes/textDiaryClass.dart';
 import 'package:app_mental/helper/helperfuncions.dart';
 import 'package:app_mental/classes/audioDatabase.dart';
+
+import '../../helper/util.dart';
 
 class AlertNewDiaryEntry extends StatefulWidget {
   const AlertNewDiaryEntry({Key? key, required this.notifyParent})
@@ -35,6 +37,10 @@ class _AlertNewDiaryEntryState extends State<AlertNewDiaryEntry> {
     super.dispose();
   }
 
+  void closeAlert(BuildContext context) {
+    Navigator.of(context).pop();
+  }
+
   Future initRecorder() async {
     final status = await Permission.microphone.request();
     if (status != PermissionStatus.granted) {
@@ -46,7 +52,7 @@ class _AlertNewDiaryEntryState extends State<AlertNewDiaryEntry> {
 
   Future startRecord() async {
     await recorder.startRecorder(
-        toFile: "${_getDateNow()}.aac", codec: Codec.aacMP4);
+        toFile: "${getDateNow()}.aac", codec: Codec.aacMP4);
   }
 
   Future stopRecorder() async {
@@ -57,11 +63,40 @@ class _AlertNewDiaryEntryState extends State<AlertNewDiaryEntry> {
       AudioDatabase.instance
           .add(AudioDiaryClass(userEmail: userEmail, audioPath: filePath));
     });
-    Navigator.of(context).pop();
+    closeAlert(context);
   }
 
   Future<String> getUserEmail() async {
     return await HelperFunctions.getUserEmailInSharedPreference();
+  }
+
+  void startAndStopRecording() async {
+    if (recorder.isRecording) {
+      await stopRecorder();
+      setState(() {});
+      widget.notifyParent();
+    } else {
+      await startRecord();
+      setState(() {});
+    }
+  }
+
+  void addNewDiaryText(BuildContext context) async {
+    String userEmail = await getUserEmail();
+    if (newDiaryTextController.text != "") {
+      setState(() {
+        TextDatabase.instance.add(
+          TextDiaryClass(
+            userEmail: userEmail,
+            createdDate: getDateNow(),
+            descriptionText: newDiaryTextController.text,
+          ),
+        );
+        newDiaryTextController.clear();
+        widget.notifyParent();
+      });
+    }
+    closeAlert(context);
   }
 
   @override
@@ -82,10 +117,7 @@ class _AlertNewDiaryEntryState extends State<AlertNewDiaryEntry> {
                         maxLines: 3,
                         controller: newDiaryTextController,
                         validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'vazio';
-                          }
-                          return null;
+                          validateEntry(value);
                         },
                       ),
                     ),
@@ -93,23 +125,7 @@ class _AlertNewDiaryEntryState extends State<AlertNewDiaryEntry> {
                       padding: const EdgeInsets.all(8.0),
                       child: ElevatedButton(
                         child: Text("Adicionar"),
-                        onPressed: () async {
-                          String userEmail = await getUserEmail();
-                          if (newDiaryTextController.text != "") {
-                            setState(() {
-                              TextDatabase.instance.add(
-                                TextDiaryClass(
-                                  userEmail: userEmail,
-                                  createdDate: _getDateNow(),
-                                  descriptionText: newDiaryTextController.text,
-                                ),
-                              );
-                              newDiaryTextController.clear();
-                              widget.notifyParent();
-                            });
-                          }
-                          Navigator.of(context).pop();
-                        },
+                        onPressed: () => addNewDiaryText(context),
                       ),
                     ),
                     Padding(
@@ -117,16 +133,7 @@ class _AlertNewDiaryEntryState extends State<AlertNewDiaryEntry> {
                       child: ElevatedButton(
                         child:
                             Icon(recorder.isRecording ? Icons.stop : Icons.mic),
-                        onPressed: () async {
-                          if (recorder.isRecording) {
-                            await stopRecorder();
-                            setState(() {});
-                            widget.notifyParent();
-                          } else {
-                            await startRecord();
-                            setState(() {});
-                          }
-                        },
+                        onPressed: () => startAndStopRecording(),
                       ),
                     )
                   ],
@@ -138,11 +145,4 @@ class _AlertNewDiaryEntryState extends State<AlertNewDiaryEntry> {
       },
     );
   }
-}
-
-String _getDateNow() {
-  var todayDate = new DateTime.now();
-  var formatterDate = new DateFormat('dd-MM-yy HH-mm');
-  String formattedDate = formatterDate.format(todayDate);
-  return formattedDate;
 }

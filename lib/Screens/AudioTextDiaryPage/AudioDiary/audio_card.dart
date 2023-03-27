@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:audioplayers/audioplayers.dart';
 
 import '../../../classes/audioDatabase.dart';
+import '../../../helper/date_util.dart';
 
 class AudioCard extends StatefulWidget {
   const AudioCard(
@@ -26,19 +27,23 @@ class _AudioCardState extends State<AudioCard> {
   bool isPlaying = false;
   Duration position = Duration.zero;
 
-  @override
-  void initState() {
-    super.initState();
+  void audioPositionChanged() {
     audioPlayer.onPositionChanged.listen((newPosition) {
       setState(() {
         position = newPosition;
       });
     });
+  }
+
+  void audioPlayerStateChanged() {
     audioPlayer.onPlayerStateChanged.listen((state) {
       setState(() {
         isPlaying = state == PlayerState.playing;
       });
     });
+  }
+
+  void audioPlayerComplete() {
     audioPlayer.onPlayerComplete.listen((complete) {
       setState(() {
         position = Duration(seconds: 0);
@@ -47,78 +52,110 @@ class _AudioCardState extends State<AudioCard> {
     });
   }
 
-  void _openAlertDeleteAudioCard(BuildContext context, int? id) async {
-    return await showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: FittedBox(child: Text("Deseja excluir o áudio?")),
-            content: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: ElevatedButton(
-                    child: Text("Cancelar"),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: ElevatedButton(
-                    child: Text("Sim"),
-                    onPressed: () {
-                      setState(() {
-                        AudioDatabase.instance.remove(id!);
-                      });
-                      widget.notifyParent();
-                      Navigator.of(context).pop();
-                    },
-                  ),
-                ),
-              ],
-            ),
-          );
-        });
+  @override
+  void initState() {
+    super.initState();
+    audioPositionChanged();
+    audioPlayerStateChanged();
+    audioPlayerComplete();
   }
 
-  void _downloadAudio(String audioPath) async {
+  void closeAlert(BuildContext context) {
+    Navigator.of(context).pop();
+  }
+
+  void deleteAudioCard(BuildContext context, int id) {
+    setState(() {
+      AudioDatabase.instance.remove(id);
+    });
+    widget.notifyParent();
+    closeAlert(context);
+  }
+
+  void _openAlertDeleteAudioCard(BuildContext context, int? id) async {
+    return await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: FittedBox(child: Text("Deseja excluir o áudio?")),
+          content: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Padding(
+                padding: EdgeInsets.all(8.0),
+                child: ElevatedButton(
+                  child: Text("Cancelar"),
+                  onPressed: () => closeAlert(context),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.all(8.0),
+                child: ElevatedButton(
+                  child: Text("Sim"),
+                  onPressed: () => deleteAudioCard(context, id!),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  grantingPermission() async {
     final status = await Permission.storage.status;
     if (status != PermissionStatus.granted) {
       await Permission.storage.request();
     }
-    if (await Permission.storage.status.isGranted) {
-      var file = File(audioPath);
-      final musicFolderPath = '/storage/emulated/0/Download';
-      final musicFolder = Directory(musicFolderPath);
-      if (!await musicFolder.exists()) {
-        await musicFolder.create();
+  }
+
+  void _downloadAudio(String audioPath) {
+    grantingPermission().then((_) async {
+      if (await Permission.storage.status.isGranted) {
+        var file = File(audioPath);
+        final musicFolderPath = '/storage/emulated/0/Download';
+        final musicFolder = Directory(musicFolderPath);
+        if (!await musicFolder.exists()) {
+          await musicFolder.create();
+        }
+        await file.copy(
+            '$musicFolderPath/${audioPath.substring(audioPath.length - 18)}');
+        _openAlertSuccessDownloadAudio(context);
       }
-      await file.copy(
-          '$musicFolderPath/${audioPath.substring(audioPath.length - 18)}');
-    }
-    _openAlertSuccessDownloadAudio(context);
+    });
   }
 
   void _openAlertSuccessDownloadAudio(BuildContext context) async {
     return await showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: FittedBox(child: Text("Áudio baixado com sucesso!")),
-            content: Padding(
-              padding: EdgeInsets.all(8.0),
-              child: ElevatedButton(
-                child: Text("Ok"),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: FittedBox(child: Text("Áudio baixado com sucesso!")),
+          content: Padding(
+            padding: EdgeInsets.all(8.0),
+            child: ElevatedButton(
+              child: Text("Ok"),
+              onPressed: () => closeAlert(context),
             ),
-          );
-        });
+          ),
+        );
+      },
+    );
+  }
+
+  void playAndStopPlayer() {
+    if (isPlaying) {
+      audioPlayer.stop();
+      setState(() {
+        position = Duration(seconds: 0);
+        isPlaying = false;
+      });
+    } else {
+      audioPlayer.play(DeviceFileSource("${widget.audioPath}"));
+      setState(() {
+        isPlaying = true;
+      });
+    }
   }
 
   @override
@@ -127,7 +164,7 @@ class _AudioCardState extends State<AudioCard> {
       elevation: 10,
       child: ListTile(
         title: Text(
-          "Dia: ${_getFormattedDayAndHour(widget.audioPath)}",
+          "Dia: ${getFormattedDayAndHour(widget.audioPath)}",
         ),
         subtitle: Row(
           children: [
@@ -137,22 +174,9 @@ class _AudioCardState extends State<AudioCard> {
                   ? Icon(Icons.stop_rounded)
                   : Icon(Icons.play_arrow_rounded),
               color: Colors.blue,
-              onPressed: () {
-                if (isPlaying) {
-                  audioPlayer.stop();
-                  setState(() {
-                    position = Duration(seconds: 0);
-                    isPlaying = false;
-                  });
-                } else {
-                  audioPlayer.play(DeviceFileSource("${widget.audioPath}"));
-                  setState(() {
-                    isPlaying = true;
-                  });
-                }
-              },
+              onPressed: () => playAndStopPlayer(),
             ),
-            Text(_formatTime(position))
+            Text(formatTime(position))
           ],
         ),
         trailing: Wrap(
@@ -175,19 +199,4 @@ class _AudioCardState extends State<AudioCard> {
       ),
     );
   }
-}
-
-String _getFormattedDayAndHour(String path) {
-  String string = path.substring(path.length - 18);
-  String str = string.substring(0, string.length - 4);
-  String string1 = str.replaceAll("-", "/");
-  return string1.substring(0, 11) + ":" + string1.substring(12) + "h";
-}
-
-String _formatTime(Duration duration) {
-  String twoDigits(int n) => n.toString().padLeft(2, '0');
-  final hours = twoDigits(duration.inHours);
-  final minutes = twoDigits(duration.inMinutes.remainder(60));
-  final seconds = twoDigits(duration.inSeconds.remainder(60));
-  return [if (duration.inHours > 0) hours, minutes, seconds].join(":");
 }
