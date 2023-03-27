@@ -21,7 +21,6 @@ class InterventionCard extends StatelessWidget {
           MaterialPageRoute(
             builder: (context) {
               var videoUrl = "";
-              print("reading.video ${reading.video}");
               if (reading.video != null) {
                 videoUrl = reading.video!;
               }
