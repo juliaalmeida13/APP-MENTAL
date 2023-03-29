@@ -65,4 +65,17 @@ class UserService {
       throw HttpException(error.message.toString());
     }
   }
+
+  Future<void> updateUserToken(String userEmail, String token) async {
+    final response = await http.post(Uri.parse("${url}updateUserToken"),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, String>{'email': userEmail, 'token': token}));
+    if (response.statusCode != 200) {
+      final error =
+          ApiError.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
+      throw HttpException(error.message.toString());
+    }
+  }
 }

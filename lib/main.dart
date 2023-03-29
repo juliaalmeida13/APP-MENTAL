@@ -20,6 +20,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 import 'Screens/Home/home_screen.dart';
 import 'Screens/ResetPassword/reset_password.dart';
@@ -30,6 +31,7 @@ import 'Screens/Reading/recomended_readings.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   initializeDateFormatting('pt_BR', null).then(
     (_) => runApp(
       MyApp(),
@@ -39,7 +41,6 @@ void main() async {
 }
 
 class MyApp extends StatefulWidget {
-  // This widget is the root of your application.
   @override
   _MyAppState createState() => _MyAppState();
 }

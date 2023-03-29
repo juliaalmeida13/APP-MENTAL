@@ -5,6 +5,7 @@ import 'package:app_mental/animation/FadeAnimation.dart';
 import 'package:app_mental/constants.dart';
 import 'package:app_mental/helper/helperfuncions.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 class SignIn extends StatefulWidget {
   @override
@@ -39,6 +40,7 @@ class _SignInState extends State<SignIn> {
         .signIn(emailTextEdittingController.text,
             passwordTextEdittingController.text)
         .then((user) {
+      updateUserToken(user.email!);
       ScaffoldMessenger.of(context).hideCurrentSnackBar();
       HelperFunctions.saveUserInfoToSharedPrefs(user);
       Navigator.pushNamedAndRemoveUntil(
@@ -50,6 +52,13 @@ class _SignInState extends State<SignIn> {
           backgroundColor: Colors.red);
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
     });
+  }
+
+  updateUserToken(String userEmail) async {
+    final fcmToken = await FirebaseMessaging.instance.getToken();
+    if (fcmToken != null) {
+      UserService().updateUserToken(userEmail, fcmToken);
+    }
   }
 
   @override

@@ -1,10 +1,8 @@
 import 'package:app_mental/Screens/Home/Widgets/body.dart';
 import 'package:app_mental/Shared/Widgets/AppDrawer.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
-import '../../Services/notificationService.dart';
-import '../../Services/scaleService.dart';
 import '../../constants.dart';
 import '../../helper/helperfuncions.dart';
 
@@ -20,47 +18,22 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
-    getUserEmail().then((_) {
-      NotificationService.init(initSchedule: true).then(
-        (value) {
-          scheduleQuestionnaireNotifications();
-        },
-      );
-    });
-    listenNotifications();
+    getUserEmail();
     super.initState();
+    onNotificationOpenedApp();
   }
 
-  listenNotifications() =>
-      NotificationService.onNotifications.stream.listen(onClickedNotification);
-
-  onClickedNotification(String? payload) {
-    Navigator.of(context).pushNamed("$payload");
-  }
-
-  scheduleQuestionnaireNotifications() async {
-    final List<PendingNotificationRequest> pendingNotificationRequests =
-        await FlutterLocalNotificationsPlugin().pendingNotificationRequests();
-    if (userEmail != null && pendingNotificationRequests.length == 0) {
-      ScaleService().getQuestionnaireIsReadDate(userEmail!).then((dates) {
-        var i = 1;
-        dates.forEach((date) {
-          NotificationService.showScheduleWeekNotification(
-            id: i,
-            title: "AppMental",
-            body: "Novo Questionário disponível!",
-            payload: "/quests-screen",
-            scheduleDate: DateTime.parse(date),
-          );
-        });
-      });
+  Future<void> onNotificationOpenedApp() async {
+    RemoteMessage? initialMessage =
+        await FirebaseMessaging.instance.getInitialMessage();
+    if (initialMessage != null) {
+      _handleMessage(initialMessage);
     }
-    NotificationService.showScheduleDayNotification(
-      id: 0,
-      title: "AppMental",
-      body: "Bom dia! Entre no aplicativo para responder o diário do sono!",
-      payload: "/sleep-diary",
-    );
+    FirebaseMessaging.onMessageOpenedApp.listen(_handleMessage);
+  }
+
+  void _handleMessage(RemoteMessage message) {
+    Navigator.pushNamed(context, "/${message.data['payload']}");
   }
 
   getUserEmail() async {

@@ -55,10 +55,7 @@ dependencies:
   flutter_dotenv: ^5.0.2
   crypto: ^3.0.2
   auto_size_text: ^3.0.0
-  flutter_local_notifications: ^8.2.0
-  rxdart: ^0.27.7
-  flutter_native_timezone: ^2.0.0
-  timezone: ^0.8.0
+  firebase_messaging: ^14.3.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
