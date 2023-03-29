@@ -60,6 +60,7 @@ dependencies:
   flutter_dotenv: ^5.0.2
   crypto: ^3.0.2
   auto_size_text: ^3.0.0
+  sqflite: ^2.2.6
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -86,15 +87,6 @@ flutter:
     - assets/images/
     - assets/icons/
     - assets/text/
-    - assets/text/DailyLifeHabits/
-    - assets/text/DamageControl/
-    - assets/text/Exercise/
-    - assets/text/Happiness/
-    - assets/text/Leisure/
-    - assets/text/PICS/
-    - assets/text/Sleep/
-    - assets/text/PICS/
-    - assets/text/StressMgt/
     - lib/.env
 
   # An image asset can refer to one or more resolution-specific "variants", see

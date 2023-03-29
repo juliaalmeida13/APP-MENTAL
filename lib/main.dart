@@ -16,7 +16,6 @@ import 'Screens/Home/home_screen.dart';
 import 'Screens/ResetPassword/reset_password.dart';
 import 'Screens/SignIn/signin.dart';
 import 'Screens/UsersPage/UsersPage.dart';
-import 'Services/interventions.dart';
 import 'Screens/Reading/recomended_readings.dart';
 
 void main() async {
@@ -35,8 +34,6 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void initState() {
-    Interventions().loadGroups();
-    Interventions().loadInterventions();
     getLoggedInState();
     super.initState();
   }

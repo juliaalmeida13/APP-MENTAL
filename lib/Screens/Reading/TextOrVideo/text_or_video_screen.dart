@@ -1,29 +1,30 @@
-import 'package:app_mental/Screens/Reading/Widgets/body.dart';
+import 'package:app_mental/Screens/Reading/TextOrVideo/Widgets/text_or_video_body.dart';
 import 'package:app_mental/Services/readingService.dart';
-import 'package:app_mental/Services/userService.dart';
 import 'package:app_mental/constants.dart';
 import 'package:app_mental/helper/helperfuncions.dart';
 import 'package:flutter/material.dart';
 import 'package:rating_dialog/rating_dialog.dart';
 
-class ReadingScreen extends StatefulWidget {
-  ReadingScreen(
-    this.title,
-    this.file,
-    this.image,
-    this.id,
-  );
+class TextOrVideoScreen extends StatefulWidget {
+  TextOrVideoScreen({
+    required this.title,
+    required this.text,
+    required this.image,
+    required this.id,
+    required this.videoUrl,
+  });
 
-  final String file;
+  final String text;
   final String title;
   final String image;
-  final String id;
+  final int? id;
+  final String? videoUrl;
 
   @override
-  State<ReadingScreen> createState() => _ReadingScreenState();
+  State<TextOrVideoScreen> createState() => _TextOrVideoScreenState();
 }
 
-class _ReadingScreenState extends State<ReadingScreen> {
+class _TextOrVideoScreenState extends State<TextOrVideoScreen> {
   late String userEmail;
   String ratingTitle = 'Avalie este conteúdo!';
   double initialRating = 0.0;
@@ -43,8 +44,7 @@ class _ReadingScreenState extends State<ReadingScreen> {
     });
   }
 
-  // Cria um dialogo para a avaliacao de uma intervencaos
-  void _showRatingDialog(context, String dialogTitle, String id) async {
+  void _showRatingDialog(context, String dialogTitle, int id) async {
     await ReadingService()
         .findReadingRating(userEmail, id)
         .then((readingRating) {
@@ -72,20 +72,23 @@ class _ReadingScreenState extends State<ReadingScreen> {
 
     showDialog(
       context: context,
-      barrierDismissible: true, // set to false if you want to force a rating
+      barrierDismissible: true,
       builder: (context) => _dialog,
     );
+  }
+
+  goBackPage(BuildContext context) {
+    Navigator.pop(context);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: UniqueKey(),
       appBar: AppBar(
         backgroundColor: kTextColorGreen,
         leading: BackButton(
           color: Colors.white,
-          onPressed: () => {Navigator.pop(context)},
+          onPressed: () => goBackPage(context),
         ),
         title: FittedBox(
           fit: BoxFit.contain,
@@ -99,14 +102,14 @@ class _ReadingScreenState extends State<ReadingScreen> {
               primary: Colors.white,
             ),
             onPressed: () {
-              _showRatingDialog(context, widget.title, widget.id);
+              _showRatingDialog(context, widget.title, widget.id!);
             },
             child: Text("Avaliar"),
           ),
         ],
       ),
       resizeToAvoidBottomInset: false,
-      body: Body(widget.file, widget.image),
+      body: TextOrVideoBody(widget.text, widget.image, widget.videoUrl!),
     );
   }
 }
