@@ -21,7 +21,7 @@ class _SignInState extends State<SignIn> {
 
   bool isLoading = false;
 
-  signIn() {
+  signIn() async {
     if (!formKey.currentState!.validate()) {
       return;
     }
@@ -36,11 +36,11 @@ class _SignInState extends State<SignIn> {
       ],
     ));
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    final fcmToken = await FirebaseMessaging.instance.getToken();
     UserService()
         .signIn(emailTextEdittingController.text,
-            passwordTextEdittingController.text)
+            passwordTextEdittingController.text, fcmToken!)
         .then((user) {
-      updateUserToken(user.email!);
       ScaffoldMessenger.of(context).hideCurrentSnackBar();
       HelperFunctions.saveUserInfoToSharedPrefs(user);
       Navigator.pushNamedAndRemoveUntil(
@@ -52,13 +52,6 @@ class _SignInState extends State<SignIn> {
           backgroundColor: Colors.red);
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
     });
-  }
-
-  updateUserToken(String userEmail) async {
-    final fcmToken = await FirebaseMessaging.instance.getToken();
-    if (fcmToken != null) {
-      UserService().updateUserToken(userEmail, fcmToken);
-    }
   }
 
   @override

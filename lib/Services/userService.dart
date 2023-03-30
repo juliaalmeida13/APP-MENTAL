@@ -32,7 +32,7 @@ class UserService {
     throw HttpException(error.message.toString());
   }
 
-  Future<UserApp> signIn(String email, String password) async {
+  Future<UserApp> signIn(String email, String password, String token) async {
     final response = await http.post(Uri.parse("${url}loginApp"),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
@@ -40,6 +40,7 @@ class UserService {
         body: jsonEncode(<String, String>{
           'email': email,
           'password': md5.convert(utf8.encode(password)).toString(),
+          'token': token
         }));
     if (response.statusCode == 200) {
       return UserApp.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
@@ -59,19 +60,6 @@ class UserService {
           'Content-Type': 'application/json; charset=UTF-8',
         },
         body: jsonEncode(<String, String>{'email': email}));
-    if (response.statusCode != 200) {
-      final error =
-          ApiError.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
-      throw HttpException(error.message.toString());
-    }
-  }
-
-  Future<void> updateUserToken(String userEmail, String token) async {
-    final response = await http.post(Uri.parse("${url}updateUserToken"),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-        body: jsonEncode(<String, String>{'email': userEmail, 'token': token}));
     if (response.statusCode != 200) {
       final error =
           ApiError.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
