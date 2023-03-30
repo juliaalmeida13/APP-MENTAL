@@ -64,6 +64,21 @@ class ReadingService {
     throw HttpException(error.message.toString());
   }
 
+  Future<int> getReadingVersion() async {
+    final response = await http.get(
+      Uri.parse("${url}getReadingVersion"),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+    );
+    if (response.statusCode == 200) {
+      return jsonDecode(utf8.decode(response.bodyBytes));
+    }
+    final error =
+        ApiError.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
+    throw HttpException(error.message.toString());
+  }
+
   Future<void> changeIsRead(String email, String name, String group) async {
     final response = await http.post(Uri.parse("${url}changeIsRead"),
         headers: <String, String>{
