@@ -1,19 +1,10 @@
+import 'package:app_mental/Screens/AudioTextDiaryPage/audio_text_diary.dart';
+import 'package:app_mental/Screens/EditProfile/edit_profile_screen.dart';
 import 'package:app_mental/Screens/Contacts/contacts_screen.dart';
 import 'package:app_mental/Screens/Questionarie/quests_screen.dart';
 import 'package:app_mental/Screens/SleepDiary/sleep_diary.dart';
 import 'package:app_mental/Screens/Tutorial/tutorial_screen.dart';
-import 'package:app_mental/escalas/assist/assist_screen.dart';
-import 'package:app_mental/escalas/assistn2/assistn2_screen.dart';
-import 'package:app_mental/escalas/mdq/mdq_screen.dart';
-import 'package:app_mental/escalas/pcl5/pcl5_screen.dart';
-import 'package:app_mental/escalas/phq15/phq15_screen.dart';
-import 'package:app_mental/escalas/promisAnsiedade/promisAnsi_screen.dart';
-import 'package:app_mental/escalas/promisn1/promisn1_screen.dart';
-import 'package:app_mental/escalas/promisn2/promisn2_screen.dart';
-import 'package:app_mental/escalas/pset/pset_screen.dart';
-import 'package:app_mental/escalas/psqi/psqi_screen.dart';
-import 'package:app_mental/escalas/questSD1/questSD1_screen.dart';
-import 'package:app_mental/escalas/questSD2/questSD2_screen.dart';
+import 'package:app_mental/escalas/question_screen.dart';
 import 'package:app_mental/helper/helperfuncions.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +17,6 @@ import 'Screens/Home/home_screen.dart';
 import 'Screens/ResetPassword/reset_password.dart';
 import 'Screens/SignIn/signin.dart';
 import 'Screens/UsersPage/UsersPage.dart';
-import 'Services/interventions.dart';
 import 'Screens/Reading/recomended_readings.dart';
 
 void main() async {
@@ -50,8 +40,6 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void initState() {
-    Interventions().loadGroups();
-    Interventions().loadInterventions();
     getLoggedInState();
     super.initState();
   }
@@ -78,19 +66,8 @@ class _MyAppState extends State<MyApp> {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       routes: {
-        Promisn1Screen.routeName: (ctx) => Promisn1Screen(),
         ContactsScreen.routeName: (ctx) => ContactsScreen(),
-        Promisn2Screen.routeName: (ctx) => Promisn2Screen(),
-        Pcl5Screen.routeName: (ctx) => Pcl5Screen(),
-        PsetScreen.routeName: (ctx) => PsetScreen(),
-        QuestSD1Screen.routeName: (ctx) => QuestSD1Screen(),
-        QuestSD2Screen.routeName: (ctx) => QuestSD2Screen(),
-        MdqScreen.routeName: (ctx) => MdqScreen(),
-        PromisAnsiScreen.routeName: (ctx) => PromisAnsiScreen(),
-        Phq15Screen.routeName: (ctx) => Phq15Screen(),
-        PsqiScreen.routeName: (ctx) => PsqiScreen(),
-        AssistScreen.routeName: (ctx) => AssistScreen(),
-        Assistn2Screen.routeName: (ctx) => Assistn2Screen(),
+        QuestionScreen.routeName: (ctx) => QuestionScreen(),
         "/tutorial": (ctx) => TutorialScreen(),
         "/reset-password": (ctx) => ResetPassword(),
         "/sign-in": (ctx) => SignIn(),
@@ -99,6 +76,8 @@ class _MyAppState extends State<MyApp> {
         "/sleep-diary": (ctx) => SleepPage(),
         "/users": (ctx) => UsersPage(),
         "/quests-screen": (ctx) => QuestsScreen(),
+        "/audio-text-diary": (ctx) => AudioTextDiary(),
+        "/edit-profile-screen": (ctx) => EditProfileScreen(),
       },
       home: (userIsLoggedIn ?? false) ? HomeScreen() : SignIn(),
     );

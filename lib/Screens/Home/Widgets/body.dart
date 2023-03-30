@@ -73,8 +73,12 @@ class _BodyState extends State<Body> {
             ],
           ),
           Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [MainCardButton("Tutorial", Icons.book, "/tutorial", 0)],
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              MainCardButton("Tutorial", Icons.book, "/tutorial", 0),
+              MainCardButton(
+                  "Diário livre", Icons.book_outlined, "/audio-text-diary", 0),
+            ],
           ),
         ],
       ),
