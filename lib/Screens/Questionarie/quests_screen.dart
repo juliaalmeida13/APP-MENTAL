@@ -36,7 +36,6 @@ class _QuestsScreenState extends State<QuestsScreen> {
             scaleList[index].userScale!,
             scaleList[index].answeredUntil!,
             scaleList[index].unanswered!,
-            scaleList[index].notificationStatus!,
             scaleList[index].week!,
             Constants.myEmail,
           );
@@ -126,7 +125,6 @@ class QuestRoomTile extends StatelessWidget {
   final String userEscala;
   final int answeredUntil;
   final bool unanswered;
-  final bool notificationStatus;
   final String week;
   final String userEmail;
   final DateTime _now = DateTime.now();
@@ -138,7 +136,6 @@ class QuestRoomTile extends StatelessWidget {
     this.userEscala,
     this.answeredUntil,
     this.unanswered,
-    this.notificationStatus,
     this.week,
     this.userEmail,
   );
@@ -150,7 +147,7 @@ class QuestRoomTile extends StatelessWidget {
     // Caso a escala/questionário seja planejada para a semana atual, constroi-se um card
     if (_now.isAfter(availableAt) && _now.isBefore(nextSunday)) {
       return QuizCard(
-          notificationStatus: notificationStatus,
+          notificationStatus: unanswered,
           title: "$questName - $week",
           completed: unanswered
               ? "Questões respondidas: $answeredUntil"

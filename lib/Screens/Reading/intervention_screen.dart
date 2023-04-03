@@ -2,10 +2,13 @@ import 'package:app_mental/Screens/Reading/intervention_list.dart';
 import 'package:app_mental/constants.dart';
 import 'package:flutter/material.dart';
 
+import '../../model/reading_rel_user_dto.dart';
+
 class InterventionScreen extends StatelessWidget {
   final String readingGroup;
+  final List<ReadingRelUserDTO> notificationList;
 
-  InterventionScreen(this.readingGroup);
+  InterventionScreen(this.readingGroup, this.notificationList);
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +22,7 @@ class InterventionScreen extends StatelessWidget {
             onPressed: () => {Navigator.pop(context)},
           ),
           title: FittedBox(child: Text(readingGroup))),
-      body: InterventionList(readingGroup),
+      body: InterventionList(readingGroup, notificationList),
     );
   }
 }

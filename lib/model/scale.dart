@@ -6,7 +6,6 @@ class Scale {
   int? answeredUntil;
   String? week;
   bool? unanswered;
-  bool? notificationStatus;
 
   Scale(
       {this.questionnaireCode,
@@ -14,7 +13,6 @@ class Scale {
       this.availableAt,
       this.userScale,
       this.answeredUntil,
-      this.notificationStatus,
       this.week,
       this.unanswered});
 
@@ -25,7 +23,6 @@ class Scale {
         availableAt: json['availableAt'],
         userScale: json['userScale'],
         answeredUntil: json['answeredUntil'],
-        notificationStatus: json['notificationStatus'],
         week: json['week'],
         unanswered: json['unanswered']);
   }

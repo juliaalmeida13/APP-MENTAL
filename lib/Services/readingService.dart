@@ -7,6 +7,7 @@ import 'package:app_mental/model/exceptions/apiError.dart';
 import 'dart:convert';
 
 import '../model/reading_rating.dart';
+import '../model/reading_rel_user_dto.dart';
 
 final String url = dotenv.env['BACKEND_URL']!;
 
@@ -79,8 +80,8 @@ class ReadingService {
     throw HttpException(error.message.toString());
   }
 
-  Future<void> changeIsRead(String email, String name, String group) async {
-    final response = await http.post(Uri.parse("${url}changeIsRead"),
+  Future<void> readingIsRead(String email, String name, String group) async {
+    final response = await http.post(Uri.parse("${url}readingIsRead"),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
@@ -107,6 +108,28 @@ class ReadingService {
         readingList.add(Reading.fromJson(reading));
       }
       return readingList;
+    }
+    final error =
+        ApiError.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
+    throw HttpException(error.message.toString());
+  }
+
+  Future<List<ReadingRelUserDTO>> getReadingNotificationList(
+      String email) async {
+    final response = await http.get(
+      Uri.parse("${url}getReadingNotificationList?email=$email"),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+    );
+    List<ReadingRelUserDTO> readingRelUserDTOList = [];
+    if (response.statusCode == 200) {
+      var jsonList = jsonDecode(utf8.decode(response.bodyBytes));
+      for (var readingRelUserDTO in jsonList) {
+        readingRelUserDTOList
+            .add(ReadingRelUserDTO.fromJson(readingRelUserDTO));
+      }
+      return readingRelUserDTOList;
     }
     final error =
         ApiError.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
