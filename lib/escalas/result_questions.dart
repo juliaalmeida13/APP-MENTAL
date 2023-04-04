@@ -65,76 +65,12 @@ class _ResultQuestionsState extends State<ResultQuestions> {
   verifyScore() {
     if (QuestionnaireCode.psqi.name == widget.questionnaireCode &&
         score > Constants.recommendationValuePsqi) {
-      /*Map<String, dynamic> readingsMap1 = {
-        "imagePath": "assets/images/sleep01.jpg",
-        "title": "Higiene do Sono",
-        "readingsId": "sono1",
-        "isVideo": false,
-      };
-      databaseMethods.recomendReading("sono1", readingsMap1, email);
-
-      Map<String, dynamic> readingsMap2 = {
-        "imagePath": "assets/images/sleep01.jpg",
-        "title": "Higiene do Sono",
-        "readingsId": "sono2",
-        "isVideo": false,
-      };
-      databaseMethods.recomendReading("sono2", readingsMap2, email);
-
-      Map<String, dynamic> readingsMap3 = {
-        "imagePath": "assets/images/sleep01.jpg",
-        "title": "Higiene do Sono",
-        "readingsId": "sono3",
-        "isVideo": false,
-      };
-      databaseMethods.recomendReading("sono3", readingsMap3, email);
-
-      Map<String, dynamic> readingsMap4 = {
-        "imagePath": "assets/images/sleep01.jpg",
-        "title": "Higiene do Sono",
-        "readingsId": "sono4",
-        "isVideo": false,
-      };
-      databaseMethods.recomendReading("sono4", readingsMap4, email);*/
-      //aparece uma flag no card das leituras e depois na area de higiene do sono pro usuário ir clicando e vai sumir assim que o usuário entrar na leitura
-
       setState(() {
         hasRecommendation = true;
       });
     }
     if (QuestionnaireCode.assistn2.name == widget.questionnaireCode &&
         score > Constants.recommendationValueAssistN2) {
-      /*Map<String, dynamic> readingsMap1 = {
-        "imagePath": "assets/images/care01.jpg",
-        "title": "Redução de Danos",
-        "readingsId": "reduce1",
-        "isVideo": false,
-      };
-      databaseMethods.recomendReading("reduce1", readingsMap1, email);
-
-      Map<String, dynamic> readingsMap2 = {
-        "imagePath": "assets/images/care01.jpg",
-        "title": "Redução de Danos",
-        "readingsId": "reduce2",
-        "isVideo": false,
-      };
-      databaseMethods.recomendReading("reduce2", readingsMap2, email);
-
-      Map<String, dynamic> readingsMap3 = {
-        "imagePath": "assets/images/care01.jpg",
-        "title": "Redução de Danos",
-        "readingsId": "reduce3",
-        "isVideo": false,
-      };
-      databaseMethods.recomendReading("reduce3", readingsMap3, email);
-
-      Map<String, dynamic> readingsMap4 = {
-        "imagePath": "assets/images/care01.jpg",
-        "title": "Redução de Danos",
-        "readingsId": "reduce4",
-        "isVideo": false,
-      };
-      databaseMethods.recomendReading("reduce4", readingsMap4, email);*/
       setState(() {
         hasRecommendation = true;
       });
