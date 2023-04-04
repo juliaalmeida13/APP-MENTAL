@@ -5,11 +5,14 @@ import 'package:flutter/material.dart';
 
 import '../../classes/reading_database.dart';
 import '../../model/reading.dart';
+import '../../model/reading_rel_user_dto.dart';
 
 class InterventionList extends StatefulWidget {
   final String readingGroup;
+  final List<ReadingRelUserDTO> notificationList;
+  final Function callback;
 
-  InterventionList(this.readingGroup);
+  InterventionList(this.readingGroup, this.notificationList, this.callback);
 
   @override
   State<InterventionList> createState() => _InterventionListState();
@@ -31,6 +34,13 @@ class _InterventionListState extends State<InterventionList> {
       setState(() {
         readingList = readings;
       });
+    });
+  }
+
+  removeNameFromNotificationList(element) {
+    setState(() {
+      widget.notificationList.remove(element);
+      widget.callback(widget.notificationList);
     });
   }
 
@@ -56,7 +66,11 @@ class _InterventionListState extends State<InterventionList> {
                   itemCount: readingList.length,
                   itemBuilder: (context, index) {
                     var reading = readingList.elementAt(index);
-                    return InterventionCard(reading: reading);
+                    return InterventionCard(
+                        reading: reading,
+                        notificationList: widget.notificationList,
+                        group: widget.readingGroup,
+                        callback: removeNameFromNotificationList);
                   },
                 ),
               ],

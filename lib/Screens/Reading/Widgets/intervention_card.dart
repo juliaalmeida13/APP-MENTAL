@@ -1,34 +1,79 @@
 import 'package:app_mental/Screens/Reading/TextOrVideo/text_or_video_screen.dart';
+import 'package:app_mental/Services/readingService.dart';
 import 'package:app_mental/constants.dart';
+import 'package:app_mental/helper/helperfuncions.dart';
 import 'package:flutter/material.dart';
 
 import '../../../model/reading.dart';
+import '../../../model/reading_rel_user_dto.dart';
 
-class InterventionCard extends StatelessWidget {
+class InterventionCard extends StatefulWidget {
   final Reading reading;
+  final List<ReadingRelUserDTO> notificationList;
+  final String group;
+  final Function callback;
 
-  const InterventionCard({
-    required this.reading,
-  });
+  const InterventionCard(
+      {required this.reading,
+      required this.notificationList,
+      required this.group,
+      required this.callback});
+
+  @override
+  State<InterventionCard> createState() => _InterventionCardState();
+}
+
+class _InterventionCardState extends State<InterventionCard> {
+  Widget _notification() {
+    bool notificationStatus = false;
+    widget.notificationList.forEach((element) {
+      if (element.name == this.widget.reading.name) {
+        notificationStatus = true;
+      }
+    });
+    return (notificationStatus == true)
+        ? Container(
+            width: 20,
+            height: 20,
+            decoration: new BoxDecoration(
+              color: Colors.red,
+              shape: BoxShape.circle,
+            ),
+          )
+        : Container();
+  }
+
+  verifyUserReadingNotification() {
+    widget.notificationList.forEach((element) {
+      if (widget.reading.name == element.name) {
+        HelperFunctions.getUserEmailInSharedPreference().then((email) {
+          ReadingService()
+              .readingIsRead(email, widget.reading.name, widget.group);
+          widget.callback(element);
+        });
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return new GestureDetector(
       onTap: () {
+        verifyUserReadingNotification();
         Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) {
               var videoUrl = "";
-              if (reading.video != null) {
-                videoUrl = reading.video!;
+              if (widget.reading.video != null) {
+                videoUrl = widget.reading.video!;
               }
               return TextOrVideoScreen(
-                title: reading.name,
-                text: reading.text,
-                image: reading.image,
-                id: reading.id,
+                title: widget.reading.name,
+                text: widget.reading.text,
+                image: widget.reading.image,
+                id: widget.reading.id,
                 videoUrl: videoUrl,
               );
             },
@@ -88,17 +133,22 @@ class InterventionCard extends StatelessWidget {
                 width: size.width - 116,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Spacer(),
                     Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: kDefaultPadding),
-                      child: Text(reading.name, style: AppTextStyles.heading),
+                      child: Text(widget.reading.name,
+                          style: AppTextStyles.heading),
                     ),
-                    Spacer(),
                   ],
                 ),
               ),
+            ),
+            Positioned(
+              top: 18,
+              left: 8,
+              child: _notification(),
             )
           ],
         ),

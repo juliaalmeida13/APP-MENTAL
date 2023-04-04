@@ -3,16 +3,26 @@ import 'package:app_mental/Screens/Reading/intervention_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../../model/reading_rel_user_dto.dart';
+
 class GroupReadingCardsList extends StatefulWidget {
   final List<String> readingGroupList;
+  List<ReadingRelUserDTO> notificationList;
 
-  GroupReadingCardsList({required this.readingGroupList});
+  GroupReadingCardsList(
+      {required this.readingGroupList, required this.notificationList});
 
   @override
   State<GroupReadingCardsList> createState() => _GroupReadingCardsListState();
 }
 
 class _GroupReadingCardsListState extends State<GroupReadingCardsList> {
+  callback(List<ReadingRelUserDTO> newNotificationList) {
+    setState(() {
+      widget.notificationList = newNotificationList;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -23,6 +33,7 @@ class _GroupReadingCardsListState extends State<GroupReadingCardsList> {
         itemBuilder: (BuildContext context, int index) {
           var readingGroup = widget.readingGroupList.elementAt(index);
           return GroupReadingCard(
+            notificationList: widget.notificationList,
             image: "assets/images/reading01.jpg",
             title: readingGroup,
             press: () {
@@ -30,7 +41,8 @@ class _GroupReadingCardsListState extends State<GroupReadingCardsList> {
                 context,
                 MaterialPageRoute(
                   builder: (context) {
-                    return InterventionScreen(readingGroup);
+                    return InterventionScreen(
+                        readingGroup, widget.notificationList, callback);
                   },
                 ),
               );

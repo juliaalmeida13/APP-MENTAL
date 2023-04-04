@@ -27,19 +27,18 @@ class _QuestsScreenState extends State<QuestsScreen> {
   //Lista de Cards de Escalas/Questionários disponíveis
   Widget questsRoomList(List<Scale> scaleList) {
     return ListView.builder(
-      itemCount: scaleList.length,
-      itemBuilder: (context, index) {
-        return QuestRoomTile(
-            scaleList[index].questionnaireName!,
-            scaleList[index].questionnaireCode!,
-            DateTime.parse(scaleList[index].availableAt!),
-            scaleList[index].userScale!,
-            scaleList[index].answeredUntil!,
-            scaleList[index].unanswered!,
-            scaleList[index].week!,
-            Constants.myEmail);
-      },
-    );
+        itemCount: scaleList.length,
+        itemBuilder: (context, index) {
+          return QuestRoomTile(
+              scaleList[index].questionnaireName!,
+              scaleList[index].questionnaireCode!,
+              DateTime.parse(scaleList[index].availableAt!),
+              scaleList[index].userScale!,
+              scaleList[index].answeredUntil!,
+              scaleList[index].unanswered!,
+              scaleList[index].week!,
+              Constants.myEmail);
+        });
   }
 
   @override
@@ -85,6 +84,14 @@ class _QuestsScreenState extends State<QuestsScreen> {
             title: Text(
               'Suas Atividades',
               style: AppTextStyles.tituloatividades,
+            ),
+            leading: IconButton(
+              icon: Icon(Icons.arrow_back),
+              onPressed: () {
+                Navigator.of(context)
+                    .popUntil(ModalRoute.withName('/logged-home'));
+                Navigator.of(context).pushNamed("/logged-home");
+              },
             ),
             bottom: new PreferredSize(
                 preferredSize: new Size(300.0, 50.0),
@@ -146,6 +153,7 @@ class QuestRoomTile extends StatelessWidget {
     // Caso a escala/questionário seja planejada para a semana atual, constroi-se um card
     if (_now.isAfter(availableAt) && _now.isBefore(nextSunday)) {
       return QuizCard(
+          notificationStatus: unanswered,
           title: "$questName - $week",
           completed: unanswered
               ? "Questões respondidas: $answeredUntil"

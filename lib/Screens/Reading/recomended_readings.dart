@@ -1,10 +1,12 @@
 import 'package:app_mental/Services/readingService.dart';
+import 'package:app_mental/helper/helperfuncions.dart';
 import 'package:flutter/material.dart';
 import 'package:app_mental/Screens/Reading/group_reading_cards.dart';
 import 'package:app_mental/Shared/Widgets/AppDrawer.dart';
 
 import '../../classes/reading_database.dart';
 import '../../constants.dart';
+import '../../model/reading_rel_user_dto.dart';
 
 class RecomendedReadings extends StatefulWidget {
   const RecomendedReadings({Key? key}) : super(key: key);
@@ -15,11 +17,25 @@ class RecomendedReadings extends StatefulWidget {
 
 class _RecomendedReadingsState extends State<RecomendedReadings> {
   List<String> readingGroupList = [];
+  List<ReadingRelUserDTO> notificationList = [];
 
   @override
   void initState() {
     verifyReadingDatabase().then((_) => getReadingGroupList());
+    getReadingNotificationList();
     super.initState();
+  }
+
+  getReadingNotificationList() async {
+    await HelperFunctions.getUserEmailInSharedPreference().then((userEmail) {
+      ReadingService()
+          .getReadingNotificationList(userEmail)
+          .then((notificationRemoteList) {
+        setState(() {
+          notificationList = notificationRemoteList;
+        });
+      });
+    });
   }
 
   getReadingGroupList() async {
@@ -111,14 +127,27 @@ class _RecomendedReadingsState extends State<RecomendedReadings> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text("Leituras recomendadas"),
-          backgroundColor: kTextColorGreen,
-          shadowColor: Color.fromRGBO(1, 1, 1, 0),
+      appBar: AppBar(
+        title: Text("Leituras recomendadas"),
+        backgroundColor: kTextColorGreen,
+        shadowColor: Color.fromRGBO(1, 1, 1, 0),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.of(context).popUntil(ModalRoute.withName('/logged-home'));
+            Navigator.of(context).pushNamed("/logged-home");
+          },
         ),
-        body: SafeArea(
-            child: Column(
-          children: [GroupReadingCardsList(readingGroupList: readingGroupList)],
-        )));
+      ),
+      body: SafeArea(
+        child: Column(
+          children: [
+            GroupReadingCardsList(
+                readingGroupList: readingGroupList,
+                notificationList: notificationList)
+          ],
+        ),
+      ),
+    );
   }
 }

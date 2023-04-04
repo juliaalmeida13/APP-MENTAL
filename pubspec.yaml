@@ -60,7 +60,7 @@ dependencies:
   flutter_dotenv: ^5.0.2
   crypto: ^3.0.2
   auto_size_text: ^3.0.0
-  sqflite: ^2.2.6
+  firebase_messaging: ^14.3.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
