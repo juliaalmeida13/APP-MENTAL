@@ -12,12 +12,11 @@ class ResultQuestions extends StatefulWidget {
   final String questName;
   final String userEscala;
 
-  ResultQuestions({
-    required this.questionnaireCode,
-    required this.userEmail,
-    required this.questName,
-    required this.userEscala,
-  });
+  ResultQuestions(
+      {required this.questionnaireCode,
+      required this.userEmail,
+      required this.questName,
+      required this.userEscala});
 
   @override
   State<ResultQuestions> createState() => _ResultQuestionsState();

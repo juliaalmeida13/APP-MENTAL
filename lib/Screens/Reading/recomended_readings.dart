@@ -131,6 +131,13 @@ class _RecomendedReadingsState extends State<RecomendedReadings> {
         title: Text("Leituras recomendadas"),
         backgroundColor: kTextColorGreen,
         shadowColor: Color.fromRGBO(1, 1, 1, 0),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.of(context).popUntil(ModalRoute.withName('/logged-home'));
+            Navigator.of(context).pushNamed("/logged-home");
+          },
+        ),
       ),
       body: SafeArea(
         child: Column(

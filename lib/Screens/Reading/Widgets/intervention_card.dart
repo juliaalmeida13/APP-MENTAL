@@ -11,11 +11,13 @@ class InterventionCard extends StatefulWidget {
   final Reading reading;
   final List<ReadingRelUserDTO> notificationList;
   final String group;
+  final Function callback;
 
   const InterventionCard(
       {required this.reading,
       required this.notificationList,
-      required this.group});
+      required this.group,
+      required this.callback});
 
   @override
   State<InterventionCard> createState() => _InterventionCardState();
@@ -41,19 +43,13 @@ class _InterventionCardState extends State<InterventionCard> {
         : Container();
   }
 
-  removeNameFromNotificationList(element) {
-    setState(() {
-      widget.notificationList.remove(element);
-    });
-  }
-
   verifyUserReadingNotification() {
     widget.notificationList.forEach((element) {
       if (widget.reading.name == element.name) {
         HelperFunctions.getUserEmailInSharedPreference().then((email) {
           ReadingService()
               .readingIsRead(email, widget.reading.name, widget.group);
-          removeNameFromNotificationList(element);
+          widget.callback(element);
         });
       }
     });

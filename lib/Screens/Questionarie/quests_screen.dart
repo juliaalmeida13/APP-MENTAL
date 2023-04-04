@@ -30,15 +30,14 @@ class _QuestsScreenState extends State<QuestsScreen> {
         itemCount: scaleList.length,
         itemBuilder: (context, index) {
           return QuestRoomTile(
-            scaleList[index].questionnaireName!,
-            scaleList[index].questionnaireCode!,
-            DateTime.parse(scaleList[index].availableAt!),
-            scaleList[index].userScale!,
-            scaleList[index].answeredUntil!,
-            scaleList[index].unanswered!,
-            scaleList[index].week!,
-            Constants.myEmail,
-          );
+              scaleList[index].questionnaireName!,
+              scaleList[index].questionnaireCode!,
+              DateTime.parse(scaleList[index].availableAt!),
+              scaleList[index].userScale!,
+              scaleList[index].answeredUntil!,
+              scaleList[index].unanswered!,
+              scaleList[index].week!,
+              Constants.myEmail);
         });
   }
 
@@ -86,6 +85,14 @@ class _QuestsScreenState extends State<QuestsScreen> {
               'Suas Atividades',
               style: AppTextStyles.tituloatividades,
             ),
+            leading: IconButton(
+              icon: Icon(Icons.arrow_back),
+              onPressed: () {
+                Navigator.of(context)
+                    .popUntil(ModalRoute.withName('/logged-home'));
+                Navigator.of(context).pushNamed("/logged-home");
+              },
+            ),
             bottom: new PreferredSize(
                 preferredSize: new Size(300.0, 50.0),
                 child: new Container(
@@ -130,15 +137,14 @@ class QuestRoomTile extends StatelessWidget {
   final DateTime _now = DateTime.now();
 
   QuestRoomTile(
-    this.questName,
-    this.questCode,
-    this.availableAt,
-    this.userEscala,
-    this.answeredUntil,
-    this.unanswered,
-    this.week,
-    this.userEmail,
-  );
+      this.questName,
+      this.questCode,
+      this.availableAt,
+      this.userEscala,
+      this.answeredUntil,
+      this.unanswered,
+      this.week,
+      this.userEmail);
 
   @override
   Widget build(BuildContext context) {

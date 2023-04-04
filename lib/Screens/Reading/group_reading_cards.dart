@@ -7,7 +7,7 @@ import '../../model/reading_rel_user_dto.dart';
 
 class GroupReadingCardsList extends StatefulWidget {
   final List<String> readingGroupList;
-  final List<ReadingRelUserDTO> notificationList;
+  List<ReadingRelUserDTO> notificationList;
 
   GroupReadingCardsList(
       {required this.readingGroupList, required this.notificationList});
@@ -17,6 +17,12 @@ class GroupReadingCardsList extends StatefulWidget {
 }
 
 class _GroupReadingCardsListState extends State<GroupReadingCardsList> {
+  callback(List<ReadingRelUserDTO> newNotificationList) {
+    setState(() {
+      widget.notificationList = newNotificationList;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -36,7 +42,7 @@ class _GroupReadingCardsListState extends State<GroupReadingCardsList> {
                 MaterialPageRoute(
                   builder: (context) {
                     return InterventionScreen(
-                        readingGroup, widget.notificationList);
+                        readingGroup, widget.notificationList, callback);
                   },
                 ),
               );
