@@ -44,17 +44,17 @@ class _InterventionCardState extends State<InterventionCard> {
   }
 
   verifyUserReadingNotification() {
-    List<ReadingRelUserDTO> removeItemFromNotificationList = [];
+    List<ReadingRelUserDTO> listToRemoveNotification = [];
     widget.notificationList.forEach((element) {
       if (widget.reading.name == element.name) {
-        removeItemFromNotificationList.add(element);
+        listToRemoveNotification.add(element);
       }
     });
     HelperFunctions.getUserEmailInSharedPreference().then((email) {
       ReadingService().readingIsRead(email, widget.reading.name, widget.group);
     });
-    if (removeItemFromNotificationList.isNotEmpty) {
-      widget.callback(removeItemFromNotificationList[0]);
+    if (listToRemoveNotification.isNotEmpty) {
+      widget.callback(listToRemoveNotification[0]);
     }
   }
 
