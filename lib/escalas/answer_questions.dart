@@ -101,7 +101,7 @@ class AnswerQuestions extends StatelessWidget {
               ? Question(getQuestionText())
               : Question(question),
           Container(
-            height: MediaQuery.of(context).size.height * .45,
+            height: MediaQuery.of(context).size.height * .44,
             child: SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
