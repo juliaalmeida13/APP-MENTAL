@@ -368,18 +368,26 @@ class _ContactsScreenState extends State<ContactsScreen> {
     overlay = Overlay.of(context)!.context.findRenderObject() as RenderBox;
     return Scaffold(
       appBar: AppBar(
-          backgroundColor: AppColors.green,
-          shadowColor: Colors.transparent,
-          title: Text("Contatos"),
-          actions: <Widget>[
-            IconButton(
-              icon: const Icon(Icons.add),
-              tooltip: 'Adicionar',
-              onPressed: () {
-                addContactDialog(context, _formKey, nameContact, numberContact);
-              },
-            )
-          ]),
+        backgroundColor: AppColors.green,
+        shadowColor: Colors.transparent,
+        title: Text("Contatos"),
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(Icons.add),
+            tooltip: 'Adicionar',
+            onPressed: () {
+              addContactDialog(context, _formKey, nameContact, numberContact);
+            },
+          )
+        ],
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.of(context).popUntil(ModalRoute.withName('/logged-home'));
+            Navigator.of(context).pushNamed("/logged-home");
+          },
+        ),
+      ),
       body: ListView(
         children: [
           Container(
