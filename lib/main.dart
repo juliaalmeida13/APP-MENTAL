@@ -1,3 +1,5 @@
+import 'package:app_mental/Screens/ChatPage/ChatPage.dart';
+import 'package:app_mental/Screens/ChatRoom/chatRoomsScreen.dart';
 import 'package:app_mental/Screens/Contacts/contacts_screen.dart';
 import 'package:app_mental/Screens/Questionarie/quests_screen.dart';
 import 'package:app_mental/Screens/SleepDiary/sleep_diary.dart';
@@ -24,7 +26,6 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'Screens/Home/home_screen.dart';
 import 'Screens/ResetPassword/reset_password.dart';
 import 'Screens/SignIn/signin.dart';
-import 'Screens/UsersPage/UsersPage.dart';
 import 'Services/interventions.dart';
 import 'Screens/Reading/recomended_readings.dart';
 
@@ -91,7 +92,7 @@ class _MyAppState extends State<MyApp> {
         "/readings": (ctx) => RecomendedReadings(),
         "/logged-home": (ctx) => HomeScreen(),
         "/sleep-diary": (ctx) => SleepPage(),
-        "/users": (ctx) => UsersPage(),
+        "/chat": (ctx) => ChatRoom(),
         "/quests-screen": (ctx) => QuestsScreen(),
       },
       home: (userIsLoggedIn ?? false) ? HomeScreen() : SignIn(),

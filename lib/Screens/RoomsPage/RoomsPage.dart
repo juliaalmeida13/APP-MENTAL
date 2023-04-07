@@ -144,8 +144,8 @@ class _RoomsPageState extends State<RoomsPage> {
                         Navigator.of(context).push(
                           MaterialPageRoute(
                             builder: (context) => ChatPage(
-                              room: room,
-                            ),
+                                // room: room,
+                                ),
                           ),
                         );
                       },

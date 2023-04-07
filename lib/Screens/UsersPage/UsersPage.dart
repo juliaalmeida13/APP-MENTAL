@@ -11,12 +11,12 @@ class UsersPage extends StatelessWidget {
   const UsersPage({Key? key}) : super(key: key);
 
   void _handlePressed(types.User otherUser, BuildContext context) async {
-    final room = await FirebaseChatCore.instance.createRoom(otherUser);
+    // final room = await FirebaseChatCore.instance.createRoom(otherUser);
     await Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => ChatPage(
-          room: room,
-        ),
+            // room: null,
+            ),
       ),
     );
   }
@@ -53,7 +53,7 @@ class UsersPage extends StatelessWidget {
       ),
       drawer: AppDrawer(key: Key("drawer")),
       body: StreamBuilder<List<types.User>>(
-        stream: FirebaseChatCore.instance.users(),
+        // stream: FirebaseChatCore.instance.users(),
         initialData: const [],
         builder: (context, snapshot) {
           if (!snapshot.hasData || snapshot.data!.isEmpty) {

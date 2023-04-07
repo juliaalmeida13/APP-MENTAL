@@ -257,7 +257,7 @@ class _AppDrawerState extends State<AppDrawer> {
         break;
       case 5:
         Navigator.of(context).popUntil(ModalRoute.withName('/logged-home'));
-        Navigator.of(context).pushNamed("/users");
+        Navigator.of(context).pushNamed("/chat");
         break;
       case 6:
         Navigator.of(context).popUntil(ModalRoute.withName('/logged-home'));
