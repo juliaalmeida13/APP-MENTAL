@@ -514,6 +514,13 @@ class _SleepPageState extends State<SleepPage> {
         backgroundColor: kTextColorGreen,
         shadowColor: Color.fromRGBO(1, 1, 1, 0),
         actions: [],
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.of(context).popUntil(ModalRoute.withName('/logged-home'));
+            Navigator.of(context).pushNamed("/logged-home");
+          },
+        ),
       ),
       body: Center(
         child: SingleChildScrollView(

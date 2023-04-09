@@ -92,6 +92,12 @@ class _AppDrawerState extends State<AppDrawer> {
           ),
           const SizedBox(height: 8),
           buildMenuItem(
+            text: 'Diário Livre',
+            icon: Icons.book_outlined,
+            onClicked: () => selectedItem(context, 8),
+          ),
+          const SizedBox(height: 8),
+          buildMenuItem(
             text: 'Chat',
             icon: Icons.list_alt,
             onClicked: () => selectedItem(context, 5),
@@ -101,6 +107,12 @@ class _AppDrawerState extends State<AppDrawer> {
             text: 'Tutorial',
             icon: Icons.book,
             onClicked: () => selectedItem(context, 6),
+          ),
+          const SizedBox(height: 8),
+          buildMenuItem(
+            text: 'Editar perfil',
+            icon: Icons.edit,
+            onClicked: () => selectedItem(context, 7),
           ),
           const SizedBox(height: 8),
           buildMenuItem(
@@ -262,6 +274,14 @@ class _AppDrawerState extends State<AppDrawer> {
       case 6:
         Navigator.of(context).popUntil(ModalRoute.withName('/logged-home'));
         Navigator.of(context).pushNamed("/tutorial");
+        break;
+      case 7:
+        Navigator.of(context).popUntil(ModalRoute.withName('/logged-home'));
+        Navigator.of(context).pushNamed("/edit-profile-screen");
+        break;
+      case 8:
+        Navigator.of(context).popUntil(ModalRoute.withName('/logged-home'));
+        Navigator.of(context).pushNamed("/audio-text-diary");
         break;
     }
   }
