@@ -21,7 +21,7 @@ import 'Screens/Reading/recomended_readings.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  // await Firebase.initializeApp();
   initializeDateFormatting('pt_BR', null).then(
     (_) => runApp(
       MyApp(),
