@@ -54,7 +54,6 @@ class _SignUpState extends State<SignUp> {
         .then((value) {
       ScaffoldMessenger.of(context).hideCurrentSnackBar();
       showSnackbar('Usuário cadastrado com sucesso!', Colors.green);
-      ScaffoldMessenger.of(context).showSnackBar(snackBar);
       Navigator.pushNamedAndRemoveUntil(
           context, "/sign-in", (Route<dynamic> route) => false);
     }).catchError((error) {
