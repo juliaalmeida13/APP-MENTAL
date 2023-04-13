@@ -1,26 +1,29 @@
 class Scale {
-  String? questionnaireId;
+  String? questionnaireCode;
   String? questionnaireName;
   String? availableAt;
   String? userScale;
   int? answeredUntil;
+  String? week;
   bool? unanswered;
 
   Scale(
-      {this.questionnaireId,
+      {this.questionnaireCode,
       this.questionnaireName,
       this.availableAt,
       this.userScale,
       this.answeredUntil,
+      this.week,
       this.unanswered});
 
   factory Scale.fromJson(Map<String, dynamic> json) {
     return Scale(
-        questionnaireId: json['questionnaireId'],
+        questionnaireCode: json['questionnaireCode'],
         questionnaireName: json['questionnaireName'],
         availableAt: json['availableAt'],
         userScale: json['userScale'],
         answeredUntil: json['answeredUntil'],
+        week: json['week'],
         unanswered: json['unanswered']);
   }
 }

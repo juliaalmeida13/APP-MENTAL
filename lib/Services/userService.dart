@@ -32,7 +32,7 @@ class UserService {
     throw HttpException(error.message.toString());
   }
 
-  Future<UserApp> signIn(String email, String password) async {
+  Future<UserApp> signIn(String email, String password, String token) async {
     final response = await http.post(Uri.parse("${url}loginApp"),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
@@ -40,6 +40,7 @@ class UserService {
         body: jsonEncode(<String, String>{
           'email': email,
           'password': md5.convert(utf8.encode(password)).toString(),
+          'token': token
         }));
     if (response.statusCode == 200) {
       return UserApp.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
@@ -64,5 +65,52 @@ class UserService {
           ApiError.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
       throw HttpException(error.message.toString());
     }
+  }
+
+  Future<void> saveUserProfile(
+      String email,
+      String name,
+      String gender,
+      String age,
+      String workplace,
+      String maritalStatus,
+      String occupation,
+      String phone) async {
+    final response = await http.post(Uri.parse("${url}saveUserApp"),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, String>{
+          'email': email,
+          'name': name,
+          'gender': gender,
+          'age': age,
+          'workplace': workplace,
+          'maritalStatus': maritalStatus,
+          'occupation': occupation,
+          'phone': phone
+        }));
+    if (response.statusCode != 200) {
+      final error =
+          ApiError.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
+      throw HttpException(error.message.toString());
+    }
+  }
+
+  Future<UserApp> getUserApp(String email) async {
+    final response = await http.get(Uri.parse("${url}getUserApp?email=$email"),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        });
+    if (response.statusCode == 200) {
+      if (utf8.decode(response.bodyBytes) != "") {
+        return UserApp.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
+      } else {
+        return UserApp();
+      }
+    }
+    final error =
+        ApiError.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
+    throw HttpException(error.message.toString());
   }
 }

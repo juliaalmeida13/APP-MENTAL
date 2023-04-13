@@ -21,3 +21,10 @@ Color getUserAvatarNameColor(types.User user) {
 }
 
 String getUserName(types.User user) => '${user.firstName ?? ''}'.trim();
+
+String? validateEntry(value) {
+  if (value!.isEmpty) {
+    return 'vazio';
+  }
+  return null;
+}
