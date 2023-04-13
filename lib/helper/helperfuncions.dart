@@ -4,15 +4,18 @@ class HelperFunctions {
   static String sharedPreferenceUserLoggedInKey = "ISLOGGEDIN";
   static String sharedPreferenceUserNameKey = "USERNAMEKEY";
   static String sharedPreferenceUserEmailKey = "USEREMAILKEY";
+  static String sharedPreferenceUserJwtTokenKey = "USERJWTTOKENKEY";
 
   // saving data to SharedPreference
   static Future<void> saveUserInfoToSharedPrefs(user) async {
     String? userEmail = user.email;
     String? userDisplayName = user.name;
+    String? userJwtToken = user.jwtToken;
 
     saveUserEmailInSharedPreference(userEmail!);
     saveUserLoggedInSharedPreference(true);
     saveUserNameInSharedPreference(userDisplayName!);
+    saveUserJwtTokenInSharedPreference(userJwtToken!);
   }
 
   static Future<bool> saveUserLoggedInSharedPreference(
@@ -24,6 +27,11 @@ class HelperFunctions {
   static Future<bool> saveUserNameInSharedPreference(String userName) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return await prefs.setString(sharedPreferenceUserNameKey, userName);
+  }
+
+  static Future<bool> saveUserJwtTokenInSharedPreference(String token) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return await prefs.setString(sharedPreferenceUserJwtTokenKey, token);
   }
 
   static Future<bool> saveUserEmailInSharedPreference(String userEmail) async {
@@ -44,6 +52,11 @@ class HelperFunctions {
   static Future<String> getUserEmailInSharedPreference() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString(sharedPreferenceUserEmailKey) ?? "Empty";
+  }
+
+  static Future<String> getUserJwtTokenInSharedPreference() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString(sharedPreferenceUserJwtTokenKey) ?? "Empty";
   }
 
   static Future<Map> getUserNameAndEmailInSharedPreference() async {
