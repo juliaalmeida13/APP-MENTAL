@@ -21,8 +21,6 @@ class ChatPage extends StatefulWidget {
     required this.channel,
   }) : super();
 
-  // final types.Room room;
-
   @override
   _ChatPageState createState() => _ChatPageState();
 }
