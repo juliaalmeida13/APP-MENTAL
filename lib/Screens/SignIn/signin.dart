@@ -19,15 +19,42 @@ class _SignInState extends State<SignIn> {
   TextEditingController passwordTextEdittingController =
       new TextEditingController();
 
-  bool isLoading = false;
+  bool checkboxValue = false;
+  List<String> userAndPasswordStored = [];
+
+  @override
+  void initState() {
+    setEmailAndPassword();
+    super.initState();
+  }
+
+  setEmailAndPassword() async {
+    userAndPasswordStored =
+        await HelperFunctions.getUserRememberMeInSharedPreference();
+    if (userAndPasswordStored.isNotEmpty) {
+      setState(() {
+        emailTextEdittingController.text = userAndPasswordStored[0];
+        passwordTextEdittingController.text = userAndPasswordStored[1];
+        checkboxValue = true;
+      });
+    }
+  }
+
+  saveUserInSharedPreferences(user) {
+    HelperFunctions.saveUserInfoToSharedPrefs(user);
+    if (checkboxValue) {
+      HelperFunctions.saveUserInfoToSharedPrefsRememberMe(
+          emailTextEdittingController.text,
+          passwordTextEdittingController.text);
+    } else {
+      HelperFunctions.removeRememberMeInSharedPreference();
+    }
+  }
 
   signIn() async {
     if (!formKey.currentState!.validate()) {
       return;
     }
-    setState(() {
-      isLoading = true;
-    });
     final snackBar = SnackBar(
         content: new Row(
       children: <Widget>[
@@ -42,7 +69,7 @@ class _SignInState extends State<SignIn> {
             passwordTextEdittingController.text, ""!)
         .then((user) {
       ScaffoldMessenger.of(context).hideCurrentSnackBar();
-      HelperFunctions.saveUserInfoToSharedPrefs(user);
+      saveUserInSharedPreferences(user);
       Navigator.pushNamedAndRemoveUntil(
           context, "/logged-home", (Route<dynamic> route) => false);
     }).catchError((error) {
@@ -114,6 +141,17 @@ class _SignInState extends State<SignIn> {
                                           },
                                           controller:
                                               emailTextEdittingController,
+                                          onChanged: (_) {
+                                            if (userAndPasswordStored
+                                                    .isNotEmpty &&
+                                                passwordTextEdittingController
+                                                    .text.isNotEmpty) {
+                                              setState(() {
+                                                passwordTextEdittingController
+                                                    .text = "";
+                                              });
+                                            }
+                                          },
                                         ),
                                       )),
                                   FadeAnimation(
@@ -140,7 +178,34 @@ class _SignInState extends State<SignIn> {
                               ),
                             ))),
                     SizedBox(
-                      height: 30,
+                      height: 10,
+                    ),
+                    FadeAnimation(
+                      1.8,
+                      Container(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              "Lembrar de mim",
+                              style: TextStyle(color: AppColors.green),
+                            ),
+                            Checkbox(
+                              side: BorderSide(color: AppColors.green),
+                              value: checkboxValue,
+                              activeColor: Colors.green,
+                              onChanged: (newValue) {
+                                setState(() {
+                                  checkboxValue = newValue!;
+                                });
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 15,
                     ),
                     FadeAnimation(
                         1.8,

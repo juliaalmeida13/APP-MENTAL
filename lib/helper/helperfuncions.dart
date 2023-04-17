@@ -5,17 +5,18 @@ class HelperFunctions {
   static String sharedPreferenceUserNameKey = "USERNAMEKEY";
   static String sharedPreferenceUserEmailKey = "USEREMAILKEY";
   static String sharedPreferenceUserJwtTokenKey = "USERJWTTOKENKEY";
+  static String sharedPreferenceUserRememberMe = "REMEMBERME";
 
   // saving data to SharedPreference
   static Future<void> saveUserInfoToSharedPrefs(user) async {
     String? userEmail = user.email;
     String? userDisplayName = user.name;
-    String? userJwtToken = user.jwtToken;
+    //String? userJwtToken = user.jwtToken;
 
     saveUserEmailInSharedPreference(userEmail!);
     saveUserLoggedInSharedPreference(true);
     saveUserNameInSharedPreference(userDisplayName!);
-    saveUserJwtTokenInSharedPreference(userJwtToken!);
+    //saveUserJwtTokenInSharedPreference(userJwtToken!);
   }
 
   static Future<bool> saveUserLoggedInSharedPreference(
@@ -70,6 +71,23 @@ class HelperFunctions {
 
   static Future<bool> clearUserInSharedPreference() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.clear();
+    return prefs.remove(sharedPreferenceUserLoggedInKey);
+  }
+
+  static Future<void> saveUserInfoToSharedPrefsRememberMe(
+      String email, String password) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs
+        .setStringList(sharedPreferenceUserRememberMe, [email, password]);
+  }
+
+  static Future<List<String>> getUserRememberMeInSharedPreference() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getStringList(sharedPreferenceUserRememberMe) ?? [];
+  }
+
+  static Future<void> removeRememberMeInSharedPreference() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.remove(sharedPreferenceUserRememberMe);
   }
 }
