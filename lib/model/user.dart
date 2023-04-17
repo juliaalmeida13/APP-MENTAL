@@ -8,6 +8,7 @@ class UserApp {
   String? maritalStatus;
   String? occupation;
   String? phone;
+  String? jwtToken;
 
   UserApp(
       {this.email,
@@ -18,7 +19,8 @@ class UserApp {
       this.workplace,
       this.maritalStatus,
       this.occupation,
-      this.phone});
+      this.phone,
+      this.jwtToken});
 
   factory UserApp.fromJson(Map<String, dynamic> json) {
     return UserApp(
@@ -30,6 +32,7 @@ class UserApp {
         workplace: json['workplace'],
         maritalStatus: json['maritalStatus'],
         occupation: json['occupation'],
-        phone: json['phone']);
+        phone: json['phone'],
+        jwtToken: json['jwtToken']);
   }
 }
