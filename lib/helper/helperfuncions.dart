@@ -11,12 +11,12 @@ class HelperFunctions {
   static Future<void> saveUserInfoToSharedPrefs(user) async {
     String? userEmail = user.email;
     String? userDisplayName = user.name;
-    //String? userJwtToken = user.jwtToken;
+    String? userJwtToken = user.jwtToken;
 
     saveUserEmailInSharedPreference(userEmail!);
     saveUserLoggedInSharedPreference(true);
     saveUserNameInSharedPreference(userDisplayName!);
-    //saveUserJwtTokenInSharedPreference(userJwtToken!);
+    saveUserJwtTokenInSharedPreference(userJwtToken!);
   }
 
   static Future<bool> saveUserLoggedInSharedPreference(
