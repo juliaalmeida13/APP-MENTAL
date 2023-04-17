@@ -1,15 +1,7 @@
-import 'dart:io';
-
-import 'package:app_mental/Services/channelService.dart';
 import 'package:app_mental/Services/chatService.dart';
-import 'package:app_mental/helper/constants.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:uuid/uuid.dart';
-
 import '../../constants.dart';
 import '../../helper/helperfuncions.dart';
 import '../../model/channel.dart';
@@ -26,7 +18,6 @@ class ChatPage extends StatefulWidget {
 }
 
 class _ChatPageState extends State<ChatPage> {
-  bool _isAttachmentUploading = false;
   late String _email;
   List<types.Message> _messages = [];
 
@@ -57,14 +48,6 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   void _handleSendPressed(types.PartialText message) {
-    final textMessage = types.TextMessage(
-      author: types.User(
-        id: widget.channel.idUser.toString(),
-      ),
-      id: const Uuid().v4(),
-      text: message.text,
-    );
-
     ChatService()
         .sendMessage(message.text, widget.channel.idUser.toString(),
             widget.channel.idChannel)
@@ -97,8 +80,7 @@ class _ChatPageState extends State<ChatPage> {
                   l10n: ChatL10nBr(),
                   onSendPressed: _handleSendPressed,
                   user: types.User(
-                    id: widget.channel.idUser
-                        .toString(), //TODO colocar id do usuario
+                    id: widget.channel.idUser.toString(),
                   ),
                 ),
               );

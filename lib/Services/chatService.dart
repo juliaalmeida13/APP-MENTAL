@@ -16,7 +16,6 @@ class ChatService {
       'text': text,
       'idAuthor': authorId
     });
-    print(body);
     final response = await http.post(Uri.parse("${url}sendMessage"),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',

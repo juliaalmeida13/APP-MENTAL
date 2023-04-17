@@ -61,7 +61,7 @@ class _ChatRoomState extends State<ChatRoom> {
       drawer: AppDrawer(key: Key("drawer")),
       appBar: AppBar(
         backgroundColor: kTextColorGreen,
-        title: Text("ChatPage"),
+        title: Text("Chat"),
       ),
       body: chatRoomList(),
     );
