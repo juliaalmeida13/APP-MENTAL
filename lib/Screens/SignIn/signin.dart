@@ -19,7 +19,7 @@ class _SignInState extends State<SignIn> {
   TextEditingController passwordTextEdittingController =
       new TextEditingController();
 
-  bool checkboxValue = false;
+  bool isRememberPassword = false;
   List<String> userAndPasswordStored = [];
 
   @override
@@ -35,14 +35,14 @@ class _SignInState extends State<SignIn> {
       setState(() {
         emailTextEdittingController.text = userAndPasswordStored[0];
         passwordTextEdittingController.text = userAndPasswordStored[1];
-        checkboxValue = true;
+        isRememberPassword = true;
       });
     }
   }
 
   saveUserInSharedPreferences(user) {
     HelperFunctions.saveUserInfoToSharedPrefs(user);
-    if (checkboxValue) {
+    if (isRememberPassword) {
       HelperFunctions.saveUserInfoToSharedPrefsRememberMe(
           emailTextEdittingController.text,
           passwordTextEdittingController.text);
@@ -79,6 +79,21 @@ class _SignInState extends State<SignIn> {
           backgroundColor: Colors.red);
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
     });
+  }
+
+  changeIsRememberValue(newValue) {
+    setState(() {
+      isRememberPassword = newValue!;
+    });
+  }
+
+  changePasswordInput() {
+    if (userAndPasswordStored.isNotEmpty &&
+        passwordTextEdittingController.text.isNotEmpty) {
+      setState(() {
+        passwordTextEdittingController.text = "";
+      });
+    }
   }
 
   @override
@@ -141,17 +156,8 @@ class _SignInState extends State<SignIn> {
                                           },
                                           controller:
                                               emailTextEdittingController,
-                                          onChanged: (_) {
-                                            if (userAndPasswordStored
-                                                    .isNotEmpty &&
-                                                passwordTextEdittingController
-                                                    .text.isNotEmpty) {
-                                              setState(() {
-                                                passwordTextEdittingController
-                                                    .text = "";
-                                              });
-                                            }
-                                          },
+                                          onChanged: (_) =>
+                                              changePasswordInput(),
                                         ),
                                       )),
                                   FadeAnimation(
@@ -192,13 +198,10 @@ class _SignInState extends State<SignIn> {
                             ),
                             Checkbox(
                               side: BorderSide(color: AppColors.green),
-                              value: checkboxValue,
+                              value: isRememberPassword,
                               activeColor: Colors.green,
-                              onChanged: (newValue) {
-                                setState(() {
-                                  checkboxValue = newValue!;
-                                });
-                              },
+                              onChanged: (newValue) =>
+                                  changeIsRememberValue(newValue),
                             ),
                           ],
                         ),
