@@ -37,6 +37,9 @@ class _QuestsScreenState extends State<QuestsScreen> {
               scaleList[index].answeredUntil!,
               scaleList[index].unanswered!,
               scaleList[index].week!,
+              scaleList[index].answeredAt != null
+                  ? DateTime.parse(scaleList[index].answeredAt!)
+                  : DateTime.now(),
               Constants.myEmail);
         });
   }
@@ -133,6 +136,7 @@ class QuestRoomTile extends StatelessWidget {
   final int answeredUntil;
   final bool unanswered;
   final String week;
+  final DateTime answeredAt;
   final String userEmail;
   final DateTime _now = DateTime.now();
 
@@ -144,6 +148,7 @@ class QuestRoomTile extends StatelessWidget {
       this.answeredUntil,
       this.unanswered,
       this.week,
+      this.answeredAt,
       this.userEmail);
 
   @override
@@ -151,14 +156,15 @@ class QuestRoomTile extends StatelessWidget {
     var nextSunday = getNextSunday(availableAt);
 
     // Caso a escala/questionário seja planejada para a semana atual, constroi-se um card
-    if (_now.isAfter(availableAt) && _now.isBefore(nextSunday)) {
+    if (_now.isAfter(availableAt) &&
+        _now.isBefore(nextSunday) &&
+        unanswered == true) {
       return QuizCard(
           notificationStatus: unanswered,
           title: "$questName - $week",
-          completed: unanswered
-              ? "Questões respondidas: $answeredUntil"
-              : "Completado!",
+          completed: "Questões respondidas: $answeredUntil",
           now: _now,
+          answeredAt: answeredAt,
           expirationDate: nextSunday,
           onTap: () async {
             if (unanswered) {
@@ -180,6 +186,15 @@ class QuestRoomTile extends StatelessWidget {
                       }));
             }
           });
+    } else if (unanswered == false) {
+      return QuizCard(
+          notificationStatus: unanswered,
+          title: "$questName - $week",
+          completed: "Completado!",
+          now: _now,
+          answeredAt: answeredAt,
+          expirationDate: nextSunday,
+          onTap: () {});
     } else {
       return Container();
     }

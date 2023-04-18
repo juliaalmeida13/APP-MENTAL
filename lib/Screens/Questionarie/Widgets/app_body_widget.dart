@@ -1,5 +1,6 @@
 import 'package:app_mental/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 // Cria um card para representar as escalas/questionários do usuário
 class QuizCard extends StatelessWidget {
@@ -7,6 +8,7 @@ class QuizCard extends StatelessWidget {
   final VoidCallback onTap;
   final String completed;
   final DateTime now;
+  final DateTime answeredAt;
   final DateTime expirationDate;
   final bool notificationStatus;
   const QuizCard(
@@ -15,6 +17,7 @@ class QuizCard extends StatelessWidget {
       required this.onTap,
       required this.completed,
       required this.now,
+      required this.answeredAt,
       required this.expirationDate,
       required this.notificationStatus})
       : super(key: key);
@@ -101,7 +104,9 @@ class QuizCard extends StatelessWidget {
                       Expanded(
                           flex: 1,
                           child: Text(
-                            expirationText,
+                            notificationStatus
+                                ? expirationText
+                                : DateFormat("dd/MM/yyyy").format(answeredAt),
                             textAlign: TextAlign.right,
                             style: AppTextStyles.body11,
                           )),
