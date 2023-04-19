@@ -74,7 +74,6 @@ class _ImportContactState extends State<ImportContact> {
         width: double.maxFinite,
         height: double.maxFinite,
         child: ListView.builder(
-          //key: UniqueKey(),
           itemCount: widget.phoneContactList.length,
           itemBuilder: (context, index) {
             Contact contact = widget.phoneContactList[index];
