@@ -61,4 +61,15 @@ class ContactService {
       throw HttpException(error.message.toString());
     }
   }
+
+  Future<void> savePhoneContacts(
+      String email, List<Map<String, String>> phoneContacts) async {
+    final response = await Api().post("savePhoneContacts",
+        jsonEncode({'email': email, 'phoneContacts': phoneContacts}));
+    if (response.statusCode != 200) {
+      final error =
+          ApiError.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
+      throw HttpException(error.message.toString());
+    }
+  }
 }

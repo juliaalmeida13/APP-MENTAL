@@ -1,11 +1,15 @@
+import 'package:app_mental/Screens/Contacts/Widgets/checkbox_contact.dart';
+import 'package:app_mental/Screens/Contacts/Widgets/import_contact.dart';
 import 'package:app_mental/Services/contactService.dart';
 import 'package:app_mental/Services/database.dart';
 import 'package:app_mental/constants.dart';
 import 'package:app_mental/helper/constants.dart';
 import 'package:app_mental/helper/helperfuncions.dart';
 import 'package:app_mental/model/contact.dart';
+import 'package:fast_contacts/fast_contacts.dart' as fastContacts;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ContactsScreen extends StatefulWidget {
@@ -27,6 +31,7 @@ class _ContactsScreenState extends State<ContactsScreen> {
   late Offset tapXY;
   // ↓ hold screen size, using first line in build() method
   late RenderBox overlay;
+  List<fastContacts.Contact> phoneContactList = [];
 
   @override
   void initState() {
@@ -39,10 +44,10 @@ class _ContactsScreenState extends State<ContactsScreen> {
     Constants.myEmail = await HelperFunctions.getUserEmailInSharedPreference();
     Constants.myEmail = Constants.myEmail.trim();
 
-    this._searchContacts();
+    this.searchContacts();
   }
 
-  _searchContacts() {
+  searchContacts() {
     ContactService().findContactByUser(Constants.myEmail).then((contacts) => {
           setState(() {
             contactList = contacts;
@@ -54,7 +59,7 @@ class _ContactsScreenState extends State<ContactsScreen> {
     ContactService()
         .saveContact(nameContact.text, numberContact.text, Constants.myEmail)
         .then((_) {
-      this._searchContacts();
+      this.searchContacts();
     });
   }
 
@@ -255,7 +260,7 @@ class _ContactsScreenState extends State<ContactsScreen> {
       child: Text("Excluir"),
       onPressed: () {
         ContactService().deleteContact(id, Constants.myEmail).then((_) {
-          this._searchContacts();
+          this.searchContacts();
           Navigator.of(context).pop();
         });
       },
@@ -359,8 +364,26 @@ class _ContactsScreenState extends State<ContactsScreen> {
         .editContact(
             id, Constants.myEmail, nameContact.text, numberContact.text)
         .then((_) {
-      this._searchContacts();
+      this.searchContacts();
     });
+  }
+
+  Future<List<fastContacts.Contact>> _getContactsFromPhone() async {
+    bool isGranted = await Permission.contacts.status.isGranted;
+    if (!isGranted) {
+      isGranted = await Permission.contacts.request().isGranted;
+    }
+    if (isGranted) {
+      await fastContacts.FastContacts.getAllContacts().then((phoneContacts) {
+        final list = phoneContacts;
+        list.sort((a, b) => a.displayName.compareTo(b.displayName));
+        setState(() {
+          phoneContactList = list;
+        });
+      });
+      return phoneContactList;
+    }
+    return [];
   }
 
   @override
@@ -377,6 +400,17 @@ class _ContactsScreenState extends State<ContactsScreen> {
             tooltip: 'Adicionar',
             onPressed: () {
               addContactDialog(context, _formKey, nameContact, numberContact);
+            },
+          ),
+          IconButton(
+            icon: const Icon(Icons.send_to_mobile),
+            tooltip: 'Ler contatos do telefone',
+            onPressed: () async {
+              final phoneContacts = await _getContactsFromPhone();
+              showDialog(
+                  context: context,
+                  builder: (BuildContext context) =>
+                      ImportContact(searchContacts, phoneContacts));
             },
           )
         ],
