@@ -61,7 +61,7 @@ class _QuestsScreenState extends State<QuestsScreen> {
         .listUnansweredQuestionnaires(Constants.myEmail)
         .then((questionnaires) {
       setState(() {
-        unansweredQuests.addAll(questionnaires); // = questionnaires;
+        unansweredQuests.addAll(questionnaires);
       });
     }).catchError((error) {
       print(error);
