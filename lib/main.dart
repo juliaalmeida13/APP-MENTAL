@@ -1,3 +1,5 @@
+// import 'package:app_mental/Screens/ChatPage/ChatPage.dart';
+import 'package:app_mental/Screens/ChatRoom/chatRoomsScreen.dart';
 import 'package:app_mental/Screens/AudioTextDiaryPage/audio_text_diary.dart';
 import 'package:app_mental/Screens/EditProfile/edit_profile_screen.dart';
 import 'package:app_mental/Screens/Contacts/contacts_screen.dart';
@@ -6,7 +8,6 @@ import 'package:app_mental/Screens/SleepDiary/sleep_diary.dart';
 import 'package:app_mental/Screens/Tutorial/tutorial_screen.dart';
 import 'package:app_mental/escalas/question_screen.dart';
 import 'package:app_mental/helper/helperfuncions.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:flutter/services.dart';
@@ -16,7 +17,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'Screens/Home/home_screen.dart';
 import 'Screens/ResetPassword/reset_password.dart';
 import 'Screens/SignIn/signin.dart';
-import 'Screens/UsersPage/UsersPage.dart';
 import 'Screens/Reading/recomended_readings.dart';
 
 void main() async {
@@ -74,7 +74,7 @@ class _MyAppState extends State<MyApp> {
         "/readings": (ctx) => RecomendedReadings(),
         "/logged-home": (ctx) => HomeScreen(),
         "/sleep-diary": (ctx) => SleepPage(),
-        "/users": (ctx) => UsersPage(),
+        "/chat": (ctx) => ChatRoom(),
         "/quests-screen": (ctx) => QuestsScreen(),
         "/audio-text-diary": (ctx) => AudioTextDiary(),
         "/edit-profile-screen": (ctx) => EditProfileScreen(),

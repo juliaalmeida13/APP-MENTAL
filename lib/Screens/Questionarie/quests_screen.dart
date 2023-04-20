@@ -39,6 +39,9 @@ class _QuestsScreenState extends State<QuestsScreen> {
               scaleList[index].answeredUntil!,
               scaleList[index].unanswered!,
               scaleList[index].week!,
+              scaleList[index].answeredAt != null
+                  ? DateTime.parse(scaleList[index].answeredAt!)
+                  : DateTime.now(),
               Constants.myEmail);
         });
   }
@@ -164,6 +167,7 @@ class QuestRoomTile extends StatelessWidget {
   final int answeredUntil;
   final bool unanswered;
   final String week;
+  final DateTime answeredAt;
   final String userEmail;
   final DateTime _now = DateTime.now();
 
@@ -175,6 +179,7 @@ class QuestRoomTile extends StatelessWidget {
       this.answeredUntil,
       this.unanswered,
       this.week,
+      this.answeredAt,
       this.userEmail);
 
   @override
@@ -182,58 +187,48 @@ class QuestRoomTile extends StatelessWidget {
     var nextSunday = getNextSunday(availableAt);
 
     // Caso a escala/questionário seja planejada para a semana atual, constroi-se um card
-    if (_now.isAfter(availableAt) && _now.isBefore(nextSunday)) {
-      if (questCode == "sleepQuestionnaire") {
-        return QuizCard(
+    if (_now.isAfter(availableAt) &&
+        _now.isBefore(nextSunday) &&
+        unanswered == true) {
+      return QuizCard(
           notificationStatus: unanswered,
-          title: "$questName",
-          completed: unanswered ? "Não respondido!" : "Completado!",
+          title: "$questName - $week",
+          completed: "Questões respondidas: $answeredUntil",
           now: _now,
-          expirationDate: DateTime(DateTime.now().year, DateTime.now().month,
-              DateTime.now().day + 1),
-          onTap: () {
+          answeredAt: answeredAt,
+          expirationDate: nextSunday,
+          onTap: () async {
             if (unanswered) {
               Navigator.of(context)
                   .popUntil(ModalRoute.withName('/logged-home'));
               Navigator.of(context).pushNamed("/sleep-diary");
             }
-          },
-        );
-      }
+          });
+    } else if (questCode == "sleepQuestionnaire" && unanswered == true) {
       return QuizCard(
         notificationStatus: unanswered,
-        title: "$questName - $week",
-        completed:
-            unanswered ? "Questões respondidas: $answeredUntil" : "Completado!",
+        title: "$questName",
+        completed: "Não respondido!",
         now: _now,
-        expirationDate: nextSunday,
-        onTap: () async {
+        answeredAt: answeredAt,
+        expirationDate: DateTime(
+            DateTime.now().year, DateTime.now().month, DateTime.now().day + 1),
+        onTap: () {
           if (unanswered) {
-            List<dynamic> _questions = [];
-            await QuestionnaireService().getQuestions(questCode).then(
-              (values) {
-                values.forEach(
-                  (value) {
-                    _questions.add(value);
-                  },
-                );
-              },
-            ).whenComplete(
-              () => Navigator.of(context).pushNamed(
-                QuestionScreen.routeName,
-                arguments: {
-                  'title': "$questName - $week",
-                  'userEscala': userEscala,
-                  'answeredUntil': answeredUntil,
-                  'email': userEmail,
-                  'questions': _questions,
-                  'questionnaireCode': questCode
-                },
-              ),
-            );
+            Navigator.of(context).popUntil(ModalRoute.withName('/logged-home'));
+            Navigator.of(context).pushNamed("/sleep-diary");
           }
         },
       );
+    } else if (unanswered == false) {
+      return QuizCard(
+          notificationStatus: unanswered,
+          title: "$questName - $week",
+          completed: "Completado!",
+          now: _now,
+          answeredAt: answeredAt,
+          expirationDate: nextSunday,
+          onTap: () {});
     } else {
       return Container();
     }

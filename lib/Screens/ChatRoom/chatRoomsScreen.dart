@@ -1,11 +1,11 @@
-import 'package:app_mental/Screens/ChatRoom/Widgets/conversation_screen.dart';
-import 'package:app_mental/Screens/ChatRoom/Widgets/search.dart';
+import 'package:app_mental/Screens/ChatPage/ChatPage.dart';
+import 'package:app_mental/Services/channelService.dart';
 import 'package:app_mental/Services/database.dart';
 import 'package:app_mental/Shared/Widgets/AppDrawer.dart';
 import 'package:app_mental/Shared/Widgets/MainAppBar.dart';
 import 'package:app_mental/constants.dart';
-import 'package:app_mental/helper/constants.dart';
 import 'package:app_mental/helper/helperfuncions.dart';
+import 'package:app_mental/model/channel.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -18,22 +18,19 @@ class ChatRoom extends StatefulWidget {
 class _ChatRoomState extends State<ChatRoom> {
   DatabaseMethods databaseMethods = new DatabaseMethods();
   Stream<QuerySnapshot<Object?>>? chatRoomsStream;
+  late String _email;
+  List<Channel> _channels = [];
 
   Widget chatRoomList() {
     return StreamBuilder<QuerySnapshot>(
       stream: chatRoomsStream,
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-        return snapshot.hasData && snapshot.data!.docs.length > 0
+        return this._channels.isNotEmpty && this._channels.length > 0
             ? ListView.builder(
-                itemCount: snapshot.data!.docs.length,
+                itemCount: this._channels.length,
                 itemBuilder: (context, index) {
-                  return ChatRoomTile(
-                      snapshot.data!.docs[index]
-                          .get("chatRoomId")
-                          .toString()
-                          .replaceAll("_", "")
-                          .replaceAll(Constants.myName, ""),
-                      snapshot.data!.docs[index].get("chatRoomId"));
+                  return ChatRoomTile(this._channels[index].nameResearcher,
+                      this._channels[index]);
                 },
               )
             : Container();
@@ -44,16 +41,16 @@ class _ChatRoomState extends State<ChatRoom> {
   @override
   void initState() {
     super.initState();
-    getUserInfo().whenComplete(() {
-      setState(() {});
-    });
+    getUserEmail();
   }
 
-  getUserInfo() async {
-    Constants.myName = await HelperFunctions.getUserNameInSharedPreference();
-    databaseMethods.getChatRooms(Constants.myName).then((val) {
-      setState(() {
-        chatRoomsStream = val;
+  getUserEmail() async {
+    await HelperFunctions.getUserEmailInSharedPreference().then((email) {
+      ChannelService().getUserChannels(email).then((channels) {
+        setState(() {
+          this._email = email;
+          this._channels = channels;
+        });
       });
     });
   }
@@ -64,33 +61,28 @@ class _ChatRoomState extends State<ChatRoom> {
       drawer: AppDrawer(key: Key("drawer")),
       appBar: AppBar(
         backgroundColor: kTextColorGreen,
-        title: Text("ChatPage"),
+        title: Text("Chat"),
       ),
       body: chatRoomList(),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.search),
-        onPressed: () {
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => SearchScreen()));
-        },
-      ),
     );
   }
 }
 
 class ChatRoomTile extends StatelessWidget {
   final String userName;
-  final String chatRoomId;
-  ChatRoomTile(this.userName, this.chatRoomId);
+  final Channel channel;
+  ChatRoomTile(this.userName, this.channel);
+
+  _openChatRoom(BuildContext context) {
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => ChatPage(channel: channel)));
+  }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => ConversarionScreen(chatRoomId)));
+        this._openChatRoom(context);
       },
       child: Container(
         color: Colors.black26,
