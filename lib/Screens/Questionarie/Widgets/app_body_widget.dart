@@ -106,7 +106,10 @@ class QuizCard extends StatelessWidget {
                           child: Text(
                             notificationStatus
                                 ? expirationText
-                                : DateFormat("dd/MM/yyyy").format(answeredAt),
+                                : title != "Diário do Sono"
+                                    ? DateFormat("dd/MM/yyyy")
+                                        .format(answeredAt)
+                                    : "",
                             textAlign: TextAlign.right,
                             style: AppTextStyles.body11,
                           )),
