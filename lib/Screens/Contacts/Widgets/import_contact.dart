@@ -1,14 +1,14 @@
 import 'package:app_mental/Services/contactService.dart';
-import 'package:fast_contacts/fast_contacts.dart';
+import 'package:fast_contacts/fast_contacts.dart' as fastContact;
 import 'package:flutter/material.dart';
-import 'package:permission_handler/permission_handler.dart';
 
+import '../../../model/contact.dart';
 import '../../../helper/helperfuncions.dart';
 import 'checkbox_contact.dart';
 
 class ImportContact extends StatefulWidget {
   final Function searchContacts;
-  final List<Contact> phoneContactList;
+  final List<fastContact.Contact> phoneContactList;
 
   ImportContact(this.searchContacts, this.phoneContactList);
 
@@ -26,15 +26,15 @@ class _ImportContactState extends State<ImportContact> {
   }
 
   _saveSelectedContact() async {
-    List<Map<String, String>> listContact = [];
+    List<Contact> listContact = [];
     for (int i = 0; i < checkedValue.length; i++) {
       if (checkedValue[i] == true) {
-        listContact.add({
-          "name": widget.phoneContactList[i].displayName,
-          "phone": widget.phoneContactList[i].phones.isNotEmpty
-              ? widget.phoneContactList[i].phones[0].number
-              : ""
-        });
+        listContact.add(Contact(
+            id: i,
+            name: widget.phoneContactList[i].displayName,
+            number: widget.phoneContactList[i].phones.isNotEmpty
+                ? widget.phoneContactList[i].phones[0].number
+                : ""));
       }
     }
     if (listContact.isNotEmpty) {
@@ -76,7 +76,7 @@ class _ImportContactState extends State<ImportContact> {
         child: ListView.builder(
           itemCount: widget.phoneContactList.length,
           itemBuilder: (context, index) {
-            Contact contact = widget.phoneContactList[index];
+            fastContact.Contact contact = widget.phoneContactList[index];
             checkedValue.add(false);
             return Card(
               child: Column(

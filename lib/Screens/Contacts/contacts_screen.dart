@@ -1,4 +1,3 @@
-import 'package:app_mental/Screens/Contacts/Widgets/checkbox_contact.dart';
 import 'package:app_mental/Screens/Contacts/Widgets/import_contact.dart';
 import 'package:app_mental/Services/contactService.dart';
 import 'package:app_mental/Services/database.dart';

@@ -63,9 +63,9 @@ class ContactService {
   }
 
   Future<void> savePhoneContacts(
-      String email, List<Map<String, String>> phoneContacts) async {
+      String email, List<Contact> phoneContacts) async {
     final response = await Api().post("savePhoneContacts",
-        jsonEncode({'email': email, 'phoneContacts': phoneContacts}));
+        jsonEncode({'email': email, 'phoneContacts': phoneContacts.toList()}));
     if (response.statusCode != 200) {
       final error =
           ApiError.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
