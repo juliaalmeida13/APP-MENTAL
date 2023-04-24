@@ -17,18 +17,18 @@ class ImportContact extends StatefulWidget {
 }
 
 class _ImportContactState extends State<ImportContact> {
-  List<bool> checkedValue = [];
+  List<bool> isCheckedList = [];
 
   changeCheckboxValue(newValue, index) {
     setState(() {
-      checkedValue[index] = newValue!;
+      isCheckedList[index] = newValue!;
     });
   }
 
   _saveSelectedContact() async {
     List<Contact> listContact = [];
-    for (int i = 0; i < checkedValue.length; i++) {
-      if (checkedValue[i] == true) {
+    for (int i = 0; i < isCheckedList.length; i++) {
+      if (isCheckedList[i] == true) {
         listContact.add(Contact(
             id: i,
             name: widget.phoneContactList[i].displayName,
@@ -77,12 +77,12 @@ class _ImportContactState extends State<ImportContact> {
           itemCount: widget.phoneContactList.length,
           itemBuilder: (context, index) {
             fastContact.Contact contact = widget.phoneContactList[index];
-            checkedValue.add(false);
+            isCheckedList.add(false);
             return Card(
               child: Column(
                 children: [
-                  CheckboxContact(
-                      contact, checkedValue[index], index, changeCheckboxValue),
+                  CheckboxContact(contact, isCheckedList[index], index,
+                      changeCheckboxValue),
                 ],
               ),
             );

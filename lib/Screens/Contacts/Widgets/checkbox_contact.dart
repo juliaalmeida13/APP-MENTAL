@@ -5,11 +5,11 @@ import '../../../constants.dart';
 
 class CheckboxContact extends StatefulWidget {
   final Contact contact;
-  final bool checkedValue;
+  final bool isChecked;
   final int phoneContactListIndex;
   final Function checkboxHandler;
 
-  CheckboxContact(this.contact, this.checkedValue, this.phoneContactListIndex,
+  CheckboxContact(this.contact, this.isChecked, this.phoneContactListIndex,
       this.checkboxHandler);
 
   @override
@@ -20,7 +20,7 @@ class _CheckboxContactState extends State<CheckboxContact> {
   @override
   Widget build(BuildContext context) {
     return CheckboxListTile(
-      value: widget.checkedValue,
+      value: widget.isChecked,
       activeColor: Colors.green,
       side: BorderSide(color: AppColors.green),
       onChanged: (newValue) =>

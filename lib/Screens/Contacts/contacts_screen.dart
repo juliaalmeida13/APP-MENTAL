@@ -375,7 +375,8 @@ class _ContactsScreenState extends State<ContactsScreen> {
     if (isGranted) {
       await fastContacts.FastContacts.getAllContacts().then((phoneContacts) {
         final list = phoneContacts;
-        list.sort((a, b) => a.displayName.compareTo(b.displayName));
+        list.sort((contactA, contactB) =>
+            contactA.displayName.compareTo(contactB.displayName));
         setState(() {
           phoneContactList = list;
         });
