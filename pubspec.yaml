@@ -61,6 +61,7 @@ dependencies:
   crypto: ^3.0.2
   auto_size_text: ^3.0.0
   firebase_messaging: ^14.3.0
+  fast_contacts: ^3.0.3
 dev_dependencies:
   flutter_test:
     sdk: flutter
