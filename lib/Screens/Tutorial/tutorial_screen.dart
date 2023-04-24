@@ -9,9 +9,16 @@ class TutorialScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-            backgroundColor: AppColors.green,
-            shadowColor: Colors.transparent,
-            title: Text("Tutorial")),
+          backgroundColor: AppColors.green,
+          shadowColor: Colors.transparent,
+          title: Text("Tutorial"),
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+        ),
         body: Flex(direction: Axis.vertical, children: [
           Expanded(
             child: SingleChildScrollView(
