@@ -23,7 +23,6 @@ class _SleepPageState extends State<SleepPage> {
   TextEditingController resp8 = TextEditingController();
 
   late String data;
-  bool userAnsweredAlready = false;
   TimeOfDay _resQuest1 = TimeOfDay(hour: 0, minute: 0);
   TimeOfDay _resQuest2 = TimeOfDay(hour: 0, minute: 0);
   TimeOfDay _resQuest3 = TimeOfDay(hour: 0, minute: 0);
@@ -45,31 +44,20 @@ class _SleepPageState extends State<SleepPage> {
       "resp7": _resQuest7.format(context),
       "resp8": _resQuest8.format(context),
     };
-    if (!userAnsweredAlready) {
-      SleepService().addNewSleepDiary(userEmail, answerQuestions).then((_) {
-        setState(() {
-          userAnsweredAlready = true;
-        });
-      });
-    }
+    SleepService().addNewSleepDiary(userEmail, answerQuestions);
   }
 
-  getUserEmailAndUserAnsweredAlready() async {
+  getUserEmail() async {
     await HelperFunctions.getUserEmailInSharedPreference().then((email) {
       setState(() {
         userEmail = email;
-      });
-      SleepService().isSleepDiaryAnsweredToday(email).then((answered) {
-        setState(() {
-          userAnsweredAlready = answered;
-        });
       });
     });
   }
 
   @override
   void initState() {
-    getUserEmailAndUserAnsweredAlready();
+    getUserEmail();
     super.initState();
     pickedDate = DateTime.now();
     data = DateFormat("dd-MM-yyyy").format(pickedDate);
@@ -518,7 +506,7 @@ class _SleepPageState extends State<SleepPage> {
           icon: Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.of(context).popUntil(ModalRoute.withName('/logged-home'));
-            Navigator.of(context).pushNamed("/logged-home");
+            Navigator.of(context).pushNamed("/quests-screen");
           },
         ),
       ),
@@ -531,56 +519,45 @@ class _SleepPageState extends State<SleepPage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  userAnsweredAlready
-                      ? Container(
-                          height: MediaQuery.of(context).size.height,
-                          alignment: Alignment.center,
-                          child: Text(
-                              "Você já respondeu o questionário hoje.\n Obrigado!",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 28,
-                              )),
-                        )
-                      : Column(
-                          children: [
-                            _buildQuest1(),
-                            _buildQuest2(),
-                            _buildQuest3(),
-                            _buildQuest4(),
-                            _buildQuest5(),
-                            _buildQuest6(),
-                            _buildQuest7(),
-                            _buildQuest8(),
-                            SizedBox(height: 20),
-                            ElevatedButton(
-                              child: Text(
-                                'Enviar',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 16,
-                                ),
-                              ),
-                              onPressed: () async {
-                                if (formKey.currentState!.validate()) {
-                                  enviarRespostas();
-                                  await showInformationDialog(
-                                      context,
-                                      calculoEficienciaSono(
-                                          _resQuest1.format(context),
-                                          _resQuest2.format(context),
-                                          _resQuest3.format(context),
-                                          qtd,
-                                          _resQuest5.format(context),
-                                          _resQuest6.format(context),
-                                          _resQuest7.format(context),
-                                          _resQuest8.format(context)),
-                                      pickedDate);
-                                }
-                              },
-                            )
-                          ],
-                        )
+                  Column(
+                    children: [
+                      _buildQuest1(),
+                      _buildQuest2(),
+                      _buildQuest3(),
+                      _buildQuest4(),
+                      _buildQuest5(),
+                      _buildQuest6(),
+                      _buildQuest7(),
+                      _buildQuest8(),
+                      SizedBox(height: 20),
+                      ElevatedButton(
+                        child: Text(
+                          'Enviar',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                          ),
+                        ),
+                        onPressed: () async {
+                          if (formKey.currentState!.validate()) {
+                            enviarRespostas();
+                            await showInformationDialog(
+                                context,
+                                calculoEficienciaSono(
+                                    _resQuest1.format(context),
+                                    _resQuest2.format(context),
+                                    _resQuest3.format(context),
+                                    qtd,
+                                    _resQuest5.format(context),
+                                    _resQuest6.format(context),
+                                    _resQuest7.format(context),
+                                    _resQuest8.format(context)),
+                                pickedDate);
+                          }
+                        },
+                      )
+                    ],
+                  )
                 ],
               ),
             ),
@@ -632,9 +609,11 @@ Future<void> showInformationDialog(
                   width: MediaQuery.of(context).size.width / 2,
                   height: MediaQuery.of(context).size.height / 13,
                   alignment: Alignment.center,
-                  child: Text(
-                    "Tempo total de sono \n ${text[0]}",
-                    textAlign: TextAlign.center,
+                  child: FittedBox(
+                    child: Text(
+                      "Tempo total de sono \n ${text[0]}",
+                      textAlign: TextAlign.center,
+                    ),
                   ),
                   decoration:
                       BoxDecoration(border: Border.all(color: Colors.green)),
@@ -646,9 +625,11 @@ Future<void> showInformationDialog(
                   width: MediaQuery.of(context).size.width / 2,
                   height: MediaQuery.of(context).size.height / 13,
                   alignment: Alignment.center,
-                  child: Text(
-                    "Tempo total na cama\n ${text[1]}",
-                    textAlign: TextAlign.center,
+                  child: FittedBox(
+                    child: Text(
+                      "Tempo total na cama\n ${text[1]}",
+                      textAlign: TextAlign.center,
+                    ),
                   ),
                   decoration: BoxDecoration(
                     border: Border.all(color: Colors.green),
@@ -662,9 +643,11 @@ Future<void> showInformationDialog(
                   width: MediaQuery.of(context).size.width / 2,
                   height: MediaQuery.of(context).size.height / 13,
                   alignment: Alignment.center,
-                  child: Text(
-                    "Eficiência do sono\n ${text[2]}%",
-                    textAlign: TextAlign.center,
+                  child: FittedBox(
+                    child: Text(
+                      "Eficiência do sono\n ${text[2]}%",
+                      textAlign: TextAlign.center,
+                    ),
                   ),
                   decoration:
                       BoxDecoration(border: Border.all(color: Colors.green)),
@@ -674,7 +657,9 @@ Future<void> showInformationDialog(
         actions: [
           TextButton(
             onPressed: () {
-              Navigator.of(context).pop();
+              Navigator.of(context)
+                  .popUntil(ModalRoute.withName('/logged-home'));
+              Navigator.of(context).pushNamed("/quests-screen");
             },
             child: Text('ok'),
           )

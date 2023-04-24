@@ -1,5 +1,6 @@
 import 'package:app_mental/Screens/ChatRoom/Widgets/calendar.dart';
 import 'package:app_mental/Screens/Questionarie/Widgets/app_body_widget.dart';
+import 'package:app_mental/Screens/SleepDiary/sleep_diary.dart';
 import 'package:app_mental/Services/scaleService.dart';
 import 'package:app_mental/Shared/Widgets/AppDrawer.dart';
 import 'package:app_mental/escalas/question_screen.dart';
@@ -9,6 +10,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../Services/questionnaireService.dart';
+import '../../Services/sleepService.dart';
 import '../../constants.dart';
 import '../../model/scale.dart';
 
@@ -59,7 +61,7 @@ class _QuestsScreenState extends State<QuestsScreen> {
         .listUnansweredQuestionnaires(Constants.myEmail)
         .then((questionnaires) {
       setState(() {
-        unansweredQuests = questionnaires;
+        unansweredQuests.addAll(questionnaires);
       });
     }).catchError((error) {
       print(error);
@@ -68,10 +70,39 @@ class _QuestsScreenState extends State<QuestsScreen> {
         .listAnsweredQuestionnaires(Constants.myEmail)
         .then((questionnaires) {
       setState(() {
-        answeredQuests = questionnaires;
+        answeredQuests.addAll(questionnaires);
       });
     }).catchError((error) {
       print(error);
+    });
+    SleepService()
+        .isSleepDiaryAnsweredToday(Constants.myEmail)
+        .then((answered) {
+      if (answered) {
+        answeredQuests.add(Scale.fromJson({
+          "questionnaireCode": "sleepQuestionnaire",
+          "questionnaireName": "Diário do Sono",
+          "availableAt": DateTime(DateTime.now().year, DateTime.now().month,
+                  DateTime.now().day - 1)
+              .toString(),
+          "userScale": "sleep",
+          "answeredUntil": 0,
+          "week": "",
+          "unanswered": false
+        }));
+      } else {
+        unansweredQuests.add(Scale.fromJson({
+          "questionnaireCode": "sleepQuestionnaire",
+          "questionnaireName": "Diário do Sono",
+          "availableAt": DateTime(DateTime.now().year, DateTime.now().month,
+                  DateTime.now().day - 1)
+              .toString(),
+          "userScale": "sleep",
+          "answeredUntil": 0,
+          "week": "",
+          "unanswered": true
+        }));
+      }
     });
   }
 
@@ -158,7 +189,8 @@ class QuestRoomTile extends StatelessWidget {
     // Caso a escala/questionário seja planejada para a semana atual, constroi-se um card
     if (_now.isAfter(availableAt) &&
         _now.isBefore(nextSunday) &&
-        unanswered == true) {
+        unanswered == true &&
+        questCode != "sleepQuestionnaire") {
       return QuizCard(
           notificationStatus: unanswered,
           title: "$questName - $week",
@@ -186,6 +218,34 @@ class QuestRoomTile extends StatelessWidget {
                       }));
             }
           });
+    } else if (questCode == "sleepQuestionnaire") {
+      if (unanswered == true) {
+        return QuizCard(
+          notificationStatus: unanswered,
+          title: "$questName",
+          completed: "Não respondido!",
+          now: _now,
+          answeredAt: answeredAt,
+          expirationDate: DateTime(DateTime.now().year, DateTime.now().month,
+              DateTime.now().day + 1),
+          onTap: () {
+            if (unanswered) {
+              Navigator.of(context)
+                  .popUntil(ModalRoute.withName('/logged-home'));
+              Navigator.of(context).pushNamed("/sleep-diary");
+            }
+          },
+        );
+      } else {
+        return QuizCard(
+            notificationStatus: unanswered,
+            title: "$questName",
+            completed: "Completado!",
+            now: _now,
+            answeredAt: answeredAt,
+            expirationDate: nextSunday,
+            onTap: () {});
+      }
     } else if (unanswered == false) {
       return QuizCard(
           notificationStatus: unanswered,
