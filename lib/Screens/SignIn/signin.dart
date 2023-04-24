@@ -19,15 +19,42 @@ class _SignInState extends State<SignIn> {
   TextEditingController passwordTextEdittingController =
       new TextEditingController();
 
-  bool isLoading = false;
+  bool isRememberPassword = false;
+  List<String> userAndPasswordStored = [];
+
+  @override
+  void initState() {
+    setEmailAndPassword();
+    super.initState();
+  }
+
+  setEmailAndPassword() async {
+    userAndPasswordStored =
+        await HelperFunctions.getUserRememberMeInSharedPreference();
+    if (userAndPasswordStored.isNotEmpty) {
+      setState(() {
+        emailTextEdittingController.text = userAndPasswordStored[0];
+        passwordTextEdittingController.text = userAndPasswordStored[1];
+        isRememberPassword = true;
+      });
+    }
+  }
+
+  saveUserInSharedPreferences(user) {
+    HelperFunctions.saveUserInfoToSharedPrefs(user);
+    if (isRememberPassword) {
+      HelperFunctions.saveUserInfoToSharedPrefsRememberMe(
+          emailTextEdittingController.text,
+          passwordTextEdittingController.text);
+    } else {
+      HelperFunctions.removeRememberMeInSharedPreference();
+    }
+  }
 
   signIn() async {
     if (!formKey.currentState!.validate()) {
       return;
     }
-    setState(() {
-      isLoading = true;
-    });
     final snackBar = SnackBar(
         content: new Row(
       children: <Widget>[
@@ -42,7 +69,7 @@ class _SignInState extends State<SignIn> {
             passwordTextEdittingController.text, ""!)
         .then((user) {
       ScaffoldMessenger.of(context).hideCurrentSnackBar();
-      HelperFunctions.saveUserInfoToSharedPrefs(user);
+      saveUserInSharedPreferences(user);
       Navigator.pushNamedAndRemoveUntil(
           context, "/logged-home", (Route<dynamic> route) => false);
     }).catchError((error) {
@@ -52,6 +79,21 @@ class _SignInState extends State<SignIn> {
           backgroundColor: Colors.red);
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
     });
+  }
+
+  changeIsRememberValue(newValue) {
+    setState(() {
+      isRememberPassword = newValue!;
+    });
+  }
+
+  changePasswordInput() {
+    if (userAndPasswordStored.isNotEmpty &&
+        passwordTextEdittingController.text.isNotEmpty) {
+      setState(() {
+        passwordTextEdittingController.text = "";
+      });
+    }
   }
 
   @override
@@ -114,6 +156,8 @@ class _SignInState extends State<SignIn> {
                                           },
                                           controller:
                                               emailTextEdittingController,
+                                          onChanged: (_) =>
+                                              changePasswordInput(),
                                         ),
                                       )),
                                   FadeAnimation(
@@ -140,7 +184,31 @@ class _SignInState extends State<SignIn> {
                               ),
                             ))),
                     SizedBox(
-                      height: 30,
+                      height: 10,
+                    ),
+                    FadeAnimation(
+                      1.8,
+                      Container(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              "Lembrar de mim",
+                              style: TextStyle(color: AppColors.green),
+                            ),
+                            Checkbox(
+                              side: BorderSide(color: AppColors.green),
+                              value: isRememberPassword,
+                              activeColor: Colors.green,
+                              onChanged: (newValue) =>
+                                  changeIsRememberValue(newValue),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 15,
                     ),
                     FadeAnimation(
                         1.8,
