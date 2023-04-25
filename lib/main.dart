@@ -1,6 +1,7 @@
 // import 'package:app_mental/Screens/ChatPage/ChatPage.dart';
 import 'package:app_mental/Screens/ChatRoom/chatRoomsScreen.dart';
 import 'package:app_mental/Screens/AudioTextDiaryPage/audio_text_diary.dart';
+import 'package:app_mental/Screens/Contacts/contact_chat_screen.dart';
 import 'package:app_mental/Screens/EditProfile/edit_profile_screen.dart';
 import 'package:app_mental/Screens/Contacts/contacts_screen.dart';
 import 'package:app_mental/Screens/Questionarie/quests_screen.dart';
@@ -78,6 +79,7 @@ class _MyAppState extends State<MyApp> {
         "/quests-screen": (ctx) => QuestsScreen(),
         "/audio-text-diary": (ctx) => AudioTextDiary(),
         "/edit-profile-screen": (ctx) => EditProfileScreen(),
+        "/contacts-chat-screen": (ctx) => ContactChatScreen(),
       },
       home: (userIsLoggedIn ?? false) ? HomeScreen() : SignIn(),
     );

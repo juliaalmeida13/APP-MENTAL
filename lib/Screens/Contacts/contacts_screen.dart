@@ -393,7 +393,9 @@ class _ContactsScreenState extends State<ContactsScreen> {
       appBar: AppBar(
         backgroundColor: AppColors.green,
         shadowColor: Colors.transparent,
-        title: Text("Contatos"),
+        title: FittedBox(
+          child: Text("Contatos de Emergência"),
+        ),
         actions: <Widget>[
           IconButton(
             icon: const Icon(Icons.add),
@@ -418,7 +420,7 @@ class _ContactsScreenState extends State<ContactsScreen> {
           icon: Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.of(context).popUntil(ModalRoute.withName('/logged-home'));
-            Navigator.of(context).pushNamed("/logged-home");
+            Navigator.of(context).pushNamed("/contacts-chat-screen");
           },
         ),
       ),

@@ -68,6 +68,12 @@ class _AppDrawerState extends State<AppDrawer> {
           ),
           const SizedBox(height: 8),
           buildMenuItem(
+            text: 'Tutorial',
+            icon: Icons.book,
+            onClicked: () => selectedItem(context, 5),
+          ),
+          const SizedBox(height: 8),
+          buildMenuItem(
             text: 'Diário do sono',
             icon: Icons.bed,
             onClicked: () => selectedItem(context, 1),
@@ -95,12 +101,6 @@ class _AppDrawerState extends State<AppDrawer> {
             text: 'Diário Livre',
             icon: Icons.book_outlined,
             onClicked: () => selectedItem(context, 8),
-          ),
-          const SizedBox(height: 8),
-          buildMenuItem(
-            text: 'Chat',
-            icon: Icons.list_alt,
-            onClicked: () => selectedItem(context, 5),
           ),
           const SizedBox(height: 8),
           buildMenuItem(
@@ -265,11 +265,11 @@ class _AppDrawerState extends State<AppDrawer> {
         break;
       case 4:
         Navigator.of(context).popUntil(ModalRoute.withName('/logged-home'));
-        Navigator.of(context).pushNamed("/contacts-screen");
+        Navigator.of(context).pushNamed("/contacts-chat-screen");
         break;
       case 5:
         Navigator.of(context).popUntil(ModalRoute.withName('/logged-home'));
-        Navigator.of(context).pushNamed("/chat");
+        Navigator.of(context).pushNamed("/tutorial");
         break;
       case 6:
         Navigator.of(context).popUntil(ModalRoute.withName('/logged-home'));

@@ -45,24 +45,19 @@ class _BodyState extends State<Body> {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
           Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              MainCardButton("Leitura", Icons.book_online, "/readings",
-                  readingNotificationQuantity)
-            ],
-          ),
-          Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               MainCardButton("Questionários", Icons.list_alt, "/quests-screen",
                   questionnaireNotificationQuantity),
-              MainCardButton("Contatos", Icons.people, "/contacts-screen", 0)
+              MainCardButton("Materiais Educativos", Icons.book_online,
+                  "/readings", readingNotificationQuantity)
             ],
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              MainCardButton("Tutorial", Icons.book, "/tutorial", 0),
+              MainCardButton(
+                  "Contatos", Icons.people, "/contacts-chat-screen", 0),
               MainCardButton(
                   "Diário livre", Icons.book_outlined, "/audio-text-diary", 0),
             ],
