@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:app_mental/constants.dart';
 import 'package:app_mental/helper/helperfuncions.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -24,7 +25,7 @@ class _AppDrawerState extends State<AppDrawer> {
   String version = "";
   String userName = "a";
   String userEmail = "a";
-  String pickedAvatarImage = "";
+  String imageFile = "loading";
 
   @override
   initState() {
@@ -34,7 +35,6 @@ class _AppDrawerState extends State<AppDrawer> {
       });
     });
     getUserNameAndEmail();
-    setAvatarImage();
     super.initState();
   }
 
@@ -44,6 +44,7 @@ class _AppDrawerState extends State<AppDrawer> {
         userName = user["name"];
         userEmail = user["email"];
       });
+      getAvatarImageFromDatabase(user["email"]);
     });
   }
 
@@ -54,6 +55,9 @@ class _AppDrawerState extends State<AppDrawer> {
   }
 
   pickNewAvatarImage() async {
+    setState(() {
+      imageFile = "loading";
+    });
     final status = await Permission.storage.status;
     String folderPath = "";
     if (status != PermissionStatus.granted) {
@@ -67,22 +71,16 @@ class _AppDrawerState extends State<AppDrawer> {
     final pickedImagem = await picker.pickImage(source: ImageSource.gallery);
     if (pickedImagem != null) {
       File pickedImageFile = File(pickedImagem.path);
-      if (File("$folderPath/$userEmail/profile-avatar.png").existsSync()) {
-        await pickedImageFile
-            .copy("$folderPath/$userEmail/profile-avatar1.png");
-        setState(() {
-          pickedAvatarImage = "$folderPath/$userEmail/profile-avatar1.png";
+      Reference referenceImageToUpload =
+          FirebaseStorage.instance.ref().child('$userEmail/profile-avatar');
+      try {
+        await referenceImageToUpload.putFile(File(pickedImageFile.path));
+        await referenceImageToUpload.getDownloadURL().then((imageUrl) {
+          UserService().saveUserAvatar(userEmail, imageUrl);
+          saveImageInApp(folderPath, pickedImageFile);
         });
-        deleteImageFile("$folderPath/$userEmail/profile-avatar.png");
-      } else {
-        if (!await Directory("$folderPath/$userEmail").exists()) {
-          await Directory("$folderPath/$userEmail").create();
-        }
-        await pickedImageFile.copy("$folderPath/$userEmail/profile-avatar.png");
-        setState(() {
-          pickedAvatarImage = "$folderPath/$userEmail/profile-avatar.png";
-        });
-        deleteImageFile("$folderPath/$userEmail/profile-avatar1.png");
+      } catch (error) {
+        print(error);
       }
     }
   }
@@ -93,24 +91,58 @@ class _AppDrawerState extends State<AppDrawer> {
     }
   }
 
-  setAvatarImage() async {
-    Directory folderDir = await getApplicationDocumentsDirectory();
-    if (File("${folderDir.path}/$userEmail/profile-avatar.png").existsSync()) {
+  saveImageInApp(String folderPath, File pickedImageFile) async {
+    if (File("$folderPath/$userEmail/profile-avatar.png").existsSync()) {
+      await pickedImageFile.copy("$folderPath/$userEmail/profile-avatar1.png");
       setState(() {
-        pickedAvatarImage = "${folderDir.path}/$userEmail/profile-avatar.png";
+        imageFile = "$folderPath/$userEmail/profile-avatar1.png";
       });
-    } else if (File("${folderDir.path}/$userEmail/profile-avatar1.png")
-        .existsSync()) {
+      deleteImageFile("$folderPath/$userEmail/profile-avatar.png");
+    } else {
+      if (!await Directory("$folderPath/$userEmail").exists()) {
+        await Directory("$folderPath/$userEmail").create();
+      }
+      await pickedImageFile.copy("$folderPath/$userEmail/profile-avatar.png");
       setState(() {
-        pickedAvatarImage = "${folderDir.path}/$userEmail/profile-avatar1.png";
+        imageFile = "$folderPath/$userEmail/profile-avatar.png";
       });
+      deleteImageFile("$folderPath/$userEmail/profile-avatar1.png");
     }
   }
 
+  getAvatarImageFromDatabase(String userEmail) async {
+    await UserService().getUserAvatar(userEmail).then((avatarUrl) {
+      if (avatarUrl != "https://i.pravatar.cc/300") {
+        setImage(avatarUrl);
+      } else {
+        setState(() {
+          imageFile = "";
+        });
+      }
+    });
+  }
+
+  setImage(String avatarUrl) async {
+    Directory folderDir = await getApplicationDocumentsDirectory();
+    if (!await Directory("${folderDir.path}/$userEmail").exists()) {
+      await Directory("${folderDir.path}/$userEmail").create();
+      Reference ref = FirebaseStorage.instance.refFromURL(avatarUrl);
+      File file = File("${folderDir.path}/$userEmail/profile-avatar.png");
+      await ref.writeToFile(file);
+    }
+    setState(() {
+      imageFile = "${folderDir.path}/$userEmail/profile-avatar.png";
+    });
+  }
+
   getAvatarImage() {
-    return pickedAvatarImage != ""
-        ? FileImage(File(pickedAvatarImage))
-        : AssetImage('assets/images/profile-user.png');
+    if (imageFile != "" && imageFile != "loading") {
+      return FileImage(File(imageFile));
+    } else if (imageFile == "") {
+      return AssetImage('assets/images/profile-user.png');
+    } else {
+      return AssetImage('assets/images/loading.gif');
+    }
   }
 
   @override
@@ -235,9 +267,10 @@ class _AppDrawerState extends State<AppDrawer> {
             InkWell(
               onTap: onClicked,
               child: CircleAvatar(
-                  maxRadius: 30,
-                  backgroundImage: getAvatarImage(),
-                  backgroundColor: Colors.transparent),
+                maxRadius: 30,
+                backgroundImage: getAvatarImage(),
+                backgroundColor: Colors.transparent,
+              ),
             ),
             const SizedBox(
               height: 10,

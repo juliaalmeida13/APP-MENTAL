@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:http/http.dart' as http;
 import 'package:app_mental/model/exceptions/HttpException.dart';
 import 'package:app_mental/model/exceptions/apiError.dart';
 import 'package:app_mental/model/user.dart';
@@ -7,6 +9,8 @@ import 'package:crypto/crypto.dart';
 
 import '../helper/helperfuncions.dart';
 import 'api.dart';
+
+final url = dotenv.env['BACKEND_URL']!;
 
 class UserService {
   Future<UserApp> signupWithEmailAndPasswordAndName(
@@ -98,5 +102,29 @@ class UserService {
     final error =
         ApiError.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
     throw HttpException(error.message.toString());
+  }
+
+  Future<String> getUserAvatar(String email) async {
+    final response = await Api().get("getUserAvatar?email=$email");
+    if (response.statusCode == 200) {
+      return response.body;
+    }
+    final error =
+        ApiError.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
+    throw HttpException(error.message.toString());
+  }
+
+  Future<void> saveUserAvatar(String email, String imageUrl) async {
+    final response = await Api().post(
+        "saveUserAvatar",
+        jsonEncode(<String, String>{
+          'email': email,
+          'image': imageUrl,
+        }));
+    if (response.statusCode != 200) {
+      final error =
+          ApiError.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
+      throw HttpException(error.message.toString());
+    }
   }
 }
