@@ -90,65 +90,83 @@ class AnswerQuestions extends StatelessWidget {
         color: Color.fromRGBO(244, 244, 244, 1),
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            "Questão $questionIndex de $sizeQuestionnaire",
-            textAlign: TextAlign.center,
-          ),
-          Spacer(),
-          (questionnaireCode == QuestionnaireCode.assistn2.name)
-              ? Question(getQuestionText())
-              : Question(question),
           Container(
-            height: MediaQuery.of(context).size.height * .44,
+            height: MediaQuery.of(context).size.height * .60,
             child: SingleChildScrollView(
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  if (questionnaireCode == QuestionnaireCode.pn1.name ||
-                      questionnaireCode == QuestionnaireCode.pcl5.name) ...[
-                    ...(answers[questionIndex]['answers']
-                            as List<Map<String, dynamic>>)
-                        .map((answer) {
-                      return AnswerOption(
-                        () => answerQuestion(answer['score'], answer['domain'],
-                            answer['text'], scale, questionnaireCode),
-                        answer['text']!,
-                      );
-                    }).toList()
-                  ] else if (answers[questionIndex].containsKey("type")) ...[
-                    AnswerInput(
-                      (dynamic value) => answerQuestion(
-                          value,
-                          Constants.unimportantValue,
-                          "Input Value",
-                          scale,
-                          questionnaireCode),
-                      "date",
-                    )
-                  ] else ...[
-                    ...(answers[questionIndex]['answers']
-                            as List<Map<String, dynamic>>)
-                        .map((answer) {
-                      return AnswerOption(
-                        () => answerQuestion(
-                            answer['score'],
-                            Constants.unimportantValue,
-                            answer['text'],
-                            scale,
-                            questionnaireCode),
-                        answer['text']!,
-                      );
-                    }).toList()
-                  ],
+                  Container(
+                    child: Column(
+                      children: [
+                        Text(
+                          "Questão $questionIndex de $sizeQuestionnaire",
+                          textAlign: TextAlign.center,
+                        ),
+                        SizedBox(height: 10),
+                        (questionnaireCode == QuestionnaireCode.assistn2.name)
+                            ? Question(getQuestionText())
+                            : Question(question),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    child: SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          if (questionnaireCode == QuestionnaireCode.pn1.name ||
+                              questionnaireCode ==
+                                  QuestionnaireCode.pcl5.name) ...[
+                            ...(answers[questionIndex]['answers']
+                                    as List<Map<String, dynamic>>)
+                                .map((answer) {
+                              return AnswerOption(
+                                () => answerQuestion(
+                                    answer['score'],
+                                    answer['domain'],
+                                    answer['text'],
+                                    scale,
+                                    questionnaireCode),
+                                answer['text']!,
+                              );
+                            }).toList()
+                          ] else if (answers[questionIndex]
+                              .containsKey("type")) ...[
+                            AnswerInput(
+                              (dynamic value) => answerQuestion(
+                                  value,
+                                  Constants.unimportantValue,
+                                  "Input Value",
+                                  scale,
+                                  questionnaireCode),
+                              "date",
+                            )
+                          ] else ...[
+                            ...(answers[questionIndex]['answers']
+                                    as List<Map<String, dynamic>>)
+                                .map((answer) {
+                              return AnswerOption(
+                                () => answerQuestion(
+                                    answer['score'],
+                                    Constants.unimportantValue,
+                                    answer['text'],
+                                    scale,
+                                    questionnaireCode),
+                                answer['text']!,
+                              );
+                            }).toList()
+                          ],
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 10),
                 ],
               ),
             ),
           ),
-          (questionnaireCode == QuestionnaireCode.pset.name)
-              ? Container()
-              : Spacer(),
           Container(
             child: Column(
               children: [
