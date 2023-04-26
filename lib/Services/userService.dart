@@ -1,7 +1,5 @@
 import 'dart:convert';
 
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:http/http.dart' as http;
 import 'package:app_mental/model/exceptions/HttpException.dart';
 import 'package:app_mental/model/exceptions/apiError.dart';
 import 'package:app_mental/model/user.dart';
@@ -9,8 +7,6 @@ import 'package:crypto/crypto.dart';
 
 import '../helper/helperfuncions.dart';
 import 'api.dart';
-
-final url = dotenv.env['BACKEND_URL']!;
 
 class UserService {
   Future<UserApp> signupWithEmailAndPasswordAndName(
