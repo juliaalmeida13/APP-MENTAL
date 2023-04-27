@@ -30,6 +30,7 @@ class QuestionScreen extends StatefulWidget {
 
 class _QuestionScreenState extends State<QuestionScreen> {
   late String userEmail;
+  bool userHasStartedAnswer = false;
 
   @override
   void initState() {
@@ -108,10 +109,14 @@ class _QuestionScreenState extends State<QuestionScreen> {
     final _userEmail = routeArgs['email'];
     final _questions = routeArgs['questions'];
     final _questionnaireCode = routeArgs['questionnaireCode'];
-    var index = _answeredUntil as int;
 
-    if (_questionIndex < index) {
-      _questionIndex = index;
+    if (_answeredUntil > 0 && _questionIndex == 0 && !userHasStartedAnswer) {
+      _questionIndex = _answeredUntil;
+      setState(() {
+        userHasStartedAnswer = true;
+      });
+    } else if (_questionIndex < 0) {
+      _questionIndex = 0;
     }
 
     return Scaffold(
