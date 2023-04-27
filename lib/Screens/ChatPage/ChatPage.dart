@@ -1,7 +1,9 @@
 import 'package:app_mental/Services/chatService.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import '../../constants.dart';
 import '../../helper/helperfuncions.dart';
 import '../../model/channel.dart';
@@ -20,6 +22,7 @@ class ChatPage extends StatefulWidget {
 class _ChatPageState extends State<ChatPage> {
   late String _email;
   List<types.Message> _messages = [];
+  int messageId = -1;
 
   @override
   void initState() {
@@ -43,6 +46,7 @@ class _ChatPageState extends State<ChatPage> {
         .then((value) {
       setState(() {
         this._messages = value;
+        messageId = -1;
       });
     });
   }
@@ -56,18 +60,42 @@ class _ChatPageState extends State<ChatPage> {
     });
   }
 
+  void _handleLongPress(BuildContext context, types.Message message) {
+    HapticFeedback.vibrate();
+    setState(() {
+      messageId = int.parse(message.id);
+    });
+  }
+
+  void _removeDeleteIcon() {
+    setState(() {
+      messageId = -1;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Chat"),
-        backgroundColor: kTextColorGreen,
-        shadowColor: Color.fromRGBO(1, 1, 1, 0),
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
-      ),
+          title: Text("Chat"),
+          backgroundColor: kTextColorGreen,
+          shadowColor: Color.fromRGBO(1, 1, 1, 0),
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back, color: Colors.white),
+            onPressed: () => Navigator.of(context).pop(),
+          ),
+          actions: messageId != -1
+              ? [
+                  IconButton(
+                    onPressed: () {
+                      ChatService().deleteMessage(messageId).then((_) {
+                        getChatHistory();
+                      });
+                    },
+                    icon: Icon(Icons.delete, color: Colors.red),
+                  )
+                ]
+              : null),
       body: StreamBuilder<types.Room>(
         builder: (context, snapshot) {
           return StreamBuilder<List<types.Message>>(
@@ -76,6 +104,8 @@ class _ChatPageState extends State<ChatPage> {
               return SafeArea(
                 bottom: false,
                 child: Chat(
+                  onBackgroundTap: _removeDeleteIcon,
+                  onMessageLongPress: _handleLongPress,
                   messages: _messages,
                   l10n: ChatL10nBr(),
                   onSendPressed: _handleSendPressed,
