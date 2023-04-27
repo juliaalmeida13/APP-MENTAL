@@ -88,7 +88,7 @@ class _ChatPageState extends State<ChatPage> {
               ? [
                   IconButton(
                     onPressed: () {
-                      ChatService().deleteMessage(messageId).then((_) {
+                      ChatService().deleteMessage(messageId, _email).then((_) {
                         getChatHistory();
                       });
                     },

@@ -37,8 +37,11 @@ class ChatService {
     throw HttpException(error.message.toString());
   }
 
-  Future<void> deleteMessage(int id) async {
-    final response = await Api().post("deleteMessage", id.toString());
+  Future<void> deleteMessage(int id, String email) async {
+    final response = await Api().post(
+      "deleteMessage",
+      jsonEncode(<String, dynamic>{'id': id, 'email': email}),
+    );
     if (response.statusCode != 200) {
       final error =
           ApiError.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
