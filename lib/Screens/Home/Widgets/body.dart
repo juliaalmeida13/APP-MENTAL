@@ -38,7 +38,6 @@ class _BodyState extends State<Body> {
         });
       });
       ChatService().getIsReadMessages(email).then((notificationQuantity) {
-        print(notificationQuantity);
         setState(() {
           chatNotificationQuantity = notificationQuantity;
         });

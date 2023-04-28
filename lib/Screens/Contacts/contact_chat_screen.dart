@@ -38,6 +38,13 @@ class _ContactChatScreenState extends State<ContactChatScreen> {
         backgroundColor: AppColors.green,
         shadowColor: Colors.transparent,
         title: Text("Contatos"),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.of(context).popUntil(ModalRoute.withName('/logged-home'));
+            Navigator.of(context).pushNamed("/logged-home");
+          },
+        ),
       ),
       body: SafeArea(
         child: Column(

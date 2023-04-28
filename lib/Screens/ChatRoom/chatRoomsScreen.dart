@@ -10,9 +10,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../../Services/chatService.dart';
-
 class ChatRoom extends StatefulWidget {
+  static const routeName = '/chat-room-screen';
+
   @override
   _ChatRoomState createState() => _ChatRoomState();
 }
@@ -22,7 +22,6 @@ class _ChatRoomState extends State<ChatRoom> {
   Stream<QuerySnapshot<Object?>>? chatRoomsStream;
   late String _email;
   List<Channel> _channels = [];
-  List<String> notificationList = [];
 
   Widget chatRoomList() {
     return StreamBuilder<QuerySnapshot>(
@@ -55,24 +54,22 @@ class _ChatRoomState extends State<ChatRoom> {
           this._channels = channels;
         });
       });
-      /*ChatService()
-          .getChatNotificationList(email)
-          .then((notificationRemoteList) {
-        print(notificationRemoteList);
-        setState(() {
-          notificationList = notificationRemoteList;
-        });
-      });*/
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: AppDrawer(key: Key("drawer")),
       appBar: AppBar(
         backgroundColor: kTextColorGreen,
         title: Text("Chat"),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.of(context).popUntil(ModalRoute.withName('/logged-home'));
+            Navigator.of(context).pushNamed("/contacts-chat-screen");
+          },
+        ),
       ),
       body: chatRoomList(),
     );
@@ -89,39 +86,73 @@ class ChatRoomTile extends StatelessWidget {
         MaterialPageRoute(builder: (context) => ChatPage(channel: channel)));
   }
 
+  Widget _notification() {
+    return channel.messageQuantity > 0
+        ? Container(
+            width: 20,
+            height: 20,
+            decoration: new BoxDecoration(
+              color: Colors.red,
+              shape: BoxShape.circle,
+            ),
+            child: FittedBox(child: Text(channel.messageQuantity.toString())),
+          )
+        : Container();
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
         this._openChatRoom(context);
       },
-      child: Container(
-        color: Colors.black26,
-        padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-        child: Row(
-          children: [
-            Container(
-              height: 40,
-              width: 40,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                color: Colors.blue,
-                borderRadius: BorderRadius.circular(40),
-              ),
-              child: Text(
-                "${userName.substring(0, 1).toUpperCase()}",
-                style: mediumTextStyle(),
-              ),
+      child: Column(
+        children: [
+          Container(
+            color: Colors.black26,
+            padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+            child: Stack(
+              children: [
+                Row(
+                  children: [
+                    Container(
+                      height: 40,
+                      width: 40,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        color: Colors.blue,
+                        borderRadius: BorderRadius.circular(40),
+                      ),
+                      child: Text(
+                        "${userName.substring(0, 1).toUpperCase()}",
+                        style: mediumTextStyle(),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 8,
+                    ),
+                    Text(
+                      userName,
+                      style: mediumTextStyle(),
+                    ),
+                  ],
+                ),
+                Container(
+                  width: double.infinity,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      _notification(),
+                    ],
+                  ),
+                )
+              ],
             ),
-            SizedBox(
-              width: 8,
-            ),
-            Text(
-              userName,
-              style: mediumTextStyle(),
-            ),
-          ],
-        ),
+          ),
+          SizedBox(
+            height: 5,
+          )
+        ],
       ),
     );
   }

@@ -33,11 +33,8 @@ class ChatService {
 
   Future<List<types.Message>> getChatHistory(
       String email, int idChannel) async {
-    final response = await http.get(
-        Uri.parse("${url}getChatHistory?email=${email}&idChannel=${idChannel}"),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        });
+    final response =
+        await Api().get("getChatHistory?email=$email&idChannel=$idChannel");
     if (utf8.decode(response.bodyBytes) != "") {
       Iterable iterable = json.decode(utf8.decode(response.bodyBytes));
       return List<types.Message>.from(
@@ -50,17 +47,6 @@ class ChatService {
 
   Future<int> getIsReadMessages(String userEmail) async {
     final response = await Api().get("getIsReadMessages?email=$userEmail");
-    if (response.statusCode == 200) {
-      return jsonDecode(utf8.decode(response.bodyBytes));
-    }
-    final error =
-        ApiError.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
-    throw HttpException(error.message.toString());
-  }
-
-  Future<List<String>> getChatNotificationList(String userEmail) async {
-    final response =
-        await Api().get("getChatNotificationList?email=$userEmail");
     if (response.statusCode == 200) {
       return jsonDecode(utf8.decode(response.bodyBytes));
     }

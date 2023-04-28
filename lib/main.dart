@@ -22,7 +22,7 @@ import 'Screens/Reading/recomended_readings.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  // await Firebase.initializeApp();
   initializeDateFormatting('pt_BR', null).then(
     (_) => runApp(
       MyApp(),
@@ -80,6 +80,7 @@ class _MyAppState extends State<MyApp> {
         "/audio-text-diary": (ctx) => AudioTextDiary(),
         "/edit-profile-screen": (ctx) => EditProfileScreen(),
         "/contacts-chat-screen": (ctx) => ContactChatScreen(),
+        "/chat-room-screen": (ctx) => ChatRoom(),
       },
       home: (userIsLoggedIn ?? false) ? HomeScreen() : SignIn(),
     );
