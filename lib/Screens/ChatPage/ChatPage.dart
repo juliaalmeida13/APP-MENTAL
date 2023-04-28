@@ -22,12 +22,11 @@ class ChatPage extends StatefulWidget {
 class _ChatPageState extends State<ChatPage> {
   late String _email;
   List<types.Message> _messages = [];
-  int messageId = -1;
+  int? messageId;
 
   @override
   void initState() {
     getUserEmail();
-
     super.initState();
   }
 
@@ -46,7 +45,7 @@ class _ChatPageState extends State<ChatPage> {
         .then((value) {
       setState(() {
         this._messages = value;
-        messageId = -1;
+        messageId = null;
       });
     });
   }
@@ -69,7 +68,13 @@ class _ChatPageState extends State<ChatPage> {
 
   void _removeDeleteIcon() {
     setState(() {
-      messageId = -1;
+      messageId = null;
+    });
+  }
+
+  void _deleteMessage() {
+    ChatService().deleteMessage(messageId!, _email).then((_) {
+      getChatHistory();
     });
   }
 
@@ -84,14 +89,10 @@ class _ChatPageState extends State<ChatPage> {
             icon: Icon(Icons.arrow_back, color: Colors.white),
             onPressed: () => Navigator.of(context).pop(),
           ),
-          actions: messageId != -1
+          actions: messageId != null
               ? [
                   IconButton(
-                    onPressed: () {
-                      ChatService().deleteMessage(messageId, _email).then((_) {
-                        getChatHistory();
-                      });
-                    },
+                    onPressed: () => _deleteMessage(),
                     icon: Icon(Icons.delete, color: Colors.red),
                   )
                 ]
