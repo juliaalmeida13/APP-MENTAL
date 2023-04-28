@@ -10,6 +10,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../../Services/chatService.dart';
+
 class ChatRoom extends StatefulWidget {
   @override
   _ChatRoomState createState() => _ChatRoomState();
@@ -20,6 +22,7 @@ class _ChatRoomState extends State<ChatRoom> {
   Stream<QuerySnapshot<Object?>>? chatRoomsStream;
   late String _email;
   List<Channel> _channels = [];
+  List<String> notificationList = [];
 
   Widget chatRoomList() {
     return StreamBuilder<QuerySnapshot>(
@@ -52,6 +55,14 @@ class _ChatRoomState extends State<ChatRoom> {
           this._channels = channels;
         });
       });
+      /*ChatService()
+          .getChatNotificationList(email)
+          .then((notificationRemoteList) {
+        print(notificationRemoteList);
+        setState(() {
+          notificationList = notificationRemoteList;
+        });
+      });*/
     });
   }
 

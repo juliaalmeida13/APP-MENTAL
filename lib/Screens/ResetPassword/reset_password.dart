@@ -144,6 +144,24 @@ class _ResetPasswordState extends State<ResetPassword> {
                     SizedBox(
                       height: 10,
                     ),
+                    FadeAnimation(
+                      1.8,
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                        child: Container(
+                          child: Text(
+                            "Fazer login",
+                            style: TextStyle(
+                              color: AppColors.green,
+                              fontSize: 17,
+                              decoration: TextDecoration.underline,
+                            ),
+                          ),
+                        ),
+                      ),
+                    )
                   ],
                 ),
               ),

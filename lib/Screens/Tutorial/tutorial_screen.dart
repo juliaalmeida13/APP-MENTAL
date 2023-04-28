@@ -15,7 +15,9 @@ class TutorialScreen extends StatelessWidget {
           leading: IconButton(
             icon: Icon(Icons.arrow_back),
             onPressed: () {
-              Navigator.of(context).pop();
+              Navigator.of(context)
+                  .popUntil(ModalRoute.withName('/logged-home'));
+              Navigator.of(context).pushNamed("/logged-home");
             },
           ),
         ),

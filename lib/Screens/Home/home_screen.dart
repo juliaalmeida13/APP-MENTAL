@@ -20,7 +20,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     getUserEmail();
     super.initState();
-    //onNotificationOpenedApp();
+    onNotificationOpenedApp();
   }
 
   Future<void> onNotificationOpenedApp() async {

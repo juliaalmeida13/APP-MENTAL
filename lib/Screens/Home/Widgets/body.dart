@@ -1,3 +1,4 @@
+import 'package:app_mental/Services/chatService.dart';
 import 'package:app_mental/Services/scaleService.dart';
 import 'package:flutter/material.dart';
 import '../../../Services/readingService.dart';
@@ -12,6 +13,7 @@ class Body extends StatefulWidget {
 class _BodyState extends State<Body> {
   int questionnaireNotificationQuantity = 0;
   int readingNotificationQuantity = 0;
+  int chatNotificationQuantity = 0;
 
   @override
   void initState() {
@@ -35,6 +37,12 @@ class _BodyState extends State<Body> {
           readingNotificationQuantity = notificationQuantity;
         });
       });
+      ChatService().getIsReadMessages(email).then((notificationQuantity) {
+        print(notificationQuantity);
+        setState(() {
+          chatNotificationQuantity = notificationQuantity;
+        });
+      });
     });
   }
 
@@ -56,8 +64,8 @@ class _BodyState extends State<Body> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              MainCardButton(
-                  "Contatos", Icons.people, "/contacts-chat-screen", 0),
+              MainCardButton("Contatos", Icons.people, "/contacts-chat-screen",
+                  chatNotificationQuantity),
               MainCardButton(
                   "Diário livre", Icons.book_outlined, "/audio-text-diary", 0),
             ],

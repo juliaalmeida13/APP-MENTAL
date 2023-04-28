@@ -172,12 +172,6 @@ class _AppDrawerState extends State<AppDrawer> {
           ),
           const SizedBox(height: 8),
           buildMenuItem(
-            text: 'Diário do sono',
-            icon: Icons.bed,
-            onClicked: () => selectedItem(context, 1),
-          ),
-          const SizedBox(height: 8),
-          buildMenuItem(
             text: 'Leituras',
             icon: Icons.book_online,
             onClicked: () => selectedItem(context, 2),
@@ -354,8 +348,6 @@ class _AppDrawerState extends State<AppDrawer> {
         Navigator.of(context).pushNamed("/logged-home");
         break;
       case 1:
-        Navigator.of(context).popUntil(ModalRoute.withName('/logged-home'));
-        Navigator.of(context).pushNamed("/sleep-diary");
         break;
       case 2:
         Navigator.of(context).popUntil(ModalRoute.withName('/logged-home'));
