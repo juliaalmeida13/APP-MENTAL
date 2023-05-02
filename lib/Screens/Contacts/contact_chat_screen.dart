@@ -23,12 +23,19 @@ class _ContactChatScreenState extends State<ContactChatScreen> {
 
   getChatNotification() async {
     await HelperFunctions.getUserEmailInSharedPreference().then((userEmail) {
-      ChatService().getIsReadMessages(userEmail).then((notificationQuantity) {
+      ChatService()
+          .getUnreadMessagesQuantity(userEmail)
+          .then((notificationQuantity) {
         setState(() {
           chatNotificationQuantity = notificationQuantity;
         });
       });
     });
+  }
+
+  _goBackPage(BuildContext context) {
+    Navigator.of(context).popUntil(ModalRoute.withName('/logged-home'));
+    Navigator.of(context).pushNamed("/logged-home");
   }
 
   @override
@@ -40,10 +47,7 @@ class _ContactChatScreenState extends State<ContactChatScreen> {
         title: Text("Contatos"),
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.of(context).popUntil(ModalRoute.withName('/logged-home'));
-            Navigator.of(context).pushNamed("/logged-home");
-          },
+          onPressed: () => _goBackPage(context),
         ),
       ),
       body: SafeArea(

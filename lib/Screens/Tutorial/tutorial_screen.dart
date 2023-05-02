@@ -5,6 +5,11 @@ import 'package:flutter/material.dart';
 class TutorialScreen extends StatelessWidget {
   const TutorialScreen({Key? key}) : super(key: key);
 
+  _goBackPage(BuildContext context) {
+    Navigator.of(context).popUntil(ModalRoute.withName('/logged-home'));
+    Navigator.of(context).pushNamed("/logged-home");
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -14,11 +19,7 @@ class TutorialScreen extends StatelessWidget {
           title: Text("Tutorial"),
           leading: IconButton(
             icon: Icon(Icons.arrow_back),
-            onPressed: () {
-              Navigator.of(context)
-                  .popUntil(ModalRoute.withName('/logged-home'));
-              Navigator.of(context).pushNamed("/logged-home");
-            },
+            onPressed: () => _goBackPage(context),
           ),
         ),
         body: Flex(direction: Axis.vertical, children: [

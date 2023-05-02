@@ -45,8 +45,9 @@ class ChatService {
     throw HttpException(error.message.toString());
   }
 
-  Future<int> getIsReadMessages(String userEmail) async {
-    final response = await Api().get("getIsReadMessages?email=$userEmail");
+  Future<int> getUnreadMessagesQuantity(String userEmail) async {
+    final response =
+        await Api().get("getUnreadMessagesQuantity?email=$userEmail");
     if (response.statusCode == 200) {
       return jsonDecode(utf8.decode(response.bodyBytes));
     }

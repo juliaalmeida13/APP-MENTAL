@@ -56,6 +56,11 @@ class _ChatPageState extends State<ChatPage> {
     });
   }
 
+  _goBackPage(BuildContext context) {
+    Navigator.of(context).popUntil(ModalRoute.withName('/logged-home'));
+    Navigator.of(context).pushNamed("/chat-room-screen");
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,12 +69,9 @@ class _ChatPageState extends State<ChatPage> {
         backgroundColor: kTextColorGreen,
         shadowColor: Color.fromRGBO(1, 1, 1, 0),
         leading: IconButton(
-            icon: Icon(Icons.arrow_back, color: Colors.white),
-            onPressed: () {
-              Navigator.of(context)
-                  .popUntil(ModalRoute.withName('/logged-home'));
-              Navigator.of(context).pushNamed("/chat-room-screen");
-            }),
+          icon: Icon(Icons.arrow_back, color: Colors.white),
+          onPressed: () => _goBackPage(context),
+        ),
       ),
       body: StreamBuilder<types.Room>(
         builder: (context, snapshot) {

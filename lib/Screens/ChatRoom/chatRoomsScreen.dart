@@ -57,6 +57,11 @@ class _ChatRoomState extends State<ChatRoom> {
     });
   }
 
+  _goBackPage(BuildContext context) {
+    Navigator.of(context).popUntil(ModalRoute.withName('/logged-home'));
+    Navigator.of(context).pushNamed("/contacts-chat-screen");
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,10 +70,7 @@ class _ChatRoomState extends State<ChatRoom> {
         title: Text("Chat"),
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.of(context).popUntil(ModalRoute.withName('/logged-home'));
-            Navigator.of(context).pushNamed("/contacts-chat-screen");
-          },
+          onPressed: () => _goBackPage(context),
         ),
       ),
       body: chatRoomList(),
