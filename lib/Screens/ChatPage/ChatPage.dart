@@ -75,6 +75,13 @@ class _ChatPageState extends State<ChatPage> {
   void _deleteMessage() {
     ChatService().deleteMessage(messageId!, _email).then((_) {
       getChatHistory();
+    }).catchError((error) {
+      final snackBar = SnackBar(
+          content:
+              Text(error.toString(), style: TextStyle(color: Colors.white)),
+          backgroundColor: Colors.red);
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      _removeDeleteIcon();
     });
   }
 
