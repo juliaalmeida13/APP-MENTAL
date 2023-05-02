@@ -1,12 +1,10 @@
-import 'package:http/http.dart' as http;
 import 'package:app_mental/model/exceptions/HttpException.dart';
 import 'package:app_mental/model/exceptions/apiError.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 
 import 'dart:convert';
 
-final String url = dotenv.env['BACKEND_URL']!;
+import 'api.dart';
 
 class ChatService {
   Future<void> sendMessage(String text, String authorId, int idChannel) async {
@@ -16,11 +14,7 @@ class ChatService {
       'text': text,
       'idAuthor': authorId
     });
-    final response = await http.post(Uri.parse("${url}sendMessage"),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-        body: body);
+    final response = await Api().post("sendMessage", body);
 
     if (response.statusCode != 200) {
       final error =
@@ -31,11 +25,8 @@ class ChatService {
 
   Future<List<types.Message>> getChatHistory(
       String email, int idChannel) async {
-    final response = await http.get(
-        Uri.parse("${url}getChatHistory?email=${email}&idChannel=${idChannel}"),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        });
+    final response =
+        await Api().get("getChatHistory?email=$email&idChannel=$idChannel");
     if (utf8.decode(response.bodyBytes) != "") {
       Iterable iterable = json.decode(utf8.decode(response.bodyBytes));
       return List<types.Message>.from(
@@ -44,5 +35,17 @@ class ChatService {
     final error =
         ApiError.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
     throw HttpException(error.message.toString());
+  }
+
+  Future<void> deleteMessage(int id, String email) async {
+    final response = await Api().post(
+      "deleteMessage",
+      jsonEncode(<String, dynamic>{'id': id, 'email': email}),
+    );
+    if (response.statusCode != 200) {
+      final error =
+          ApiError.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
+      throw HttpException(error.message.toString());
+    }
   }
 }
