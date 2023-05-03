@@ -11,6 +11,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ChatRoom extends StatefulWidget {
+  static const routeName = '/chat-room-screen';
+
   @override
   _ChatRoomState createState() => _ChatRoomState();
 }
@@ -55,12 +57,21 @@ class _ChatRoomState extends State<ChatRoom> {
     });
   }
 
+  _goBackPage(BuildContext context) {
+    Navigator.of(context).popUntil(ModalRoute.withName('/logged-home'));
+    Navigator.of(context).pushNamed("/contacts-chat-screen");
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: kTextColorGreen,
         title: Text("Chat"),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () => _goBackPage(context),
+        ),
       ),
       body: chatRoomList(),
     );
@@ -77,39 +88,73 @@ class ChatRoomTile extends StatelessWidget {
         MaterialPageRoute(builder: (context) => ChatPage(channel: channel)));
   }
 
+  Widget _notification() {
+    return channel.messageQuantity > 0
+        ? Container(
+            width: 20,
+            height: 20,
+            decoration: new BoxDecoration(
+              color: Colors.red,
+              shape: BoxShape.circle,
+            ),
+            child: FittedBox(child: Text(channel.messageQuantity.toString())),
+          )
+        : Container();
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
         this._openChatRoom(context);
       },
-      child: Container(
-        color: Colors.black26,
-        padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-        child: Row(
-          children: [
-            Container(
-              height: 40,
-              width: 40,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                color: Colors.blue,
-                borderRadius: BorderRadius.circular(40),
-              ),
-              child: Text(
-                "${userName.substring(0, 1).toUpperCase()}",
-                style: mediumTextStyle(),
-              ),
+      child: Column(
+        children: [
+          Container(
+            color: Colors.black26,
+            padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+            child: Stack(
+              children: [
+                Row(
+                  children: [
+                    Container(
+                      height: 40,
+                      width: 40,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        color: Colors.blue,
+                        borderRadius: BorderRadius.circular(40),
+                      ),
+                      child: Text(
+                        "${userName.substring(0, 1).toUpperCase()}",
+                        style: mediumTextStyle(),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 8,
+                    ),
+                    Text(
+                      userName,
+                      style: mediumTextStyle(),
+                    ),
+                  ],
+                ),
+                Container(
+                  width: double.infinity,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      _notification(),
+                    ],
+                  ),
+                )
+              ],
             ),
-            SizedBox(
-              width: 8,
-            ),
-            Text(
-              userName,
-              style: mediumTextStyle(),
-            ),
-          ],
-        ),
+          ),
+          SizedBox(
+            height: 5,
+          )
+        ],
       ),
     );
   }

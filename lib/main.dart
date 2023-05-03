@@ -80,6 +80,7 @@ class _MyAppState extends State<MyApp> {
         "/audio-text-diary": (ctx) => AudioTextDiary(),
         "/edit-profile-screen": (ctx) => EditProfileScreen(),
         "/contacts-chat-screen": (ctx) => ContactChatScreen(),
+        "/chat-room-screen": (ctx) => ChatRoom(),
       },
       home: (userIsLoggedIn ?? false) ? HomeScreen() : SignIn(),
     );

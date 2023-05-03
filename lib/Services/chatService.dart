@@ -37,6 +37,17 @@ class ChatService {
     throw HttpException(error.message.toString());
   }
 
+  Future<int> getUnreadMessagesQuantity(String userEmail) async {
+    final response =
+        await Api().get("getUnreadMessagesQuantity?email=$userEmail");
+    if (response.statusCode == 200) {
+      return jsonDecode(utf8.decode(response.bodyBytes));
+    }
+    final error =
+        ApiError.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
+    throw HttpException(error.message.toString());
+  }
+
   Future<void> deleteMessage(int id, String email) async {
     final response = await Api().post(
       "deleteMessage",
