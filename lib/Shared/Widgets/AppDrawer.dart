@@ -172,7 +172,7 @@ class _AppDrawerState extends State<AppDrawer> {
           ),
           const SizedBox(height: 8),
           buildMenuItem(
-            text: 'Diário do sono',
+            text: 'Diário do Sono',
             icon: Icons.bed,
             onClicked: () => selectedItem(context, 1),
           ),
@@ -208,9 +208,15 @@ class _AppDrawerState extends State<AppDrawer> {
           ),
           const SizedBox(height: 8),
           buildMenuItem(
-            text: 'Editar perfil',
+            text: 'Editar Perfil',
             icon: Icons.edit,
             onClicked: () => selectedItem(context, 7),
+          ),
+          const SizedBox(height: 8),
+          buildMenuItem(
+            text: 'Jogo da Memória',
+            icon: Icons.question_mark,
+            onClicked: () => selectedItem(context, 9),
           ),
           const SizedBox(height: 8),
           buildMenuItem(
@@ -384,6 +390,10 @@ class _AppDrawerState extends State<AppDrawer> {
       case 8:
         Navigator.of(context).popUntil(ModalRoute.withName('/logged-home'));
         Navigator.of(context).pushNamed("/audio-text-diary");
+        break;
+      case 9:
+        Navigator.of(context).popUntil(ModalRoute.withName('/logged-home'));
+        Navigator.of(context).pushNamed("/memory_game_screen");
         break;
     }
   }
