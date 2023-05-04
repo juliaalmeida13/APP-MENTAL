@@ -10,6 +10,7 @@ class MemoryGameBody extends StatefulWidget {
 }
 
 class _MemoryGameBodyState extends State<MemoryGameBody> {
+  static final int cardsQuantity = 8;
   List<String> textList = [
     "Lorem ipsum dolor sit amet. Est voluptatem soluta",
     "Excepturi quibusdam et cupiditate cupiditate sit debitis",
@@ -20,9 +21,9 @@ class _MemoryGameBodyState extends State<MemoryGameBody> {
     "Quis ipsam vel doloremque impedit qui enim fugit",
     "Aut consequuntur tempore ab consequatur facere sit facilis"
   ];
-  List<String> randomicTextList = List<String>.filled(8, "");
-  List<bool> blockedFlipCard = List<bool>.filled(8, false);
-  List<double> angleCard = List<double>.filled(8, 0);
+  List<String> randomicTextList = List<String>.filled(cardsQuantity, "");
+  List<bool> blockedFlipCard = List<bool>.filled(cardsQuantity, false);
+  List<double> angleCard = List<double>.filled(cardsQuantity, 0);
   List<int> selectedCardList = [];
   bool initialFlipBlock = true;
 
@@ -34,7 +35,7 @@ class _MemoryGameBodyState extends State<MemoryGameBody> {
   }
 
   startGame() {
-    for (int i = 0; i < 8; i++)
+    for (int i = 0; i < cardsQuantity; i++)
       setState(() {
         angleCard[i] = pi % (2 * pi);
       });
@@ -44,7 +45,7 @@ class _MemoryGameBodyState extends State<MemoryGameBody> {
   }
 
   randomTheCards() {
-    for (int i = 0; i < 4;) {
+    for (int i = 0; i < cardsQuantity / 2;) {
       int randomicNumber = Random().nextInt(textList.length);
       int randomicNumber2 = Random().nextInt(textList.length);
       if (!randomicTextList.contains(textList[randomicNumber]) &&
@@ -152,7 +153,7 @@ class _MemoryGameBodyState extends State<MemoryGameBody> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                for (int i = 0; i < 2; i++) ...[
+                for (int i = 0; i < (cardsQuantity * 1) ~/ 4; i++) ...[
                   DeckCard(
                       title: randomicTextList[i],
                       angleCard: angleCard[i],
@@ -164,7 +165,9 @@ class _MemoryGameBodyState extends State<MemoryGameBody> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                for (int i = 2; i < 4; i++) ...[
+                for (int i = (cardsQuantity * 1) ~/ 4;
+                    i < (cardsQuantity * 1) ~/ 2;
+                    i++) ...[
                   DeckCard(
                       title: randomicTextList[i],
                       angleCard: angleCard[i],
@@ -176,7 +179,9 @@ class _MemoryGameBodyState extends State<MemoryGameBody> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                for (int i = 4; i < 6; i++) ...[
+                for (int i = (cardsQuantity * 1) ~/ 2;
+                    i < (cardsQuantity * 3) ~/ 4;
+                    i++) ...[
                   DeckCard(
                       title: randomicTextList[i],
                       angleCard: angleCard[i],
@@ -188,7 +193,9 @@ class _MemoryGameBodyState extends State<MemoryGameBody> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                for (int i = 6; i < 8; i++) ...[
+                for (int i = (cardsQuantity * 3) ~/ 4;
+                    i < cardsQuantity;
+                    i++) ...[
                   DeckCard(
                       title: randomicTextList[i],
                       angleCard: angleCard[i],
