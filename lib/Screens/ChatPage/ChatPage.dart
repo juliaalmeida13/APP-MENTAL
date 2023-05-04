@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:app_mental/Services/chatService.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -26,6 +28,9 @@ class _ChatPageState extends State<ChatPage> {
   @override
   void initState() {
     getUserEmail();
+    Timer.periodic(Duration(seconds: 30), (_) {
+      getChatHistory();
+    });
     super.initState();
   }
 

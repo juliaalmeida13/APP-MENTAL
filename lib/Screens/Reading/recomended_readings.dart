@@ -91,9 +91,9 @@ class _RecomendedReadingsState extends State<RecomendedReadings> {
     showDialog<String>(
       context: context,
       builder: (BuildContext context) => AlertDialog(
-        title: const Text('Leituras recomendadas desatualizadas!'),
+        title: const Text('Materiais educativos desatualizados!'),
         content: const Text(
-            'As leituras recomendadas estão desatualizadas.\nVocê deseja atualiza-las agora?'),
+            'Os materiais educativos estão desatualizados.\nVocê deseja atualiza-las agora?'),
         actions: <Widget>[
           TextButton(
             onPressed: () => closeAlertDialog(context),
@@ -113,7 +113,7 @@ class _RecomendedReadingsState extends State<RecomendedReadings> {
       context: context,
       builder: (BuildContext context) => AlertDialog(
         title: const Text('Êxito!'),
-        content: const Text('Leituras recomendadas atualizadas!'),
+        content: const Text('Materiais educativos atualizados!'),
         actions: <Widget>[
           TextButton(
             onPressed: () => closeAlertDialog(context),
@@ -128,7 +128,7 @@ class _RecomendedReadingsState extends State<RecomendedReadings> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Leituras recomendadas"),
+        title: Text("Materiais educativos"),
         backgroundColor: kTextColorGreen,
         shadowColor: Color.fromRGBO(1, 1, 1, 0),
         leading: IconButton(
