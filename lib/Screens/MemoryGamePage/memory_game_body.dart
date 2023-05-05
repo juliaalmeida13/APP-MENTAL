@@ -153,7 +153,7 @@ class _MemoryGameBodyState extends State<MemoryGameBody> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                for (int i = 0; i < (cardsQuantity * 1) ~/ 4; i++) ...[
+                for (int i = 0; i < cardsQuantity ~/ 4; i++) ...[
                   DeckCard(
                       title: randomicTextList[i],
                       angleCard: angleCard[i],
@@ -165,8 +165,8 @@ class _MemoryGameBodyState extends State<MemoryGameBody> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                for (int i = (cardsQuantity * 1) ~/ 4;
-                    i < (cardsQuantity * 1) ~/ 2;
+                for (int i = cardsQuantity ~/ 4;
+                    i < cardsQuantity ~/ 2;
                     i++) ...[
                   DeckCard(
                       title: randomicTextList[i],
@@ -179,7 +179,7 @@ class _MemoryGameBodyState extends State<MemoryGameBody> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                for (int i = (cardsQuantity * 1) ~/ 2;
+                for (int i = cardsQuantity ~/ 2;
                     i < (cardsQuantity * 3) ~/ 4;
                     i++) ...[
                   DeckCard(
