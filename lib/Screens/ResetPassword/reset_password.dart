@@ -50,6 +50,10 @@ class _ResetPasswordState extends State<ResetPassword> {
     }).whenComplete(() => Navigator.pop(context));
   }
 
+  _goBackPage(BuildContext context) {
+    Navigator.pop(context);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -144,6 +148,22 @@ class _ResetPasswordState extends State<ResetPassword> {
                     SizedBox(
                       height: 10,
                     ),
+                    FadeAnimation(
+                      1.8,
+                      GestureDetector(
+                        onTap: () => _goBackPage(context),
+                        child: Container(
+                          child: Text(
+                            "Fazer login",
+                            style: TextStyle(
+                              color: AppColors.green,
+                              fontSize: 17,
+                              decoration: TextDecoration.underline,
+                            ),
+                          ),
+                        ),
+                      ),
+                    )
                   ],
                 ),
               ),

@@ -168,17 +168,11 @@ class _AppDrawerState extends State<AppDrawer> {
           buildMenuItem(
             text: 'Tutorial',
             icon: Icons.book,
-            onClicked: () => selectedItem(context, 5),
-          ),
-          const SizedBox(height: 8),
-          buildMenuItem(
-            text: 'Diário do Sono',
-            icon: Icons.bed,
             onClicked: () => selectedItem(context, 1),
           ),
           const SizedBox(height: 8),
           buildMenuItem(
-            text: 'Leituras',
+            text: 'Materiais educativos',
             icon: Icons.book_online,
             onClicked: () => selectedItem(context, 2),
           ),
@@ -198,25 +192,19 @@ class _AppDrawerState extends State<AppDrawer> {
           buildMenuItem(
             text: 'Diário Livre',
             icon: Icons.book_outlined,
-            onClicked: () => selectedItem(context, 8),
-          ),
-          const SizedBox(height: 8),
-          buildMenuItem(
-            text: 'Tutorial',
-            icon: Icons.book,
-            onClicked: () => selectedItem(context, 6),
+            onClicked: () => selectedItem(context, 5),
           ),
           const SizedBox(height: 8),
           buildMenuItem(
             text: 'Editar Perfil',
             icon: Icons.edit,
-            onClicked: () => selectedItem(context, 7),
+            onClicked: () => selectedItem(context, 6),
           ),
           const SizedBox(height: 8),
           buildMenuItem(
             text: 'Jogo da Memória',
             icon: Icons.question_mark,
-            onClicked: () => selectedItem(context, 9),
+            onClicked: () => selectedItem(context, 7),
           ),
           const SizedBox(height: 8),
           buildMenuItem(
@@ -361,7 +349,7 @@ class _AppDrawerState extends State<AppDrawer> {
         break;
       case 1:
         Navigator.of(context).popUntil(ModalRoute.withName('/logged-home'));
-        Navigator.of(context).pushNamed("/sleep-diary");
+        Navigator.of(context).pushNamed("/tutorial");
         break;
       case 2:
         Navigator.of(context).popUntil(ModalRoute.withName('/logged-home'));
@@ -377,21 +365,13 @@ class _AppDrawerState extends State<AppDrawer> {
         break;
       case 5:
         Navigator.of(context).popUntil(ModalRoute.withName('/logged-home'));
-        Navigator.of(context).pushNamed("/tutorial");
+        Navigator.of(context).pushNamed("/audio-text-diary");
         break;
       case 6:
         Navigator.of(context).popUntil(ModalRoute.withName('/logged-home'));
-        Navigator.of(context).pushNamed("/tutorial");
-        break;
-      case 7:
-        Navigator.of(context).popUntil(ModalRoute.withName('/logged-home'));
         Navigator.of(context).pushNamed("/edit-profile-screen");
         break;
-      case 8:
-        Navigator.of(context).popUntil(ModalRoute.withName('/logged-home'));
-        Navigator.of(context).pushNamed("/audio-text-diary");
-        break;
-      case 9:
+      case 7:
         Navigator.of(context).popUntil(ModalRoute.withName('/logged-home'));
         Navigator.of(context).pushNamed("/memory_game_screen");
         break;

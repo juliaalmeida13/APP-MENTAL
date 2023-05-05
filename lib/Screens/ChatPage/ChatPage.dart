@@ -1,9 +1,10 @@
+import 'dart:async';
+
 import 'package:app_mental/Services/chatService.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import '../../constants.dart';
 import '../../helper/helperfuncions.dart';
 import '../../model/channel.dart';
@@ -27,6 +28,9 @@ class _ChatPageState extends State<ChatPage> {
   @override
   void initState() {
     getUserEmail();
+    Timer.periodic(Duration(seconds: 30), (_) {
+      getChatHistory();
+    });
     super.initState();
   }
 
@@ -59,6 +63,11 @@ class _ChatPageState extends State<ChatPage> {
     });
   }
 
+  _goBackPage(BuildContext context) {
+    Navigator.of(context).popUntil(ModalRoute.withName('/logged-home'));
+    Navigator.of(context).pushNamed("/chat-room-screen");
+  }
+
   void _handleLongPress(BuildContext context, types.Message message) {
     HapticFeedback.vibrate();
     setState(() {
@@ -75,6 +84,13 @@ class _ChatPageState extends State<ChatPage> {
   void _deleteMessage() {
     ChatService().deleteMessage(messageId!, _email).then((_) {
       getChatHistory();
+    }).catchError((error) {
+      final snackBar = SnackBar(
+          content:
+              Text(error.toString(), style: TextStyle(color: Colors.white)),
+          backgroundColor: Colors.red);
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      _removeDeleteIcon();
     });
   }
 
@@ -87,7 +103,7 @@ class _ChatPageState extends State<ChatPage> {
           shadowColor: Color.fromRGBO(1, 1, 1, 0),
           leading: IconButton(
             icon: Icon(Icons.arrow_back, color: Colors.white),
-            onPressed: () => Navigator.of(context).pop(),
+            onPressed: () => _goBackPage(context),
           ),
           actions: messageId != null
               ? [

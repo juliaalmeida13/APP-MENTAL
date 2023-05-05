@@ -82,6 +82,7 @@ class _MyAppState extends State<MyApp> {
         "/edit-profile-screen": (ctx) => EditProfileScreen(),
         "/contacts-chat-screen": (ctx) => ContactChatScreen(),
         "/memory_game_screen": (ctx) => MemoryGameScreen(),
+        "/chat-room-screen": (ctx) => ChatRoom(),
       },
       home: (userIsLoggedIn ?? false) ? HomeScreen() : SignIn(),
     );
