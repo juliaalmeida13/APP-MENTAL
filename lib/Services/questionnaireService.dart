@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:app_mental/model/answers.dart';
 import 'package:app_mental/model/exceptions/HttpException.dart';
 import 'package:app_mental/model/exceptions/apiError.dart';
 import 'package:app_mental/model/questionnaire_answer.dart';
@@ -31,6 +32,21 @@ class QuestionnaireService {
     final response = await Api().get("getQuestions?code=$code");
     if (response.statusCode == 200) {
       return jsonDecode(utf8.decode(response.bodyBytes));
+    }
+    final error =
+        ApiError.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
+    throw HttpException(error.message.toString());
+  }
+
+  Future<List<Answers>> getAnswers(String code) async {
+    final response = await Api().get("getAnswers?code=$code");
+    if (response.statusCode == 200) {
+      List<Answers> answersList = [];
+      var jsonList = jsonDecode(utf8.decode(response.bodyBytes));
+      for (var answer in jsonList) {
+        answersList.add(Answers.fromJson(answer));
+      }
+      return answersList;
     }
     final error =
         ApiError.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));

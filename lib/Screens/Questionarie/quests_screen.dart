@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import '../../Services/questionnaireService.dart';
 import '../../Services/sleepService.dart';
 import '../../constants.dart';
+import '../../model/answers.dart';
 import '../../model/scale.dart';
 
 // Constroi a tela da lista de cards de escalas/questionários disponíveis ao usuário
@@ -201,21 +202,26 @@ class QuestRoomTile extends StatelessWidget {
           onTap: () async {
             if (unanswered) {
               List<dynamic> _questions = [];
-              await QuestionnaireService()
-                  .getQuestions(questCode)
-                  .then((values) {
-                values.forEach((value) {
-                  _questions.add(value);
-                });
-              }).whenComplete(() => Navigator.of(context)
-                          .pushNamed(QuestionScreen.routeName, arguments: {
-                        'title': "$questName - $week",
-                        'userEscala': userEscala,
-                        'answeredUntil': answeredUntil,
-                        'email': userEmail,
-                        'questions': _questions,
-                        'questionnaireCode': questCode
-                      }));
+              List<Answers> _answers = [];
+              await QuestionnaireService().getAnswers(questCode).then((values) {
+                _answers = values;
+              }).whenComplete(() => {
+                    QuestionnaireService().getQuestions(questCode).then(
+                        (values) {
+                      values.forEach((value) {
+                        _questions.add(value);
+                      });
+                    }).whenComplete(() => Navigator.of(context)
+                            .pushNamed(QuestionScreen.routeName, arguments: {
+                          'title': "$questName - $week",
+                          'userEscala': userEscala,
+                          'answeredUntil': answeredUntil,
+                          'email': userEmail,
+                          'questions': _questions,
+                          'questionnaireCode': questCode,
+                          'answers': _answers
+                        }))
+                  });
             }
           });
     } else if (questCode == "sleepQuestionnaire") {
