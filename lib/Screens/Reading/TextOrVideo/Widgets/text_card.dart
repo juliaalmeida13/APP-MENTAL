@@ -1,8 +1,10 @@
 import 'package:app_mental/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_html/flutter_html.dart';
+import 'package:flutter_html_video/flutter_html_video.dart';
+import 'package:flutter_html_iframe/flutter_html_iframe.dart';
 
 class TextCard extends StatelessWidget {
   const TextCard({
@@ -13,23 +15,9 @@ class TextCard extends StatelessWidget {
   final Size size;
   final String text;
 
-  MarkdownStyleSheet mrkdnTextTheme(BuildContext context) {
-    return MarkdownStyleSheet.fromTheme(Theme.of(context)).copyWith(
-        textScaleFactor: 1.5,
-        p: TextStyle(color: Color.fromRGBO(0, 0, 0, 0.66)));
-  }
-
-  void onTapLink(String text, String? href, String title, context) {
-    if (text.startsWith("página") && href != null) {
-      Navigator.of(context).popUntil(ModalRoute.withName('/logged-home'));
-      Navigator.of(context).pushNamed(href);
-    } else {
-      launch(href!);
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
+    print(text);
     return Align(
       alignment: Alignment(0, 1),
       child: Container(
@@ -51,19 +39,24 @@ class TextCard extends StatelessWidget {
         child: Padding(
           padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
           child: Container(
+            color: Colors.amber,
             margin: EdgeInsets.only(bottom: kDefaultPadding),
             child: SizedBox(
               height: size.height * 0.53,
-              child: Column(
-                children: [
-                  Expanded(
-                    child: Markdown(
-                        onTapLink: (text, href, title) =>
-                            onTapLink(text, href, title, context),
-                        styleSheet: mrkdnTextTheme(context),
-                        data: text),
-                  ),
-                ],
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Html(
+                      data: text,
+                      /*customRenders: {
+                        iframeMatcher(): iframeRender(),
+                        videoMatcher(): videoRender(),
+                      },*/
+                      onLinkTap: (url, context, attributes, element) =>
+                          launch(url!),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

@@ -22,7 +22,7 @@ class _VideoPlayerState extends State<VideoPlayer> {
       flags: YoutubePlayerFlags(
         startAt: 0,
         controlsVisibleAtStart: true,
-        autoPlay: true,
+        autoPlay: false,
       ),
     );
     super.initState();
