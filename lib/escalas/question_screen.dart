@@ -1,15 +1,3 @@
-import 'package:app_mental/escalas/questionnaireAnswers/promisN1_answers.dart';
-import 'package:app_mental/escalas/questionnaireAnswers/promisN2_answers.dart';
-import 'package:app_mental/escalas/questionnaireAnswers/pset_answers.dart';
-import 'package:app_mental/escalas/questionnaireAnswers/questSD2_answers.dart';
-import 'package:app_mental/escalas/questionnaireAnswers/assist_answers.dart';
-import 'package:app_mental/escalas/questionnaireAnswers/assistN2_answers.dart';
-import 'package:app_mental/escalas/questionnaireAnswers/mdq_answers.dart';
-import 'package:app_mental/escalas/questionnaireAnswers/pcl5_answers.dart';
-import 'package:app_mental/escalas/questionnaireAnswers/phq15_answers.dart';
-import 'package:app_mental/escalas/questionnaireAnswers/promisAnsi_answers.dart';
-import 'package:app_mental/escalas/questionnaireAnswers/psqi_answers.dart';
-import 'package:app_mental/escalas/questionnaireAnswers/questSD1_answers.dart';
 import 'package:flutter/material.dart';
 
 import '../../Services/questionnaireService.dart';
