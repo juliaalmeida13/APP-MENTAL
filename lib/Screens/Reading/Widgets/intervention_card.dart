@@ -1,4 +1,4 @@
-import 'package:app_mental/Screens/Reading/TextOrVideo/text_or_video_screen.dart';
+import 'package:app_mental/Screens/Reading/Text/text_screen.dart';
 import 'package:app_mental/Services/readingService.dart';
 import 'package:app_mental/constants.dart';
 import 'package:app_mental/helper/helperfuncions.dart';
@@ -68,16 +68,10 @@ class _InterventionCardState extends State<InterventionCard> {
           context,
           MaterialPageRoute(
             builder: (context) {
-              var videoUrl = "";
-              if (widget.reading.video != null) {
-                videoUrl = widget.reading.video!;
-              }
-              return TextOrVideoScreen(
+              return TextScreen(
                 title: widget.reading.name,
                 text: widget.reading.text,
-                image: widget.reading.image,
                 id: widget.reading.id,
-                videoUrl: videoUrl,
               );
             },
           ),

@@ -63,8 +63,6 @@ dependencies:
   firebase_messaging: ^14.3.0
   fast_contacts: ^3.0.3
   flutter_html: ^3.0.0-alpha.6
-  flutter_html_video: ^3.0.0-alpha.5
-  flutter_html_iframe: ^3.0.0-alpha.4
 dev_dependencies:
   flutter_test:
     sdk: flutter
