@@ -34,7 +34,7 @@ class _TextBodyState extends State<TextBody> {
           widgetList.add(TextCard(text: textSplited2[1]));
         }
       }
-      return widgetList; //respostas_questionarios
+      return widgetList;
     } else {
       return [TextCard(text: widget.text)];
     }
