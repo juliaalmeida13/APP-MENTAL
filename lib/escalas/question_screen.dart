@@ -61,7 +61,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
 
   getAnswers(answers, questionIndex) {
     List<Answers> answersList = [];
-    for (var i = 0; i < answers.length; i++) {
+    for (int i = 0; i < answers.length; i++) {
       if (answers[i].order == _questionIndex) {
         answersList.add(answers[i]);
       }
