@@ -2,6 +2,7 @@ import 'package:app_mental/escalas/promis_answer.dart';
 import 'package:app_mental/escalas/promis_answer_input.dart';
 import 'package:app_mental/escalas/question.dart';
 import 'package:app_mental/helper/constants.dart';
+import 'package:app_mental/model/answers.dart';
 import 'package:flutter/material.dart';
 
 import '../Services/questionnaireService.dart';
@@ -9,7 +10,7 @@ import '../Services/questionnaireService.dart';
 class AnswerQuestions extends StatelessWidget {
   final int sizeQuestionnaire;
   final String question;
-  final List<Map<String, Object>> answers;
+  final List<Answers> answers;
   final int questionIndex;
   final Function answerQuestion;
   final Function resetQuestion;
@@ -116,48 +117,13 @@ class AnswerQuestions extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
-                          if (questionnaireCode == QuestionnaireCode.pn1.name ||
-                              questionnaireCode ==
-                                  QuestionnaireCode.pcl5.name) ...[
-                            ...(answers[questionIndex]['answers']
-                                    as List<Map<String, dynamic>>)
-                                .map((answer) {
-                              return AnswerOption(
-                                () => answerQuestion(
-                                    answer['score'],
-                                    answer['domain'],
-                                    answer['text'],
-                                    scale,
-                                    questionnaireCode),
-                                answer['text']!,
-                              );
-                            }).toList()
-                          ] else if (answers[questionIndex]
-                              .containsKey("type")) ...[
-                            AnswerInput(
-                              (dynamic value) => answerQuestion(
-                                  value,
-                                  Constants.unimportantValue,
-                                  "Input Value",
-                                  scale,
-                                  questionnaireCode),
-                              "date",
-                            )
-                          ] else ...[
-                            ...(answers[questionIndex]['answers']
-                                    as List<Map<String, dynamic>>)
-                                .map((answer) {
-                              return AnswerOption(
-                                () => answerQuestion(
-                                    answer['score'],
-                                    Constants.unimportantValue,
-                                    answer['text'],
-                                    scale,
-                                    questionnaireCode),
-                                answer['text']!,
-                              );
-                            }).toList()
-                          ],
+                          ...(answers.map((answer) {
+                            return AnswerOption(
+                              () => answerQuestion(answer.score, answer.domain,
+                                  answer.answerText, scale, questionnaireCode),
+                              answer.answerText,
+                            );
+                          })).toList()
                         ],
                       ),
                     ),
