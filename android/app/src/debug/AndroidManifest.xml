@@ -3,5 +3,8 @@
     <!-- Flutter needs it to communicate with the running application
          to allow setting breakpoints, to provide hot reload, etc.
     -->
+              <meta-data
+          android:name="com.google.firebase.messaging.default_notification_channel_id"
+          android:value="@string/default_notification_channel_id" />
     <uses-permission android:name="android.permission.INTERNET"/>
 </manifest>

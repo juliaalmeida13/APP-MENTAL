@@ -20,7 +20,8 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     getUserEmail();
     super.initState();
-    //onNotificationOpenedApp();
+    onNotificationOpenedApp();
+    onMessage();
   }
 
   Future<void> onNotificationOpenedApp() async {
@@ -30,6 +31,19 @@ class _HomeScreenState extends State<HomeScreen> {
       _handleMessage(initialMessage);
     }
     FirebaseMessaging.onMessageOpenedApp.listen(_handleMessage);
+  }
+
+  Future<void> onMessage() async {
+    FirebaseMessaging.onMessage.listen((message) {
+      print('Got a message whilst in the foreground!');
+
+      if (message.notification != null) {
+        final snackBar = SnackBar(
+          content: Text(message.notification?.title ?? '', maxLines: 2),
+        );
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      }
+    });
   }
 
   void _handleMessage(RemoteMessage message) {
