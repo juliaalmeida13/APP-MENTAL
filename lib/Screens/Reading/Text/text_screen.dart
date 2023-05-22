@@ -1,30 +1,26 @@
-import 'package:app_mental/Screens/Reading/TextOrVideo/Widgets/text_or_video_body.dart';
+import 'package:app_mental/Screens/Reading/Text/Widgets/text_body.dart';
 import 'package:app_mental/Services/readingService.dart';
 import 'package:app_mental/constants.dart';
 import 'package:app_mental/helper/helperfuncions.dart';
 import 'package:flutter/material.dart';
 import 'package:rating_dialog/rating_dialog.dart';
 
-class TextOrVideoScreen extends StatefulWidget {
-  TextOrVideoScreen({
+class TextScreen extends StatefulWidget {
+  TextScreen({
     required this.title,
     required this.text,
-    required this.image,
     required this.id,
-    required this.videoUrl,
   });
 
   final String text;
   final String title;
-  final String image;
   final int? id;
-  final String? videoUrl;
 
   @override
-  State<TextOrVideoScreen> createState() => _TextOrVideoScreenState();
+  State<TextScreen> createState() => _TextScreenState();
 }
 
-class _TextOrVideoScreenState extends State<TextOrVideoScreen> {
+class _TextScreenState extends State<TextScreen> {
   late String userEmail;
   String ratingTitle = 'Avalie este conteúdo!';
   double initialRating = 0.0;
@@ -109,7 +105,7 @@ class _TextOrVideoScreenState extends State<TextOrVideoScreen> {
         ],
       ),
       resizeToAvoidBottomInset: false,
-      body: TextOrVideoBody(widget.text, widget.image, widget.videoUrl!),
+      body: TextBody(widget.text),
     );
   }
 }

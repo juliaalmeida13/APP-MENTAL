@@ -5,9 +5,6 @@ class Reading {
   final String group;
   final String name;
   final String text;
-  final String type;
-  final String image;
-  final String? video;
   final int version;
 
   Reading(
@@ -15,9 +12,6 @@ class Reading {
       required this.group,
       required this.name,
       required this.text,
-      required this.type,
-      required this.image,
-      required this.video,
       required this.version});
 
   factory Reading.fromMap(Map<String, dynamic> json) => new Reading(
@@ -25,9 +19,6 @@ class Reading {
       group: json['group'],
       name: json['name'],
       text: json['text'],
-      type: json['type'],
-      image: json['image'],
-      video: json['video'],
       version: json['version']);
 
   factory Reading.fromJson(Map<String, dynamic> json) {
@@ -36,9 +27,6 @@ class Reading {
         group: json['group'],
         name: json['name'],
         text: json['text'],
-        type: json['type'],
-        image: json['image'],
-        video: json['video'],
         version: json['version']);
   }
 
@@ -48,9 +36,6 @@ class Reading {
       'group': group,
       'name': name,
       'text': text,
-      'type': type,
-      'image': image,
-      'video': video,
       'version': version
     };
   }
