@@ -1,8 +1,8 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:app_mental/constants.dart';
 import 'package:app_mental/helper/helperfuncions.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -68,45 +68,24 @@ class _AppDrawerState extends State<AppDrawer> {
       folderPath = folderDir.path;
     }
     final picker = ImagePicker();
-    final pickedImagem = await picker.pickImage(source: ImageSource.gallery);
+    final pickedImagem =
+        await picker.pickImage(source: ImageSource.gallery, imageQuality: 10);
     if (pickedImagem != null) {
-      File pickedImageFile = File(pickedImagem.path);
-      Reference referenceImageToUpload =
-          FirebaseStorage.instance.ref().child('$userEmail/profile-avatar');
-      try {
-        await referenceImageToUpload.putFile(File(pickedImageFile.path));
-        await referenceImageToUpload.getDownloadURL().then((imageUrl) {
-          UserService().saveUserAvatar(userEmail, imageUrl);
-          saveImageInApp(folderPath, pickedImageFile);
-        });
-      } catch (error) {
-        print(error);
-      }
-    }
-  }
-
-  deleteImageFile(String filePath) {
-    if (File(filePath).existsSync()) {
-      File(filePath).delete();
-    }
-  }
-
-  saveImageInApp(String folderPath, File pickedImageFile) async {
-    if (File("$folderPath/$userEmail/profile-avatar.png").existsSync()) {
-      await pickedImageFile.copy("$folderPath/$userEmail/profile-avatar1.png");
-      setState(() {
-        imageFile = "$folderPath/$userEmail/profile-avatar1.png";
-      });
-      deleteImageFile("$folderPath/$userEmail/profile-avatar.png");
-    } else {
+      List<int> imageBytes = await pickedImagem.readAsBytes();
+      String base64Image = base64Encode(imageBytes);
+      UserService().saveUserAvatar(userEmail, base64Image);
       if (!await Directory("$folderPath/$userEmail").exists()) {
         await Directory("$folderPath/$userEmail").create();
       }
-      await pickedImageFile.copy("$folderPath/$userEmail/profile-avatar.png");
+      File("$folderPath/$userEmail/profile-avatar.png")
+          .writeAsBytes(imageBytes);
       setState(() {
         imageFile = "$folderPath/$userEmail/profile-avatar.png";
       });
-      deleteImageFile("$folderPath/$userEmail/profile-avatar1.png");
+    } else {
+      setState(() {
+        imageFile = "";
+      });
     }
   }
 
@@ -126,9 +105,9 @@ class _AppDrawerState extends State<AppDrawer> {
     Directory folderDir = await getApplicationDocumentsDirectory();
     if (!await Directory("${folderDir.path}/$userEmail").exists()) {
       await Directory("${folderDir.path}/$userEmail").create();
-      Reference ref = FirebaseStorage.instance.refFromURL(avatarUrl);
-      File file = File("${folderDir.path}/$userEmail/profile-avatar.png");
-      await ref.writeToFile(file);
+      final byteImage = Base64Decoder().convert(avatarUrl);
+      File("${folderDir.path}/$userEmail/profile-avatar.png")
+          .writeAsBytes(byteImage);
     }
     setState(() {
       imageFile = "${folderDir.path}/$userEmail/profile-avatar.png";
@@ -150,6 +129,7 @@ class _AppDrawerState extends State<AppDrawer> {
     final displayName = userName;
     final displayEmail = userEmail;
     return Drawer(
+      width: MediaQuery.of(context).size.width * .80,
       backgroundColor: AppColors.verdementa,
       child: ListView(
         children: <Widget>[
@@ -270,35 +250,37 @@ class _AppDrawerState extends State<AppDrawer> {
               height: 10,
               width: 10,
             ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  width: MediaQuery.of(context).size.width * .47,
-                  child: FittedBox(
-                    child: Text(
-                      "Olá, $name",
-                      softWrap: false,
-                      overflow: TextOverflow.ellipsis,
-                      style:
-                          TextStyle(fontFamily: "Inter", color: Colors.black),
+            SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    width: MediaQuery.of(context).size.width * .47,
+                    child: FittedBox(
+                      child: Text(
+                        "Olá, $name",
+                        softWrap: false,
+                        overflow: TextOverflow.ellipsis,
+                        style:
+                            TextStyle(fontFamily: "Inter", color: Colors.black),
+                      ),
                     ),
                   ),
-                ),
-                const SizedBox(height: 4),
-                Container(
-                  width: MediaQuery.of(context).size.width * .47,
-                  child: FittedBox(
-                    child: Text(
-                      email,
-                      style:
-                          TextStyle(fontFamily: "Inter", color: Colors.black),
+                  const SizedBox(height: 4),
+                  Container(
+                    width: MediaQuery.of(context).size.width * .47,
+                    child: FittedBox(
+                      child: Text(
+                        email,
+                        style:
+                            TextStyle(fontFamily: "Inter", color: Colors.black),
+                      ),
                     ),
                   ),
-                ),
-              ],
-            )
+                ],
+              ),
+            ),
           ],
         ),
       );
