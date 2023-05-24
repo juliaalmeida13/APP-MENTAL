@@ -35,8 +35,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future<void> onMessage() async {
     FirebaseMessaging.onMessage.listen((message) {
-      print('Got a message whilst in the foreground!');
-
       if (message.notification != null) {
         final snackBar = SnackBar(
           content: Text(message.notification?.title ?? '', maxLines: 2),
