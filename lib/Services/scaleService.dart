@@ -48,4 +48,20 @@ class ScaleService {
         ApiError.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
     throw HttpException(error.message.toString());
   }
+
+  Future<List<Scale>> listAllAnsweredQuestionnaires(String email) async {
+    final response =
+        await Api().get("listAllAnsweredQuestionnaires?email=$email");
+    List<Scale> scaleList = [];
+    if (response.statusCode == 200) {
+      var jsonList = jsonDecode(utf8.decode(response.bodyBytes));
+      for (var scale in jsonList) {
+        scaleList.add(Scale.fromJson(scale));
+      }
+      return scaleList;
+    }
+    final error =
+        ApiError.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
+    throw HttpException(error.message.toString());
+  }
 }

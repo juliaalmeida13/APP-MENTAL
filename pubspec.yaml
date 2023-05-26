@@ -63,6 +63,7 @@ dependencies:
   firebase_messaging: ^14.3.0
   fast_contacts: ^3.0.3
   flutter_html: ^3.0.0-alpha.6
+  fl_chart: ^0.62.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -1,19 +1,13 @@
-import 'package:app_mental/Screens/ChatRoom/Widgets/calendar.dart';
-import 'package:app_mental/Screens/Questionarie/Widgets/app_body_widget.dart';
-import 'package:app_mental/Screens/SleepDiary/sleep_diary.dart';
 import 'package:app_mental/Services/scaleService.dart';
-import 'package:app_mental/Shared/Widgets/AppDrawer.dart';
-import 'package:app_mental/escalas/question_screen.dart';
 import 'package:app_mental/helper/constants.dart';
 import 'package:app_mental/helper/helperfuncions.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../../Services/questionnaireService.dart';
 import '../../Services/sleepService.dart';
 import '../../constants.dart';
-import '../../model/answers.dart';
 import '../../model/scale.dart';
+import 'Widgets/all_quest_room_tile.dart';
+import 'Widgets/quest_room_tile.dart';
 
 // Constroi a tela da lista de cards de escalas/questionários disponíveis ao usuário
 class QuestsScreen extends StatefulWidget {
@@ -26,25 +20,37 @@ class QuestsScreen extends StatefulWidget {
 class _QuestsScreenState extends State<QuestsScreen> {
   List<Scale> answeredQuests = [];
   List<Scale> unansweredQuests = [];
+  List<Scale> allAnsweredQuests = [];
 
   //Lista de Cards de Escalas/Questionários disponíveis
   Widget questsRoomList(List<Scale> scaleList) {
     return ListView.builder(
-        itemCount: scaleList.length,
-        itemBuilder: (context, index) {
-          return QuestRoomTile(
-              scaleList[index].questionnaireName!,
-              scaleList[index].questionnaireCode!,
-              DateTime.parse(scaleList[index].availableAt!),
-              scaleList[index].userScale!,
-              scaleList[index].answeredUntil!,
-              scaleList[index].unanswered!,
-              scaleList[index].week!,
-              scaleList[index].answeredAt != null
-                  ? DateTime.parse(scaleList[index].answeredAt!)
-                  : DateTime.now(),
-              Constants.myEmail);
-        });
+      itemCount: scaleList.length,
+      itemBuilder: (context, index) {
+        return QuestRoomTile(
+            scaleList[index].questionnaireName!,
+            scaleList[index].questionnaireCode!,
+            DateTime.parse(scaleList[index].availableAt!),
+            scaleList[index].userScale!,
+            scaleList[index].answeredUntil!,
+            scaleList[index].unanswered!,
+            scaleList[index].week!,
+            scaleList[index].answeredAt != null
+                ? DateTime.parse(scaleList[index].answeredAt!)
+                : DateTime.now(),
+            Constants.myEmail);
+      },
+    );
+  }
+
+  Widget allQuestsRoomList(List<Scale> scaleList) {
+    return ListView.builder(
+      itemCount: scaleList.length,
+      itemBuilder: (context, index) {
+        return AllQuestRoomTile(scaleList[index].questionnaireName!,
+            scaleList[index].questionnaireCode!, Constants.myEmail);
+      },
+    );
   }
 
   @override
@@ -72,6 +78,19 @@ class _QuestsScreenState extends State<QuestsScreen> {
         .then((questionnaires) {
       setState(() {
         answeredQuests.addAll(questionnaires);
+      });
+    }).catchError((error) {
+      print(error);
+    });
+    ScaleService()
+        .listAllAnsweredQuestionnaires(Constants.myEmail)
+        .then((questionnairesNames) {
+      setState(() {
+        allAnsweredQuests.addAll(questionnairesNames);
+        allAnsweredQuests.add(Scale.fromJson({
+          "questionnaireCode": "sleepQuestionnaire",
+          "questionnaireName": "Diário do Sono",
+        }));
       });
     }).catchError((error) {
       print(error);
@@ -110,14 +129,14 @@ class _QuestsScreenState extends State<QuestsScreen> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 2,
+      length: 3,
       child: Scaffold(
         appBar: AppBar(
             centerTitle: true,
             iconTheme: IconThemeData(color: kTextColorGreen),
             backgroundColor: Colors.white,
             title: Text(
-              'Suas Atividades',
+              'Questionários',
               style: AppTextStyles.tituloatividades,
             ),
             leading: IconButton(
@@ -131,138 +150,34 @@ class _QuestsScreenState extends State<QuestsScreen> {
             bottom: new PreferredSize(
                 preferredSize: new Size(300.0, 50.0),
                 child: new Container(
-                    width: 300.0,
                     child: new TabBar(
-                      indicatorColor: AppColors.verdeclaro,
-                      labelStyle: AppTextStyles.titulotab,
-                      labelColor: Colors.black,
-                      tabs: [
-                        new Container(
-                          height: 50.0,
-                          child:
-                              FittedBox(child: new Tab(text: 'Nessa semana')),
-                        ),
-                        new Container(
-                          height: 50.0,
-                          child: FittedBox(child: new Tab(text: 'Respondidos')),
-                        ),
-                      ],
-                    )))),
+                  indicatorColor: AppColors.verdeclaro,
+                  labelStyle: AppTextStyles.titulotab,
+                  labelColor: Colors.black,
+                  tabs: [
+                    new Container(
+                      height: 50.0,
+                      child: FittedBox(child: new Tab(text: 'A responder')),
+                    ),
+                    new Container(
+                      height: 50.0,
+                      child:
+                          FittedBox(child: new Tab(text: 'Avaliação semanal')),
+                    ),
+                    new Container(
+                      height: 50.0,
+                      child: FittedBox(child: new Tab(text: 'Avaliação geral')),
+                    ),
+                  ],
+                )))),
         body: TabBarView(
           children: [
             questsRoomList(unansweredQuests),
             questsRoomList(answeredQuests),
+            allQuestsRoomList(allAnsweredQuests),
           ],
         ),
       ),
     );
-  }
-}
-
-// Caso a escala/questionário estiver planejado para a semana atual, constroi-se um card para a lista.
-class QuestRoomTile extends StatelessWidget {
-  final String questName;
-  final String questCode;
-  final DateTime availableAt;
-  final String userEscala;
-  final int answeredUntil;
-  final bool unanswered;
-  final String week;
-  final DateTime answeredAt;
-  final String userEmail;
-  final DateTime _now = DateTime.now();
-
-  QuestRoomTile(
-      this.questName,
-      this.questCode,
-      this.availableAt,
-      this.userEscala,
-      this.answeredUntil,
-      this.unanswered,
-      this.week,
-      this.answeredAt,
-      this.userEmail);
-
-  @override
-  Widget build(BuildContext context) {
-    var nextSunday = getNextSunday(availableAt);
-
-    // Caso a escala/questionário seja planejada para a semana atual, constroi-se um card
-    if (_now.isAfter(availableAt) &&
-        _now.isBefore(nextSunday) &&
-        unanswered == true &&
-        questCode != "sleepQuestionnaire") {
-      return QuizCard(
-          notificationStatus: unanswered,
-          title: "$questName - $week",
-          completed: "Questões respondidas: $answeredUntil",
-          now: _now,
-          answeredAt: answeredAt,
-          expirationDate: nextSunday,
-          onTap: () async {
-            if (unanswered) {
-              List<dynamic> _questions = [];
-              List<Answers> _answers = [];
-              await QuestionnaireService().getAnswers(questCode).then((values) {
-                _answers = values;
-              }).whenComplete(() => {
-                    QuestionnaireService().getQuestions(questCode).then(
-                        (values) {
-                      values.forEach((value) {
-                        _questions.add(value);
-                      });
-                    }).whenComplete(() => Navigator.of(context)
-                            .pushNamed(QuestionScreen.routeName, arguments: {
-                          'title': "$questName - $week",
-                          'userEscala': userEscala,
-                          'answeredUntil': answeredUntil,
-                          'email': userEmail,
-                          'questions': _questions,
-                          'questionnaireCode': questCode,
-                          'answers': _answers
-                        }))
-                  });
-            }
-          });
-    } else if (questCode == "sleepQuestionnaire") {
-      if (unanswered == true) {
-        return QuizCard(
-          notificationStatus: unanswered,
-          title: "$questName",
-          completed: "Não respondido!",
-          now: _now,
-          answeredAt: answeredAt,
-          expirationDate: DateTime(DateTime.now().year, DateTime.now().month,
-              DateTime.now().day + 1),
-          onTap: () {
-            if (unanswered) {
-              Navigator.of(context)
-                  .popUntil(ModalRoute.withName('/logged-home'));
-              Navigator.of(context).pushNamed("/sleep-diary");
-            }
-          },
-        );
-      } else {
-        return QuizCard(
-            notificationStatus: unanswered,
-            title: "$questName",
-            completed: "Completado!",
-            now: _now,
-            answeredAt: answeredAt,
-            expirationDate: nextSunday,
-            onTap: () {});
-      }
-    } else if (unanswered == false) {
-      return QuizCard(
-          notificationStatus: unanswered,
-          title: "$questName - $week",
-          completed: "Completado!",
-          now: _now,
-          answeredAt: answeredAt,
-          expirationDate: nextSunday,
-          onTap: () {});
-    } else {
-      return Container();
-    }
   }
 }
