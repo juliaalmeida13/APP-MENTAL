@@ -69,6 +69,22 @@ class _ChartSleepScreenState extends State<ChartSleepScreen> {
     });
   }
 
+  String getSleepyTime() {
+    Duration tryToSleep = Duration(
+        hours: int.parse(sleepData.tryToSleep.substring(0, 2)),
+        minutes: int.parse(sleepData.tryToSleep.substring(3, 5)));
+    Duration whileToSleep = Duration(
+        hours: int.parse(sleepData.whileToSleep.substring(0, 2)),
+        minutes: int.parse(sleepData.whileToSleep.substring(3, 5)));
+    Duration sleepyTime = whileToSleep + tryToSleep;
+    return sleepyTime.toString();
+  }
+
+  goBackPage(BuildContext context) {
+    Navigator.of(context).popUntil(ModalRoute.withName('/logged-home'));
+    Navigator.of(context).pushNamed("/quests-screen");
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -78,10 +94,7 @@ class _ChartSleepScreenState extends State<ChartSleepScreen> {
         shadowColor: Color.fromRGBO(1, 1, 1, 0),
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.of(context).popUntil(ModalRoute.withName('/logged-home'));
-            Navigator.of(context).pushNamed("/quests-screen");
-          },
+          onPressed: () => goBackPage(context),
         ),
       ),
       body: SingleChildScrollView(
@@ -102,7 +115,7 @@ class _ChartSleepScreenState extends State<ChartSleepScreen> {
                         height: 20,
                       ),
                       FirstCard(
-                        gotoBed: getHourFormatted(sleepData.gotoBed),
+                        sleepyTime: getHourFormatted(getSleepyTime()),
                         wakeUpTime: getHourFormatted(sleepData.wakeUpTime),
                         timesWokeUp: sleepData.timesWokeUp!,
                         timeAwake: getHourInMinutes(sleepData.timeAwake!),

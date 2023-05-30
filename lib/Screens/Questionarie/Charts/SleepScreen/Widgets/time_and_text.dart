@@ -9,35 +9,48 @@ class TimeAndText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              icon,
-              color: Colors.blue,
-            ),
-          ],
-        ),
-        SizedBox(
-          width: 5,
-        ),
-        Flexible(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
+    return Container(
+      child: Column(
+        children: [
+          Row(
             children: [
-              Text(
-                time,
-                style: TextStyle(color: Colors.blue, fontSize: 20),
+              SizedBox(
+                width: 5,
               ),
-              FittedBox(child: Text(text)),
+              Container(
+                child: Column(
+                  children: [
+                    Icon(
+                      icon,
+                      color: Colors.blue,
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                width: 5,
+              ),
+              Flexible(
+                child: Container(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      FittedBox(
+                        child: Text(
+                          time,
+                          style: TextStyle(color: Colors.blue, fontSize: 20),
+                        ),
+                      ),
+                      FittedBox(child: Text(text)),
+                    ],
+                  ),
+                ),
+              ),
             ],
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

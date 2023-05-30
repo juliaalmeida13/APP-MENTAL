@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 
 class FirstCard extends StatefulWidget {
-  final String gotoBed;
+  final String sleepyTime;
   final String wakeUpTime;
   final int timesWokeUp;
   final String timeAwake;
@@ -14,7 +14,7 @@ class FirstCard extends StatefulWidget {
   final double sleepEfficiency;
 
   FirstCard(
-      {required this.gotoBed,
+      {required this.sleepyTime,
       required this.wakeUpTime,
       required this.timesWokeUp,
       required this.timeAwake,
@@ -26,7 +26,7 @@ class FirstCard extends StatefulWidget {
 }
 
 class _FirstCardState extends State<FirstCard> {
-  int touchedIndex = -1;
+  bool isTouched = false;
 
   Widget pieChart() {
     return Expanded(
@@ -35,14 +35,7 @@ class _FirstCardState extends State<FirstCard> {
           pieTouchData: PieTouchData(
             touchCallback: (FlTouchEvent event, pieTouchResponse) {
               setState(() {
-                if (!event.isInterestedForInteractions ||
-                    pieTouchResponse == null ||
-                    pieTouchResponse.touchedSection == null) {
-                  touchedIndex = -1;
-                  return;
-                }
-                touchedIndex =
-                    pieTouchResponse.touchedSection!.touchedSectionIndex;
+                isTouched = event.isInterestedForInteractions;
               });
             },
           ),
@@ -56,7 +49,6 @@ class _FirstCardState extends State<FirstCard> {
 
   List<PieChartSectionData> showingSections() {
     return List.generate(2, (i) {
-      final isTouched = i == touchedIndex;
       switch (i) {
         case 0:
           return PieChartSectionData(
@@ -126,7 +118,7 @@ class _FirstCardState extends State<FirstCard> {
                               children: [
                                 TimeAndText(
                                   icon: CupertinoIcons.moon,
-                                  time: widget.gotoBed,
+                                  time: widget.sleepyTime,
                                   text: "Horário do adormecer",
                                 ),
                                 TimeAndText(
