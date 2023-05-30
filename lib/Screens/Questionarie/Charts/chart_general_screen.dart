@@ -11,8 +11,6 @@ class ChartGeneralScreen extends StatefulWidget {
 }
 
 class _ChartGeneralScreenState extends State<ChartGeneralScreen> {
-  int showingTooltip = -1;
-
   @override
   void initState() {
     super.initState();
@@ -23,8 +21,6 @@ class _ChartGeneralScreenState extends State<ChartGeneralScreen> {
     final routeArgs =
         ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
     final questName = routeArgs['questName'];
-    final questCode = routeArgs["questCode"];
-    final email = routeArgs['email'];
     final scoreList = routeArgs['scoreList'];
 
     return Scaffold(
@@ -66,13 +62,11 @@ class _ChartGeneralScreenState extends State<ChartGeneralScreen> {
                           axisNameWidget: Text("Soma"),
                           sideTitles: SideTitles(
                             showTitles: true,
-                            //interval: 2,
                             reservedSize:
                                 MediaQuery.of(context).size.height * .03,
                           ),
                         ),
                         topTitles: AxisTitles(
-                            //axisNameWidget: Text("Questionário PN1"),
                             sideTitles: SideTitles(showTitles: false)),
                         rightTitles: AxisTitles(
                             sideTitles: SideTitles(showTitles: false)),
@@ -101,9 +95,6 @@ class _ChartGeneralScreenState extends State<ChartGeneralScreen> {
       barChartGroupDataList.add(
         BarChartGroupData(
           x: weekNumber,
-          showingTooltipIndicators: showingTooltip == weekNumber
-              ? [0]
-              : [], //faz com que o valor apareça fixado sem o usuário clicar e segurar com o dedo
           barRods: [
             BarChartRodData(
                 toY: double.parse(scoreList[i].score),

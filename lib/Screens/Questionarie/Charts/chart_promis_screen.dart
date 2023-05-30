@@ -11,7 +11,6 @@ class ChartPromisScreen extends StatefulWidget {
 }
 
 class _ChartPromisScreenState extends State<ChartPromisScreen> {
-  int showingTooltip = -1;
   String selectedDominionName = "";
   List listDominion = [
     {'dominionName': 'Depressão', 'dominionNumber': 1},
@@ -42,8 +41,6 @@ class _ChartPromisScreenState extends State<ChartPromisScreen> {
     final routeArgs =
         ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
     final questName = routeArgs['questName'];
-    final questCode = routeArgs["questCode"];
-    final email = routeArgs['email'];
     final scoreList = routeArgs['scoreList'];
 
     return Scaffold(
@@ -160,7 +157,6 @@ class _ChartPromisScreenState extends State<ChartPromisScreen> {
         barChartGroupDataList.add(
           BarChartGroupData(
             x: weekNumber,
-            showingTooltipIndicators: showingTooltip == weekNumber ? [0] : [],
             barRods: [
               BarChartRodData(
                   toY: double.parse(scoreList[i].score),

@@ -1,4 +1,4 @@
-class Sleep {
+class SleepDiary {
   final String gotoBed;
   final String tryToSleep;
   final String whileToSleep;
@@ -10,7 +10,7 @@ class Sleep {
   final String totalTimeSleep;
   final String sleepEfficiency;
 
-  const Sleep(
+  const SleepDiary(
       {required this.gotoBed,
       required this.tryToSleep,
       required this.whileToSleep,
@@ -22,8 +22,8 @@ class Sleep {
       required this.totalTimeSleep,
       required this.sleepEfficiency});
 
-  factory Sleep.fromJson(Map<String, dynamic> json) {
-    return Sleep(
+  factory SleepDiary.fromJson(Map<String, dynamic> json) {
+    return SleepDiary(
       gotoBed: json['gotoBed'],
       tryToSleep: json['tryToSleep'],
       whileToSleep: json['whileToSleep'],

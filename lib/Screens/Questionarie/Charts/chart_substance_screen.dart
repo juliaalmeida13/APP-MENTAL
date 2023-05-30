@@ -11,7 +11,6 @@ class ChartSubstanceScreen extends StatefulWidget {
 }
 
 class _ChartSubstanceScreenState extends State<ChartSubstanceScreen> {
-  int showingTooltip = -1;
   String selectedSubstanceName = "";
   List listSubstance = [
     {'dominionName': 'Depressão', 'dominionNumber': 1},
@@ -160,7 +159,6 @@ class _ChartSubstanceScreenState extends State<ChartSubstanceScreen> {
         barChartGroupDataList.add(
           BarChartGroupData(
             x: weekNumber,
-            showingTooltipIndicators: showingTooltip == weekNumber ? [0] : [],
             barRods: [
               BarChartRodData(
                   toY: double.parse(scoreList[i].score),

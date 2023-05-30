@@ -78,7 +78,6 @@ class ChartWeekScreen extends StatelessWidget {
   BarChartGroupData generateGroupData(int x, int y) {
     return BarChartGroupData(
       x: x,
-      showingTooltipIndicators: -1 == x ? [0] : [],
       barRods: [
         BarChartRodData(
             toY: y.toDouble(),

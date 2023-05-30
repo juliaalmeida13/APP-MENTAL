@@ -1,3 +1,5 @@
+import 'package:app_mental/Screens/Questionarie/Charts/SleepScreen/Widgets/time_and_text.dart';
+import 'package:app_mental/Screens/Questionarie/Charts/SleepScreen/Widgets/time_and_text_final.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -45,147 +47,52 @@ class _SecondCardState extends State<SecondCard> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Expanded(
-                  child: Container(
-                    width: double.infinity,
-                    child: Row(
-                      children: [
-                        Expanded(
-                          flex: 1,
-                          child: Container(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Icon(
-                                      CupertinoIcons.moon,
-                                      color: Colors.blue,
-                                    ),
-                                    Column(
-                                      children: [
-                                        FittedBox(
-                                            child: Text(
-                                                "${widget.tryToSleep} AM",
-                                                style: TextStyle(
-                                                    color: Colors.blue,
-                                                    fontSize: 20))),
-                                        FittedBox(
-                                            child: Text("Tentou dormir às")),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Icon(
-                                      Icons.access_time_outlined,
-                                      color: Colors.blue,
-                                    ),
-                                    Column(
-                                      children: [
-                                        FittedBox(
-                                            child: Text("${widget.gotoBed} PM",
-                                                style: TextStyle(
-                                                    color: Colors.blue,
-                                                    fontSize: 20))),
-                                        FittedBox(child: Text("Deitou-se às")),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ],
+                  child: Row(
+                    children: [
+                      Expanded(
+                        flex: 1,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            TimeAndText(
+                              icon: CupertinoIcons.moon,
+                              time: widget.tryToSleep,
+                              text: "Tentou dormir às",
                             ),
-                          ),
-                        ),
-                        Expanded(
-                          flex: 1,
-                          child: Container(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Icon(
-                                      CupertinoIcons.cloud_sun,
-                                      color: Colors.blue,
-                                    ),
-                                    Expanded(
-                                      child: Column(
-                                        children: [
-                                          FittedBox(
-                                            child: Text(
-                                                "${widget.spendInBed} min",
-                                                style: TextStyle(
-                                                    color: Colors.blue,
-                                                    fontSize: 20)),
-                                          ),
-                                          AutoSizeText(
-                                              "Tempo de cama após o despertar final"),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Icon(
-                                      CupertinoIcons.zzz,
-                                      color: Colors.blue,
-                                    ),
-                                    Column(
-                                      children: [
-                                        FittedBox(
-                                          child: Text(
-                                              "${widget.whileToSleep} min",
-                                              style: TextStyle(
-                                                  color: Colors.blue,
-                                                  fontSize: 20)),
-                                        ),
-                                        FittedBox(
-                                            child:
-                                                Text("Tempo para adormecer")),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ],
+                            TimeAndText(
+                              icon: Icons.access_time_outlined,
+                              time: widget.gotoBed,
+                              text: "Deitou-se às",
                             ),
-                          ),
+                          ],
                         ),
-                      ],
-                    ),
+                      ),
+                      Expanded(
+                        flex: 1,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            TimeAndText(
+                              icon: CupertinoIcons.cloud_sun,
+                              time: widget.spendInBed,
+                              text: "Tempo de cama após o despertar final",
+                            ),
+                            TimeAndText(
+                              icon: CupertinoIcons.zzz,
+                              time: widget.whileToSleep,
+                              text: "Tempo para adormecer",
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 Expanded(
-                  child: Container(
-                    width: double.infinity,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                CupertinoIcons.zzz,
-                                color: Colors.blue,
-                              ),
-                              Column(
-                                children: [
-                                  FittedBox(
-                                    child: Text("${widget.sleepDuringDay} min",
-                                        style: TextStyle(
-                                            color: Colors.blue, fontSize: 22)),
-                                  ),
-                                  FittedBox(child: Text("Sono durante o dia")),
-                                ],
-                              ),
-                            ]),
-                      ],
-                    ),
+                  child: TimeAndTextFinal(
+                    icon: CupertinoIcons.zzz,
+                    time: widget.sleepDuringDay,
+                    text: "Sono durante o dia",
                   ),
                 ),
               ],

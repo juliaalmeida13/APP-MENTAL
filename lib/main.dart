@@ -13,6 +13,7 @@ import 'package:app_mental/Screens/Questionarie/Charts/chart_week_screen.dart';
 import 'package:app_mental/escalas/question_screen.dart';
 import 'package:app_mental/helper/helperfuncions.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -29,10 +30,11 @@ import 'Screens/Reading/recomended_readings.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // await Firebase.initializeApp();
-  initializeDateFormatting('pt_BR', null).then(
-    (_) => runApp(
-      MyApp(),
-    ),
+  /*initializeDateFormatting('pt_BR', null).then(
+    (_) =>*/
+  runApp(
+    MyApp(),
+    //),
   );
   await dotenv.load(fileName: "lib/.env");
 }
@@ -72,6 +74,11 @@ class _MyAppState extends State<MyApp> {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
+      localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate
+      ],
+      supportedLocales: [Locale('pt', 'BR')],
       routes: {
         ContactsScreen.routeName: (ctx) => ContactsScreen(),
         QuestionScreen.routeName: (ctx) => QuestionScreen(),

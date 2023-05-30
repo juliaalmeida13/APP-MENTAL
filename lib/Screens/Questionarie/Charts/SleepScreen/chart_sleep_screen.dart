@@ -1,8 +1,10 @@
+import 'package:app_mental/Screens/Questionarie/Charts/SleepScreen/Widgets/date_picker.dart';
 import 'package:app_mental/Services/sleepService.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../constants.dart';
-import '../../../../model/sleep.dart';
+import '../../../../helper/constants.dart';
+import '../../../../model/sleep_diary.dart';
 import 'Widgets/first_card.dart';
 import 'Widgets/second_card.dart';
 
@@ -14,7 +16,7 @@ class ChartSleepScreen extends StatefulWidget {
 }
 
 class _ChartSleepScreenState extends State<ChartSleepScreen> {
-  Sleep sleepData = Sleep(
+  SleepDiary sleepData = SleepDiary(
       gotoBed: "",
       tryToSleep: "",
       whileToSleep: "",
@@ -25,17 +27,46 @@ class _ChartSleepScreenState extends State<ChartSleepScreen> {
       sleepDuringDay: "",
       totalTimeSleep: "",
       sleepEfficiency: "0");
+  bool datePicked = false;
+  List<DateTime> questionnaireAnswerDates = [];
 
   @override
   void initState() {
-    SleepService().getSleepQuestionnaireAnswersApp("a@a.com", "2023-05-25")
-        //Constants.myEmail*/
-        .then((value) {
-      setState(() {
-        sleepData = value;
-      });
-    });
+    SleepService()
+        .getSleepQuestionnaireDates(Constants.myEmail)
+        .then((dates) => setState(() {
+              questionnaireAnswerDates = dates;
+            }));
     super.initState();
+  }
+
+  getHourFormatted(String time) {
+    if (time != "") {
+      int hours = int.parse(time.substring(0, 2));
+      if (hours < 12) {
+        return "${time.substring(0, 5)} AM";
+      }
+      return "${time.substring(0, 5)} PM";
+    }
+    return time;
+  }
+
+  getHourInMinutes(String time) {
+    if (time != "") {
+      int hours = int.parse(time.substring(0, 2));
+      if (hours > 0) {
+        return "${time.substring(0, 2)}h ${time.substring(3, 5)}m";
+      }
+      return "${time.substring(3, 5)}min";
+    }
+    return time;
+  }
+
+  setSleepData(SleepDiary newValue) {
+    setState(() {
+      sleepData = newValue;
+      datePicked = true;
+    });
   }
 
   @override
@@ -56,26 +87,44 @@ class _ChartSleepScreenState extends State<ChartSleepScreen> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            //date picker
             SizedBox(
               height: 20,
             ),
-            FirstCard(
-                gotoBed: sleepData.gotoBed,
-                wakeUpTime: sleepData.wakeUpTime,
-                timesWokeUp: sleepData.timesWokeUp!,
-                timeAwake: sleepData.timeAwake!,
-                totalTimeSleep: sleepData.totalTimeSleep,
-                sleepEfficiency: double.parse(sleepData.sleepEfficiency)),
-            SizedBox(
-              height: 20,
+            DatePicker(
+              setSleepData: setSleepData,
+              questionnaireAnswerDates: questionnaireAnswerDates,
+              lastDayAnswered: questionnaireAnswerDates.length,
             ),
-            SecondCard(
-                tryToSleep: sleepData.tryToSleep,
-                gotoBed: sleepData.gotoBed,
-                spendInBed: sleepData.spendInBed,
-                whileToSleep: sleepData.whileToSleep,
-                sleepDuringDay: sleepData.sleepDuringDay),
+            datePicked
+                ? Column(
+                    children: [
+                      SizedBox(
+                        height: 20,
+                      ),
+                      FirstCard(
+                        gotoBed: getHourFormatted(sleepData.gotoBed),
+                        wakeUpTime: getHourFormatted(sleepData.wakeUpTime),
+                        timesWokeUp: sleepData.timesWokeUp!,
+                        timeAwake: getHourInMinutes(sleepData.timeAwake!),
+                        totalTimeSleep:
+                            getHourInMinutes(sleepData.totalTimeSleep),
+                        sleepEfficiency:
+                            double.parse(sleepData.sleepEfficiency),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      SecondCard(
+                        tryToSleep: getHourFormatted(sleepData.tryToSleep),
+                        gotoBed: getHourFormatted(sleepData.gotoBed),
+                        spendInBed: getHourInMinutes(sleepData.spendInBed),
+                        whileToSleep: getHourInMinutes(sleepData.whileToSleep),
+                        sleepDuringDay:
+                            getHourInMinutes(sleepData.sleepDuringDay),
+                      ),
+                    ],
+                  )
+                : Container(),
           ],
         ),
       ),

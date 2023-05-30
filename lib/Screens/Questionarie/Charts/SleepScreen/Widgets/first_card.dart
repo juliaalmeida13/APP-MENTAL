@@ -1,3 +1,5 @@
+import 'package:app_mental/Screens/Questionarie/Charts/SleepScreen/Widgets/time_and_text.dart';
+import 'package:app_mental/Screens/Questionarie/Charts/SleepScreen/Widgets/time_and_text_final.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -122,55 +124,15 @@ class _FirstCardState extends State<FirstCard> {
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
-                                Row(
-                                  children: [
-                                    Icon(
-                                      CupertinoIcons.moon,
-                                      color: Colors.blue,
-                                    ),
-                                    Expanded(
-                                      child: Column(
-                                        children: [
-                                          FittedBox(
-                                            child: Text(
-                                              "${widget.gotoBed} PM",
-                                              style: TextStyle(
-                                                  color: Colors.blue,
-                                                  fontSize: 20),
-                                            ),
-                                          ),
-                                          FittedBox(
-                                            child: Text("Horário do adormecer"),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
+                                TimeAndText(
+                                  icon: CupertinoIcons.moon,
+                                  time: widget.gotoBed,
+                                  text: "Horário do adormecer",
                                 ),
-                                Row(
-                                  children: [
-                                    Icon(
-                                      CupertinoIcons.cloud_sun,
-                                      color: Colors.blue,
-                                    ),
-                                    Expanded(
-                                      child: Column(
-                                        children: [
-                                          FittedBox(
-                                            child: Text(
-                                              "${widget.wakeUpTime} AM",
-                                              style: TextStyle(
-                                                  color: Colors.blue,
-                                                  fontSize: 20),
-                                            ),
-                                          ),
-                                          FittedBox(
-                                            child: Text("Horário do despertar"),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
+                                TimeAndText(
+                                  icon: CupertinoIcons.cloud_sun,
+                                  time: widget.wakeUpTime,
+                                  text: "Horário do despertar",
                                 ),
                               ],
                             ),
@@ -200,30 +162,10 @@ class _FirstCardState extends State<FirstCard> {
                                             "Despertares noturnos")),
                                   ],
                                 ),
-                                Row(
-                                  children: [
-                                    Icon(
-                                      Icons.access_time_outlined,
-                                      color: Colors.blue,
-                                    ),
-                                    Expanded(
-                                      child: Column(
-                                        children: [
-                                          FittedBox(
-                                            child: Text(
-                                              "${widget.timeAwake} min",
-                                              style: TextStyle(
-                                                  color: Colors.blue,
-                                                  fontSize: 20),
-                                            ),
-                                          ),
-                                          FittedBox(
-                                              child: Text(
-                                                  "Tempo total do despertar")),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
+                                TimeAndText(
+                                  icon: Icons.access_time_outlined,
+                                  time: widget.timeAwake,
+                                  text: "Tempo total do despertar",
                                 ),
                               ],
                             ),
@@ -234,33 +176,10 @@ class _FirstCardState extends State<FirstCard> {
                   ),
                 ),
                 Expanded(
-                  child: Container(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.access_time_filled,
-                                color: Colors.blue,
-                              ),
-                              Column(
-                                children: [
-                                  Text(
-                                    widget.totalTimeSleep,
-                                    style: TextStyle(
-                                        color: Colors.blue, fontSize: 22),
-                                  ),
-                                  FittedBox(child: Text("Tempo total de sono")),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
+                  child: TimeAndTextFinal(
+                    icon: Icons.access_time_filled,
+                    time: widget.totalTimeSleep,
+                    text: "Tempo total de sono",
                   ),
                 ),
               ]),
