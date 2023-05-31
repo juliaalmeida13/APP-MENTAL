@@ -2,11 +2,11 @@ import 'package:app_mental/constants.dart';
 import 'package:flutter/material.dart';
 
 // Cria um card para representar as escalas/questionários do usuário
-class AllQuizCard extends StatelessWidget {
+class GenericQuizCard extends StatelessWidget {
   final String title;
   final VoidCallback onTap;
 
-  const AllQuizCard({Key? key, required this.title, required this.onTap})
+  const GenericQuizCard({Key? key, required this.title, required this.onTap})
       : super(key: key);
 
   @override

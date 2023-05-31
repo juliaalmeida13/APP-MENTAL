@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import '../../../../constants.dart';
 import '../../../../helper/constants.dart';
 import '../../../../model/sleep_diary.dart';
-import 'Widgets/first_card.dart';
-import 'Widgets/second_card.dart';
+import 'Widgets/efficiency_card.dart';
+import 'Widgets/more_info_card.dart';
 
 class ChartSleepScreen extends StatefulWidget {
   static const routeName = '/chart-sleep-screen';
@@ -114,7 +114,7 @@ class _ChartSleepScreenState extends State<ChartSleepScreen> {
                       SizedBox(
                         height: 20,
                       ),
-                      FirstCard(
+                      EfficiencyCard(
                         sleepyTime: getHourFormatted(getSleepyTime()),
                         wakeUpTime: getHourFormatted(sleepData.wakeUpTime),
                         timesWokeUp: sleepData.timesWokeUp!,
@@ -127,7 +127,7 @@ class _ChartSleepScreenState extends State<ChartSleepScreen> {
                       SizedBox(
                         height: 20,
                       ),
-                      SecondCard(
+                      MoreInfoCard(
                         tryToSleep: getHourFormatted(sleepData.tryToSleep),
                         gotoBed: getHourFormatted(sleepData.gotoBed),
                         spendInBed: getHourInMinutes(sleepData.spendInBed),

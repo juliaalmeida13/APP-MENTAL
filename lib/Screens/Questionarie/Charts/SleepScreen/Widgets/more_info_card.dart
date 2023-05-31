@@ -1,17 +1,16 @@
 import 'package:app_mental/Screens/Questionarie/Charts/SleepScreen/Widgets/time_and_text.dart';
 import 'package:app_mental/Screens/Questionarie/Charts/SleepScreen/Widgets/time_and_text_final.dart';
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class SecondCard extends StatefulWidget {
+class MoreInfoCard extends StatefulWidget {
   final String tryToSleep;
   final String gotoBed;
   final String spendInBed;
   final String whileToSleep;
   final String sleepDuringDay;
 
-  SecondCard(
+  MoreInfoCard(
       {required this.tryToSleep,
       required this.gotoBed,
       required this.spendInBed,
@@ -19,10 +18,10 @@ class SecondCard extends StatefulWidget {
       required this.sleepDuringDay});
 
   @override
-  State<SecondCard> createState() => _SecondCardState();
+  State<MoreInfoCard> createState() => _MoreInfoCardState();
 }
 
-class _SecondCardState extends State<SecondCard> {
+class _MoreInfoCardState extends State<MoreInfoCard> {
   @override
   Widget build(BuildContext context) {
     return Container(

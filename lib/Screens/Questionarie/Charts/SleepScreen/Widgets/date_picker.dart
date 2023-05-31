@@ -1,3 +1,4 @@
+import 'package:app_mental/helper/date_util.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -32,13 +33,12 @@ class _DatePickerState extends State<DatePicker> {
     );
     if (pickedDate != null) {
       SleepService()
-          .getSleepQuestionnaireAnswersApp(Constants.myEmail,
-              DateFormat("yyyy-MM-dd").format(pickedDate).toString())
+          .getSleepQuestionnaireAnswersApp(
+              Constants.myEmail, pickedDate.toString().substring(0, 10))
           .then((value) {
         setState(() {
           widget.setSleepData(value);
-          dateController.text =
-              DateFormat("dd/MM/yyyy").format(pickedDate).toString();
+          dateController.text = formatDatePtBr(pickedDate);
         });
       });
     }
@@ -46,25 +46,23 @@ class _DatePickerState extends State<DatePicker> {
 
   goOneDayFoward() {
     if (dateController.text != "" &&
-        DateFormat("dd/MM/yyyy").format(
+        formatDatePtBr(
                 widget.questionnaireAnswerDates[widget.lastDayAnswered - 1]) !=
             dateController.text) {
       for (int i = 0; i < widget.questionnaireAnswerDates.length; i++) {
         if (dateController.text ==
-            DateFormat("dd/MM/yyyy")
-                .format(widget.questionnaireAnswerDates[i])) {
+            formatDatePtBr(widget.questionnaireAnswerDates[i])) {
           SleepService()
               .getSleepQuestionnaireAnswersApp(
                   Constants.myEmail,
-                  DateFormat("yyyy-MM-dd")
-                      .format(widget.questionnaireAnswerDates[i + 1])
-                      .toString())
+                  widget.questionnaireAnswerDates[i + 1]
+                      .toString()
+                      .substring(0, 10))
               .then((value) {
             setState(() {
               widget.setSleepData(value);
-              dateController.text = DateFormat("dd/MM/yyyy")
-                  .format(widget.questionnaireAnswerDates[i + 1])
-                  .toString();
+              dateController.text =
+                  formatDatePtBr(widget.questionnaireAnswerDates[i + 1]);
             });
             return;
           });
@@ -75,24 +73,22 @@ class _DatePickerState extends State<DatePicker> {
 
   goOneDayBack() {
     if (dateController.text != "" &&
-        DateFormat("dd/MM/yyyy").format(widget.questionnaireAnswerDates[0]) !=
+        formatDatePtBr(widget.questionnaireAnswerDates[0]) !=
             dateController.text) {
       for (int i = 0; i < widget.questionnaireAnswerDates.length; i++) {
         if (dateController.text ==
-            DateFormat("dd/MM/yyyy")
-                .format(widget.questionnaireAnswerDates[i])) {
+            formatDatePtBr(widget.questionnaireAnswerDates[i])) {
           SleepService()
               .getSleepQuestionnaireAnswersApp(
                   Constants.myEmail,
-                  DateFormat("yyyy-MM-dd")
-                      .format(widget.questionnaireAnswerDates[i - 1])
-                      .toString())
+                  widget.questionnaireAnswerDates[i - 1]
+                      .toString()
+                      .substring(0, 10))
               .then((value) {
             setState(() {
               widget.setSleepData(value);
-              dateController.text = DateFormat("dd/MM/yyyy")
-                  .format(widget.questionnaireAnswerDates[i - 1])
-                  .toString();
+              dateController.text =
+                  formatDatePtBr(widget.questionnaireAnswerDates[i - 1]);
             });
             return;
           });

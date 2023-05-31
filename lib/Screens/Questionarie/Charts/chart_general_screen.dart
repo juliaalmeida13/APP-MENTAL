@@ -16,6 +16,11 @@ class _ChartGeneralScreenState extends State<ChartGeneralScreen> {
     super.initState();
   }
 
+  goBackPage(BuildContext context) {
+    Navigator.of(context).popUntil(ModalRoute.withName('/logged-home'));
+    Navigator.of(context).pushNamed("/quests-screen");
+  }
+
   @override
   Widget build(BuildContext context) {
     final routeArgs =
@@ -30,10 +35,7 @@ class _ChartGeneralScreenState extends State<ChartGeneralScreen> {
         shadowColor: Color.fromRGBO(1, 1, 1, 0),
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.of(context).popUntil(ModalRoute.withName('/logged-home'));
-            Navigator.of(context).pushNamed("/quests-screen");
-          },
+          onPressed: () => goBackPage(context),
         ),
       ),
       body: SingleChildScrollView(

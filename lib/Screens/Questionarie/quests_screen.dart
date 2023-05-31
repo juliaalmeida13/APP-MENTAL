@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import '../../Services/sleepService.dart';
 import '../../constants.dart';
 import '../../model/scale.dart';
-import 'Widgets/all_quest_room_tile.dart';
+import 'Widgets/generic_quest_room_tile.dart';
 import 'Widgets/quest_room_tile.dart';
 
 // Constroi a tela da lista de cards de escalas/questionários disponíveis ao usuário
@@ -47,7 +47,7 @@ class _QuestsScreenState extends State<QuestsScreen> {
     return ListView.builder(
       itemCount: scaleList.length,
       itemBuilder: (context, index) {
-        return AllQuestRoomTile(scaleList[index].questionnaireName!,
+        return GenericQuestRoomTile(scaleList[index].questionnaireName!,
             scaleList[index].questionnaireCode!, Constants.myEmail);
       },
     );
