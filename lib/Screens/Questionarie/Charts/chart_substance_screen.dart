@@ -45,7 +45,7 @@ class _ChartSubstanceScreenState extends State<ChartSubstanceScreen> {
             canTapOnHeader: true,
             isExpanded: isOpen[i]),
       );
-    } //beck,dragon quest
+    }
     return expansionPanelList;
   }
 

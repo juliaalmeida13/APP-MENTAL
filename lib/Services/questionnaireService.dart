@@ -54,9 +54,12 @@ class QuestionnaireService {
     throw HttpException(error.message.toString());
   }
 
-  Future<void> discardAllAnswers(String email, String code) async {
-    final response = await Api().post("discardAllAnswers",
-        jsonEncode(<String, dynamic>{'email': email, 'code': code}));
+  Future<void> discardAllAnswers(
+      String email, String code, String scale) async {
+    final response = await Api().post(
+        "discardAllAnswers",
+        jsonEncode(
+            <String, dynamic>{'email': email, 'code': code, 'scale': scale}));
     if (response.statusCode != 200) {
       final error =
           ApiError.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));

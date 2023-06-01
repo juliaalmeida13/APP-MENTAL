@@ -62,7 +62,9 @@ class _SubstanceChartState extends State<SubstanceChart> {
                   ),
                 ],
               )
-            : Text("Sem dados"),
+            : Align(
+                alignment: Alignment.center,
+                child: Text("Sem dados", style: TextStyle(fontSize: 16))),
       ),
     );
   }
@@ -89,20 +91,28 @@ class ChartLine extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                color: Colors.lightBlue,
-                height: 50,
-                width: (MediaQuery.of(context).size.width - 65) * percentage,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text(
-                      week,
-                      style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+              Stack(
+                children: [
+                  Container(
+                    color: Colors.lightBlue,
+                    height: 50,
+                    width:
+                        (MediaQuery.of(context).size.width - 65) * percentage,
+                  ),
+                  Container(
+                    height: 50,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          week,
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.w500),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ],
           ),

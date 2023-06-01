@@ -26,8 +26,8 @@ class _DatePickerState extends State<DatePicker> {
     DateTime? pickedDate = await showDatePicker(
       context: context,
       initialDate: widget.questionnaireAnswerDates[widget.lastDayAnswered - 1],
-      firstDate: DateTime(2000),
-      lastDate: DateTime(2101),
+      firstDate: DateTime(2000, 1, 1),
+      lastDate: DateTime(2101, 12, 31),
       selectableDayPredicate: (DateTime day) =>
           widget.questionnaireAnswerDates.contains(day),
     );
