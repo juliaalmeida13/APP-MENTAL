@@ -87,10 +87,6 @@ class _QuestsScreenState extends State<QuestsScreen> {
         .then((questionnairesNames) {
       setState(() {
         allAnsweredQuests.addAll(questionnairesNames);
-        allAnsweredQuests.add(Scale.fromJson({
-          "questionnaireCode": "sleepQuestionnaire",
-          "questionnaireName": "Diário do Sono",
-        }));
       });
     }).catchError((error) {
       print(error);
