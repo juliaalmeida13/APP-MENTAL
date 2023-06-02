@@ -1,12 +1,16 @@
 import 'package:app_mental/Screens/Reading/Text/Widgets/text_card.dart';
 import 'package:app_mental/Screens/Reading/Text/Widgets/video_player.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../model/reading.dart';
+import '../text_screen.dart';
+
 class TextBody extends StatefulWidget {
-  TextBody(this.text);
+  TextBody(this.text, this.relatedReadingList, this.verifyNotificationList);
 
   final String text;
+  final List<Reading> relatedReadingList;
+  final Function verifyNotificationList;
 
   @override
   State<TextBody> createState() => _TextBodyState();
@@ -40,6 +44,25 @@ class _TextBodyState extends State<TextBody> {
     }
   }
 
+  goToRelatedReading(Reading reading) {
+    widget.verifyNotificationList(reading.name, reading.group);
+    Navigator.pop(context);
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) {
+          return TextScreen(
+            title: reading.name,
+            text: reading.text,
+            id: reading.id,
+            relatedReadings: reading.idRelatedReading,
+            verifyNotificationList: widget.verifyNotificationList,
+          );
+        },
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -69,6 +92,56 @@ class _TextBodyState extends State<TextBody> {
                     ),
                   ),
                 ),
+                Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: Text(
+                    "Materiais Educativos Relacionados",
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
+                  ),
+                ),
+                Container(
+                  height: 200,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: widget.relatedReadingList.length,
+                    itemBuilder: (context, index) {
+                      Reading reading = widget.relatedReadingList[index];
+                      return Padding(
+                        padding: EdgeInsets.only(left: 10, right: 30),
+                        child: Container(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                color: Colors.blue,
+                                width: 100,
+                                height: 100,
+                                child: Align(
+                                    alignment: Alignment.center,
+                                    child: Text("Image")),
+                              ),
+                              Container(
+                                width: 100,
+                                height: 30,
+                                child: Text(
+                                  reading.name,
+                                  style: TextStyle(fontSize: 14),
+                                ),
+                              ),
+                              TextButton(
+                                onPressed: () => goToRelatedReading(reading),
+                                child: Text(
+                                  "Acessar ->",
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
               ],
             ),
           ),
@@ -77,3 +150,12 @@ class _TextBodyState extends State<TextBody> {
     );
   }
 }
+
+
+
+
+
+
+
+
+//lixo

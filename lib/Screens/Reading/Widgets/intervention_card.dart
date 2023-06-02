@@ -43,15 +43,15 @@ class _InterventionCardState extends State<InterventionCard> {
         : Container();
   }
 
-  verifyUserReadingNotification() {
+  verifyUserReadingNotification(String readingName, String readingGroup) {
     List<ReadingRelUserDTO> listToRemoveNotification = [];
     widget.notificationList.forEach((element) {
-      if (widget.reading.name == element.name) {
+      if (readingName == element.name) {
         listToRemoveNotification.add(element);
       }
     });
     HelperFunctions.getUserEmailInSharedPreference().then((email) {
-      ReadingService().readingIsRead(email, widget.reading.name, widget.group);
+      ReadingService().readingIsRead(email, readingName, readingGroup);
     });
     if (listToRemoveNotification.isNotEmpty) {
       widget.callback(listToRemoveNotification[0]);
@@ -63,7 +63,8 @@ class _InterventionCardState extends State<InterventionCard> {
     Size size = MediaQuery.of(context).size;
     return new GestureDetector(
       onTap: () {
-        verifyUserReadingNotification();
+        verifyUserReadingNotification(
+            widget.reading.name, widget.reading.group);
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -72,6 +73,8 @@ class _InterventionCardState extends State<InterventionCard> {
                 title: widget.reading.name,
                 text: widget.reading.text,
                 id: widget.reading.id,
+                relatedReadings: widget.reading.idRelatedReading,
+                verifyNotificationList: verifyUserReadingNotification,
               );
             },
           ),

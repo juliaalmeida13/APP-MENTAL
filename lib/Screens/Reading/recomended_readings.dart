@@ -18,10 +18,14 @@ class RecomendedReadings extends StatefulWidget {
 class _RecomendedReadingsState extends State<RecomendedReadings> {
   List<String> readingGroupList = [];
   List<ReadingRelUserDTO> notificationList = [];
+  List<int> groupSizeList = [];
+  bool isLoading = true;
 
   @override
   void initState() {
-    verifyReadingDatabase().then((_) => getReadingGroupList());
+    verifyReadingDatabase().then((_) {
+      getReadingGroupList().whenComplete(() => getReadingGroupSize());
+    });
     getReadingNotificationList();
     super.initState();
   }
@@ -41,12 +45,27 @@ class _RecomendedReadingsState extends State<RecomendedReadings> {
   getReadingGroupList() async {
     await ReadingDatabase.instance.getReadingGroups().then((groups) {
       List<String> newGroupList = [];
-      groups.forEach((element) {
-        newGroupList.add(element['group'].toString());
-      });
+      for (int i = 0; i < groups.length; i++) {
+        newGroupList.add(groups[i]['group'].toString());
+      }
       setState(() {
         readingGroupList = newGroupList;
       });
+    });
+  }
+
+  getReadingGroupSize() async {
+    for (int i = 0; i < readingGroupList.length; i++) {
+      await ReadingDatabase.instance
+          .getReadingGroupSize(readingGroupList[i])
+          .then((value) {
+        setState(() {
+          groupSizeList.add(value);
+        });
+      });
+    }
+    setState(() {
+      isLoading = false;
     });
   }
 
@@ -124,6 +143,11 @@ class _RecomendedReadingsState extends State<RecomendedReadings> {
     );
   }
 
+  goBackPage(BuildContext context) {
+    Navigator.of(context).popUntil(ModalRoute.withName('/logged-home'));
+    Navigator.of(context).pushNamed("/logged-home");
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -133,20 +157,31 @@ class _RecomendedReadingsState extends State<RecomendedReadings> {
         shadowColor: Color.fromRGBO(1, 1, 1, 0),
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.of(context).popUntil(ModalRoute.withName('/logged-home'));
-            Navigator.of(context).pushNamed("/logged-home");
-          },
+          onPressed: () => goBackPage(context),
         ),
       ),
       body: SafeArea(
-        child: Column(
-          children: [
-            GroupReadingCardsList(
-                readingGroupList: readingGroupList,
-                notificationList: notificationList)
-          ],
-        ),
+        child: isLoading
+            ? Container(
+                width: double.infinity,
+                height: double.infinity,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    CircularProgressIndicator(),
+                  ],
+                ),
+              )
+            : Column(
+                children: [
+                  GroupReadingCardsList(
+                    readingGroupList: readingGroupList,
+                    notificationList: notificationList,
+                    groupSizeList: groupSizeList,
+                  )
+                ],
+              ),
       ),
     );
   }
