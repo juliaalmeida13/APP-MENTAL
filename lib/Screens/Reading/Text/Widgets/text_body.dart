@@ -150,12 +150,3 @@ class _TextBodyState extends State<TextBody> {
     );
   }
 }
-
-
-
-
-
-
-
-
-//lixo

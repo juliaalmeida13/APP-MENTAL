@@ -6,7 +6,6 @@ import 'package:app_mental/Screens/EditProfile/edit_profile_screen.dart';
 import 'package:app_mental/Screens/Contacts/contacts_screen.dart';
 import 'package:app_mental/Screens/MemoryGamePage/memory_game_screen.dart';
 import 'package:app_mental/Screens/Questionarie/quests_screen.dart';
-import 'package:app_mental/Screens/Reading/Widgets/intervention_card.dart';
 import 'package:app_mental/Screens/SleepDiary/sleep_diary.dart';
 import 'package:app_mental/Screens/Tutorial/tutorial_screen.dart';
 import 'package:app_mental/escalas/question_screen.dart';
