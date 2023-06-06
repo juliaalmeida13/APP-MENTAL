@@ -9,7 +9,6 @@ import 'package:app_mental/Screens/Questionarie/Charts/chart_general_screen.dart
 import 'package:app_mental/Screens/Questionarie/quests_screen.dart';
 import 'package:app_mental/Screens/SleepDiary/sleep_diary.dart';
 import 'package:app_mental/Screens/Tutorial/tutorial_screen.dart';
-import 'package:app_mental/Screens/Questionarie/Charts/chart_week_screen.dart';
 import 'package:app_mental/escalas/question_screen.dart';
 import 'package:app_mental/helper/helperfuncions.dart';
 import 'package:flutter/material.dart';
@@ -91,7 +90,6 @@ class _MyAppState extends State<MyApp> {
         "/contacts-chat-screen": (ctx) => ContactChatScreen(),
         "/memory_game_screen": (ctx) => MemoryGameScreen(),
         "/chat-room-screen": (ctx) => ChatRoom(),
-        "/chart-result-screen": (ctx) => ChartWeekScreen(),
         "/chart-general-screen": (ctx) => ChartGeneralScreen(),
         "/chart-promis-screen": (ctx) => ChartPromisScreen(),
         "/chart-substance-screen": (ctx) => ChartSubstanceScreen(),

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import '../../../Services/questionnaireService.dart';
 import '../../../escalas/question_screen.dart';
 import '../../../model/answers.dart';
-import '../Charts/chart_week_screen.dart';
 import 'quiz_card.dart';
 
 class QuestRoomTile extends StatelessWidget {
@@ -86,7 +85,7 @@ class QuestRoomTile extends StatelessWidget {
             title: questName,
             completed: "Completado!",
             answeredAt: answeredAt,
-            onTap: () {/*push para a tela chart_sleep_screen*/});
+            onTap: () {});
       }
     } else if (unanswered == false) {
       return QuizCard(
@@ -94,16 +93,7 @@ class QuestRoomTile extends StatelessWidget {
           title: "$questName - $week",
           completed: "Completado!",
           answeredAt: answeredAt,
-          onTap: () {
-            /*push para a tela com só a resposta da semana*/
-            Navigator.of(context)
-                .pushNamed(ChartWeekScreen.routeName, arguments: {
-              'title': "$questName - $week",
-              'questName': "$questName",
-              'questCode': "$questCode",
-              /*TODO get dados*/
-            });
-          });
+          onTap: () {});
     } else {
       return Container();
     }
