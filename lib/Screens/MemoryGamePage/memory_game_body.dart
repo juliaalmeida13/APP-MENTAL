@@ -11,27 +11,60 @@ class MemoryGameBody extends StatefulWidget {
 
 class _MemoryGameBodyState extends State<MemoryGameBody> {
   static final int cardsQuantity = 8;
-  List<String> textList = [
-    "Lorem ipsum dolor sit amet. Est voluptatem soluta",
-    "Excepturi quibusdam et cupiditate cupiditate sit debitis",
-    "At eveniet voluptate et beatae",
-    "Et voluptatum voluptas ut deserunt nihil",
-    "Ut omnis doloribus non alias praesentium et eaque",
-    "quibusdam in odio nisi",
-    "Quis ipsam vel doloremque impedit qui enim fugit",
-    "Aut consequuntur tempore ab consequatur facere sit facilis"
+  List<Map<String, String>> textList = [
+    {
+      "name": "Autoestima",
+      "description":
+          "É o apreço que o indivíduo sente por ele mesmo, com base em um conjunto de valores compreendidos por ele como positivos ou negativos"
+    },
+    {
+      "name": "Autoimagem",
+      "description":
+          "É a forma como o indivíduo se vê, não só fisicamente, mas emocional, social, cognitivamente e nos diversos papéis que exerce na vida"
+    },
+    {
+      "name": "Coragem",
+      "description":
+          "É a capacidade do indivíduo de agir em situações desafiadoras, que causam medo ou insegurança"
+    },
+    {
+      "name": "Compaixão",
+      "description":
+          "É a capacidade do indivíduo em sentir amor e interesse pelo próximo e demonstrar gentileza e disponibilidade para ajudar sempre que necessário"
+    },
+    {
+      "name": "Tristeza",
+      "description":
+          "É um sentimento que se caracteriza pelo desconforto consigo mesmo ou com outras pessoas, sensação de que a vida ou o dia a dia pode ficar difícil e pesado, sensação de vazio ou falta de sentido"
+    },
+    {
+      "name": "Empatia",
+      "description":
+          "É a capacidade de reconhecer ou perceber na outra pessoa características, necessidades e dores que você também teria ou sentiria"
+    },
+    {
+      "name": "Alegria",
+      "description":
+          "É um sentimento de contentamento consigo, com as pessoas ou com as coisas, uma sensação de prazer e realização"
+    },
+    {
+      "name": "Raiva",
+      "description":
+          "É um sentimento caracterizado por reação de fúria e agressividade contra si ou contra o outro"
+    },
   ];
   List<String> randomicTextList = List<String>.filled(cardsQuantity, "");
   List<bool> blockedFlipCard = List<bool>.filled(cardsQuantity, false);
   List<double> angleCard = List<double>.filled(cardsQuantity, 0);
   List<int> selectedCardList = [];
   bool initialFlipBlock = true;
+  int errorsCount = 0;
 
   @override
   initState() {
     super.initState();
     randomTheCards();
-    Timer(Duration(seconds: 10), () => startGame());
+    Timer(Duration(seconds: 15), () => startGame());
   }
 
   startGame() {
@@ -52,8 +85,9 @@ class _MemoryGameBodyState extends State<MemoryGameBody> {
           randomicNumber2 != randomicNumber &&
           randomicTextList[randomicNumber2] == "" &&
           randomicTextList[randomicNumber] == "") {
-        randomicTextList[randomicNumber] = textList[randomicNumber];
-        randomicTextList[randomicNumber2] = textList[randomicNumber];
+        randomicTextList[randomicNumber] = textList[randomicNumber]['name']!;
+        randomicTextList[randomicNumber2] =
+            textList[randomicNumber]['description']!;
         i++;
       }
     }
@@ -64,15 +98,28 @@ class _MemoryGameBodyState extends State<MemoryGameBody> {
       selectedCardList.add(cardIndex);
     }
     if (selectedCardList.length == 2) {
-      if (randomicTextList[selectedCardList[0]] ==
-              randomicTextList[selectedCardList[1]] &&
-          selectedCardList[0] != selectedCardList[1]) {
+      bool match = false;
+      for (int i = 0; i < textList.length; i++) {
+        if (randomicTextList[selectedCardList[0]] == textList[i]['name'] &&
+            randomicTextList[selectedCardList[1]] ==
+                textList[i]['description']) {
+          match = true;
+        } else if (randomicTextList[selectedCardList[0]] ==
+                textList[i]['description'] &&
+            randomicTextList[selectedCardList[1]] == textList[i]['name']) {
+          match = true;
+        }
+      }
+      if (match) {
         setState(() {
           blockedFlipCard[selectedCardList[0]] = true;
           blockedFlipCard[selectedCardList[1]] = true;
         });
       } else {
         flipWrongMatch(selectedCardList[0], selectedCardList[1]);
+        setState(() {
+          errorsCount++;
+        });
       }
       selectedCardList.clear();
     }
@@ -94,31 +141,72 @@ class _MemoryGameBodyState extends State<MemoryGameBody> {
     Navigator.of(context).pushNamed("/memory_game_screen");
   }
 
+  String getScore() {
+    if (errorsCount == 0) {
+      return "Perfeita";
+    } else if (errorsCount <= 3) {
+      return "Ótima";
+    } else if (errorsCount <= 6 && errorsCount > 3) {
+      return "Mediana";
+    } else {
+      return "Ruim";
+    }
+  }
+
   Widget showVictory(BuildContext context) {
     return AlertDialog(
       title: Center(child: Text('Vitória!')),
-      content: Text('Deseja jogar novamente?'),
-      actions: <Widget>[
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      content: Container(
+        height: MediaQuery.of(context).size.height * 0.10,
+        child: Column(
           children: [
-            Padding(
-              padding: EdgeInsets.all(8.0),
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
-                child: Text("Não"),
-                onPressed: () => goHomePage(context),
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Text(
+                  "Pontuação: ${getScore()}",
+                  style: TextStyle(fontSize: 14),
+                ),
+                Text(
+                  "Erros: $errorsCount",
+                  style: TextStyle(fontSize: 14),
+                ),
+              ],
             ),
-            Padding(
-              padding: EdgeInsets.all(8.0),
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
-                child: Text("Sim"),
-                onPressed: () => goMemoryGame(context),
-              ),
+            SizedBox(
+              height: 20,
             ),
+            Align(
+                alignment: Alignment.center,
+                child: Text('Deseja jogar novamente?')),
           ],
+        ),
+      ),
+      actions: <Widget>[
+        Container(
+          height: MediaQuery.of(context).size.height * 0.08,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Padding(
+                padding: EdgeInsets.all(8.0),
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+                  child: Text("Não"),
+                  onPressed: () => goHomePage(context),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.all(8.0),
+                child: ElevatedButton(
+                  style:
+                      ElevatedButton.styleFrom(backgroundColor: Colors.green),
+                  child: Text("Sim"),
+                  onPressed: () => goMemoryGame(context),
+                ),
+              ),
+            ],
+          ),
         ),
       ],
     );
