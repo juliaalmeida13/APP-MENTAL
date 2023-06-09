@@ -1,6 +1,7 @@
 import 'package:app_mental/helper/date_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sound/flutter_sound.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'dart:io';
 import 'package:app_mental/classes/audioDiaryClass.dart';
@@ -42,6 +43,7 @@ class _AlertNewDiaryEntryState extends State<AlertNewDiaryEntry> {
   }
 
   Future initRecorder() async {
+    await Permission.storage.request();
     final status = await Permission.microphone.request();
     if (status != PermissionStatus.granted) {
       throw 'Permission not granted';
@@ -51,8 +53,19 @@ class _AlertNewDiaryEntryState extends State<AlertNewDiaryEntry> {
   }
 
   Future startRecord() async {
-    await recorder.startRecorder(
-        toFile: "${getDateNow()}.aac", codec: Codec.aacMP4);
+    String url = await getCurrentUrl("${getDateNow()}.aac");
+    await recorder.startRecorder(toFile: url, codec: Codec.aacMP4);
+  }
+
+  Future<String> getCurrentUrl(String url) async {
+    if (Platform.isIOS) {
+      String a = url.substring(url.indexOf("Documents/") + 10, url.length);
+      Directory dir = await getApplicationDocumentsDirectory();
+      a = "${dir.path}/$a";
+      return a;
+    } else {
+      return url;
+    }
   }
 
   Future stopRecorder() async {

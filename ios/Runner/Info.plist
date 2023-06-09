@@ -47,5 +47,15 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+    <key>NSMicrophoneUsageDescription</key>
+    <string>Need microphone access for uploading audio</string>
+    <key>NSCameraUsageDescription</key>
+    <string>Need camera access for uploading images</string>
+    <key>NSLocationUsageDescription</key>
+    <string>Need location access for updating nearby friends</string>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>This app will use your location to show features near you.</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>Need photo library access for saving and uploading images</string>
 </dict>
 </plist>

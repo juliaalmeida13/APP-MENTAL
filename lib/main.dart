@@ -11,6 +11,7 @@ import 'package:app_mental/Screens/SleepDiary/sleep_diary.dart';
 import 'package:app_mental/Screens/Tutorial/tutorial_screen.dart';
 import 'package:app_mental/escalas/question_screen.dart';
 import 'package:app_mental/helper/helperfuncions.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter/services.dart';
@@ -25,11 +26,18 @@ import 'Screens/ResetPassword/reset_password.dart';
 import 'Screens/SignIn/signin.dart';
 import 'Screens/Reading/recomended_readings.dart';
 
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  print("Handling a background message: ${message.messageId}");
+}
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // await Firebase.initializeApp();
-  runApp(
-    MyApp(),
+  await Firebase.initializeApp();
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  initializeDateFormatting('pt_BR', null).then(
+    (_) => runApp(
+      MyApp(),
+    ),
   );
   await dotenv.load(fileName: "lib/.env");
 }
