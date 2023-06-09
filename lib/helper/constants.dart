@@ -31,5 +31,6 @@ enum QuestionnaireCode {
   phq15,
   psqi,
   assist,
-  assistn2
+  assistn2,
+  sleepQuestionnaire
 }

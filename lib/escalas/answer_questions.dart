@@ -45,7 +45,7 @@ class AnswerQuestions extends StatelessWidget {
 
   discartChanges(BuildContext context) async {
     QuestionnaireService()
-        .discardAllAnswers(userEmail, QuestionnaireCode.pn1.name)
+        .discardAllAnswers(userEmail, QuestionnaireCode.pn1.name, scale)
         .then((_) {
       Navigator.of(context).popUntil(ModalRoute.withName('/logged-home'));
       Navigator.of(context).pushNamed("/quests-screen");
