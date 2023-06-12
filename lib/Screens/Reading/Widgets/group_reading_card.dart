@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../../../model/reading_rel_user_dto.dart';
 
@@ -56,11 +59,8 @@ class _GroupReadingCardState extends State<GroupReadingCard> {
             children: [
               Expanded(
                 flex: 3,
-                child: Column(
-                  children: [
-                    Text("image"),
-                  ],
-                ),
+                child:
+                    Container(child: Image.memory(base64Decode(widget.image))),
               ),
               Expanded(
                 flex: 5,

@@ -1,5 +1,6 @@
 import 'package:app_mental/Screens/Reading/Text/text_screen.dart';
 import 'package:app_mental/Services/readingService.dart';
+import 'package:app_mental/classes/reading_carousel_database.dart';
 import 'package:app_mental/constants.dart';
 import 'package:app_mental/helper/helperfuncions.dart';
 import 'package:flutter/material.dart';
@@ -58,28 +59,34 @@ class _InterventionCardState extends State<InterventionCard> {
     }
   }
 
+  chooseIntervention(BuildContext context) {
+    verifyUserReadingNotification(widget.reading.name, widget.reading.group);
+    ReadingCarouselDatabase.instance
+        .getImagesById(widget.reading.id!)
+        .then((carouselImages) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) {
+            return TextScreen(
+              title: widget.reading.name,
+              text: widget.reading.text,
+              id: widget.reading.id,
+              relatedReadings: widget.reading.idRelatedReading,
+              verifyNotificationList: verifyUserReadingNotification,
+              carouselImages: carouselImages,
+            );
+          },
+        ),
+      );
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return new GestureDetector(
-      onTap: () {
-        verifyUserReadingNotification(
-            widget.reading.name, widget.reading.group);
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) {
-              return TextScreen(
-                title: widget.reading.name,
-                text: widget.reading.text,
-                id: widget.reading.id,
-                relatedReadings: widget.reading.idRelatedReading,
-                verifyNotificationList: verifyUserReadingNotification,
-              );
-            },
-          ),
-        );
-      },
+      onTap: () => chooseIntervention(context),
       child: Container(
         margin: EdgeInsets.symmetric(
             horizontal: kDefaultPadding, vertical: kDefaultPadding / 2),

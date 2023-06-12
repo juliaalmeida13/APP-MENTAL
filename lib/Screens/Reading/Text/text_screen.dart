@@ -14,13 +14,15 @@ class TextScreen extends StatefulWidget {
       required this.text,
       required this.id,
       required this.relatedReadings,
-      required this.verifyNotificationList});
+      required this.verifyNotificationList,
+      required this.carouselImages});
 
   final String text;
   final String title;
   final int? id;
-  final String? relatedReadings;
+  final List<dynamic>? relatedReadings;
   final Function verifyNotificationList;
+  final List<String> carouselImages;
 
   @override
   State<TextScreen> createState() => _TextScreenState();
@@ -88,10 +90,9 @@ class _TextScreenState extends State<TextScreen> {
   getRelatedReadings() async {
     List<Reading> readingList = [];
     if (widget.relatedReadings != null) {
-      List<String> idList = widget.relatedReadings!.split(",");
-      for (int i = 0; i < idList.length; i++) {
+      for (int i = 0; i < widget.relatedReadings!.length; i++) {
         await ReadingDatabase.instance
-            .getReadingById(int.parse(idList[i]))
+            .getReadingById(widget.relatedReadings![i])
             .then((reading) {
           readingList.add(reading);
         });
@@ -130,8 +131,8 @@ class _TextScreenState extends State<TextScreen> {
         ],
       ),
       resizeToAvoidBottomInset: false,
-      body: TextBody(
-          widget.text, relatedReadingList, widget.verifyNotificationList),
+      body: TextBody(widget.text, relatedReadingList,
+          widget.verifyNotificationList, this.widget.carouselImages),
     );
   }
 }

@@ -4,7 +4,8 @@ class Reading {
   final String name;
   final String text;
   final int version;
-  final String? idRelatedReading;
+  final String? iconGroupImage;
+  final List<dynamic> idRelatedReading;
 
   Reading(
       {this.id,
@@ -12,6 +13,7 @@ class Reading {
       required this.name,
       required this.text,
       required this.version,
+      required this.iconGroupImage,
       required this.idRelatedReading});
 
   factory Reading.fromMap(Map<String, dynamic> json) => new Reading(
@@ -20,17 +22,20 @@ class Reading {
         name: json['name'],
         text: json['text'],
         version: json['version'],
+        iconGroupImage: json['iconGroupImage'],
         idRelatedReading: json['idRelatedReading'],
       );
 
   factory Reading.fromJson(Map<String, dynamic> json) {
     return Reading(
-        id: json['id'],
-        group: json['group'],
-        name: json['name'],
-        text: json['text'],
-        version: json['version'],
-        idRelatedReading: json['idRelatedReading']);
+      id: json['id'],
+      group: json['group'],
+      name: json['name'],
+      text: json['text'],
+      version: json['version'],
+      iconGroupImage: json['iconGroupImage'],
+      idRelatedReading: json['idRelatedReading'],
+    );
   }
 
   Map<String, dynamic> toMap() {
@@ -40,7 +45,8 @@ class Reading {
       'name': name,
       'text': text,
       'version': version,
-      'idRelatedReading': idRelatedReading
+      'iconGroupImage': iconGroupImage,
+      'idRelatedReading': idRelatedReading,
     };
   }
 }

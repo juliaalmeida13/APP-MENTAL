@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:app_mental/Screens/Reading/group_reading_cards.dart';
 import 'package:app_mental/Shared/Widgets/AppDrawer.dart';
 
+import '../../classes/reading_carousel_database.dart';
 import '../../classes/reading_database.dart';
 import '../../constants.dart';
 import '../../model/reading_rel_user_dto.dart';
@@ -17,6 +18,7 @@ class RecomendedReadings extends StatefulWidget {
 
 class _RecomendedReadingsState extends State<RecomendedReadings> {
   List<String> readingGroupList = [];
+  List<String> readingIconList = [];
   List<ReadingRelUserDTO> notificationList = [];
   List<int> groupSizeList = [];
   bool isLoading = true;
@@ -45,11 +47,16 @@ class _RecomendedReadingsState extends State<RecomendedReadings> {
   getReadingGroupList() async {
     await ReadingDatabase.instance.getReadingGroups().then((groups) {
       List<String> newGroupList = [];
+      List<String> newIconList = [];
       for (int i = 0; i < groups.length; i++) {
-        newGroupList.add(groups[i]['group'].toString());
+        newGroupList.add(groups[i]['group']);
+        newIconList.add(groups[i]['iconGroupImage'] == null
+            ? ""
+            : groups[i]['iconGroupImage']);
       }
       setState(() {
         readingGroupList = newGroupList;
+        readingIconList = newIconList;
       });
     });
   }
@@ -64,9 +71,6 @@ class _RecomendedReadingsState extends State<RecomendedReadings> {
         });
       });
     }
-    setState(() {
-      isLoading = false;
-    });
   }
 
   getReadingFromRemote() async {
@@ -75,6 +79,16 @@ class _RecomendedReadingsState extends State<RecomendedReadings> {
         ReadingDatabase.instance.add(remoteReading);
       });
       getReadingGroupList();
+    });
+    await ReadingService()
+        .getReadingsImageCarousel()
+        .then((remoteReadingsImage) {
+      remoteReadingsImage.forEach((remoteReading) {
+        ReadingCarouselDatabase.instance.add(remoteReading);
+      });
+    });
+    setState(() {
+      isLoading = false;
     });
   }
 
@@ -87,6 +101,10 @@ class _RecomendedReadingsState extends State<RecomendedReadings> {
           ReadingService().getReadingVersion().then((remoteVersion) {
             if (localVersion < remoteVersion) {
               updateDatabase(context);
+            } else {
+              setState(() {
+                isLoading = false;
+              });
             }
           });
         });
@@ -96,14 +114,18 @@ class _RecomendedReadingsState extends State<RecomendedReadings> {
 
   closeAlertDialog(BuildContext context) {
     Navigator.pop(context);
+    setState(() {
+      isLoading = false;
+    });
   }
 
   updateReadings(BuildContext context) async {
+    ReadingCarouselDatabase.instance.dropAllRows();
     ReadingDatabase.instance.dropAllRows().then((_) {
       getReadingFromRemote();
     });
     closeAlertDialog(context);
-    shorDialogOnSuccess(context);
+    showDialogOnSuccess(context);
   }
 
   updateDatabase(BuildContext context) {
@@ -127,7 +149,7 @@ class _RecomendedReadingsState extends State<RecomendedReadings> {
     );
   }
 
-  shorDialogOnSuccess(BuildContext context) {
+  showDialogOnSuccess(BuildContext context) {
     showDialog<String>(
       context: context,
       builder: (BuildContext context) => AlertDialog(
@@ -179,6 +201,7 @@ class _RecomendedReadingsState extends State<RecomendedReadings> {
                     readingGroupList: readingGroupList,
                     notificationList: notificationList,
                     groupSizeList: groupSizeList,
+                    readingIconList: readingIconList,
                   )
                 ],
               ),

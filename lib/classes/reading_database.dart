@@ -35,6 +35,7 @@ class ReadingDatabase {
           name STRING,
           text STRING,
           version INTEGER,
+          iconGroupImage STRING,
           idRelatedReading STRING
       )
       ''');
@@ -54,10 +55,12 @@ class ReadingDatabase {
     List<Map<String, dynamic>> readingRetrieved =
         await db.query('readings', where: 'id = "$idReading"');
     return new Reading(
+        id: readingRetrieved[0]['id'],
         group: readingRetrieved[0]['group'],
         name: readingRetrieved[0]['name'],
         text: readingRetrieved[0]['text'],
         version: readingRetrieved[0]['version'],
+        iconGroupImage: readingRetrieved[0]['iconGroupImage'],
         idRelatedReading: readingRetrieved[0]['idRelatedReading']);
   }
 
@@ -72,8 +75,8 @@ class ReadingDatabase {
 
   Future<List<Map>> getReadingGroups() async {
     Database db = await instance.database;
-    List<Map> reading =
-        await db.rawQuery('SELECT DISTINCT `group` FROM readings');
+    List<Map> reading = await db
+        .rawQuery('SELECT DISTINCT `group`, iconGroupImage  FROM readings');
     return reading;
   }
 
