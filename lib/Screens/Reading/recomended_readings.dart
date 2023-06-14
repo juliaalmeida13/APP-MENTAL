@@ -25,9 +25,7 @@ class _RecomendedReadingsState extends State<RecomendedReadings> {
 
   @override
   void initState() {
-    verifyReadingDatabase().then((_) {
-      getReadingGroupList().whenComplete(() => getReadingGroupSize());
-    });
+    verifyReadingDatabase();
     getReadingNotificationList();
     super.initState();
   }
@@ -58,6 +56,7 @@ class _RecomendedReadingsState extends State<RecomendedReadings> {
         readingGroupList = newGroupList;
         readingIconList = newIconList;
       });
+      getReadingGroupSize();
     });
   }
 
@@ -71,6 +70,9 @@ class _RecomendedReadingsState extends State<RecomendedReadings> {
         });
       });
     }
+    setState(() {
+      isLoading = false;
+    });
   }
 
   getReadingFromRemote() async {
@@ -87,9 +89,6 @@ class _RecomendedReadingsState extends State<RecomendedReadings> {
         ReadingCarouselDatabase.instance.add(remoteReading);
       });
     });
-    setState(() {
-      isLoading = false;
-    });
   }
 
   verifyReadingDatabase() async {
@@ -102,9 +101,7 @@ class _RecomendedReadingsState extends State<RecomendedReadings> {
             if (localVersion < remoteVersion) {
               updateDatabase(context);
             } else {
-              setState(() {
-                isLoading = false;
-              });
+              getReadingGroupList();
             }
           });
         });
@@ -113,10 +110,8 @@ class _RecomendedReadingsState extends State<RecomendedReadings> {
   }
 
   closeAlertDialog(BuildContext context) {
+    getReadingGroupList();
     Navigator.pop(context);
-    setState(() {
-      isLoading = false;
-    });
   }
 
   updateReadings(BuildContext context) async {
@@ -124,7 +119,7 @@ class _RecomendedReadingsState extends State<RecomendedReadings> {
     ReadingDatabase.instance.dropAllRows().then((_) {
       getReadingFromRemote();
     });
-    closeAlertDialog(context);
+    Navigator.pop(context);
     showDialogOnSuccess(context);
   }
 

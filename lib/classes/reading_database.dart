@@ -50,18 +50,23 @@ class ReadingDatabase {
     return readingList;
   }
 
-  Future<Reading> getReadingById(int idReading) async {
+  Future<List<Reading>> getListRelatedReading(
+      List<dynamic> idReadingList) async {
     Database db = await instance.database;
-    List<Map<String, dynamic>> readingRetrieved =
-        await db.query('readings', where: 'id = "$idReading"');
-    return new Reading(
-        id: readingRetrieved[0]['id'],
-        group: readingRetrieved[0]['group'],
-        name: readingRetrieved[0]['name'],
-        text: readingRetrieved[0]['text'],
-        version: readingRetrieved[0]['version'],
-        iconGroupImage: readingRetrieved[0]['iconGroupImage'],
-        idRelatedReading: readingRetrieved[0]['idRelatedReading']);
+    List<Reading> readingList = [];
+    idReadingList.forEach((idReading) async {
+      List<Map<String, dynamic>> readingRetrieved =
+          await db.query('readings', where: 'id = "$idReading"');
+      readingList.add(Reading(
+          id: readingRetrieved[0]['id'],
+          group: readingRetrieved[0]['group'],
+          name: readingRetrieved[0]['name'],
+          text: readingRetrieved[0]['text'],
+          version: readingRetrieved[0]['version'],
+          iconGroupImage: readingRetrieved[0]['iconGroupImage'],
+          idRelatedReading: readingRetrieved[0]['idRelatedReading']));
+    });
+    return readingList;
   }
 
   Future<List<Reading>> getReadingsByGroup(String group) async {

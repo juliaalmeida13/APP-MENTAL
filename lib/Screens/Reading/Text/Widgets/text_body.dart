@@ -1,9 +1,9 @@
 import 'dart:convert';
 
+import 'package:app_mental/Screens/Reading/Text/Widgets/carousel.dart';
 import 'package:app_mental/Screens/Reading/Text/Widgets/text_card.dart';
 import 'package:app_mental/Screens/Reading/Text/Widgets/video_player.dart';
 import 'package:flutter/material.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 
 import '../../../../classes/reading_carousel_database.dart';
 import '../../../../model/reading.dart';
@@ -88,32 +88,8 @@ class _TextBodyState extends State<TextBody> {
                     ? Column(
                         children: [
                           Container(
-                            child: CarouselSlider(
-                              options: CarouselOptions(
-                                  autoPlay: true,
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.3),
-                              items: widget.carouselImages.map((i) {
-                                return Builder(
-                                  builder: (BuildContext context) {
-                                    return Container(
-                                      width: MediaQuery.of(context).size.width,
-                                      decoration: BoxDecoration(
-                                        border: Border.all(
-                                            color: Color.fromRGBO(
-                                                204, 204, 204, 1)),
-                                      ),
-                                      margin:
-                                          EdgeInsets.symmetric(horizontal: 5.0),
-                                      child: Image.memory(
-                                        base64Decode(i),
-                                      ),
-                                    );
-                                  },
-                                );
-                              }).toList(),
-                            ),
-                          ),
+                              child: Carousel(
+                                  carouselImages: widget.carouselImages)),
                           SizedBox(
                             height: 5,
                           ),

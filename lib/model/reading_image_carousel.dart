@@ -4,7 +4,7 @@ class ReadingImageCarousel {
   final int readingId;
 
   ReadingImageCarousel({
-    this.id,
+    required this.id,
     required this.base64Image,
     required this.readingId,
   });

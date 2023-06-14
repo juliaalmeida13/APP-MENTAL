@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:app_mental/Screens/Reading/Text/Widgets/text_body.dart';
 import 'package:app_mental/Services/readingService.dart';
 import 'package:app_mental/classes/reading_database.dart';
@@ -34,6 +36,7 @@ class _TextScreenState extends State<TextScreen> {
   double initialRating = 0.0;
   String commentHint = 'Nos conte o que achou!';
   List<Reading> relatedReadingList = [];
+  bool isLoading = true;
 
   @override
   void initState() {
@@ -88,19 +91,16 @@ class _TextScreenState extends State<TextScreen> {
   }
 
   getRelatedReadings() async {
-    List<Reading> readingList = [];
     if (widget.relatedReadings != null) {
-      for (int i = 0; i < widget.relatedReadings!.length; i++) {
-        await ReadingDatabase.instance
-            .getReadingById(widget.relatedReadings![i])
-            .then((reading) {
-          readingList.add(reading);
+      await ReadingDatabase.instance
+          .getListRelatedReading(widget.relatedReadings!)
+          .then((readingList) {
+        setState(() {
+          relatedReadingList = readingList;
+          isLoading = false;
         });
-      }
+      });
     }
-    setState(() {
-      relatedReadingList = readingList;
-    });
   }
 
   @override
@@ -131,8 +131,20 @@ class _TextScreenState extends State<TextScreen> {
         ],
       ),
       resizeToAvoidBottomInset: false,
-      body: TextBody(widget.text, relatedReadingList,
-          widget.verifyNotificationList, this.widget.carouselImages),
+      body: isLoading
+          ? Container(
+              width: double.infinity,
+              height: double.infinity,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  CircularProgressIndicator(),
+                ],
+              ),
+            )
+          : TextBody(widget.text, relatedReadingList,
+              widget.verifyNotificationList, this.widget.carouselImages),
     );
   }
 }
