@@ -1,5 +1,6 @@
 import 'package:app_mental/Screens/Reading/Text/text_screen.dart';
 import 'package:app_mental/Services/readingService.dart';
+import 'package:app_mental/classes/reading_carousel_database.dart';
 import 'package:app_mental/constants.dart';
 import 'package:app_mental/helper/helperfuncions.dart';
 import 'package:flutter/material.dart';
@@ -43,40 +44,49 @@ class _InterventionCardState extends State<InterventionCard> {
         : Container();
   }
 
-  verifyUserReadingNotification() {
+  verifyUserReadingNotification(String readingName, String readingGroup) {
     List<ReadingRelUserDTO> listToRemoveNotification = [];
     widget.notificationList.forEach((element) {
-      if (widget.reading.name == element.name) {
+      if (readingName == element.name) {
         listToRemoveNotification.add(element);
       }
     });
     HelperFunctions.getUserEmailInSharedPreference().then((email) {
-      ReadingService().readingIsRead(email, widget.reading.name, widget.group);
+      ReadingService().readingIsRead(email, readingName, readingGroup);
     });
     if (listToRemoveNotification.isNotEmpty) {
       widget.callback(listToRemoveNotification[0]);
     }
   }
 
+  chooseIntervention(BuildContext context) {
+    verifyUserReadingNotification(widget.reading.name, widget.reading.group);
+    ReadingCarouselDatabase.instance
+        .getImagesById(widget.reading.id!)
+        .then((carouselImages) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) {
+            return TextScreen(
+              title: widget.reading.name,
+              text: widget.reading.text,
+              id: widget.reading.id,
+              relatedReadings: widget.reading.idRelatedReading,
+              verifyNotificationList: verifyUserReadingNotification,
+              carouselImages: carouselImages,
+            );
+          },
+        ),
+      );
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return new GestureDetector(
-      onTap: () {
-        verifyUserReadingNotification();
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) {
-              return TextScreen(
-                title: widget.reading.name,
-                text: widget.reading.text,
-                id: widget.reading.id,
-              );
-            },
-          ),
-        );
-      },
+      onTap: () => chooseIntervention(context),
       child: Container(
         margin: EdgeInsets.symmetric(
             horizontal: kDefaultPadding, vertical: kDefaultPadding / 2),

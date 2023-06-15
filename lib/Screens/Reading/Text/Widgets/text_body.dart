@@ -1,12 +1,22 @@
+import 'dart:convert';
+
+import 'package:app_mental/Screens/Reading/Text/Widgets/carousel.dart';
 import 'package:app_mental/Screens/Reading/Text/Widgets/text_card.dart';
 import 'package:app_mental/Screens/Reading/Text/Widgets/video_player.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../classes/reading_carousel_database.dart';
+import '../../../../model/reading.dart';
+import '../text_screen.dart';
+
 class TextBody extends StatefulWidget {
-  TextBody(this.text);
+  TextBody(this.text, this.relatedReadingList, this.verifyNotificationList,
+      this.carouselImages);
 
   final String text;
+  final List<Reading> relatedReadingList;
+  final Function verifyNotificationList;
+  final List<String> carouselImages;
 
   @override
   State<TextBody> createState() => _TextBodyState();
@@ -40,6 +50,30 @@ class _TextBodyState extends State<TextBody> {
     }
   }
 
+  goToRelatedReading(Reading reading) {
+    widget.verifyNotificationList(reading.name, reading.group);
+    Navigator.pop(context);
+    ReadingCarouselDatabase.instance
+        .getImagesById(reading.id!)
+        .then((carouselImages) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) {
+            return TextScreen(
+              title: reading.name,
+              text: reading.text,
+              id: reading.id,
+              relatedReadings: reading.idRelatedReading,
+              verifyNotificationList: widget.verifyNotificationList,
+              carouselImages: carouselImages,
+            );
+          },
+        ),
+      );
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -50,6 +84,18 @@ class _TextBodyState extends State<TextBody> {
             padding: const EdgeInsets.only(top: 8.0),
             child: Column(
               children: [
+                widget.carouselImages.isNotEmpty
+                    ? Column(
+                        children: [
+                          Container(
+                              child: Carousel(
+                                  carouselImages: widget.carouselImages)),
+                          SizedBox(
+                            height: 5,
+                          ),
+                        ],
+                      )
+                    : Container(),
                 Container(
                   width: MediaQuery.of(context).size.width * 0.9,
                   decoration: BoxDecoration(
@@ -67,6 +113,59 @@ class _TextBodyState extends State<TextBody> {
                     child: Column(
                       children: getText(),
                     ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: Text(
+                    "Materiais Educativos Relacionados",
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
+                  ),
+                ),
+                Container(
+                  height: 200,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: widget.relatedReadingList.length,
+                    itemBuilder: (context, index) {
+                      Reading reading = widget.relatedReadingList[index];
+                      return Padding(
+                        padding: EdgeInsets.only(left: 10, right: 30),
+                        child: Container(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                width: 100,
+                                height: 100,
+                                child: Align(
+                                  alignment: Alignment.center,
+                                  child: (reading.iconGroupImage != null
+                                      ? Image.memory(
+                                          base64Decode(reading.iconGroupImage!))
+                                      : null),
+                                ),
+                              ),
+                              Container(
+                                width: 100,
+                                height: 30,
+                                child: Text(
+                                  reading.name,
+                                  style: TextStyle(fontSize: 14),
+                                ),
+                              ),
+                              TextButton(
+                                onPressed: () => goToRelatedReading(reading),
+                                child: Text(
+                                  "Acessar ->",
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
                   ),
                 ),
               ],

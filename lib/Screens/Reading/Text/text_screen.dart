@@ -1,20 +1,30 @@
+import 'dart:developer';
+
 import 'package:app_mental/Screens/Reading/Text/Widgets/text_body.dart';
 import 'package:app_mental/Services/readingService.dart';
+import 'package:app_mental/classes/reading_database.dart';
 import 'package:app_mental/constants.dart';
 import 'package:app_mental/helper/helperfuncions.dart';
 import 'package:flutter/material.dart';
 import 'package:rating_dialog/rating_dialog.dart';
 
+import '../../../model/reading.dart';
+
 class TextScreen extends StatefulWidget {
-  TextScreen({
-    required this.title,
-    required this.text,
-    required this.id,
-  });
+  TextScreen(
+      {required this.title,
+      required this.text,
+      required this.id,
+      required this.relatedReadings,
+      required this.verifyNotificationList,
+      required this.carouselImages});
 
   final String text;
   final String title;
   final int? id;
+  final List<dynamic>? relatedReadings;
+  final Function verifyNotificationList;
+  final List<String> carouselImages;
 
   @override
   State<TextScreen> createState() => _TextScreenState();
@@ -25,10 +35,13 @@ class _TextScreenState extends State<TextScreen> {
   String ratingTitle = 'Avalie este conteúdo!';
   double initialRating = 0.0;
   String commentHint = 'Nos conte o que achou!';
+  List<Reading> relatedReadingList = [];
+  bool isLoading = true;
 
   @override
   void initState() {
     getUserEmail();
+    getRelatedReadings();
     super.initState();
   }
 
@@ -77,6 +90,19 @@ class _TextScreenState extends State<TextScreen> {
     Navigator.pop(context);
   }
 
+  getRelatedReadings() async {
+    if (widget.relatedReadings != null) {
+      await ReadingDatabase.instance
+          .getListRelatedReading(widget.relatedReadings!)
+          .then((readingList) {
+        setState(() {
+          relatedReadingList = readingList;
+          isLoading = false;
+        });
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -105,7 +131,20 @@ class _TextScreenState extends State<TextScreen> {
         ],
       ),
       resizeToAvoidBottomInset: false,
-      body: TextBody(widget.text),
+      body: isLoading
+          ? Container(
+              width: double.infinity,
+              height: double.infinity,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  CircularProgressIndicator(),
+                ],
+              ),
+            )
+          : TextBody(widget.text, relatedReadingList,
+              widget.verifyNotificationList, this.widget.carouselImages),
     );
   }
 }

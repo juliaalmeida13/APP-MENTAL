@@ -1,6 +1,8 @@
 import 'package:app_mental/model/reading.dart';
 import 'package:app_mental/model/exceptions/HttpException.dart';
 import 'package:app_mental/model/exceptions/apiError.dart';
+import 'package:app_mental/model/reading_image_carousel.dart';
+import 'package:http/http.dart';
 
 import 'dart:convert';
 
@@ -100,6 +102,21 @@ class ReadingService {
             .add(ReadingRelUserDTO.fromJson(readingRelUserDTO));
       }
       return readingRelUserDTOList;
+    }
+    final error =
+        ApiError.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
+    throw HttpException(error.message.toString());
+  }
+
+  Future<List<ReadingImageCarousel>> getReadingsImageCarousel() async {
+    final response = await Api().get("getReadingsImageCarousel");
+    List<ReadingImageCarousel> readingList = [];
+    if (response.statusCode == 200) {
+      var jsonList = jsonDecode(utf8.decode(response.bodyBytes));
+      for (var reading in jsonList) {
+        readingList.add(ReadingImageCarousel.fromJson(reading));
+      }
+      return readingList;
     }
     final error =
         ApiError.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));

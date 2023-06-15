@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'package:app_mental/helper/helperfuncions.dart';
-import 'package:http/http.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
@@ -35,10 +34,9 @@ class ReadingDatabase {
           `group` STRING,
           name STRING,
           text STRING,
-          type CHAR,
-          image STRING,
-          video STRING,
-          version INTEGER
+          version INTEGER,
+          iconGroupImage STRING,
+          idRelatedReading STRING
       )
       ''');
   }
@@ -49,6 +47,25 @@ class ReadingDatabase {
     List<Reading> readingList = reading.isNotEmpty
         ? reading.map((c) => Reading.fromMap(c)).toList()
         : [];
+    return readingList;
+  }
+
+  Future<List<Reading>> getListRelatedReading(
+      List<dynamic> idReadingList) async {
+    Database db = await instance.database;
+    List<Reading> readingList = [];
+    idReadingList.forEach((idReading) async {
+      List<Map<String, dynamic>> readingRetrieved =
+          await db.query('readings', where: 'id = "$idReading"');
+      readingList.add(Reading(
+          id: readingRetrieved[0]['id'],
+          group: readingRetrieved[0]['group'],
+          name: readingRetrieved[0]['name'],
+          text: readingRetrieved[0]['text'],
+          version: readingRetrieved[0]['version'],
+          iconGroupImage: readingRetrieved[0]['iconGroupImage'],
+          idRelatedReading: readingRetrieved[0]['idRelatedReading']));
+    });
     return readingList;
   }
 
@@ -63,9 +80,16 @@ class ReadingDatabase {
 
   Future<List<Map>> getReadingGroups() async {
     Database db = await instance.database;
-    List<Map> reading =
-        await db.rawQuery('SELECT DISTINCT `group` FROM readings');
+    List<Map> reading = await db
+        .rawQuery('SELECT DISTINCT `group`, iconGroupImage  FROM readings');
     return reading;
+  }
+
+  Future<int> getReadingGroupSize(String group) async {
+    Database db = await instance.database;
+    int? groupSize = Sqflite.firstIntValue(await db
+        .rawQuery('SELECT COUNT(*) FROM readings WHERE `group` = "$group"'));
+    return groupSize!;
   }
 
   Future<int> getReadingVersion() async {
