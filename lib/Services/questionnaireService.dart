@@ -5,6 +5,7 @@ import 'package:app_mental/model/exceptions/HttpException.dart';
 import 'package:app_mental/model/exceptions/apiError.dart';
 import 'package:app_mental/model/questionnaire_answer.dart';
 
+import '../model/score.dart';
 import 'api.dart';
 
 class QuestionnaireService {
@@ -53,9 +54,12 @@ class QuestionnaireService {
     throw HttpException(error.message.toString());
   }
 
-  Future<void> discardAllAnswers(String email, String code) async {
-    final response = await Api().post("discardAllAnswers",
-        jsonEncode(<String, dynamic>{'email': email, 'code': code}));
+  Future<void> discardAllAnswers(
+      String email, String code, String scale) async {
+    final response = await Api().post(
+        "discardAllAnswers",
+        jsonEncode(
+            <String, dynamic>{'email': email, 'code': code, 'scale': scale}));
     if (response.statusCode != 200) {
       final error =
           ApiError.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
@@ -69,6 +73,22 @@ class QuestionnaireService {
         await Api().get("getScore?email=$email&code=$code&scale=$scale");
     if (response.statusCode == 200) {
       return jsonDecode(utf8.decode(response.bodyBytes));
+    }
+    final error =
+        ApiError.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
+    throw HttpException(error.message.toString());
+  }
+
+  Future<List<Score>> getScoreByWeekApp(String email, String code) async {
+    final response =
+        await Api().get("getScoreByWeekApp?email=$email&code=$code");
+    if (response.statusCode == 200) {
+      List<Score> scoreList = [];
+      var jsonList = jsonDecode(utf8.decode(response.bodyBytes));
+      for (var score in jsonList) {
+        scoreList.add(Score.fromJson(score));
+      }
+      return scoreList;
     }
     final error =
         ApiError.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));

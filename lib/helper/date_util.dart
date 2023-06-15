@@ -25,3 +25,7 @@ String formatTime(Duration duration) {
   final seconds = twoDigits(duration.inSeconds.remainder(60));
   return [if (duration.inHours > 0) hours, minutes, seconds].join(":");
 }
+
+String formatDatePtBr(DateTime date) {
+  return DateFormat("dd/MM/yyyy").format(date);
+}
