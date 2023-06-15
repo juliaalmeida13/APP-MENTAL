@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:app_mental/model/answers.dart';
 import 'package:app_mental/model/exceptions/HttpException.dart';
@@ -89,6 +90,18 @@ class QuestionnaireService {
         scoreList.add(Score.fromJson(score));
       }
       return scoreList;
+    }
+    final error =
+        ApiError.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
+    throw HttpException(error.message.toString());
+  }
+
+  Future<String> getFinalMessage(
+      String questionnaireCode, int level, bool maxLevel) async {
+    final response = await Api().get(
+        "getFinalMessage?questionnaireCode=$questionnaireCode&level=$level&maxLevel=$maxLevel");
+    if (response.statusCode == 200) {
+      return response.body;
     }
     final error =
         ApiError.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));

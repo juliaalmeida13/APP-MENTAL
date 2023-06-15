@@ -34,10 +34,8 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-  initializeDateFormatting('pt_BR', null).then(
-    (_) => runApp(
-      MyApp(),
-    ),
+  runApp(
+    MyApp(),
   );
   await dotenv.load(fileName: "lib/.env");
 }
