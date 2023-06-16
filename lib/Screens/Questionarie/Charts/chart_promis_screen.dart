@@ -1,5 +1,9 @@
+import 'package:app_mental/Services/questionnaireService.dart';
+import 'package:app_mental/helper/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter_html/flutter_html.dart';
+import 'package:flutter_html_table/flutter_html_table.dart';
 
 import '../../../constants.dart';
 
@@ -30,10 +34,20 @@ class _ChartPromisScreenState extends State<ChartPromisScreen> {
     {'dominionName': 'Funcionamento da personalidade', 'dominionNumber': 12},
     {'dominionName': 'Uso de Substância', 'dominionNumber': 13},
   ];
+  String legend = "";
 
   @override
   void initState() {
+    getLegend(QuestionnaireCode.pn1.name);
     super.initState();
+  }
+
+  getLegend(questCode) {
+    QuestionnaireService().getChartLegend(questCode).then((value) {
+      setState(() {
+        legend = value;
+      });
+    });
   }
 
   goBackPage(BuildContext context) {
@@ -46,6 +60,7 @@ class _ChartPromisScreenState extends State<ChartPromisScreen> {
     final routeArgs =
         ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
     final questName = routeArgs['questName'];
+    final questCode = routeArgs['questCode'];
     final scoreList = routeArgs['scoreList'];
 
     return Scaffold(
@@ -131,8 +146,18 @@ class _ChartPromisScreenState extends State<ChartPromisScreen> {
                           SizedBox(
                             height: 30,
                           ),
-                          Text(
-                              "Este texto deverá aparecer logo abaixo do gráfico (legenda)"),
+                          Html(
+                            data: legend,
+                            style: {
+                              "tr": Style(
+                                  padding: const EdgeInsets.all(2),
+                                  border: Border.all(color: Colors.black)),
+                              "td": Style(
+                                padding: const EdgeInsets.all(2),
+                              ),
+                            },
+                            customRenders: {tableMatcher(): tableRender()},
+                          ),
                         ],
                       ),
                     ),

@@ -94,4 +94,14 @@ class QuestionnaireService {
         ApiError.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
     throw HttpException(error.message.toString());
   }
+
+  Future<String> getChartLegend(String code) async {
+    final response = await Api().get("getChartLegend?code=$code");
+    if (response.statusCode == 200) {
+      return response.body;
+    }
+    final error =
+        ApiError.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
+    throw HttpException(error.message.toString());
+  }
 }

@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter_html/flutter_html.dart';
+import 'package:flutter_html_table/flutter_html_table.dart';
 
+import '../../../Services/questionnaireService.dart';
 import '../../../constants.dart';
+import '../../../helper/constants.dart';
 
 class ChartGeneralScreen extends StatefulWidget {
   static const routeName = '/chart-general-screen';
@@ -11,9 +15,10 @@ class ChartGeneralScreen extends StatefulWidget {
 }
 
 class _ChartGeneralScreenState extends State<ChartGeneralScreen> {
-  @override
-  void initState() {
-    super.initState();
+  //String legend = "";
+
+  Future<String> getLegend(questCode) async {
+    return await QuestionnaireService().getChartLegend(questCode);
   }
 
   goBackPage(BuildContext context) {
@@ -26,8 +31,8 @@ class _ChartGeneralScreenState extends State<ChartGeneralScreen> {
     final routeArgs =
         ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
     final questName = routeArgs['questName'];
+    final questCode = routeArgs['questCode'];
     final scoreList = routeArgs['scoreList'];
-
     return Scaffold(
       appBar: AppBar(
         title: FittedBox(child: Text("Avaliação $questName")),
@@ -79,8 +84,27 @@ class _ChartGeneralScreenState extends State<ChartGeneralScreen> {
                 SizedBox(
                   height: 30,
                 ),
-                Text(
-                    "Este texto deverá aparecer logo abaixo do gráfico (legenda)"),
+                FutureBuilder(
+                  future: getLegend(questCode),
+                  builder: (context, snapshot) {
+                    if (snapshot.data != null) {
+                      return Html(
+                        data: snapshot.data.toString(),
+                        style: {
+                          "tr": Style(
+                              padding: const EdgeInsets.all(2),
+                              border: Border.all(color: Colors.black)),
+                          "td": Style(
+                            padding: const EdgeInsets.all(2),
+                          ),
+                        },
+                        customRenders: {tableMatcher(): tableRender()},
+                      );
+                    } else {
+                      return Container();
+                    }
+                  },
+                ),
               ],
             ),
           ),
