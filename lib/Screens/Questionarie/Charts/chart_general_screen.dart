@@ -5,7 +5,6 @@ import 'package:flutter_html_table/flutter_html_table.dart';
 
 import '../../../Services/questionnaireService.dart';
 import '../../../constants.dart';
-import '../../../helper/constants.dart';
 
 class ChartGeneralScreen extends StatefulWidget {
   static const routeName = '/chart-general-screen';
@@ -15,8 +14,6 @@ class ChartGeneralScreen extends StatefulWidget {
 }
 
 class _ChartGeneralScreenState extends State<ChartGeneralScreen> {
-  //String legend = "";
-
   Future<String> getLegend(questCode) async {
     return await QuestionnaireService().getChartLegend(questCode);
   }
