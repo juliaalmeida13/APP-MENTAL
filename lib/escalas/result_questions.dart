@@ -132,6 +132,27 @@ class _ResultQuestionsState extends State<ResultQuestions> {
     }
   }
 
+  showFinalDialog(BuildContext context) {
+    if (widget.questionnaireCode == QuestionnaireCode.questSD1.name ||
+        widget.questionnaireCode == QuestionnaireCode.questSD2.name ||
+        widget.questionnaireCode == QuestionnaireCode.pset.name ||
+        widget.questionnaireCode == QuestionnaireCode.assist.name ||
+        widget.questionnaireCode == QuestionnaireCode.pcl5.name) {
+      showDialog<String>(
+          context: context, builder: (BuildContext context) => SuccessDialog());
+    } else {
+      if (isCritical()) {
+        showDialog<String>(
+            context: context,
+            builder: (BuildContext context) => CriticalDialog());
+      } else {
+        showDialog<String>(
+            context: context,
+            builder: (BuildContext context) => SuccessDialog());
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return isLoading
@@ -186,35 +207,7 @@ class _ResultQuestionsState extends State<ResultQuestions> {
                           primary: Color.fromRGBO(104, 202, 138, 1)),
                       child: const Text('Ok',
                           style: TextStyle(color: Colors.black)),
-                      onPressed: () {
-                        if (widget.questionnaireCode ==
-                                QuestionnaireCode.questSD1.name ||
-                            widget.questionnaireCode ==
-                                QuestionnaireCode.questSD2.name ||
-                            widget.questionnaireCode ==
-                                QuestionnaireCode.pset.name ||
-                            widget.questionnaireCode ==
-                                QuestionnaireCode.assist.name ||
-                            widget.questionnaireCode ==
-                                QuestionnaireCode.pcl5.name) {
-                          showDialog<String>(
-                              context: context,
-                              builder: (BuildContext context) =>
-                                  SuccessDialog());
-                        } else {
-                          if (isCritical()) {
-                            showDialog<String>(
-                                context: context,
-                                builder: (BuildContext context) =>
-                                    CriticalDialog());
-                          } else {
-                            showDialog<String>(
-                                context: context,
-                                builder: (BuildContext context) =>
-                                    SuccessDialog());
-                          }
-                        }
-                      },
+                      onPressed: () => showFinalDialog(context),
                     ),
                   ),
                 ],
