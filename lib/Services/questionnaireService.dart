@@ -96,9 +96,9 @@ class QuestionnaireService {
   }
 
   Future<String> getFinalMessage(
-      String questionnaireCode, int level, bool maxLevel) async {
+      String questionnaireCode, int scoreSeverity, bool maxLevel) async {
     final response = await Api().get(
-        "getFinalMessage?questionnaireCode=$questionnaireCode&level=$level&maxLevel=$maxLevel");
+        "getFinalMessage?questionnaireCode=$questionnaireCode&scoreSeverity=$scoreSeverity&maxLevel=$maxLevel");
     if (response.statusCode == 200) {
       return response.body;
     }
