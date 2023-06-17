@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
+import 'package:flutter_html_table/flutter_html_table.dart';
 
+import '../../../Services/questionnaireService.dart';
 import '../../../constants.dart';
+import '../../../helper/constants.dart';
 import '../../../model/score.dart';
 import 'SleepScreen/Widgets/substance_chart.dart';
 
@@ -25,6 +29,21 @@ class _ChartSubstanceScreenState extends State<ChartSubstanceScreen> {
     "Opióides",
     "Outras Substâncias",
   ];
+  String legend = "";
+
+  @override
+  void initState() {
+    getLegend(QuestionnaireCode.assistn2.name);
+    super.initState();
+  }
+
+  getLegend(questCode) {
+    QuestionnaireService().getChartLegend(questCode).then((value) {
+      setState(() {
+        legend = value;
+      });
+    });
+  }
 
   List<ExpansionPanel> createExpansionPanelList(List<Score> scoreList) {
     List<ExpansionPanel> expansionPanelList = [];
@@ -93,7 +112,25 @@ class _ChartSubstanceScreenState extends State<ChartSubstanceScreen> {
                     children: createExpansionPanelList(scoreList),
                   ),
                 ),
-              )
+              ),
+              SizedBox(
+                height: 30,
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+                child: Html(
+                  data: legend,
+                  style: {
+                    "tr": Style(
+                        padding: const EdgeInsets.all(2),
+                        border: Border.all(color: Colors.black)),
+                    "td": Style(
+                      padding: const EdgeInsets.all(2),
+                    ),
+                  },
+                  customRenders: {tableMatcher(): tableRender()},
+                ),
+              ),
             ],
           ),
         ),
