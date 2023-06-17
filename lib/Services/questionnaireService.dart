@@ -104,4 +104,16 @@ class QuestionnaireService {
         ApiError.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
     throw HttpException(error.message.toString());
   }
+  
+  Future<String> getFinalMessage(
+      String questionnaireCode, int scoreSeverity, bool maxLevel) async {
+    final response = await Api().get(
+        "getFinalMessage?questionnaireCode=$questionnaireCode&scoreSeverity=$scoreSeverity&maxLevel=$maxLevel");
+    if (response.statusCode == 200) {
+      return response.body;
+    }
+    final error =
+        ApiError.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
+    throw HttpException(error.message.toString());
+  }
 }

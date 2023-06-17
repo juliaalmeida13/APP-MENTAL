@@ -1,4 +1,3 @@
-import 'package:app_mental/escalas/recommendation_dialog.dart';
 import 'package:app_mental/escalas/success_dialog.dart';
 import 'package:app_mental/helper/constants.dart';
 import 'package:flutter/material.dart';
@@ -26,9 +25,26 @@ class _ResultQuestionsState extends State<ResultQuestions> {
   bool hasRecommendation = false;
   int score = 0;
   List<int> scoreList = [];
+  bool isLoading = true;
+  String finalMessage = "";
 
-  final String resultPhrase =
-      'Questionário concluído! \n\nSuas respostas serão enviadas, e analisadas anonimamente para a recomendação de novas atividades.\n\nEstá de acordo?';
+  @override
+  void initState() {
+    if (!(widget.questionnaireCode == QuestionnaireCode.questSD1.name ||
+        widget.questionnaireCode == QuestionnaireCode.questSD2.name ||
+        widget.questionnaireCode == QuestionnaireCode.pset.name ||
+        widget.questionnaireCode == QuestionnaireCode.assist.name ||
+        widget.questionnaireCode == QuestionnaireCode.pcl5.name)) {
+      getScoreList().whenComplete(() {
+        getScore();
+      });
+    } else {
+      setState(() {
+        isLoading = false;
+      });
+    }
+    super.initState();
+  }
 
   getScore() async {
     int sum = 0;
@@ -42,6 +58,7 @@ class _ResultQuestionsState extends State<ResultQuestions> {
     setState(() {
       score = sum;
     });
+    getFinalMessage();
   }
 
   getScoreList() async {
@@ -52,21 +69,6 @@ class _ResultQuestionsState extends State<ResultQuestions> {
         scoreList.add(int.parse(value));
       });
     });
-  }
-
-  verifyScore() {
-    if (QuestionnaireCode.psqi.name == widget.questionnaireCode &&
-        score > Constants.recommendationValuePsqi) {
-      setState(() {
-        hasRecommendation = true;
-      });
-    }
-    if (QuestionnaireCode.assistn2.name == widget.questionnaireCode &&
-        score > Constants.recommendationValueAssistN2) {
-      setState(() {
-        hasRecommendation = true;
-      });
-    }
   }
 
   isCritical() {
@@ -96,73 +98,121 @@ class _ResultQuestionsState extends State<ResultQuestions> {
     return false;
   }
 
+  getFinalMessage() {
+    if (isCritical()) {
+      QuestionnaireService()
+          .getFinalMessage(widget.questionnaireCode, 0, true)
+          .then((value) {
+        setState(() {
+          finalMessage = value;
+          isLoading = false;
+        });
+      });
+    } else if (QuestionnaireCode.psqi.name == widget.questionnaireCode &&
+            score > 5 ||
+        QuestionnaireCode.pn1.name == widget.questionnaireCode &&
+            scoreList[2] >= 2) {
+      QuestionnaireService()
+          .getFinalMessage(widget.questionnaireCode, 1, false)
+          .then((value) {
+        setState(() {
+          finalMessage = value;
+          isLoading = false;
+        });
+      });
+    } else {
+      QuestionnaireService()
+          .getFinalMessage(widget.questionnaireCode, 0, false)
+          .then((value) {
+        setState(() {
+          finalMessage = value;
+          isLoading = false;
+        });
+      });
+    }
+  }
+
+  showFinalDialog(BuildContext context) {
+    if (widget.questionnaireCode == QuestionnaireCode.questSD1.name ||
+        widget.questionnaireCode == QuestionnaireCode.questSD2.name ||
+        widget.questionnaireCode == QuestionnaireCode.pset.name ||
+        widget.questionnaireCode == QuestionnaireCode.assist.name ||
+        widget.questionnaireCode == QuestionnaireCode.pcl5.name) {
+      showDialog<String>(
+          context: context, builder: (BuildContext context) => SuccessDialog());
+    } else {
+      if (isCritical()) {
+        showDialog<String>(
+            context: context,
+            builder: (BuildContext context) => CriticalDialog());
+      } else {
+        showDialog<String>(
+            context: context,
+            builder: (BuildContext context) => SuccessDialog());
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text(
-          resultPhrase,
-          style: TextStyle(
-            fontSize: MediaQuery.of(context).size.height * .03,
-            fontWeight: FontWeight.bold,
-            color: Colors.black87,
-          ),
-          textAlign: TextAlign.center,
-        ),
-        Spacer(),
-        Container(
-          child: ElevatedButton(
-            style: ElevatedButton.styleFrom(
-                primary: Color.fromRGBO(104, 202, 138, 1)),
-            child: const Text('Sim, estou de acordo',
-                style: TextStyle(color: Colors.black)),
-            onPressed: () {
-              if (widget.questionnaireCode == QuestionnaireCode.questSD1.name ||
-                  widget.questionnaireCode == QuestionnaireCode.questSD2.name ||
-                  widget.questionnaireCode == QuestionnaireCode.pset.name ||
-                  widget.questionnaireCode == QuestionnaireCode.assist.name ||
-                  widget.questionnaireCode == QuestionnaireCode.pcl5.name) {
-                showDialog<String>(
-                    context: context,
-                    builder: (BuildContext context) => SuccessDialog());
-              } else if (widget.questionnaireCode ==
-                  QuestionnaireCode.pn1.name) {
-                getScoreList().then((_) {
-                  verifyScore();
-                  if (isCritical()) {
-                    showDialog<String>(
-                        context: context,
-                        builder: (BuildContext context) => CriticalDialog());
-                  } else {
-                    showDialog<String>(
-                        context: context,
-                        builder: (BuildContext context) => SuccessDialog());
-                  }
-                });
-              } else {
-                getScore().then((_) {
-                  verifyScore();
-                  if (isCritical()) {
-                    showDialog<String>(
-                        context: context,
-                        builder: (BuildContext context) => CriticalDialog());
-                  } else if (hasRecommendation) {
-                    showDialog<String>(
-                        context: context,
-                        builder: (BuildContext context) =>
-                            RecommendationDialog());
-                  } else {
-                    showDialog<String>(
-                        context: context,
-                        builder: (BuildContext context) => SuccessDialog());
-                  }
-                });
-              }
-            },
-          ),
-        ),
-      ],
-    );
+    return isLoading
+        ? Container(
+            width: double.infinity,
+            height: double.infinity,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                CircularProgressIndicator(),
+              ],
+            ),
+          )
+        : Container(
+            width: double.infinity,
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "Questionário Respondido!",
+                    style: TextStyle(
+                      fontSize: MediaQuery.of(context).size.height * .03,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black87,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Container(
+                    height: MediaQuery.of(context).size.height * 0.7,
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          Text(
+                            finalMessage,
+                            style: TextStyle(
+                              fontSize:
+                                  MediaQuery.of(context).size.height * 0.02,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Container(
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          primary: Color.fromRGBO(104, 202, 138, 1)),
+                      child: const Text('Ok',
+                          style: TextStyle(color: Colors.black)),
+                      onPressed: () => showFinalDialog(context),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
   }
 }
