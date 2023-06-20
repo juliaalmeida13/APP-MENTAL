@@ -45,6 +45,7 @@ class UserService {
   }
 
   Future<bool> signOut() async {
+    HelperFunctions.clearJwtInSharedPreference();
     return HelperFunctions.clearUserInSharedPreference();
   }
 

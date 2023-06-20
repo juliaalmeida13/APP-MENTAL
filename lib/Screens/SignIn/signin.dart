@@ -171,11 +171,11 @@ class _SignInState extends State<SignIn> {
                                               hintStyle: TextStyle(
                                                   color: Colors.grey)),
                                           obscureText: true,
-                                          validator: (val) {
+                                          /*validator: (val) {
                                             return val!.length > 6
                                                 ? null
                                                 : "Por favor verifique sua senha, ela deve conter pelo menos 6 caracteres";
-                                          },
+                                          },*/
                                           controller:
                                               passwordTextEdittingController,
                                         ),
@@ -252,7 +252,7 @@ class _SignInState extends State<SignIn> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
-                            GestureDetector(
+                            /*GestureDetector(
                                 onTap: () {
                                   Navigator.push(
                                       context,
@@ -266,7 +266,7 @@ class _SignInState extends State<SignIn> {
                                     fontSize: 17,
                                     decoration: TextDecoration.underline,
                                   ),
-                                )),
+                                )),*/
                             GestureDetector(
                                 onTap: () {
                                   Navigator.push(
