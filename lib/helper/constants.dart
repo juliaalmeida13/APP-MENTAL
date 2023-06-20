@@ -6,8 +6,8 @@ class Constants {
   static int recommendationValueAssistN2 = 3;
   static int criticalValueMdq = 6;
   static int criticalValuePhq15 = 9;
-  static int criticalValuePromisAnsi = 19;
-  static int criticalValuePromisN2 = 16;
+  static int criticalValueGad7 = 10;
+  static int criticalValuePhq9 = 5;
   static int criticalValuePsqi = 10;
   static int recommendationValuePsqi = 4;
   static List<String> civil = [
@@ -20,17 +20,19 @@ class Constants {
 }
 
 enum QuestionnaireCode {
-  pn1,
-  pn2,
+  ccsm,
+  phq9,
   pset,
   pcl5,
   questSD1,
   questSD2,
   mdq,
-  pn2A,
+  gad7,
   phq15,
   psqi,
   assist,
   assistn2,
-  sleepQuestionnaire
+  sleepQuestionnaire,
+  copsoq,
+  quesi
 }

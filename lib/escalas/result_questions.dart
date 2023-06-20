@@ -34,7 +34,8 @@ class _ResultQuestionsState extends State<ResultQuestions> {
         widget.questionnaireCode == QuestionnaireCode.questSD2.name ||
         widget.questionnaireCode == QuestionnaireCode.pset.name ||
         widget.questionnaireCode == QuestionnaireCode.assist.name ||
-        widget.questionnaireCode == QuestionnaireCode.pcl5.name)) {
+        widget.questionnaireCode == QuestionnaireCode.pcl5.name ||
+        widget.questionnaireCode == QuestionnaireCode.copsoq.name)) {
       getScoreList().whenComplete(() {
         getScore();
       });
@@ -74,9 +75,9 @@ class _ResultQuestionsState extends State<ResultQuestions> {
   isCritical() {
     if (QuestionnaireCode.psqi.name == widget.questionnaireCode) {
       return score > Constants.criticalValuePsqi;
-    } else if (QuestionnaireCode.pn2.name == widget.questionnaireCode) {
-      return score > Constants.criticalValuePromisN2;
-    } else if (QuestionnaireCode.pn1.name == widget.questionnaireCode) {
+    } else if (QuestionnaireCode.phq9.name == widget.questionnaireCode) {
+      return score > Constants.criticalValuePhq9;
+    } else if (QuestionnaireCode.ccsm.name == widget.questionnaireCode) {
       //dom 2, 9, 10, 11, 12, leve ou maior (>=2)
       //dom 6, 7 muito leve ou maior (>=1)
       return (scoreList[2] >= 2 ||
@@ -86,8 +87,8 @@ class _ResultQuestionsState extends State<ResultQuestions> {
           scoreList[16] + scoreList[17] >= 2 ||
           scoreList[18] >= 2 ||
           scoreList[19] + scoreList[20] >= 2);
-    } else if (QuestionnaireCode.pn2A.name == widget.questionnaireCode) {
-      return score > Constants.criticalValuePromisAnsi;
+    } else if (QuestionnaireCode.gad7.name == widget.questionnaireCode) {
+      return score > Constants.criticalValueGad7;
     } else if (QuestionnaireCode.phq15.name == widget.questionnaireCode) {
       return score > Constants.criticalValuePhq15;
     } else if (QuestionnaireCode.mdq.name == widget.questionnaireCode) {
@@ -110,7 +111,7 @@ class _ResultQuestionsState extends State<ResultQuestions> {
       });
     } else if (QuestionnaireCode.psqi.name == widget.questionnaireCode &&
             score > 5 ||
-        QuestionnaireCode.pn1.name == widget.questionnaireCode &&
+        QuestionnaireCode.ccsm.name == widget.questionnaireCode &&
             scoreList[2] >= 2) {
       QuestionnaireService()
           .getFinalMessage(widget.questionnaireCode, 1, false)

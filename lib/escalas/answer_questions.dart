@@ -45,7 +45,7 @@ class AnswerQuestions extends StatelessWidget {
 
   discartChanges(BuildContext context) async {
     QuestionnaireService()
-        .discardAllAnswers(userEmail, QuestionnaireCode.pn1.name, scale)
+        .discardAllAnswers(userEmail, QuestionnaireCode.ccsm.name, scale)
         .then((_) {
       Navigator.of(context).popUntil(ModalRoute.withName('/logged-home'));
       Navigator.of(context).pushNamed("/quests-screen");
@@ -65,7 +65,7 @@ class AnswerQuestions extends StatelessWidget {
               onPressed: () => Navigator.pop(context, 'Cancel'),
               child: const Text('Cancelar'),
             ),
-            (questionnaireCode == QuestionnaireCode.pn1.name)
+            (questionnaireCode == QuestionnaireCode.ccsm.name)
                 ? TextButton(
                     onPressed: () => discartChanges(context),
                     child: const Text('Descartar'),

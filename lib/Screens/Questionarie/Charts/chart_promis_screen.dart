@@ -38,7 +38,7 @@ class _ChartPromisScreenState extends State<ChartPromisScreen> {
 
   @override
   void initState() {
-    getLegend(QuestionnaireCode.pn1.name);
+    getLegend(QuestionnaireCode.ccsm.name);
     super.initState();
   }
 

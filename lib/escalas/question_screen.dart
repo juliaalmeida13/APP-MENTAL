@@ -39,18 +39,23 @@ class _QuestionScreenState extends State<QuestionScreen> {
 
   void _answerQuestion(Object score, int domain, String answer, String scale,
       String questionnaireCode) {
-    QuestionnaireAnswer questionnaireAnswer = new QuestionnaireAnswer(
-        email: userEmail,
-        answer: answer,
-        score: score,
-        domain: domain,
-        code: questionnaireCode,
-        questionIndex: _questionIndex,
-        scale: scale);
-    QuestionnaireService().addQuestionnaireAnswer(questionnaireAnswer);
-    setState(() {
-      _questionIndex += 1;
-    });
+    if (answer == "Não" && questionnaireCode == "quesi") {
+      Navigator.of(context).popUntil(ModalRoute.withName('/logged-home'));
+      Navigator.of(context).pushNamed("/quests-screen");
+    } else {
+      QuestionnaireAnswer questionnaireAnswer = new QuestionnaireAnswer(
+          email: userEmail,
+          answer: answer,
+          score: score,
+          domain: domain,
+          code: questionnaireCode,
+          questionIndex: _questionIndex,
+          scale: scale);
+      QuestionnaireService().addQuestionnaireAnswer(questionnaireAnswer);
+      setState(() {
+        _questionIndex += 1;
+      });
+    }
   }
 
   void _resetQuestion() {
