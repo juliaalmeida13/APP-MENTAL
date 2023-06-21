@@ -30,7 +30,7 @@ class _GenericQuestRoomTileState extends State<GenericQuestRoomTile> {
               .then((scores) => scoreList.addAll(scores))
               .whenComplete(
                 () => Navigator.of(context).pushNamed(
-                  "/chart-promis-screen",
+                  "/chart-ccsm-screen",
                   arguments: {
                     'questName': widget.questName,
                     'questCode': widget.questCode,
