@@ -91,7 +91,7 @@ class _AppDrawerState extends State<AppDrawer> {
 
   getAvatarImageFromDatabase(String userEmail) async {
     await UserService().getUserAvatar(userEmail).then((avatarUrl) {
-      if (avatarUrl != "https://i.pravatar.cc/300") {
+      if (avatarUrl != "") {
         setImage(avatarUrl);
       } else {
         setState(() {

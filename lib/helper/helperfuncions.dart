@@ -74,6 +74,11 @@ class HelperFunctions {
     return prefs.remove(sharedPreferenceUserLoggedInKey);
   }
 
+  static Future<bool> clearJwtInSharedPreference() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.remove(sharedPreferenceUserJwtTokenKey);
+  }
+
   static Future<void> saveUserInfoToSharedPrefsRememberMe(
       String email, String password) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
