@@ -32,7 +32,6 @@ class _ResultQuestionsState extends State<ResultQuestions> {
   void initState() {
     if (!(widget.questionnaireCode == QuestionnaireCode.questSD1.name ||
         widget.questionnaireCode == QuestionnaireCode.questSD2.name ||
-        widget.questionnaireCode == QuestionnaireCode.pset.name ||
         widget.questionnaireCode == QuestionnaireCode.assist.name ||
         widget.questionnaireCode == QuestionnaireCode.pcl5.name ||
         widget.questionnaireCode == QuestionnaireCode.copsoq.name)) {
@@ -95,6 +94,8 @@ class _ResultQuestionsState extends State<ResultQuestions> {
       return score > Constants.criticalValueMdq;
     } else if (QuestionnaireCode.assistn2.name == widget.questionnaireCode) {
       return score > Constants.criticalValueAssistN2;
+    } else if (QuestionnaireCode.pset.name == widget.questionnaireCode) {
+      return score > 0;
     }
     return false;
   }

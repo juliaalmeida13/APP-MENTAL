@@ -32,10 +32,19 @@ class AnswerQuestions extends StatelessWidget {
       required this.questName});
 
   String getQuestionText() {
-    final startSubstance = questName.split("(");
-    final substance = startSubstance[1].split(")");
-    final questionText = question + " " + substance[0];
-    return questionText;
+    if (questionnaireCode == QuestionnaireCode.assistn2.name) {
+      final startSubstance = questName.split("(");
+      final substance = startSubstance[1].split(")");
+      final questionText = question + " " + substance[0];
+      return questionText;
+    } else {
+      if (questionnaireCode == QuestionnaireCode.pset.name &&
+          scale == "pset_week2") {
+        return "Durante sua vida " + question;
+      } else {
+        return "No último mês " + question;
+      }
+    }
   }
 
   goBackToQuestionnaireScreen(BuildContext context) {
@@ -106,7 +115,9 @@ class AnswerQuestions extends StatelessWidget {
                           textAlign: TextAlign.center,
                         ),
                         SizedBox(height: 10),
-                        (questionnaireCode == QuestionnaireCode.assistn2.name)
+                        (questionnaireCode == QuestionnaireCode.assistn2.name ||
+                                questionnaireCode ==
+                                    QuestionnaireCode.pset.name)
                             ? Question(getQuestionText())
                             : Question(question),
                       ],
