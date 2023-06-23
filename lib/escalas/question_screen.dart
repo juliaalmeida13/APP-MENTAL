@@ -20,6 +20,8 @@ class QuestionScreen extends StatefulWidget {
 class _QuestionScreenState extends State<QuestionScreen> {
   late String userEmail;
   bool userHasStartedAnswer = false;
+  bool isLoading = false;
+  int questionsSize = 0;
 
   @override
   void initState() {
@@ -39,18 +41,37 @@ class _QuestionScreenState extends State<QuestionScreen> {
 
   void _answerQuestion(Object score, int domain, String answer, String scale,
       String questionnaireCode) {
-    QuestionnaireAnswer questionnaireAnswer = new QuestionnaireAnswer(
-        email: userEmail,
-        answer: answer,
-        score: score,
-        domain: domain,
-        code: questionnaireCode,
-        questionIndex: _questionIndex,
-        scale: scale);
-    QuestionnaireService().addQuestionnaireAnswer(questionnaireAnswer);
-    setState(() {
-      _questionIndex += 1;
-    });
+    if (questionnaireCode == "quesi" && answer == "Não") {
+      Navigator.of(context).popUntil(ModalRoute.withName('/logged-home'));
+      Navigator.of(context).pushNamed("/quests-screen");
+    } else {
+      QuestionnaireAnswer questionnaireAnswer = new QuestionnaireAnswer(
+          email: userEmail,
+          answer: answer,
+          score: score,
+          domain: domain,
+          code: questionnaireCode,
+          questionIndex: _questionIndex,
+          scale: scale);
+      if (_questionIndex + 1 == questionsSize) {
+        setState(() {
+          isLoading = true;
+        });
+        QuestionnaireService().addQuestionnaireAnswer(questionnaireAnswer).then(
+              (_) => {
+                setState(() {
+                  _questionIndex += 1;
+                  isLoading = false;
+                }),
+              },
+            );
+      } else {
+        QuestionnaireService().addQuestionnaireAnswer(questionnaireAnswer);
+        setState(() {
+          _questionIndex += 1;
+        });
+      }
+    }
   }
 
   void _resetQuestion() {
@@ -90,6 +111,10 @@ class _QuestionScreenState extends State<QuestionScreen> {
       _questionIndex = 0;
     }
 
+    setState(() {
+      questionsSize = _questions.length;
+    });
+
     return Scaffold(
       appBar: AppBar(
         title: FittedBox(child: Text(titleAA!)),
@@ -97,23 +122,35 @@ class _QuestionScreenState extends State<QuestionScreen> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(30.0),
-        child: _questionIndex < _questions.length
-            ? AnswerQuestions(
-                questName: titleAA,
-                sizeQuestionnaire: _questions.length - 1,
-                answerQuestion: _answerQuestion,
-                resetQuestion: _resetQuestion,
-                questionIndex: _questionIndex,
-                question: _questions[_questionIndex],
-                answers: getAnswers(_answers, _questionIndex),
-                userEmail: _userEmail,
-                scale: _userEscala,
-                questionnaireCode: _questionnaireCode)
-            : ResultQuestions(
-                questionnaireCode: _questionnaireCode,
-                questName: titleAA,
-                userEscala: _userEscala!,
-                userEmail: _userEmail),
+        child: isLoading
+            ? Container(
+                width: double.infinity,
+                height: double.infinity,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    CircularProgressIndicator(),
+                  ],
+                ),
+              )
+            : _questionIndex < _questions.length
+                ? AnswerQuestions(
+                    questName: titleAA,
+                    sizeQuestionnaire: _questions.length - 1,
+                    answerQuestion: _answerQuestion,
+                    resetQuestion: _resetQuestion,
+                    questionIndex: _questionIndex,
+                    question: _questions[_questionIndex],
+                    answers: getAnswers(_answers, _questionIndex),
+                    userEmail: _userEmail,
+                    scale: _userEscala,
+                    questionnaireCode: _questionnaireCode)
+                : ResultQuestions(
+                    questionnaireCode: _questionnaireCode,
+                    questName: titleAA,
+                    userEscala: _userEscala!,
+                    userEmail: _userEmail),
       ),
     );
   }

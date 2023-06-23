@@ -19,7 +19,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 import 'Screens/Home/home_screen.dart';
-import 'Screens/Questionarie/Charts/chart_promis_screen.dart';
+import 'Screens/Questionarie/Charts/chart_ccsm_screen.dart';
 import 'Screens/Questionarie/Charts/SleepScreen/chart_sleep_screen.dart';
 import 'Screens/Questionarie/Charts/chart_substance_screen.dart';
 import 'Screens/ResetPassword/reset_password.dart';
@@ -97,7 +97,7 @@ class _MyAppState extends State<MyApp> {
         "/memory_game_screen": (ctx) => MemoryGameScreen(),
         "/chat-room-screen": (ctx) => ChatRoom(),
         "/chart-general-screen": (ctx) => ChartGeneralScreen(),
-        "/chart-promis-screen": (ctx) => ChartPromisScreen(),
+        "/chart-ccsm-screen": (ctx) => ChartCcsmScreen(),
         "/chart-substance-screen": (ctx) => ChartSubstanceScreen(),
         "/chart-sleep-screen": (ctx) => ChartSleepScreen(),
       },

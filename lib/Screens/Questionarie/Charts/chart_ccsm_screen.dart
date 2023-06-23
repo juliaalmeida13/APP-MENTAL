@@ -7,14 +7,14 @@ import 'package:flutter_html_table/flutter_html_table.dart';
 
 import '../../../constants.dart';
 
-class ChartPromisScreen extends StatefulWidget {
-  static const routeName = '/chart-promis-screen';
+class ChartCcsmScreen extends StatefulWidget {
+  static const routeName = '/chart-ccsm-screen';
 
   @override
-  State<ChartPromisScreen> createState() => _ChartPromisScreenState();
+  State<ChartCcsmScreen> createState() => _ChartCcsmScreenState();
 }
 
-class _ChartPromisScreenState extends State<ChartPromisScreen> {
+class _ChartCcsmScreenState extends State<ChartCcsmScreen> {
   String selectedDominionName = "";
   List listDominion = [
     {'dominionName': 'Depressão', 'dominionNumber': 1},
@@ -38,7 +38,7 @@ class _ChartPromisScreenState extends State<ChartPromisScreen> {
 
   @override
   void initState() {
-    getLegend(QuestionnaireCode.pn1.name);
+    getLegend(QuestionnaireCode.ccsm.name);
     super.initState();
   }
 

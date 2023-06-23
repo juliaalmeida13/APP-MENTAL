@@ -24,13 +24,13 @@ class _GenericQuestRoomTileState extends State<GenericQuestRoomTile> {
     return GenericQuizCard(
       title: widget.questName,
       onTap: () {
-        if (widget.questCode == QuestionnaireCode.pn1.name) {
+        if (widget.questCode == QuestionnaireCode.ccsm.name) {
           QuestionnaireService()
               .getScoreByWeekApp(widget.email, widget.questCode)
               .then((scores) => scoreList.addAll(scores))
               .whenComplete(
                 () => Navigator.of(context).pushNamed(
-                  "/chart-promis-screen",
+                  "/chart-ccsm-screen",
                   arguments: {
                     'questName': widget.questName,
                     'questCode': widget.questCode,
