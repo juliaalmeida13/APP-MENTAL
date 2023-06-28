@@ -117,17 +117,15 @@ class _TextScreenState extends State<TextScreen> {
           child: Text(widget.title),
         ),
         actions: [
-          TextButton(
-            style: TextButton.styleFrom(
-              textStyle:
-                  const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              primary: Colors.white,
+          IconButton(
+            iconSize: 40,
+            icon: Image.asset(
+              "assets/icons/avaliacao.png",
             ),
             onPressed: () {
               _showRatingDialog(context, widget.title, widget.id!);
             },
-            child: Text("Avaliar"),
-          ),
+          )
         ],
       ),
       resizeToAvoidBottomInset: false,

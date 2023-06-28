@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class MainCardButton extends StatelessWidget {
   final String label;
-  final IconData icon;
+  final String icon;
   final String page;
   final int notification;
 
@@ -45,7 +45,11 @@ class MainCardButton extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Icon(this.icon),
+                    Image.asset(
+                      "assets/icons/" + this.icon,
+                      width: 80,
+                      height: 80,
+                    ),
                     Text(
                       this.label,
                       textAlign: TextAlign.center,

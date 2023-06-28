@@ -152,11 +152,29 @@ class AnswerQuestions extends StatelessWidget {
           Container(
             child: Column(
               children: [
-                TextButton(
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      primary: Color.fromRGBO(104, 202, 138, 1)),
                   onPressed: () {
                     resetQuestion();
                   },
-                  child: const Text("Voltar para a questão anterior"),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset(
+                        "assets/icons/questionarios_responder-depois.png",
+                        width: 40,
+                        height: 40,
+                      ),
+                      const Text(
+                        "Voltar para a questão anterior",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 5,
                 ),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
@@ -167,8 +185,18 @@ class AnswerQuestions extends StatelessWidget {
                       builder: (BuildContext context) => answerLater(context),
                     );
                   },
-                  child: const Text('Responder depois',
-                      style: TextStyle(color: Colors.black)),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset(
+                        "assets/icons/questionarios_responder-agora.png",
+                        width: 40,
+                        height: 40,
+                      ),
+                      const Text('Responder depois',
+                          style: TextStyle(color: Colors.white)),
+                    ],
+                  ),
                 ),
               ],
             ),
