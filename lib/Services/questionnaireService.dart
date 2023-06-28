@@ -14,6 +14,7 @@ class QuestionnaireService {
     final response = await Api().post(
         "addQuestionnaireAnswer",
         jsonEncode(<String, dynamic>{
+          'answerId': questionnaireAnswer.answerId,
           'email': questionnaireAnswer.email,
           'answer': questionnaireAnswer.answer,
           'score': questionnaireAnswer.score,
@@ -104,7 +105,7 @@ class QuestionnaireService {
         ApiError.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
     throw HttpException(error.message.toString());
   }
-  
+
   Future<String> getFinalMessage(
       String questionnaireCode, int scoreSeverity, bool maxLevel) async {
     final response = await Api().get(

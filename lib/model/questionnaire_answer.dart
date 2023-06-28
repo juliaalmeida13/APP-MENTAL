@@ -1,4 +1,5 @@
 class QuestionnaireAnswer {
+  int? answerId;
   String? email;
   String? answer;
   Object? score;
@@ -8,7 +9,8 @@ class QuestionnaireAnswer {
   String? scale;
 
   QuestionnaireAnswer(
-      {this.email,
+      {this.answerId,
+      this.email,
       this.answer,
       this.score,
       this.domain,
@@ -18,6 +20,7 @@ class QuestionnaireAnswer {
 
   factory QuestionnaireAnswer.fromJson(Map<String, dynamic> json) {
     return QuestionnaireAnswer(
+        answerId: json['answerId'],
         email: json['email'],
         answer: json['answer'],
         score: json['score'],

@@ -130,8 +130,13 @@ class AnswerQuestions extends StatelessWidget {
                         children: [
                           ...(answers.map((answer) {
                             return AnswerOption(
-                              () => answerQuestion(answer.score, answer.domain,
-                                  answer.answerText, scale, questionnaireCode),
+                              () => answerQuestion(
+                                  answer.answerId,
+                                  answer.score,
+                                  answer.domain,
+                                  answer.answerText,
+                                  scale,
+                                  questionnaireCode),
                               answer.answerText,
                             );
                           })).toList()

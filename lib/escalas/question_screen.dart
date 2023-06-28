@@ -39,13 +39,14 @@ class _QuestionScreenState extends State<QuestionScreen> {
 
   var _questionIndex = 0;
 
-  void _answerQuestion(Object score, int domain, String answer, String scale,
-      String questionnaireCode) {
+  void _answerQuestion(int answerId, Object score, int domain, String answer,
+      String scale, String questionnaireCode) {
     if (questionnaireCode == "quesi" && answer == "Não") {
       Navigator.of(context).popUntil(ModalRoute.withName('/logged-home'));
       Navigator.of(context).pushNamed("/quests-screen");
     } else {
       QuestionnaireAnswer questionnaireAnswer = new QuestionnaireAnswer(
+          answerId: answerId,
           email: userEmail,
           answer: answer,
           score: score,

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:app_mental/Screens/Reading/Text/text_screen.dart';
 import 'package:app_mental/Services/readingService.dart';
 import 'package:app_mental/classes/reading_carousel_database.dart';
@@ -115,7 +117,7 @@ class _InterventionCardState extends State<InterventionCard> {
               ),
             ),
             Positioned(
-              top: 0,
+              top: 15,
               right: 0,
               child: Container(
                 padding: EdgeInsets.symmetric(horizontal: kDefaultPadding),
@@ -123,10 +125,11 @@ class _InterventionCardState extends State<InterventionCard> {
                 width: 116,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(20),
-                  child: Image(
-                      image: AssetImage('assets/images/reading01.jpg'),
-                      width: size.width,
-                      fit: BoxFit.cover),
+                  child: Image.memory(
+                    base64Decode(widget.reading.iconGroupImage!),
+                    fit: BoxFit.cover,
+                    width: size.width,
+                  ),
                 ),
               ),
             ),
@@ -153,8 +156,8 @@ class _InterventionCardState extends State<InterventionCard> {
               ),
             ),
             Positioned(
-              top: 18,
-              left: 8,
+              top: 10,
+              right: 0,
               child: _notification(),
             )
           ],
