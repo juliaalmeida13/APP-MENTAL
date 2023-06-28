@@ -56,19 +56,19 @@ class _BodyState extends State<Body> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              MainCardButton("Questionários", Icons.list_alt, "/quests-screen",
-                  questionnaireNotificationQuantity),
-              MainCardButton("Materiais Educativos", Icons.book_online,
+              MainCardButton("Questionários", "questionarios_COR.png",
+                  "/quests-screen", questionnaireNotificationQuantity),
+              MainCardButton("Materiais Educativos", "leitura_COR.png",
                   "/readings", readingNotificationQuantity)
             ],
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              MainCardButton("Contatos", Icons.people, "/contacts-chat-screen",
-                  chatNotificationQuantity),
+              MainCardButton("Contatos", "contatos_COR.png",
+                  "/contacts-chat-screen", chatNotificationQuantity),
               MainCardButton(
-                  "Diário livre", Icons.book_outlined, "/audio-text-diary", 0),
+                  "Diário livre", "diario_COR.png", "/audio-text-diary", 0),
             ],
           ),
         ],

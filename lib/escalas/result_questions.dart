@@ -27,6 +27,7 @@ class _ResultQuestionsState extends State<ResultQuestions> {
   List<int> scoreList = [];
   bool isLoading = true;
   String finalMessage = "";
+  String finalIcon = "";
 
   @override
   void initState() {
@@ -108,6 +109,7 @@ class _ResultQuestionsState extends State<ResultQuestions> {
         setState(() {
           finalMessage = value;
           isLoading = false;
+          finalIcon = "assets/icons/questionarios_aviso-grave_COR.png";
         });
       });
     } else if (QuestionnaireCode.psqi.name == widget.questionnaireCode &&
@@ -120,6 +122,7 @@ class _ResultQuestionsState extends State<ResultQuestions> {
         setState(() {
           finalMessage = value;
           isLoading = false;
+          finalIcon = "assets/icons/questionarios_aviso-moderado_COR.png";
         });
       });
     } else {
@@ -129,6 +132,7 @@ class _ResultQuestionsState extends State<ResultQuestions> {
         setState(() {
           finalMessage = value;
           isLoading = false;
+          finalIcon = "assets/icons/questionarios_aviso-leve_COR.png";
         });
       });
     }
@@ -184,11 +188,13 @@ class _ResultQuestionsState extends State<ResultQuestions> {
                     ),
                     textAlign: TextAlign.center,
                   ),
-                  SizedBox(
-                    height: 20,
+                  Image.asset(
+                    finalIcon,
+                    width: 100,
+                    height: 100,
                   ),
                   Container(
-                    height: MediaQuery.of(context).size.height * 0.7,
+                    height: MediaQuery.of(context).size.height * 0.6,
                     child: SingleChildScrollView(
                       child: Column(
                         children: [

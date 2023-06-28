@@ -57,10 +57,10 @@ class _ContactChatScreenState extends State<ContactChatScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                MainCardButton("Contatos de Emergência", Icons.contact_phone,
+                MainCardButton("Contatos de Emergência", "contatos_COR.png",
                     "/contacts-screen", 0),
-                MainCardButton(
-                    "Chat", Icons.list_alt, "/chat", chatNotificationQuantity)
+                MainCardButton("Chat", "contatos_COR.png", "/chat",
+                    chatNotificationQuantity)
               ],
             ),
           ],
