@@ -67,13 +67,15 @@ class _ChartGeneralScreenState extends State<ChartGeneralScreen> {
                           sideTitles: SideTitles(
                             showTitles: true,
                             reservedSize:
-                                MediaQuery.of(context).size.height * .03,
+                                MediaQuery.of(context).size.height * .05,
                           ),
                         ),
                         topTitles: AxisTitles(
                             sideTitles: SideTitles(showTitles: false)),
                         rightTitles: AxisTitles(
-                            sideTitles: SideTitles(showTitles: false)),
+                            sideTitles: SideTitles(
+                          showTitles: false,
+                        )),
                       ),
                     ),
                   ),
