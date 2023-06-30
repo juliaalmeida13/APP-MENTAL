@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../helper/util.dart';
+
 class AnswerOption extends StatefulWidget {
   final Function() selectHandler;
   final String answerText;
@@ -52,11 +54,7 @@ class _AnswerOptionState extends State<AnswerOption> {
 
   @override
   Widget build(BuildContext context) {
-    return (widget.scale == "copsoq_week2" &&
-            (widget.questionIndex == 38 ||
-                widget.questionIndex == 40 ||
-                widget.questionIndex == 42 ||
-                widget.questionIndex == 44))
+    return (isCopsoqAndCheckboxQuestion(widget.scale, widget.questionIndex))
         ? getCheckboxButton()
         : getNormalButton();
   }

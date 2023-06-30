@@ -5,6 +5,7 @@ import 'package:app_mental/model/answers.dart';
 import 'package:flutter/material.dart';
 
 import '../Services/questionnaireService.dart';
+import '../helper/util.dart';
 import '../model/questionnaire_answer.dart';
 
 class AnswerQuestions extends StatefulWidget {
@@ -49,9 +50,11 @@ class _AnswerQuestionsState extends State<AnswerQuestions> {
 
   String getQuestionText() {
     if (widget.questionnaireCode == QuestionnaireCode.assistn2.name) {
-      final startSubstance = widget.questName.split("(");
-      final substance = startSubstance[1].split(")");
-      final questionText = widget.question + " " + substance[0];
+      final startSubstance =
+          widget.questName.substring(widget.questName.indexOf("(") + 1);
+      final substance =
+          startSubstance.substring(0, startSubstance.lastIndexOf(")"));
+      final questionText = widget.question + " " + substance;
       return questionText;
     } else {
       if (widget.questionnaireCode == QuestionnaireCode.pset.name &&
@@ -139,7 +142,7 @@ class _AnswerQuestionsState extends State<AnswerQuestions> {
   }
 
   sendText() {
-    if (textController.text == "") {
+    if (textController.text.isEmpty) {
       textController.text = "Continuar";
     }
     QuestionnaireAnswer questionnaireAnswer = new QuestionnaireAnswer(
@@ -182,11 +185,8 @@ class _AnswerQuestionsState extends State<AnswerQuestions> {
           ),
         ]),
       ];
-    } else if ((widget.scale == "copsoq_week2" &&
-        (widget.questionIndex == 38 ||
-            widget.questionIndex == 40 ||
-            widget.questionIndex == 42 ||
-            widget.questionIndex == 44))) {
+    } else if (isCopsoqAndCheckboxQuestion(
+        widget.scale, widget.questionIndex)) {
       return [
         ...(widget.answers.map((answer) {
           int index = widget.answers.indexOf(answer);
@@ -242,6 +242,11 @@ class _AnswerQuestionsState extends State<AnswerQuestions> {
     }
   }
 
+  isAssistn2OrPset() {
+    return widget.questionnaireCode == QuestionnaireCode.assistn2.name ||
+        widget.questionnaireCode == QuestionnaireCode.pset.name;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -268,10 +273,7 @@ class _AnswerQuestionsState extends State<AnswerQuestions> {
                             textAlign: TextAlign.center,
                           ),
                           SizedBox(height: 10),
-                          (widget.questionnaireCode ==
-                                      QuestionnaireCode.assistn2.name ||
-                                  widget.questionnaireCode ==
-                                      QuestionnaireCode.pset.name)
+                          isAssistn2OrPset()
                               ? Question(getQuestionText())
                               : Question(widget.question),
                         ],
