@@ -45,6 +45,9 @@ class _QuestionScreenState extends State<QuestionScreen> {
       Navigator.of(context).popUntil(ModalRoute.withName('/logged-home'));
       Navigator.of(context).pushNamed("/quests-screen");
     } else {
+      setState(() {
+        isLoading = true;
+      });
       QuestionnaireAnswer questionnaireAnswer = new QuestionnaireAnswer(
           answerId: answerId,
           email: userEmail,
@@ -55,9 +58,6 @@ class _QuestionScreenState extends State<QuestionScreen> {
           questionIndex: _questionIndex,
           scale: scale);
       if (_questionIndex + 1 == questionsSize) {
-        setState(() {
-          isLoading = true;
-        });
         QuestionnaireService().addQuestionnaireAnswer(questionnaireAnswer).then(
               (_) => {
                 setState(() {
@@ -67,10 +67,14 @@ class _QuestionScreenState extends State<QuestionScreen> {
               },
             );
       } else {
-        QuestionnaireService().addQuestionnaireAnswer(questionnaireAnswer);
-        setState(() {
-          _questionIndex += 1;
-        });
+        QuestionnaireService().addQuestionnaireAnswer(questionnaireAnswer).then(
+              (_) => {
+                setState(() {
+                  _questionIndex += 1;
+                  isLoading = false;
+                }),
+              },
+            );
       }
     }
   }

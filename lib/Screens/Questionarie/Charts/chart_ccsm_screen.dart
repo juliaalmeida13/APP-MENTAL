@@ -76,15 +76,36 @@ class _ChartCcsmScreenState extends State<ChartCcsmScreen> {
       body: SingleChildScrollView(
         child: Column(
           children: [
+            selectedDominionName == ""
+                ? SizedBox(
+                    height: 20,
+                  )
+                : Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
+                    child: Text("Selecione um novo domínio:"),
+                  ),
             Container(
               child: Center(
-                child: Padding(
-                  padding: EdgeInsets.only(top: 20),
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                      color: kTextColorGreen,
+                      border: Border.all(
+                          color: Color.fromRGBO(1, 1, 1, 0.2), width: 1),
+                      borderRadius: BorderRadius.circular(5),
+                      boxShadow: <BoxShadow>[
+                        BoxShadow(
+                            color: Color.fromRGBO(0, 0, 0, 0.57), blurRadius: 3)
+                      ]),
                   child: DropdownButton<String>(
+                    alignment: Alignment.center,
                     hint: selectedDominionName == ""
-                        ? Text("Selecione o domínio")
+                        ? Text(
+                            "Selecione o domínio",
+                            style: TextStyle(color: Colors.white),
+                          )
                         : Text(
                             selectedDominionName,
+                            style: TextStyle(color: Colors.white),
                           ),
                     items: listDominion.map((value) {
                       return DropdownMenuItem<String>(
@@ -130,7 +151,7 @@ class _ChartCcsmScreenState extends State<ChartCcsmScreen> {
                                       showTitles: true,
                                       reservedSize:
                                           MediaQuery.of(context).size.height *
-                                              .03,
+                                              .05,
                                     ),
                                   ),
                                   topTitles: AxisTitles(
