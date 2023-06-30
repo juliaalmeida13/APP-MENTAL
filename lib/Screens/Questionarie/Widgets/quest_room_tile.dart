@@ -83,7 +83,7 @@ class QuestRoomTile extends StatelessWidget {
         return QuizCard(
             notificationStatus: unanswered,
             title: questName,
-            completed: "Completado!",
+            completed: "Respondido!",
             answeredAt: answeredAt,
             onTap: () {});
       }
@@ -91,7 +91,7 @@ class QuestRoomTile extends StatelessWidget {
       return QuizCard(
           notificationStatus: unanswered,
           title: "$questName - $week",
-          completed: "Completado!",
+          completed: "Respondido!",
           answeredAt: answeredAt,
           onTap: () {});
     } else {
