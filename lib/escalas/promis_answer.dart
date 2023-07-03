@@ -1,30 +1,61 @@
 import 'package:flutter/material.dart';
 
-class AnswerOption extends StatelessWidget {
-  // Funcao que será ativada onPressed
-  // para mudar adiantar o index do quest/escala e salvar o valor da resposta na lista da escala
+import '../helper/util.dart';
+
+class AnswerOption extends StatefulWidget {
   final Function() selectHandler;
-  
-  //Texto da alternativa
   final String answerText;
+  final String scale;
+  final int questionIndex;
+  final bool checkboxValue;
+  final Function checkboxHandler;
+  final int index;
 
-
-// Cria uma botão com o texto de uma resposta passado pelo construtor
-// É usado para listar as respostas de uma questão optativa
-
-  AnswerOption(this.selectHandler, this.answerText);
+  AnswerOption(this.selectHandler, this.answerText, this.scale,
+      this.questionIndex, this.checkboxValue, this.checkboxHandler, this.index);
 
   @override
-  Widget build(BuildContext context) {
+  State<AnswerOption> createState() => _AnswerOptionState();
+}
+
+class _AnswerOptionState extends State<AnswerOption> {
+  Widget getNormalButton() {
     return OutlinedButton(
-      onPressed: selectHandler,
+      onPressed: widget.selectHandler,
       child: Text(
-        this.answerText,
+        widget.answerText,
         textAlign: TextAlign.center,
       ),
       style: new ButtonStyle(
           padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
               EdgeInsets.all(12))),
     );
+  }
+
+  Widget getCheckboxButton() {
+    return Container(
+      child: Row(
+        children: [
+          Checkbox(
+            side: BorderSide(color: Colors.blue),
+            value: widget.checkboxValue,
+            activeColor: Colors.blue,
+            onChanged: (newValue) =>
+                widget.checkboxHandler(newValue, widget.index),
+          ),
+          Text(
+            widget.answerText,
+            style: TextStyle(color: Colors.blue),
+          ),
+        ],
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return (isCopsoqAndCheckboxQuestion(widget.scale, widget.questionIndex))
+        ? getCheckboxButton()
+        : getNormalButton();
   }
 }

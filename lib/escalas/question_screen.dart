@@ -39,6 +39,12 @@ class _QuestionScreenState extends State<QuestionScreen> {
 
   var _questionIndex = 0;
 
+  void setQuestionIndex(value) {
+    setState(() {
+      _questionIndex = value;
+    });
+  }
+
   void _answerQuestion(int answerId, Object score, int domain, String answer,
       String scale, String questionnaireCode) {
     if (questionnaireCode == "quesi" && answer == "Não") {
@@ -150,7 +156,8 @@ class _QuestionScreenState extends State<QuestionScreen> {
                     answers: getAnswers(_answers, _questionIndex),
                     userEmail: _userEmail,
                     scale: _userEscala,
-                    questionnaireCode: _questionnaireCode)
+                    questionnaireCode: _questionnaireCode,
+                    setQuestionIndex: setQuestionIndex)
                 : ResultQuestions(
                     questionnaireCode: _questionnaireCode,
                     questName: titleAA,

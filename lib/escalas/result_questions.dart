@@ -108,8 +108,8 @@ class _ResultQuestionsState extends State<ResultQuestions> {
           .then((value) {
         setState(() {
           finalMessage = value;
-          isLoading = false;
           finalIcon = "assets/icons/questionarios_aviso-grave_COR.png";
+          isLoading = false;
         });
       });
     } else if (QuestionnaireCode.psqi.name == widget.questionnaireCode &&
@@ -121,8 +121,8 @@ class _ResultQuestionsState extends State<ResultQuestions> {
           .then((value) {
         setState(() {
           finalMessage = value;
-          isLoading = false;
           finalIcon = "assets/icons/questionarios_aviso-moderado_COR.png";
+          isLoading = false;
         });
       });
     } else {
@@ -131,8 +131,8 @@ class _ResultQuestionsState extends State<ResultQuestions> {
           .then((value) {
         setState(() {
           finalMessage = value;
-          isLoading = false;
           finalIcon = "assets/icons/questionarios_aviso-leve_COR.png";
+          isLoading = false;
         });
       });
     }
@@ -188,11 +188,15 @@ class _ResultQuestionsState extends State<ResultQuestions> {
                     ),
                     textAlign: TextAlign.center,
                   ),
-                  Image.asset(
-                    finalIcon,
-                    width: 100,
-                    height: 100,
-                  ),
+                  finalIcon == ""
+                      ? SizedBox(
+                          height: 100,
+                        )
+                      : Image.asset(
+                          finalIcon,
+                          width: 100,
+                          height: 100,
+                        ),
                   Container(
                     height: MediaQuery.of(context).size.height * 0.6,
                     child: SingleChildScrollView(
