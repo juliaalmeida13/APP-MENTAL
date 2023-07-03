@@ -64,7 +64,7 @@ class _QuestsScreenState extends State<QuestsScreen> {
   getUserInfoAndQuests() async {
     Constants.myName = await HelperFunctions.getUserNameInSharedPreference();
     Constants.myEmail = await HelperFunctions.getUserEmailInSharedPreference();
-    ScaleService()
+    await ScaleService()
         .listUnansweredQuestionnaires(Constants.myEmail)
         .then((questionnaires) {
       setState(() {
@@ -73,7 +73,7 @@ class _QuestsScreenState extends State<QuestsScreen> {
     }).catchError((error) {
       print(error);
     });
-    ScaleService()
+    await ScaleService()
         .listAnsweredQuestionnaires(Constants.myEmail)
         .then((questionnaires) {
       setState(() {
@@ -82,7 +82,7 @@ class _QuestsScreenState extends State<QuestsScreen> {
     }).catchError((error) {
       print(error);
     });
-    ScaleService()
+    await ScaleService()
         .listAllAnsweredQuestionnaires(Constants.myEmail)
         .then((questionnairesNames) {
       setState(() {
@@ -91,7 +91,7 @@ class _QuestsScreenState extends State<QuestsScreen> {
     }).catchError((error) {
       print(error);
     });
-    SleepService()
+    await SleepService()
         .isSleepDiaryAnsweredToday(Constants.myEmail)
         .then((answered) {
       if (answered) {
