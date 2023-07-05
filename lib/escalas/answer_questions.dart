@@ -160,7 +160,6 @@ class _AnswerQuestionsState extends State<AnswerQuestions> {
   }
 
   sendTime() {
-    print(textController.text);
     QuestionnaireAnswer questionnaireAnswer = new QuestionnaireAnswer(
         answerId: widget.answers[0].answerId,
         email: widget.userEmail,
