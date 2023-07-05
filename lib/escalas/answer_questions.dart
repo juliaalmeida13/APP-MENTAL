@@ -41,6 +41,7 @@ class AnswerQuestions extends StatefulWidget {
 class _AnswerQuestionsState extends State<AnswerQuestions> {
   List<bool> checkboxValueList = [false, false, false, false];
   final textController = TextEditingController();
+  TimeOfDay timeOfDay = TimeOfDay(hour: 0, minute: 0);
 
   changeCheckboxValue(newValue, index) {
     setState(() {
@@ -158,6 +159,21 @@ class _AnswerQuestionsState extends State<AnswerQuestions> {
     widget.setQuestionIndex(widget.questionIndex + 1);
   }
 
+  sendTime() {
+    QuestionnaireAnswer questionnaireAnswer = new QuestionnaireAnswer(
+        answerId: widget.answers[0].answerId,
+        email: widget.userEmail,
+        answer: textController.text,
+        score: textController.text,
+        domain: widget.answers[0].domain,
+        code: widget.questionnaireCode,
+        questionIndex: widget.questionIndex,
+        scale: widget.scale);
+    QuestionnaireService().addQuestionnaireAnswer(questionnaireAnswer);
+    widget.setQuestionIndex(widget.questionIndex + 1);
+    textController.text = "";
+  }
+
   List<Widget> getListAnswers() {
     if (widget.scale == "copsoq_week2" && widget.questionIndex == 45) {
       return [
@@ -219,6 +235,56 @@ class _AnswerQuestionsState extends State<AnswerQuestions> {
           );
         })).toList(),
       ];
+    } else if (widget.questionnaireCode == "psqi" &&
+        (widget.questionIndex == 1 ||
+            widget.questionIndex == 3 ||
+            widget.questionIndex == 4)) {
+      return [
+        Column(children: [
+          Padding(
+              padding: EdgeInsets.all(15.0),
+              child: textController.text.isNotEmpty
+                  ? Text(
+                      "Hora selecionada: ${textController.text}H",
+                      style: TextStyle(fontSize: 16),
+                    )
+                  : null),
+          SizedBox(
+            width: double.infinity,
+            child: OutlinedButton(
+              onPressed: () async {
+                timeOfDay =
+                    await selectTime(context, "Por favor, coloque o horário");
+                setState(() {
+                  textController.text = timeOfDay.format(context);
+                });
+              },
+              child: Text(
+                "Selecionar hora",
+                textAlign: TextAlign.center,
+              ),
+              style: new ButtonStyle(
+                  padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+                      EdgeInsets.all(12))),
+            ),
+          ),
+          textController.text.isNotEmpty
+              ? SizedBox(
+                  width: double.infinity,
+                  child: OutlinedButton(
+                    onPressed: sendTime,
+                    child: Text(
+                      "Continuar",
+                      textAlign: TextAlign.center,
+                    ),
+                    style: new ButtonStyle(
+                        padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+                            EdgeInsets.all(12))),
+                  ),
+                )
+              : Container()
+        ]),
+      ];
     } else {
       return [
         ...(widget.answers.map((answer) {
@@ -245,6 +311,24 @@ class _AnswerQuestionsState extends State<AnswerQuestions> {
   isAssistn2OrPset() {
     return widget.questionnaireCode == QuestionnaireCode.assistn2.name ||
         widget.questionnaireCode == QuestionnaireCode.pset.name;
+  }
+
+  Future<TimeOfDay> selectTime(BuildContext context, String text) async {
+    final TimeOfDay? result = await showTimePicker(
+      context: context,
+      helpText: text,
+      initialTime: TimeOfDay(hour: 0, minute: 0),
+      builder: (context, child) {
+        return MediaQuery(
+            data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
+            child: child!);
+      },
+    );
+    if (result != null) {
+      return result;
+    } else {
+      return TimeOfDay(hour: 0, minute: 0);
+    }
   }
 
   @override
