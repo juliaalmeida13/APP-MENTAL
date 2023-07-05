@@ -6,13 +6,21 @@ class AnswerOption extends StatefulWidget {
   final Function() selectHandler;
   final String answerText;
   final String scale;
+  final String questionnaireCode;
   final int questionIndex;
   final bool checkboxValue;
   final Function checkboxHandler;
   final int index;
 
-  AnswerOption(this.selectHandler, this.answerText, this.scale,
-      this.questionIndex, this.checkboxValue, this.checkboxHandler, this.index);
+  AnswerOption(
+      this.selectHandler,
+      this.answerText,
+      this.scale,
+      this.questionnaireCode,
+      this.questionIndex,
+      this.checkboxValue,
+      this.checkboxHandler,
+      this.index);
 
   @override
   State<AnswerOption> createState() => _AnswerOptionState();
@@ -54,7 +62,7 @@ class _AnswerOptionState extends State<AnswerOption> {
 
   @override
   Widget build(BuildContext context) {
-    return (isCopsoqAndCheckboxQuestion(widget.scale, widget.questionIndex))
+    return (isCheckboxQuestion(widget.questionnaireCode, widget.questionIndex))
         ? getCheckboxButton()
         : getNormalButton();
   }
