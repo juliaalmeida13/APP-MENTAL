@@ -21,7 +21,8 @@ class Constants {
     "Feminino",
     "Masculino",
     "Neutro",
-    "Fluido" "Outro"
+    "Fluido",
+    "Outro"
   ];
 }
 
