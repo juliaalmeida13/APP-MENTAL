@@ -11,12 +11,19 @@ class Constants {
   static int criticalValuePsqi = 10;
   static int recommendationValuePsqi = 4;
   static List<String> civil = [
-    "Solteiro(a)",
-    "Casado(a)",
+    "Solteiro",
+    "Casado",
     "União Estável",
-    "Viúvo(a)"
+    "Divorciado",
+    "Viúvo"
   ];
-  static List<String> gender = ["Feminino", "Masculino", "Outro"];
+  static List<String> gender = [
+    "Feminino",
+    "Masculino",
+    "Neutro",
+    "Fluido",
+    "Outro"
+  ];
 }
 
 enum QuestionnaireCode {

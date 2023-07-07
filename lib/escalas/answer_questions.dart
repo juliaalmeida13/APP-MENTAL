@@ -39,8 +39,9 @@ class AnswerQuestions extends StatefulWidget {
 }
 
 class _AnswerQuestionsState extends State<AnswerQuestions> {
-  List<bool> checkboxValueList = [false, false, false, false];
+  List<bool> checkboxValueList = [false, false, false, false, false];
   final textController = TextEditingController();
+  final telNumberController = TextEditingController();
   TimeOfDay timeOfDay = TimeOfDay(hour: 0, minute: 0);
 
   changeCheckboxValue(newValue, index) {
@@ -157,6 +158,24 @@ class _AnswerQuestionsState extends State<AnswerQuestions> {
         scale: widget.scale);
     QuestionnaireService().addQuestionnaireAnswer(questionnaireAnswer);
     widget.setQuestionIndex(widget.questionIndex + 1);
+    textController.text = "";
+    telNumberController.text = "";
+  }
+
+  sendEmergencyContact() {
+    QuestionnaireAnswer questionnaireAnswer = new QuestionnaireAnswer(
+        answerId: widget.answers[0].answerId,
+        email: widget.userEmail,
+        answer: "${textController.text}/${telNumberController.text}",
+        score: "${textController.text}/${telNumberController.text}",
+        domain: widget.answers[0].domain,
+        code: widget.questionnaireCode,
+        questionIndex: widget.questionIndex,
+        scale: widget.scale);
+    QuestionnaireService().addQuestionnaireAnswer(questionnaireAnswer);
+    widget.setQuestionIndex(widget.questionIndex + 1);
+    textController.text = "";
+    telNumberController.text = "";
   }
 
   sendTime() {
@@ -201,12 +220,12 @@ class _AnswerQuestionsState extends State<AnswerQuestions> {
           ),
         ]),
       ];
-    } else if (isCopsoqAndCheckboxQuestion(
-        widget.scale, widget.questionIndex)) {
+    } else if (isCheckboxQuestion(
+        widget.questionnaireCode, widget.questionIndex)) {
       return [
         ...(widget.answers.map((answer) {
           int index = widget.answers.indexOf(answer);
-          if (index == 4 || index == 5) {
+          if (answer.answerText == "Continuar") {
             return OutlinedButton(
               onPressed: () => sendAllChosenCheckboxes(index),
               child: Text(
@@ -228,6 +247,7 @@ class _AnswerQuestionsState extends State<AnswerQuestions> {
                 widget.questionnaireCode),
             answer.answerText,
             widget.scale,
+            widget.questionnaireCode,
             widget.questionIndex,
             checkboxValueList[index],
             changeCheckboxValue,
@@ -285,6 +305,77 @@ class _AnswerQuestionsState extends State<AnswerQuestions> {
               : Container()
         ]),
       ];
+    } else if (widget.questionnaireCode == "questSD1" &&
+        (widget.questionIndex == 1 ||
+            widget.questionIndex == 2 ||
+            widget.questionIndex == 7 ||
+            widget.questionIndex == 13)) {
+      return [
+        Column(children: [
+          Padding(
+            padding: EdgeInsets.all(8.0),
+            child: TextFormField(
+              maxLines: 1,
+              controller: textController,
+              maxLength: widget.questionIndex == 7 ? 3 : 100,
+            ),
+          ),
+          SizedBox(
+            width: double.infinity,
+            child: OutlinedButton(
+              onPressed: sendText,
+              child: Text(
+                "Continuar",
+                textAlign: TextAlign.center,
+              ),
+              style: new ButtonStyle(
+                  padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+                      EdgeInsets.all(12))),
+            ),
+          ),
+        ]),
+      ];
+    } else if (widget.questionnaireCode == "questSD1" &&
+        widget.questionIndex == 8) {
+      return [
+        Column(children: [
+          Padding(
+            padding: EdgeInsets.all(8.0),
+            child: TextFormField(
+              decoration: InputDecoration(
+                hintText: "Nome do contato de emergência",
+              ),
+              maxLines: 1,
+              controller: textController,
+              maxLength: 100,
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.all(8.0),
+            child: TextFormField(
+              decoration: InputDecoration(
+                hintText: "Telefone",
+              ),
+              maxLines: 1,
+              controller: telNumberController,
+              maxLength: 20,
+            ),
+          ),
+          SizedBox(
+            width: double.infinity,
+            child: OutlinedButton(
+              onPressed: sendEmergencyContact,
+              child: Text(
+                "Continuar",
+                textAlign: TextAlign.center,
+              ),
+              style: new ButtonStyle(
+                  padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+                      EdgeInsets.all(12))),
+            ),
+          ),
+        ]),
+      ];
     } else {
       return [
         ...(widget.answers.map((answer) {
@@ -298,6 +389,7 @@ class _AnswerQuestionsState extends State<AnswerQuestions> {
                 widget.questionnaireCode),
             answer.answerText,
             widget.scale,
+            widget.questionnaireCode,
             widget.questionIndex,
             checkboxValueList[0],
             changeCheckboxValue,

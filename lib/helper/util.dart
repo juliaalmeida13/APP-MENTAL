@@ -29,10 +29,13 @@ String? validateEntry(value) {
   return null;
 }
 
-bool isCopsoqAndCheckboxQuestion(String scale, int questionIndex) {
-  return (scale == "copsoq_week2" &&
-      (questionIndex == 38 ||
-          questionIndex == 40 ||
-          questionIndex == 42 ||
-          questionIndex == 44));
+bool isCheckboxQuestion(String questionnaireCode, int questionIndex) {
+  return ((questionnaireCode == "copsoq" &&
+          (questionIndex == 38 ||
+              questionIndex == 40 ||
+              questionIndex == 42 ||
+              questionIndex == 44)) ||
+      (questionnaireCode == "questSD1" && questionIndex == 14) ||
+      (questionnaireCode == "questSD2" &&
+          (questionIndex == 9 || questionIndex == 10)));
 }
