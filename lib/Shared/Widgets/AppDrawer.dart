@@ -196,22 +196,22 @@ class _AppDrawerState extends State<AppDrawer> {
                   context, "/sign-in", (Route<dynamic> route) => false);
             },
           ),
-          Container(
-            //pode ser que seja o tamanho desse container
-            child: Align(
-              alignment: FractionalOffset.bottomCenter,
-              child: Column(
-                children: <Widget>[
-                  Divider(),
-                  ListTile(
-                    leading: Icon(Icons.chat_rounded),
-                    title: Text('Falar com pesquisador'),
-                    onTap: () => openChat(context),
-                  ),
-                ],
-              ),
-            ),
-          ),
+          // Container(
+          //   //pode ser que seja o tamanho desse container
+          //   child: Align(
+          //     alignment: FractionalOffset.bottomCenter,
+          //     child: Column(
+          //       children: <Widget>[
+          //         Divider(),
+          //         ListTile(
+          //           leading: Icon(Icons.chat_rounded),
+          //           title: Text('Falar com pesquisador'),
+          //           onTap: () => openChat(context),
+          //         ),
+          //       ],
+          //     ),
+          //   ),
+          // ),
           // AsyncSnapshot<Your object type>
           Container(
             margin: EdgeInsets.fromLTRB(15, 0, 0, 10),
