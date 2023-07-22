@@ -152,12 +152,14 @@ class _QuestionScreenState extends State<QuestionScreen> {
                     answerQuestion: _answerQuestion,
                     resetQuestion: _resetQuestion,
                     questionIndex: _questionIndex,
-                    question: _questions[_questionIndex],
+                    question: _questions[_questionIndex].title,
                     answers: getAnswers(_answers, _questionIndex),
                     userEmail: _userEmail,
                     scale: _userEscala,
                     questionnaireCode: _questionnaireCode,
-                    setQuestionIndex: setQuestionIndex)
+                    setQuestionIndex: setQuestionIndex,
+                    required: _questions[_questionIndex].required,
+                  )
                 : ResultQuestions(
                     questionnaireCode: _questionnaireCode,
                     questName: titleAA,

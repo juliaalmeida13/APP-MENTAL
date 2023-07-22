@@ -1,8 +1,10 @@
 import 'dart:convert';
 
+import 'package:app_mental/escalas/question.dart';
 import 'package:app_mental/model/answers.dart';
 import 'package:app_mental/model/exceptions/HttpException.dart';
 import 'package:app_mental/model/exceptions/apiError.dart';
+import 'package:app_mental/model/questionModel.dart';
 import 'package:app_mental/model/questionnaire_answer.dart';
 
 import '../model/score.dart';
@@ -30,10 +32,15 @@ class QuestionnaireService {
     }
   }
 
-  Future<List<dynamic>> getQuestions(String code) async {
+  Future<List<QuestionModel>> getQuestions(String code) async {
     final response = await Api().get("getQuestions?code=$code");
     if (response.statusCode == 200) {
-      return jsonDecode(utf8.decode(response.bodyBytes));
+      List<QuestionModel> questionList = [];
+      var jsonList = jsonDecode(utf8.decode(response.bodyBytes));
+      for (var question in jsonList) {
+        questionList.add(QuestionModel.fromJson(question));
+      }
+      return questionList;
     }
     final error =
         ApiError.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));

@@ -20,6 +20,7 @@ class AnswerQuestions extends StatefulWidget {
   final String questionnaireCode;
   final String questName;
   final Function setQuestionIndex;
+  final bool required;
 
   AnswerQuestions(
       {required this.answers,
@@ -32,7 +33,8 @@ class AnswerQuestions extends StatefulWidget {
       required this.scale,
       required this.questionnaireCode,
       required this.questName,
-      required this.setQuestionIndex});
+      required this.setQuestionIndex,
+      required this.required});
 
   @override
   State<AnswerQuestions> createState() => _AnswerQuestionsState();
@@ -42,6 +44,7 @@ class _AnswerQuestionsState extends State<AnswerQuestions> {
   List<bool> checkboxValueList = [false, false, false, false, false];
   final textController = TextEditingController();
   final telNumberController = TextEditingController();
+  var showRequiredError = false;
   TimeOfDay timeOfDay = TimeOfDay(hour: 0, minute: 0);
 
   changeCheckboxValue(newValue, index) {
@@ -145,8 +148,13 @@ class _AnswerQuestionsState extends State<AnswerQuestions> {
 
   sendText() {
     if (textController.text.isEmpty) {
+      if (widget.required) {
+        this.showRequiredError = true;
+        return;
+      }
       textController.text = "Continuar";
     }
+    this.showRequiredError = false;
     QuestionnaireAnswer questionnaireAnswer = new QuestionnaireAnswer(
         answerId: widget.answers[0].answerId,
         email: widget.userEmail,
@@ -163,6 +171,11 @@ class _AnswerQuestionsState extends State<AnswerQuestions> {
   }
 
   sendEmergencyContact() {
+    if ((widget.required) &&
+        (textController.text.isEmpty || telNumberController.text.isEmpty)) {
+      this.showRequiredError = true;
+      return;
+    }
     QuestionnaireAnswer questionnaireAnswer = new QuestionnaireAnswer(
         answerId: widget.answers[0].answerId,
         email: widget.userEmail,
@@ -332,7 +345,7 @@ class _AnswerQuestionsState extends State<AnswerQuestions> {
                   padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
                       EdgeInsets.all(12))),
             ),
-          ),
+          )
         ]),
       ];
     } else if (widget.questionnaireCode == "questSD1" &&
@@ -374,6 +387,9 @@ class _AnswerQuestionsState extends State<AnswerQuestions> {
                       EdgeInsets.all(12))),
             ),
           ),
+          (this.showRequiredError)
+              ? Text("O campo é obrigatório!")
+              : (Container())
         ]),
       ];
     } else {
