@@ -51,10 +51,11 @@ class _AnswerOptionState extends State<AnswerOption> {
             onChanged: (newValue) =>
                 widget.checkboxHandler(newValue, widget.index),
           ),
-          Text(
+          Flexible(
+              child: Text(
             widget.answerText,
             style: TextStyle(color: Colors.blue),
-          ),
+          ))
         ],
       ),
     );

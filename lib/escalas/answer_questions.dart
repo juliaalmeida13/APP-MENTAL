@@ -41,7 +41,7 @@ class AnswerQuestions extends StatefulWidget {
 }
 
 class _AnswerQuestionsState extends State<AnswerQuestions> {
-  List<bool> checkboxValueList = [false, false, false, false, false];
+  List<bool> checkboxValueList = [false, false, false, false, false, false];
   final textController = TextEditingController();
   final telNumberController = TextEditingController();
   var showRequiredError = false;
