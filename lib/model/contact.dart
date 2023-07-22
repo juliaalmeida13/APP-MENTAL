@@ -1,10 +1,10 @@
 class Contact {
-  final int id;
+  final int? id;
   final String name;
   final String number;
 
   Contact({
-    required this.id,
+    this.id,
     required this.name,
     required this.number,
   });

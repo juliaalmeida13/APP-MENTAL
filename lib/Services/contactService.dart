@@ -19,6 +19,18 @@ class ContactService {
     throw HttpException(error.message.toString());
   }
 
+  Future<List<Contact>> findResearcherContact(String email) async {
+    final response = await Api().get("findResearcherContact?email=$email");
+    if (response.statusCode == 200) {
+      Iterable iterable = json.decode(utf8.decode(response.bodyBytes));
+      return List<Contact>.from(
+          iterable.map((contact) => Contact.fromJson(contact)));
+    }
+    final error =
+        ApiError.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
+    throw HttpException(error.message.toString());
+  }
+
   Future<void> saveContact(String name, String number, String email) async {
     final response = await Api().post(
         "saveContact",

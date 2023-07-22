@@ -47,11 +47,19 @@ class _ContactsScreenState extends State<ContactsScreen> {
   }
 
   searchContacts() {
-    ContactService().findContactByUser(Constants.myEmail).then((contacts) => {
-          setState(() {
-            contactList = contacts;
-          })
+    ContactService().findContactByUser(Constants.myEmail).then((contacts) {
+      setState(() {
+        contactList = contacts;
+      });
+      ContactService()
+          .findResearcherContact(Constants.myEmail)
+          .then((contacts) {
+        contactList.addAll(contacts);
+        setState(() {
+          contactList = contactList;
         });
+      });
+    });
   }
 
   _addContact(nameContact, numberContact) async {
@@ -137,6 +145,7 @@ class _ContactsScreenState extends State<ContactsScreen> {
       child: GestureDetector(
         onTapDown: getPosition,
         onLongPress: () {
+          if (id == null) return;
           showMenu(
             context: context,
             position: relRectSize,
