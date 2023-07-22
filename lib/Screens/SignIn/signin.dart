@@ -63,7 +63,7 @@ class _SignInState extends State<SignIn> {
       ],
     ));
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
-    final fcmToken = await FirebaseMessaging.instance.getToken();
+    final fcmToken = "";
     UserService()
         .signIn(emailTextEdittingController.text,
             passwordTextEdittingController.text, fcmToken!)
